@@ -42,4 +42,12 @@
     # The pause for cleaning up the numbers can be removed
     # Ordering for the ISBN types can be added as well
     # The list input at the beginning can be used matehmatically to determine the index for insertion
-#Section: Cleaning HOL
+#Section: JSON for non-TKR HOL
+#Section: TKR loop
+    # Need to break to ask and check if there are remaining TKRs
+    # Ends with removing TRK$a column
+#Section: Cross BIB and HOL
+    # Not written yet
+    # Below is GREL for add column based on SYS Number column of BIB records
+    # cell.cross("<other openrefine project name>", "SYS Number")[0].cells["name of column in other project with value to be pulled in"].value
+    # Need way to determine insert indexes
