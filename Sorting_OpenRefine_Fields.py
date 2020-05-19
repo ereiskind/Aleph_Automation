@@ -1,3 +1,5 @@
+# Sort by base (MARC subfields or ISBN type) then by number
+# May create classes for purpose of dividing names into parts which can be assigned to different attributes, overload the attribute names so both classes can use the same sorting function, and return something that rejoins the attributes into the names used
 from random import randint
 
 def quicksort(array):
