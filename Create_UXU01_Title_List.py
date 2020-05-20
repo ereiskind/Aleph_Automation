@@ -1,5 +1,7 @@
 # Generate JSONs to turn UXU01 MARC record in OpenRefine into a title list
 
+import os
+
 #Section: Creating and Preparing a Title List for OpenRefine
 #Subsection: Creating a Title List
 # Info on generating MARC via print-03 in Alpeh for both BIB and corresponding HOL or vice versa
@@ -14,7 +16,9 @@
 # Add instrucion to open BIB and HOL in OpenRefine
 
 
-
+#Section: Organize Records and Subfields 
+#Subsection: Starting JSON
+os.startfile('Organize_BIB_Records_and_Subfields.json')
 
 
 
