@@ -1,6 +1,23 @@
 # Generate JSONs to turn UXU01 MARC record in OpenRefine into a title list
 
-#Section: label about removing ISBD punctuation, non-FTaSU 856, 710, 897 in MarcEdit
+#Section: Creating and Preparing a Title List for OpenRefine
+#Subsection: Creating a Title List
+# Info on generating MARC via print-03 in Alpeh for both BIB and corresponding HOL or vice versa
+# May want more general label on getting data in and out of Alpeh
+
+#Subsection: Prepare MARC File for Import
+# Create label with steps:
+# Open MARC file as .mrk with MarcEdit
+# For BIB, Edit > Edit Shortcuts > Field Edits > Clean ISBD Punctuation
+# For BIB, Tools > Add/Delete Field: Field data "FTaSU" Remove fields 856, 710, 897 if field data doesn't match
+# Export for OpenRefine
+
+
+
+
+
+
+
 #Section: starting JSON
 #Section: copy "Fields" choices into text box
     # If list has "Field #1 856$u", has multiple 856$u
