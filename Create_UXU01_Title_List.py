@@ -11,6 +11,7 @@
 # For BIB, Edit > Edit Shortcuts > Field Edits > Clean ISBD Punctuation
 # For BIB, Tools > Add/Delete Field: Field data "FTaSU" Remove fields 856, 710, 897 if field data doesn't match
 # Export for OpenRefine
+# Add instrucion to open BIB and HOL in OpenRefine
 
 
 
