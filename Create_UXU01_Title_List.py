@@ -2,6 +2,27 @@
 
 import os
 
+def Paste_Text_Facet_Choices_into_Text_Editor():
+    """This uses the default text editor for multi-line input.
+    
+    VS Code's terminal doen't support the multiline input function sys.stdin.readlines(), so this function allows for multiline input into programs run within VS Code. When the GUI is created, this will be replaced with the text widget.
+    """
+    os.startfile('Text_Facet_Choices.txt')
+    input("Press any key to continue once the file has been saved and closed.")
+    TextFacetChoices = []
+    with open('Text_Facet_Choices.txt', 'r') as InputFile:
+        for line in iter(InputFile.readline, ""): #ToDo: determine why iter was used here
+            if line.startswith("(blank)"):
+                continue # This will keep the line with "(blank)" from being added to the list
+            TextFacetChoices.append(line.split("\t")[0]) # This takes only the part of the line before the tab--the tab, the number of occurances, and the newline are removed
+        # The lines below are for clearing the file
+        InputFile.close()
+    ClearingFile = open('Text_Facet_Choices.txt', 'w')
+    ClearingFile.write("")
+    ClearingFile.close
+    return TextFacetChoices
+
+
 #Section: Creating and Preparing a Title List for OpenRefine
 #Subsection: Creating a Title List
 # Info on generating MARC via print-03 in Alpeh for both BIB and corresponding HOL or vice versa
