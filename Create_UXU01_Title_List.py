@@ -43,30 +43,54 @@ os.startfile('Organize_BIB_Records_and_Subfields.json')
 input("This line keeps the popups in order; press any key to continue.")
 FieldsList = Paste_Text_Facet_Choices_into_Text_Editor()
 
+#Subsection: Count Columns by Subfield and Repetition
+# This is actually the first step in the Reorder Columns section, but since the subsections below also need the info for certain fields, it's better to get it here
+# Order: SYS Number < Count < 020$a < 020$z < 776$z < 020$q < 776$i < 024$a < 024$2 < 035$a < 710$a < 710$e < 897$a < 897$e < 856$u < 856$3 < 856$3 < 856$z < 264$c < 264$b < 245$a < 245$b < 245$n < 250$a
+# For all of the subfields above, use regexes to find the number of times "*<subfield>" and "Field #* <subfield>" occurrs
+# Set variables for if the subfield is in the list, how many columns it has, how many repeating fields it has
+# Presence of non-repeating field is difference between number of columns and number of repeating fields
+
+#Subsection: Perform Automated Workflow Subfield Checks
+# If FieldsList has "Field #1 856$u", set WS_Multiple856u to True
+# If FieldsList has "020$q" with anything before it, set WS_Has020q to True--requires regex
+# If FieldsList has "Field #1 264$b" or "Field 264$c", set WS_Multiple264 to True--requires regex
+
+#Subsection: Create Needed Manual Workflow Subfield Checks
+# If FieldsList has 024, ask if 024 is worth keeping--if yes, set WS_Useful024 to True
+# If FiedlsList has 776$i, ask if it contains info besides "print version"--if yes, set WS_Useful776i to True
+# If FieldsList has 710 or 897, ask if they're from Gobi/YBP--if yes, set WS_GobiProviderInfo to True
+# If FieldsList has 856$3, ask if they're useful--if yes, set WS_Useful8563 to True
+# If FiedlsList has 856$z, ask if they're useful--if yes, set WS_Useful856z to True
+
+#Section: Pivot Table
+# Open the JSON to create a pivot column and pivot the table--removing unwanted subfields will be done when the columns are reordered in the next section by virtue of not being included in the list of columns in their new order
+
+#Section: Reorder Columns
+#Subsection: Generate Column List
+#ToDo: if the 250$a subfield has multiple fields, raise some sort of alert asking that the edition subfields be manually consolidated
+# Order: SYS Number < Count < 020$a < 020$z < 776$z < 020$q < 776$i < 024$a < 024$2 < 035$a < 710$a < 710$e < 897$a < 897$e < 856$u < 856$3 < 856$3 < 856$z < 264$c < 264$b < 245$a < 245$b < 245$n < 250$a
+# Create a list of columns in the order that they're to be added
+# For each subfield above in the order presented
+# 1. Check if it's in the list
+# 2. Subtract number of columns from number of columns with field numbers to dertermine if there's a column with no field number; if there is, add it to the list
+# 3. If it's an ISBN and there's no field number, add it to a list of columns to be added after the reordering along with the position it should be inserted at
+#ToDo: search for the other places where the first column needs to not have a field number to work
+# 4. Create a "Field #X <subfield>" column where X is all numbers between 1 and the number of columns with field numbers for that subfield and add them to the list
+# Repeat the numbered steps for each subfield
+
+#Subsection: Embed Ordered List of Columns in Column Reordering JSON
+
+#Subsection: Add JSON Objects for Adding Any Needed Columns
+# Take from the list of columns that need to be added and generate JSON objects with insert indexes based on the positions captured from their creation and expressions of "grel:null"
 
 
 
-#Section: starting JSON
-#Section: copy "Fields" choices into text box
-    # If list has "Field #1 856$u", has multiple 856$u
-    # If list has "020$q", has 020$q
-    # If list has "Field #1 264$b" or "Field 264$c" (determine w/ regex), has multiple 264
-    # Note if multiple 250 fields, if ISBN columns without fields
-#Section: if the following fields appear, generate checkboxes to ask if they're relevant
-    # 024
-    # 776$i
-    # 710 and/or 897
-    # 856$3
-    # 856$z
-#Section: JSON for unneeded field removal
-    # Can this be done by adding the pieces for the sometimes included subfields to the end of something with the always included subfields, saving the new file as a JSON, and deleting that file just before the program finishes running?
-#Section: JSON to pivot table
-#Section: JSON to reorder columns
-    # Reorder via custom class that takes in the list, puts the items in order by field number with no field number first (have no field number be a zero?), then orders those lists according to the custom order
-    # Class removes spaces from items in list, takes attributes MARC for final five characters and Field from after pound sign to sixth character; null field replaced by zero; sort by field using standard sorting; sort by MARC using order below; generate JSON object
-    # Only subfields that will be kept by the JSON are included in the class--can exclude SYS Number and Count since they'll always be the same and they'll always be in the same position
-    # Order: SYS Number < Count < 020$a < 020$z < 776$z < 020$q < 776$i < 024$a < 024$2 < 035$a < 710$a < 710$e < 897$a < 897$e < 856$u < 856$3 < 856$3 < 856$z < 264$c < 264$b < 245$a < 245$b < 245$n < 250$a
-    # Include ISBN columns with no field numbers--if none exist, add those columns; the expression in the JSON object for the addition will be "grel:null"
+
+
+
+
+
+
 #Section: JSON for non-repeating fields
     # Throw up error if multiple 250 fields
 #Section: JSON for cleaning 264 fields
