@@ -40,6 +40,8 @@ def Paste_Text_Facet_Choices_into_Text_Editor():
 #Section: Organize Records and Subfields 
 #Subsection: Starting JSON
 os.startfile('Organize_BIB_Records_and_Subfields.json')
+input("This line keeps the popups in order; press any key to continue.")
+FieldsList = Paste_Text_Facet_Choices_into_Text_Editor()
 
 
 
