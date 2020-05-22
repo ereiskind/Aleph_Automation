@@ -96,9 +96,25 @@ for key in ColumnsNeeded:
 
 
 #Subsection: Perform Automated Workflow Subfield Checks
-# If FieldsList has "Field #1 856$u", set WS_Multiple856u to True
-# If FieldsList has "020$q" with anything before it, set WS_Has020q to True--requires regex
-# If FieldsList has "Field #1 264$b" or "Field 264$c", set WS_Multiple264 to True--requires regex
+if ColumnsNeeded["856$u"][1] > 0: # If there are multiple 856$u fields
+    WS_Multiple856u = True
+else:
+    WS_Multiple856u = False
+
+if ColumnsNeeded["020$q"][1] > 0: # If there are 020$q fields
+    WS_Has020q = True
+elif ColumnsNeeded["020$q"][0] == True:
+    WS_Has020q = True
+else:
+    WS_Has020q = False
+
+#ToDo: consider dividing these into individual variables
+if ColumnsNeeded["264$b"][1] > 0: # If there are multiple 264$b fields
+    WS_Multiple264 = True
+elif ColumnsNeeded["264$c"][1] > 0: # If there are multiple 264$c fields
+    WS_Multiple264 = True
+else:
+    WS_Multiple264 = False
 
 #Subsection: Create Needed Manual Workflow Subfield Checks
 # If FieldsList has 024, ask if 024 is worth keeping--if yes, set WS_Useful024 to True
