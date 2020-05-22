@@ -10,6 +10,7 @@ def Paste_Text_Facet_Choices_into_Text_Editor():
     os.startfile('Text_Facet_Choices.txt')
     input("Press any key to continue once the file has been saved and closed.")
     TextFacetChoices = []
+    
     with open('Text_Facet_Choices.txt', 'r') as InputFile:
         for line in iter(InputFile.readline, ""): #ToDo: determine why iter was used here
             if line.startswith("(blank)"):
@@ -17,6 +18,7 @@ def Paste_Text_Facet_Choices_into_Text_Editor():
             TextFacetChoices.append(line.split("\t")[0]) # This takes only the part of the line before the tab--the tab, the number of occurances, and the newline are removed
         # The lines below are for clearing the file
         InputFile.close()
+    
     ClearingFile = open('Text_Facet_Choices.txt', 'w')
     ClearingFile.write("")
     ClearingFile.close
