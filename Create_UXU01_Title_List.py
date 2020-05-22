@@ -71,6 +71,14 @@ FieldsList = Paste_Text_Facet_Choices_into_Text_Editor()
 
 #Subsection: Count Columns by Subfield and Repetition
 # This is actually the first step in the Reorder Columns section, but since the subsections below also need the info for certain fields, it's better to get it here
+TempColumnsNeeded = [] # This will contain the results of How_Many_Times_Subfields_Appear
+ColumnsNeeded = [] # This will contain a list of tuples, one for each subfield to be kept, with a Boolean on if there's one with no field number and a number of ones with fields
+ColumnsLookingFor = (r"020\$a", r"020\$z", r"776\$z", r"020\$q", r"776\$i", r"024\$a", r"024\$2", r"035\$a", r"710\$a", r"710\$e", r"897\$a", r"897\$e", r"856\$u", r"856\$3", r"856\$3", r"856\$z", r"264\$c", r"264\$b", r"245\$a", r"245\$b", r"245\$n", r"250\$a")
+
+for item in ColumnsLookingFor:
+    TempColumnsNeeded.append(How_Many_Times_Subfields_Appear(item, FieldsList))
+
+
 # Order: SYS Number < Count < 020$a < 020$z < 776$z < 020$q < 776$i < 024$a < 024$2 < 035$a < 710$a < 710$e < 897$a < 897$e < 856$u < 856$3 < 856$3 < 856$z < 264$c < 264$b < 245$a < 245$b < 245$n < 250$a
 # For all of the subfields above, use regexes to find the number of times "*<subfield>" and "Field #* <subfield>" occurrs
 # Set variables for if the subfield is in the list, how many columns it has, how many repeating fields it has
