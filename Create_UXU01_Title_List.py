@@ -78,6 +78,15 @@ ColumnsLookingFor = (r"020\$a", r"020\$z", r"776\$z", r"020\$q", r"776\$i", r"02
 for item in ColumnsLookingFor:
     TempColumnsNeeded.append(How_Many_Times_Subfields_Appear(item, FieldsList))
 
+for item in TempColumnsNeeded:
+    UniqueField = bool(item[1] - item[0]) # The boolean subtracts the column with field numbers count from the total column count--if there's a value left, there's a unique subfield
+    if UniqueField:
+        NumberOfRepeatedFields = item[0] - 1
+    else:
+        NumberOfRepeatedFields = item[0]
+    TupleValues = UniqueField, NumberOfRepeatedFields
+    ColumnsNeeded.append(tuple(TupleValues))
+    
 
 # Order: SYS Number < Count < 020$a < 020$z < 776$z < 020$q < 776$i < 024$a < 024$2 < 035$a < 710$a < 710$e < 897$a < 897$e < 856$u < 856$3 < 856$3 < 856$z < 264$c < 264$b < 245$a < 245$b < 245$n < 250$a
 # For all of the subfields above, use regexes to find the number of times "*<subfield>" and "Field #* <subfield>" occurrs
