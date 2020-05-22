@@ -73,7 +73,7 @@ FieldsList = Paste_Text_Facet_Choices_into_Text_Editor()
 # This is actually the first step in the Reorder Columns section, but since the subsections below also need the info for certain fields, it's better to get it here
 TempColumnsNeeded = [] # This will contain the results of How_Many_Times_Subfields_Appear
 ColumnsNeeded = [] # This will contain a list of tuples, one for each subfield to be kept, with a Boolean on if there's one with no field number and a number of ones with fields
-ColumnsLookingFor = (r"020\$a", r"020\$z", r"776\$z", r"020\$q", r"776\$i", r"024\$a", r"024\$2", r"035\$a", r"710\$a", r"710\$e", r"897\$a", r"897\$e", r"856\$u", r"856\$3", r"856\$3", r"856\$z", r"264\$c", r"264\$b", r"245\$a", r"245\$b", r"245\$n", r"250\$a")
+ColumnsLookingFor = (r"020\$a", r"020\$z", r"776\$z", r"020\$q", r"776\$i", r"024\$a", r"024\$2", r"035\$a", r"710\$a", r"710\$e", r"897\$a", r"897\$e", r"856\$u", r"856\$3", r"856\$z", r"264\$c", r"264\$b", r"245\$a", r"245\$b", r"245\$n", r"250\$a")
 
 for item in ColumnsLookingFor:
     TempColumnsNeeded.append(How_Many_Times_Subfields_Appear(item, FieldsList))
