@@ -1,6 +1,7 @@
 # Generate JSONs to turn UXU01 MARC record in OpenRefine into a title list
 
 import os
+import re
 
 def Paste_Text_Facet_Choices_into_Text_Editor():
     """This uses the default text editor for multi-line input.
@@ -23,6 +24,29 @@ def Paste_Text_Facet_Choices_into_Text_Editor():
     ClearingFile.write("")
     ClearingFile.close
     return TextFacetChoices
+
+
+def How_Many_Times_Subfields_Appear(ColumnSubfield, ColumnList):
+    """This counts the number of subfields and the number of subfields with field numbers.
+
+    The function accepts a subfield formatted for a regex and the list of subfields from OpenRefine and returns a tuple of how many times the subfield is in the list and how many times the subfield is in the list with a field number.
+    """
+    SubfieldRegex = re.compile(r'.*{}'.format(ColumnSubfield))
+    SubfieldWithFieldRegex = re.compile(r'Field #.* {}'.format(ColumnSubfield))
+    ColumnCount = 0
+    ColumnWithFieldCount = 0
+
+    for item in ColumnList:
+        if SubfieldRegex.search(item) == None:
+            continue # If the item doen't match the regex, the count doesn't increase
+        ColumnCount += 1
+    
+    for item in ColumnList:
+        if SubfieldWithFieldRegex.search(item) == None:
+            continue # If the item doen't match the regex, the count doesn't increase
+        ColumnWithFieldCount += 1
+    
+    return (ColumnCount, ColumnWithFieldCount)
 
 
 #Section: Creating and Preparing a Title List for OpenRefine
