@@ -55,17 +55,22 @@ def Determine_If_Subfield_Is_Useful(Subfield):
     Some of the subfields should be kept only if they contain useful information, but with no values, Python can't make that decision. This function lets the user make the relevant decisions but won't ask about subfields not in the file.
     """
     if ColumnsNeeded[Subfield][1] > 0:
-        pass
-        # Ask if values are useful
-            # if yes, return true
-            # if no, return false
+        return Ask_If_Values_Are_Useful(Subfield)
     elif ColumnsNeeded[Subfield][0] == True:
-        pass
-        # Ask if values are useful
-            #if yes, return true
-            # if no, return false
+        return Ask_If_Values_Are_Useful(Subfield)
     else:
         return False
+
+
+def Ask_If_Values_Are_Useful(Subfield):
+    """Asks if the subfield given as an argument has useful values; accepts "y" or "n" as answers."""
+    Answer = input(f"Are the {Subfield} values useful? ")
+    if Answer == "y":
+        return True
+    if Answer == "n":
+        return False
+    else:
+        Ask_If_Values_Are_Useful(Subfield) # Seeing if recusion can be used for validation--if an invalid answer is given, the question is aksed again
 
 
 #Section: Creating and Preparing a Title List for OpenRefine
