@@ -49,6 +49,25 @@ def How_Many_Times_Subfields_Appear(ColumnSubfield, ColumnList):
     return (ColumnCount, ColumnWithFieldCount)
 
 
+def Determine_If_Subfield_Is_Useful(Subfield):
+    """If the subfield is in the file, the function asks if the values are useful.
+
+    Some of the subfields should be kept only if they contain useful information, but with no values, Python can't make that decision. This function lets the user make the relevant decisions but won't ask about subfields not in the file.
+    """
+    if ColumnsNeeded[Subfield][1] > 0:
+        pass
+        # Ask if values are useful
+            # if yes, return true
+            # if no, return false
+    elif ColumnsNeeded[Subfield][0] == True:
+        pass
+        # Ask if values are useful
+            #if yes, return true
+            # if no, return false
+    else:
+        return False
+
+
 #Section: Creating and Preparing a Title List for OpenRefine
 #Subsection: Creating a Title List
 # Info on generating MARC via print-03 in Alpeh for both BIB and corresponding HOL or vice versa
@@ -117,44 +136,18 @@ else:
     WS_Multiple264 = False
 
 #Subsection: Create Needed Manual Workflow Subfield Checks
-if ColumnsNeeded["024$a"][1] > 0: # If there are 024$a fields
-    pass # ask if 024 is useful, if yes, set WS_Useful024 to True
-elif ColumnsNeeded["024$a"][0] == True:
-    pass # ask if 024 is useful, if yes, set WS_Useful024 to True
-else:
-    WS_Useful024 = False
+WS_Useful024 = Determine_If_Subfield_Is_Useful("024$a")
+WS_Useful776i = Determine_If_Subfield_Is_Useful("776$i")
+WS_Useful8563 = Determine_If_Subfield_Is_Useful("856$3")
+WS_Useful856z = Determine_If_Subfield_Is_Useful("856$z")
 
-if ColumnsNeeded["776$i"][1] > 0: # If there are 776$i fields
-    pass # ask if 776$i has anything besides "print version", if yes, set WS_Useful776i to True
-elif ColumnsNeeded["776$i"][0] == True:
-    pass # ask if 776$i has anything besides "print version", if yes, set WS_Useful776i to True
-else:
-    WS_Useful776i = False
-
-if ColumnsNeeded["710$a"][1] > 0: # If there are 710$a fields
-    pass # ask if 710$a is useful, if yes, set WS_GobiProviderInfo to True
-elif ColumnsNeeded["710$a"][0] == True:
-    pass # ask if 710$a is useful, if yes, set WS_GobiProviderInfo to True
-elif ColumnsNeeded["897$a"][1] > 0: # If there are 897$a fields
-    pass # ask if 897$a is useful, if yes, set WS_GobiProviderInfo to True
-elif ColumnsNeeded["897$a"][0] == True:
-    pass # ask if 897$a is useful, if yes, set WS_GobiProviderInfo to True
+if Determine_If_Subfield_Is_Useful("710$a"): # If either function returns True, the value of WS_GobiProviderInfo should be True
+    WS_GobiProviderInfo = True
+elif Determine_If_Subfield_Is_Useful("897$a"):
+    WS_GobiProviderInfo = True
 else:
     WS_GobiProviderInfo = False
 
-if ColumnsNeeded["856$3"][1] > 0: # If there are 856$3 fields
-    pass # ask if 856$3 is useful, if yes, set WS_Useful8563 to True
-elif ColumnsNeeded["856$3"][0] == True:
-    pass # ask if 856$3 is useful, if yes, set WS_Useful8563 to True
-else:
-    WS_Useful8563 = False
-
-if ColumnsNeeded["856$z"][1] > 0: # If there are 856$z fields
-    pass # ask if 856$z is useful, if yes, set WS_Useful856z to True
-elif ColumnsNeeded["856$z"][0] == True:
-    pass # ask if 856$z is useful, if yes, set WS_Useful856z to True
-else:
-    WS_Useful856z = False
 
 #Section: Pivot Table
 # Open the JSON to create a pivot column and pivot the table--removing unwanted subfields will be done when the columns are reordered in the next section by virtue of not being included in the list of columns in their new order
