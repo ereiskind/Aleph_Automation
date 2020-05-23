@@ -117,11 +117,44 @@ else:
     WS_Multiple264 = False
 
 #Subsection: Create Needed Manual Workflow Subfield Checks
-# If FieldsList has 024, ask if 024 is worth keeping--if yes, set WS_Useful024 to True
-# If FiedlsList has 776$i, ask if it contains info besides "print version"--if yes, set WS_Useful776i to True
-# If FieldsList has 710 or 897, ask if they're from Gobi/YBP--if yes, set WS_GobiProviderInfo to True
-# If FieldsList has 856$3, ask if they're useful--if yes, set WS_Useful8563 to True
-# If FiedlsList has 856$z, ask if they're useful--if yes, set WS_Useful856z to True
+if ColumnsNeeded["024$a"][1] > 0: # If there are 024$a fields
+    pass # ask if 024 is useful, if yes, set WS_Useful024 to True
+elif ColumnsNeeded["024$a"][0] == True:
+    pass # ask if 024 is useful, if yes, set WS_Useful024 to True
+else:
+    WS_Useful024 = False
+
+if ColumnsNeeded["776$i"][1] > 0: # If there are 776$i fields
+    pass # ask if 776$i has anything besides "print version", if yes, set WS_Useful776i to True
+elif ColumnsNeeded["776$i"][0] == True:
+    pass # ask if 776$i has anything besides "print version", if yes, set WS_Useful776i to True
+else:
+    WS_Useful776i = False
+
+if ColumnsNeeded["710$a"][1] > 0: # If there are 710$a fields
+    pass # ask if 710$a is useful, if yes, set WS_GobiProviderInfo to True
+elif ColumnsNeeded["710$a"][0] == True:
+    pass # ask if 710$a is useful, if yes, set WS_GobiProviderInfo to True
+elif ColumnsNeeded["897$a"][1] > 0: # If there are 897$a fields
+    pass # ask if 897$a is useful, if yes, set WS_GobiProviderInfo to True
+elif ColumnsNeeded["897$a"][0] == True:
+    pass # ask if 897$a is useful, if yes, set WS_GobiProviderInfo to True
+else:
+    WS_GobiProviderInfo = False
+
+if ColumnsNeeded["856$3"][1] > 0: # If there are 856$3 fields
+    pass # ask if 856$3 is useful, if yes, set WS_Useful8563 to True
+elif ColumnsNeeded["856$3"][0] == True:
+    pass # ask if 856$3 is useful, if yes, set WS_Useful8563 to True
+else:
+    WS_Useful8563 = False
+
+if ColumnsNeeded["856$z"][1] > 0: # If there are 856$z fields
+    pass # ask if 856$z is useful, if yes, set WS_Useful856z to True
+elif ColumnsNeeded["856$z"][0] == True:
+    pass # ask if 856$z is useful, if yes, set WS_Useful856z to True
+else:
+    WS_Useful856z = False
 
 #Section: Pivot Table
 # Open the JSON to create a pivot column and pivot the table--removing unwanted subfields will be done when the columns are reordered in the next section by virtue of not being included in the list of columns in their new order
