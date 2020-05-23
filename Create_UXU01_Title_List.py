@@ -2,6 +2,7 @@
 
 import os
 import re
+import sys
 
 def Paste_Text_Facet_Choices_into_Text_Editor():
     """This uses the default text editor for multi-line input.
@@ -153,6 +154,19 @@ elif Determine_If_Subfield_Is_Useful("897$a"):
 else:
     WS_GobiProviderInfo = False
 
+#Subsection: Workflow Subfield Debugging Checker
+# This exists for potential debugging of the workflow subfield statements; instead of running the complete program, the vales for each of the workflow subfield will print to the terminal, then the program will quit
+"""
+print("Multiple URLs: " + str(WS_Multiple856u))
+print("020$q: " + str(WS_Has020q))
+print("Multiple 264: " + str(WS_Multiple264))
+print("Useful 024: " + str(WS_Useful024))
+print("Useful 776$i: " + str(WS_Useful776i))
+print("Useful 856$3: " + str(WS_Useful8563))
+print("Useful 856$z: " + str(WS_Useful856z))
+print("Has Gobi info: :" + str(WS_GobiProviderInfo))
+sys.exit() # Supposed to raise SystemExit exception
+"""
 
 #Section: Pivot Table
 # Open the JSON to create a pivot column and pivot the table--removing unwanted subfields will be done when the columns are reordered in the next section by virtue of not being included in the list of columns in their new order
