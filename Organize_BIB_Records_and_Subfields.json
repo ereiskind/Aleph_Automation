@@ -568,5 +568,4 @@
       "expression": "grel:substring(value,-5)",
       "onError": "set-to-blank"
     }
-  ]
-  
+  ]  
