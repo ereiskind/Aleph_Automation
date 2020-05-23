@@ -1,0 +1,36 @@
+[
+    {
+      "op": "core/column-removal",
+      "description": "Remove column ``No Field Number``",
+      "columnName": "No Field Number"
+    },
+    {
+      "op": "core/blank-down",
+      "description": "Blank down cells in column ``SYS Number``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "row-based"
+      },
+      "columnName": "SYS Number"
+    },
+    {
+      "op": "core/column-addition",
+      "description": "Create column ``Count`` to keep all values during the pivot",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "newColumnName": "Count",
+      "columnInsertIndex": 1,
+      "baseColumnName": "SYS Number",
+      "expression": "grel:row.record.cells[\"SYS Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
+      "onError": "set-to-blank"
+    },
+    {
+      "op": "core/key-value-columnize",
+      "description": "Pivot data so values in ``Fields`` are columns with values from ``Values``",
+      "keyColumnName": "Fields",
+      "valueColumnName": "Values",
+      "noteColumnName": ""
+    } 
+]
