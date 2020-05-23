@@ -168,10 +168,10 @@ print("Has Gobi info: :" + str(WS_GobiProviderInfo))
 sys.exit() # Supposed to raise SystemExit exception
 """
 
-#Section: Pivot Table
-# Open the JSON to create a pivot column and pivot the table--removing unwanted subfields will be done when the columns are reordered in the next section by virtue of not being included in the list of columns in their new order
+#Section: Create Table with Wanted Subfields as Columns
+#Subsection: Pivot Table
+os.startfile('Pivot_Subfields_and_Values.json')
 
-#Section: Reorder Columns
 #Subsection: Generate Column List
 #ToDo: if the 250$a subfield has multiple fields, raise some sort of alert asking that the edition subfields be manually consolidated
 # Order: SYS Number < Count < 020$a < 020$z < 776$z < 020$q < 776$i < 024$a < 024$2 < 035$a < 710$a < 710$e < 897$a < 897$e < 856$u < 856$3 < 856$3 < 856$z < 264$c < 264$b < 245$a < 245$b < 245$n < 250$a
