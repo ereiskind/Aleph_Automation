@@ -173,7 +173,6 @@ sys.exit() # Supposed to raise SystemExit exception
 os.startfile('Pivot_Subfields_and_Values.json')
 
 #Subsection: Generate Column List
-#ToDo: if the 250$a subfield has multiple fields, raise some sort of alert asking that the edition subfields be manually consolidated
 # Order: SYS Number < Count < 020$a < 020$z < 776$z < 020$q < 776$i < 024$a < 024$2 < 035$a < 710$a < 710$e < 897$a < 897$e < 856$u < 856$3 < 856$3 < 856$z < 264$c < 264$b < 245$a < 245$b < 245$n < 250$a
 # Create a list of columns in the order that they're to be added
 # For each subfield above in the order presented
@@ -198,7 +197,8 @@ os.startfile('Pivot_Subfields_and_Values.json')
 
 
 #Section: JSON for non-repeating fields
-    # Throw up error if multiple 250 fields
+if ColumnsNeeded["250$a"][1] > 0: # If there are multiple 250$a fields
+    input("Consolidate the edition information to a single 250$a column before continuing.")
 #Section: JSON for cleaning 264 fields
     # No reason to believe that this wouldn't work with single 264 field JSON
 #Section: JSON for cleaning URLs
