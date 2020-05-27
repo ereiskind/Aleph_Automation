@@ -114,7 +114,6 @@ os.startfile('Organize_BIB_Records_and_Subfields.json')
 input("This line keeps the popups in order; press any key to continue.")
 FieldsList = Paste_Text_Facet_Choices_into_Text_Editor()
 
-
 #Subsection: Count Columns by Subfield and Repetition
 # This is actually the first step in the Reorder Columns section, but since the subsections below also need the info for certain fields, it's better to get it here
 TempColumnsNeeded = [] # This will contain the results of How_Many_Times_Subfields_Appear
@@ -138,7 +137,6 @@ i = 0
 for key in ColumnsNeeded:
     ColumnsNeeded[key] = ColumnsNeededValues[i]
     i += 1
-
 
 #Subsection: Perform Automated Workflow Subfield Checks
 if ColumnsNeeded["856$u"][1] > 0: # If there are multiple 856$u fields
@@ -229,6 +227,7 @@ print("Useful 856$z: " + str(WS_Useful856z))
 print("Has Gobi info: :" + str(WS_GobiProviderInfo))
 sys.exit() # Supposed to raise SystemExit exception
 """
+
 
 #Section: Create Table with Wanted Subfields as Columns
 #Subsection: Pivot Table
