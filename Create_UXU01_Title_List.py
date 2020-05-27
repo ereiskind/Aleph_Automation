@@ -180,9 +180,25 @@ ttk.Label(root_window, text="If the statement is true, have the checkbox selecte
 if WS_Useful024 == True:
     temp_Useful024 = BooleanVar()
     ttk.Checkbutton(root_window, text="Is the 024 field useful?", variable=temp_Useful024, onvalue=True, offvalue=False).pack()
+if WS_Useful776i == True:
+    temp_Useful776i = BooleanVar()
+    ttk.Checkbutton(root_window, text="Does the 776$i subfield contain aything beyond \"print version\"?", variable=temp_Useful776i, onvalue=True, offvalue=False).pack()
+if WS_Useful8563 == True:
+    temp_Useful8563 = BooleanVar()
+    ttk.Checkbutton(root_window, text="Does the 856$3 subfield contain identifiers?", variable=temp_Useful8563, onvalue=True, offvalue=False).pack()
+if WS_Useful856z == True:
+    temp_Useful856z = BooleanVar()
+    ttk.Checkbutton(root_window, text="Does the 856$z subfield contain identifiers?", variable=temp_Useful856z, onvalue=True, offvalue=False).pack()
+if WS_GobiProviderInfo == True:
+    temp_GobiProviderInfo = BooleanVar()
+    ttk.Checkbutton(root_window, text="Are the 710 and/or 897 fields from Gobi?", variable=temp_GobiProviderInfo, onvalue=True, offvalue=False).pack()
 root_window.mainloop() # The program continues automatically when the window closes
 
 WS_Useful024 = temp_Useful024.get()
+WS_Useful776i = temp_Useful776i.get()
+WS_Useful8563 = temp_Useful8563.get()
+WS_Useful856z = temp_Useful856z.get()
+WS_GobiProviderInfo = temp_GobiProviderInfo.get()
 
 #Subsection: Workflow Subfield Debugging Checker
 # This exists for potential debugging of the workflow subfield statements; instead of running the complete program, the vales for each of the workflow subfield will print to the terminal, then the program will quit
