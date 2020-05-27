@@ -267,8 +267,17 @@ PostSubfieldSelectionJSON.append(ReorderColumns)
 #Subsection: Add JSON Objects for Adding Any Needed Columns
 for k, v in ColumnsToAdd.items():
     if v != None:
-        # create JSON for inserting new column named k at index v with expression "grel:null"
         pass
+        ''' This added a JSON object for each item in ColumnsToAdd where the name was replaced but the insert index was not
+        with open('Add_Column.json', 'r') as readJSON: # Open JSON for adding columns
+            AddColumns = json.load(readJSON)
+        for key, value in AddColumns.items():
+            if key == "newColumnName": # Replace the column name value in the JSON with the key from ColumnsToAdd 
+                AddColumns[key] = k
+            if value == "columnInsertIndex": # Replace the column insert index value in the JSON with the value from ColumnsToAdd 
+                AddColumns[value] = v
+            '''
+        #PostSubfieldSelectionJSON.append(AddColumns) # Add the newly created JSON to the output JSON list
 
 
 
