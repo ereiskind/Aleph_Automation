@@ -249,6 +249,13 @@ for subfield in SubfieldsInColumnOrder:
             OrderOfColumns.append(f"Field #{column+1} {subfield}")
 
 #Subsection: Embed Ordered List of Columns in Column Reordering JSON
+with open('Reordering_Columns.json', 'r') as readJSON:
+    ReorderColumns = json.load(readJSON)
+
+# For the item in the dictionary ReorderColumns with a value that's a list, replace that value with OrderOfColumns
+for k, v in ReorderColumns.items():
+    if type(v) == list: 
+        ReorderColumns[k] = OrderOfColumns
 
 #Subsection: Add JSON Objects for Adding Any Needed Columns
 for k, v in ColumnsToAdd.items():

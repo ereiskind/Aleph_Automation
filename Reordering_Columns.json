@@ -1,24 +1,8 @@
-[
-    {
-      "op": "core/column-reorder",
-      "description": "Reorder columns",
-      "columnNames": [
-        "SYS Number",
-        "Count",
-        "035$a",
-        "245$h",
-        "245$a",
-        "245$c",
-        "Field #1 264$a",
-        "Field #1 264$b",
-        "Field #1 264$c",
-        "Field #2 264$c",
-        "856$u",
-        "856$y",
-        "856$3",
-        "856$5",
-        "245$n",
-        "245$p"
-      ]
-    }
+{
+  "op": "core/column-reorder",
+  "description": "Reorder columns",
+  "columnNames": [
+    "SYS Number",
+    "Count"
   ]
+}
