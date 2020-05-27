@@ -194,11 +194,27 @@ if WS_GobiProviderInfo == True:
     ttk.Checkbutton(root_window, text="Are the 710 and/or 897 fields from Gobi?", variable=temp_GobiProviderInfo, onvalue=True, offvalue=False).pack()
 root_window.mainloop() # The program continues automatically when the window closes
 
-WS_Useful024 = temp_Useful024.get()
-WS_Useful776i = temp_Useful776i.get()
-WS_Useful8563 = temp_Useful8563.get()
-WS_Useful856z = temp_Useful856z.get()
-WS_GobiProviderInfo = temp_GobiProviderInfo.get()
+# For the questions not asked, the assignment raises an error; the try-excepts below skip them
+try:
+    WS_Useful024 = temp_Useful024.get()
+except NameError:
+    pass
+try:
+    WS_Useful776i = temp_Useful776i.get()
+except NameError:
+    pass
+try:
+    WS_Useful8563 = temp_Useful8563.get()
+except NameError:
+    pass
+try:
+    WS_Useful856z = temp_Useful856z.get()
+except NameError:
+    pass
+try:
+    WS_GobiProviderInfo = temp_GobiProviderInfo.get()
+except NameError:
+    pass
 
 #Subsection: Workflow Subfield Debugging Checker
 # This exists for potential debugging of the workflow subfield statements; instead of running the complete program, the vales for each of the workflow subfield will print to the terminal, then the program will quit
