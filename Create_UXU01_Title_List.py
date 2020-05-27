@@ -3,7 +3,25 @@
 import os
 import re
 import sys
+import json
+from tkinter import *
+from tkinter import ttk
 
+#Section: GUI Template
+# For now, decision making GUIs will be generated at the point of need
+#ToDo: figure out how to create tkinter variables in a class
+#ToDo: determine best way to get GUI variables from class in another module into a script
+"""
+root_window = Tk()
+ttk.Label(root_window, text="something").pack()
+something=True
+checkbox = ttk.Checkbutton(root_window, text="something", variable=something, onvalue=True, offvalue=False)
+checkbox.pack()
+root_window.mainloop()
+"""
+
+
+#Section: Functions for Creating the UXU01 Title List
 def Paste_Text_Facet_Choices_into_Text_Editor():
     """This uses the default text editor for multi-line input.
     
