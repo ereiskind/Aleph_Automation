@@ -247,7 +247,7 @@ for subfield in SubfieldsInColumnOrder:
 
     if ColumnsNeeded[subfield][1] > 0:
         for column in range(ColumnsNeeded[subfield][1]):
-            OrderOfColumns.append(f"Field #{column} {subfield}") # Determine if column needs a +1
+            OrderOfColumns.append(f"Field #{column+1} {subfield}")
 
 #Subsection: Embed Ordered List of Columns in Column Reordering JSON
 
