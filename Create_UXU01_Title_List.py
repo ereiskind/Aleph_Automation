@@ -221,15 +221,17 @@ os.startfile('Pivot_Subfields_and_Values.json')
 #Subsection: Generate Column List
 SubfieldsInColumnOrder = ("020$a", "020$z", "776$z", "020$q", "776$i", "024$a", "024$2", "035$a", "710$a", "710$e", "897$a", "897$e", "856$u", "856$3", "856$z", "264$c", "264$b", "245$a", "245$b", "245$n", "250$a") # Contains subfields in the order they're going into the JSON for reordering columns
 OrderOfColumns = ["SYS Number", "Count"]
-# for each subfield in SubfieldsInColumnOrder
-# ColumnsNeeded[subfield][0] = bool for the presence of it without a field number
-# if it's true, append subfield to OrderOfColumns
-# if false and in a list where the first subfiedl needs to not have a field number, initalize variable with length of OrderOfColumns
-#ToDo: search for the other places where the first column needs to not have a field number to work
-# ColumnsNeeded[subfield][1] = number of subfields with field number needed
-# if the number is >0
-# for something in range(number determined above)
-# append Field #{number+1} {subfield} to OrderOfColumns
+ColumnsToAdd = {"020$a": None, "020$z": None,"776$z": None,"020$q": None,"776$i": None,"024$a": None,"024$2": None,"035$a": None,"710$a": None,"710$e": None,"897$a": None,"897$e": None,"856$u": None,"856$3": None,"856$z": None,"264$c": None,"264$b": None}
+for subfield in SubfieldsInColumnOrder:
+    if ColumnsNeeded[subfield][0] == True:
+        OrderOfColumns.append(subfield)
+    else: # If the subfield needs to appear as a column with no field numbers for the JSONs to work, it's in ColumnsToAdd as a key, and the insert index for the required column can be the value
+        if subfield in list(ColumnsToAdd):
+            ColumnsToAdd[subfield] = len(OrderOfColumns) # The appropriate insert index might be plus or minus one--check this
+
+    if ColumnsNeeded[subfield][1] > 0:
+        for column in range(ColumnsNeeded[subfield][1]):
+            OrderOfColumns.append(f"Field #{column} {subfield}") # Determine if column needs a +1
 
 #Subsection: Embed Ordered List of Columns in Column Reordering JSON
 
