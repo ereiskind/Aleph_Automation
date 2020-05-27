@@ -252,9 +252,9 @@ for subfield in SubfieldsInColumnOrder:
 with open('Reordering_Columns.json', 'r') as readJSON:
     ReorderColumns = json.load(readJSON)
 
-# For the item in the dictionary ReorderColumns with a value that's a list, replace that value with OrderOfColumns
+# For the item in the dictionary ReorderColumns with key columnNames, make the value OrderOfColumns
 for k, v in ReorderColumns.items():
-    if type(v) == list: 
+    if k == "columnNames": 
         ReorderColumns[k] = OrderOfColumns
 
 #Subsection: Add JSON Objects for Adding Any Needed Columns
