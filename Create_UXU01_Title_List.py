@@ -71,16 +71,17 @@ def How_Many_Times_Subfields_Appear(ColumnSubfield, ColumnList):
 def Determine_If_Subfield_Is_Useful(Subfield):
     """If the subfield is in the file, the function asks if the values are useful.
 
-    Some of the subfields should be kept only if they contain useful information, but with no values, Python can't make that decision. This function lets the user make the relevant decisions but won't ask about subfields not in the file.
+    Some of the subfields should be kept only if they contain useful information, but with no values, Python can't make that decision. This function lets the user make the relevant decisions but won't ask about subfields not in the file. The statements that now return True returned Ask_If_Values_Are_Useful(Subfield) before the GUI was implemented.
     """
     if ColumnsNeeded[Subfield][1] > 0:
-        return Ask_If_Values_Are_Useful(Subfield)
+        return True
     elif ColumnsNeeded[Subfield][0] == True:
-        return Ask_If_Values_Are_Useful(Subfield)
+        return True
     else:
         return False
 
 
+''' Depereciated
 def Ask_If_Values_Are_Useful(Subfield):
     """Asks if the subfield given as an argument has useful values; accepts "y" or "n" as answers."""
     Answer = input(f"Are the {Subfield} values useful? ")
@@ -90,6 +91,7 @@ def Ask_If_Values_Are_Useful(Subfield):
         return False
     else:
         Ask_If_Values_Are_Useful(Subfield) # Seeing if recusion can be used for validation--if an invalid answer is given, the question is aksed again
+'''
 
 
 #Section: Creating and Preparing a Title List for OpenRefine
@@ -159,7 +161,7 @@ elif ColumnsNeeded["264$c"][1] > 0: # If there are multiple 264$c fields
 else:
     WS_Multiple264 = False
 
-#Subsection: Create Needed Manual Workflow Subfield Checks
+#Subsection: Create Needed Manual Workflow Subfield Checks--Does this need to appear in the GUI?
 WS_Useful024 = Determine_If_Subfield_Is_Useful("024$a")
 WS_Useful776i = Determine_If_Subfield_Is_Useful("776$i")
 WS_Useful8563 = Determine_If_Subfield_Is_Useful("856$3")
@@ -171,6 +173,16 @@ elif Determine_If_Subfield_Is_Useful("897$a"):
     WS_GobiProviderInfo = True
 else:
     WS_GobiProviderInfo = False
+
+#Subsection: Create Needed Manual Workflow Subfield Checks--Create the GUI to ask
+root_window = Tk()
+ttk.Label(root_window, text="If the statement is true, have the checkbox selected.").pack()
+if WS_Useful024 == True:
+    temp_Useful024 = BooleanVar()
+    ttk.Checkbutton(root_window, text="Is the 024 field useful?", variable=temp_Useful024, onvalue=True, offvalue=False).pack()
+root_window.mainloop() # The program continues automatically when the window closes
+
+WS_Useful024 = temp_Useful024.get()
 
 #Subsection: Workflow Subfield Debugging Checker
 # This exists for potential debugging of the workflow subfield statements; instead of running the complete program, the vales for each of the workflow subfield will print to the terminal, then the program will quit
