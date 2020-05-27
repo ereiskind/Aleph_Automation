@@ -219,15 +219,17 @@ sys.exit() # Supposed to raise SystemExit exception
 os.startfile('Pivot_Subfields_and_Values.json')
 
 #Subsection: Generate Column List
-# Order: SYS Number < Count < 020$a < 020$z < 776$z < 020$q < 776$i < 024$a < 024$2 < 035$a < 710$a < 710$e < 897$a < 897$e < 856$u < 856$3 < 856$3 < 856$z < 264$c < 264$b < 245$a < 245$b < 245$n < 250$a
-# Create a list of columns in the order that they're to be added
-# For each subfield above in the order presented
-# 1. Check if it's in the list
-# 2. Subtract number of columns from number of columns with field numbers to dertermine if there's a column with no field number; if there is, add it to the list
-# 3. If it's an ISBN and there's no field number, add it to a list of columns to be added after the reordering along with the position it should be inserted at
+SubfieldsInColumnOrder = ("020$a", "020$z", "776$z", "020$q", "776$i", "024$a", "024$2", "035$a", "710$a", "710$e", "897$a", "897$e", "856$u", "856$3", "856$z", "264$c", "264$b", "245$a", "245$b", "245$n", "250$a") # Contains subfields in the order they're going into the JSON for reordering columns
+OrderOfColumns = ["SYS Number", "Count"]
+# for each subfield in SubfieldsInColumnOrder
+# ColumnsNeeded[subfield][0] = bool for the presence of it without a field number
+# if it's true, append subfield to OrderOfColumns
+# if false and in a list where the first subfiedl needs to not have a field number, initalize variable with length of OrderOfColumns
 #ToDo: search for the other places where the first column needs to not have a field number to work
-# 4. Create a "Field #X <subfield>" column where X is all numbers between 1 and the number of columns with field numbers for that subfield and add them to the list
-# Repeat the numbered steps for each subfield
+# ColumnsNeeded[subfield][1] = number of subfields with field number needed
+# if the number is >0
+# for something in range(number determined above)
+# append Field #{number+1} {subfield} to OrderOfColumns
 
 #Subsection: Embed Ordered List of Columns in Column Reordering JSON
 
