@@ -281,6 +281,10 @@ for k, v in ColumnsToAdd.items():
 #Section: JSON for non-repeating fields
 if ColumnsNeeded["250$a"][1] > 0: # If there are multiple 250$a fields
     input("Consolidate the edition information to a single 250$a column before continuing.")
+
+with open('Pivot_Reorder_and_Clean_Non-Repeating_Fields.json', 'w') as writeJSON:
+    json.dump(PostSubfieldSelectionJSON, writeJSON, indent=4)
+
 #Section: JSON for cleaning 264 fields
     # No reason to believe that this wouldn't work with single 264 field JSON
 #Section: JSON for cleaning URLs
