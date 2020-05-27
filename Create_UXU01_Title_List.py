@@ -236,7 +236,10 @@ for subfield in SubfieldsInColumnOrder:
 #Subsection: Embed Ordered List of Columns in Column Reordering JSON
 
 #Subsection: Add JSON Objects for Adding Any Needed Columns
-# Take from the list of columns that need to be added and generate JSON objects with insert indexes based on the positions captured from their creation and expressions of "grel:null"
+for k, v in ColumnsToAdd.items():
+    if v != None:
+        # create JSON for inserting new column named k at index v with expression "grel:null"
+        pass
 
 
 
