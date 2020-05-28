@@ -19,3 +19,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+#ARROW: list of sublibrary codes at "Display Names for Sublibrary/Collection Combination"
+#ADM# is for FSU50--Item records (automatically suppressed for all e-resources)
