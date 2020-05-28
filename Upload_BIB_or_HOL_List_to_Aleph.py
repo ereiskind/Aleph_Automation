@@ -1,11 +1,21 @@
 # Upload a list of SYS (BIB or HOL) into Aleph via the web client
 
-#import
+import os
 
 #Section: Create the File to Upload
-#Subsection: Collect the SYS
-# Use the same paste into a notebook as in the title list
-# Dedupe the list
+#Subsection: Collect the SYS in a Text File
+os.startfile('SYS_to_Upload.txt')
+input("Press any key to continue once the file has been saved and closed.")
+SYS = []
+with open('SYS_to_Upload.txt', 'r') as InputFile:
+    for line in InputFile:
+        if line not in SYS: # Dedupes SYS copied into text file
+            SYS.append(line)
+    # The lines below are for clearing the file
+    InputFile.close()
+ClearingFile = open('SYS_to_Upload.txt', 'w')    
+ClearingFile.write("")    
+ClearingFile.close
 
 #Subsection: Write the Properly Formatted SYS to a File
 # Use a pop-up GUI to ask if the SYS are HOL or BIB
