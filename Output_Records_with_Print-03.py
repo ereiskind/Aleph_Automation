@@ -16,3 +16,5 @@ Print-03: Output files
     No special characters
     If Aleph Sequential, end ".txt"; if MARC, end ".mrc"
 '''
+
+# Default start for Aleph Sequential file is column lengths of 10, 6, 2 characters long
