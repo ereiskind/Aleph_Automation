@@ -1,6 +1,8 @@
 # Upload a list of SYS (BIB or HOL) into Aleph via the web client
 
 import os
+from tkinter import *
+from tkinter import ttk
 
 #Section: Create the File to Upload
 #Subsection: Collect the SYS in a Text File
@@ -18,7 +20,14 @@ ClearingFile.write("")
 ClearingFile.close
 
 #Subsection: Write the Properly Formatted SYS to a File
-# Use a pop-up GUI to ask if the SYS are HOL or BIB
+root_window = Tk()
+ttk.Label(root_window, text="Are these BIB or HOL numbers?").pack()
+Library = StringVar()
+ttk.Radiobutton(root_window, text="BIB", variable=Library, value="UXU01").pack()
+ttk.Radiobutton(root_window, text="HOL", variable=Library, value="UXU60").pack()
+FileName = StringVar()
+root_window.mainloop()
+
 # Use the GUI to ask for a file name of six or fewer lowercase letters
 # Open a for loop with a file named "fser" plus the letters input with no file extension
 # When writing each SYS to the file, add zeros to the front so it's nine digits, then add the database to the end
