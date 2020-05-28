@@ -14,7 +14,7 @@ from tkinter import ttk
 """
 root_window = Tk()
 ttk.Label(root_window, text="something").pack()
-something=True
+something= tkinter variable type
 checkbox = ttk.Checkbutton(root_window, text="something", variable=something, onvalue=True, offvalue=False)
 checkbox.pack()
 root_window.mainloop()
@@ -32,7 +32,7 @@ def Paste_Text_Facet_Choices_into_Text_Editor():
     TextFacetChoices = []
     
     with open('Text_Facet_Choices.txt', 'r') as InputFile:
-        for line in iter(InputFile.readline, ""): #ToDo: determine why iter was used here
+        for line in iter(InputFile.readline, ""): #ToDo: determine why iter was used here--was it to ensure reading didn't stop at tab?
             if line.startswith("(blank)"):
                 continue # This will keep the line with "(blank)" from being added to the list
             TextFacetChoices.append(line.split("\t")[0]) # This takes only the part of the line before the tab--the tab, the number of occurances, and the newline are removed
