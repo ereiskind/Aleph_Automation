@@ -1,9 +1,26 @@
-'''
-Import List of BIB or HOL
-1. Format in Excel according to saved formula in sticky (9 digits + database name)
-2. Paste into .txt file with name of 10 or fewer lowercase letters starting "fser" with no header and each number seperated by a newline
-3. Remove file extention of newly created file
-4. Go to https://susopac.falsc.org/cgi-bin/afv for production, https://susopac.test.falsc.org/cgi-bin/afv for test, https://susopac.rept.falsc.org/cgi-bin/afv for report and enter Aleph credentials
-5. With "alephe/scratch" radio button selected, choose file, then upload
-6. In Alpeh search, select "Load" and type file name--file will appear as a search result
-'''
+# Upload a list of SYS (BIB or HOL) into Aleph via the web client
+
+#import
+
+#Section: Create the File to Upload
+#Subsection: Collect the SYS
+# Use the same paste into a notebook as in the title list
+# Dedupe the list
+
+#Subsection: Write the Properly Formatted SYS to a File
+# Use a pop-up GUI to ask if the SYS are HOL or BIB
+# Use the GUI to ask for a file name of six or fewer lowercase letters
+# Open a for loop with a file named "fser" plus the letters input with no file extension
+# When writing each SYS to the file, add zeros to the front so it's nine digits, then add the database to the end
+
+
+#Section: Upload the File
+# Ask which server to go to
+## https://susopac.falsc.org/cgi-bin/afv for production
+## https://susopac.test.falsc.org/cgi-bin/afv for test
+## https://susopac.rept.falsc.org/cgi-bin/afv for report
+# Log in with Aleph credentials
+# For uploader, choose file created above
+
+#Section: Final Note
+# End with message box stating that inputting hte file name into "Load" in the Aleph search page of the client selected for uploading will return the SYS list as a search result
