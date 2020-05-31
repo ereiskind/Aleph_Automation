@@ -1,5 +1,6 @@
 [
     {
+        "description": "Load Alpeh Sequential text file with column widths 10,6,2",
         "op": "core/column-removal",
         "description": "Remove column ``Column 3``",
         "columnName": "Column 3"
@@ -59,6 +60,767 @@
         "expression": "grel:value+\"-\"+cells.Fields.value",
         "onError": "set-to-blank",
         "newColumnName": "Numbering",
-        "columnInsertIndex": 0        
+        "columnInsertIndex": 0
     }
-]
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Keep Number`` with the number of times the value in ``Numbering`` appears",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "newColumnName": "Keep Number",
+        "columnInsertIndex": 1,
+        "baseColumnName": "Numbering",
+        "expression": "grel:facetCount(value,\"value\",\"Numbering\")",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Numbering``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Numbering"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Number`` with the row number for the value in ``Numbering``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Number",
+        "columnInsertIndex": 1,
+        "baseColumnName": "Numbering",
+        "expression": "grel:toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Turn values in ``Keep Number`` to text",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Keep Number",
+        "expression": "value.toString()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For fields repeated in a record, add row number to value of ``Fields``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Number",
+                    "expression": "value",
+                    "columnName": "Keep Number",
+                    "invert": true,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "1",
+                                "l": "1"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:\"Field #\"+cells[\"Number\"].value+\" \"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Numbering``",
+        "columnName": "Numbering"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Number``",
+        "columnName": "Number"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Keep Number``",
+        "columnName": "Keep Number"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``SYS Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "SYS Number"
+    }
+    {
+        "description": "Organize MARC subfields",
+        "op": "core/column-split",
+        "description": "Split subfields in ``Values`` into their own columns",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "guessCellType": true,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "$",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/transpose-columns-into-rows",
+        "description": "Transpose values of columns created by split of ``Values`` into one new column ``Values``",
+        "startColumnName": "Values 1",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": false,
+        "combinedColumnName": "Values",
+        "prependColumnName": false,
+        "separator": ":"
+    }
+  {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields"
+    }
+  {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``SYS Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "SYS Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with null value in ``Values``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "isBlank(value).toString()",
+                    "columnName": "Values",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Removals`` combing the values of ``SYS Number`` and ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "SYS Number",
+        "expression": "grel:value+\"-\"+cells.Fields.value",
+        "onError": "set-to-blank",
+        "newColumnName": "Removals",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Removals``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Removals"
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove MARC fields with `5` subfield values other than `FTaSU`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:toString(and(startsWith(value,\"5\"),not(endsWith(value,\"FTaSU\"))))",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": true
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove 856 fields with no 856$5 subfield",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:toString(startsWith(value,\"5\"))",
+                    "columnName": "Values",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "grel:toString(contains(value,\"856\"))",
+                    "columnName": "Fields",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Removals``",
+        "columnName": "Removals"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows from 035 fields with subfields other than `a`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "grel:toString(endsWith(value,\"035\"))",
+                    "columnName": "Fields",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:toString(not(startsWith(value,\"a\")))",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``SYS Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "SYS Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove SYS that no longer have 856 fields",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "grel:toString(endsWith(value,\"856\"))",
+                    "columnName": "Fields",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Fields`` at spaces",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "guessCellType": true,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": " ",
+        "regex": false,
+        "maxColumns": 0
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Numbering`` combining the SYS number, original field number, and MARC tag number",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "SYS Number",
+        "expression": "grel:row.record.cells[\"SYS Number\"].value[0]+\"-\"+cells[\"Fields 2\"].value+\"-\"+cells[\"Fields 3\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Numbering",
+        "columnInsertIndex": 0
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For rows with no original field numbers, add the SYS number and MARC tag number to ``Numbering``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Numbering",
+        "expression": "grel:if(isNull(value),row.record.cells[\"SYS Number\"].value[0]+\"-\"+cells[\"Fields 1\"].value,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Fields 1``",
+        "columnName": "Fields 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Fields 2``",
+        "columnName": "Fields 2"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Fields 3``",
+        "columnName": "Fields 3"
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Numbering``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Numbering"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Join all the values in ``Fields`` for a record into a single row seperated by pipes",
+        "columnName": "Fields",
+        "keyColumnName": "Numbering",
+        "separator": "|"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Join all the values in ``Values`` for a record into a single row seperated by pipes",
+        "columnName": "Values",
+        "keyColumnName": "Numbering",
+        "separator": "|"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove the duplicate field names from ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:if(contains(value,\"|\"),substring(value,0,indexOf(value,\"|\")),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Renumbering`` combining SYS from ``Numbering`` and MARC field tag from ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Numbering",
+        "expression": "grel:substring(value,0,indexOf(value,\"-\"))+\"-\"+trim(if(contains(cells.Fields.value,\" \"),substring(cells.Fields.value,lastIndexOf(cells.Fields.value,\" \")),cells.Fields.value))",
+        "onError": "set-to-blank",
+        "newColumnName": "Renumbering",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Keep Number`` with the number of times the value in ``Renumbering`` appears",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Renumbering",
+        "expression": "grel:facetCount(value,\"value\",\"Renumbering\")",
+        "onError": "set-to-blank",
+        "newColumnName": "Keep Number",
+        "columnInsertIndex": 1
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Renumbering``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Renumbering"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Number`` with the row number for the value in ``Renumbering``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Number",
+        "columnInsertIndex": 1,
+        "baseColumnName": "Renumbering",
+        "expression": "grel:toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Turn values in ``Keep Number`` to text",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Keep Number",
+        "expression": "value.toString()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+        {
+          "op": "core/text-transform",
+          "description": "Remove old field numbers from ``Fields``",
+          "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+          },
+          "columnName": "Fields",
+          "expression": "grel:if(contains(value,\" \"),trim(substring(value,lastIndexOf(value,\" \"))),value)",
+          "onError": "keep-original",
+          "repeat": false,
+          "repeatCount": 10
+        }
+    {
+        "op": "core/text-transform",
+        "description": "For fields repeated in a record, add row number to value of ``Fields``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Number",
+                    "expression": "value",
+                    "columnName": "Keep Number",
+                    "invert": true,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "1",
+                                "l": "1"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:\"Field #\"+cells[\"Number\"].value+\" \"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Renumbering``",
+        "columnName": "Renumbering"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Numbering``",
+        "columnName": "Numbering"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Number``",
+        "columnName": "Number"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Keep Number``",
+        "columnName": "Keep Number"
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split subfields in ``Values`` into their own columns",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "guessCellType": true,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "|",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/transpose-columns-into-rows",
+        "description": "Transpose values of columns created by split of ``Values`` into one new column ``Values``",
+        "startColumnName": "Values 1",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": false,
+        "combinedColumnName": "Values",
+        "prependColumnName": false,
+        "separator": ":"
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields"
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``SYS Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "SYS Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with null value in ``Values``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "isBlank(value).toString()",
+                    "columnName": "Values",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``SYS Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "SYS Number"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add subfield delimiter and code to value in ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:value+\"$\"+substring(cells[\"Values\"].value[0],0,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove subfield code from ``Values``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:substring(value,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``No Field Number`` with the field and subfield code for the row’s value",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "No Field Number",
+        "columnInsertIndex": 2,
+        "baseColumnName": "Fields",
+        "expression": "grel:substring(value,-5)",
+        "onError": "set-to-blank"
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove 856$y and 856$5 subfields as long as that row has no SYS",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "No Field Number",
+                    "expression": "value",
+                    "columnName": "No Field Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "856$y",
+                                "l": "856$y"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "856$5",
+                                "l": "856$5"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "SYS Number",
+                    "expression": "value",
+                    "columnName": "SYS Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [],
+                    "selectBlank": true,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+]  
