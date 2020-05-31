@@ -428,3 +428,8 @@
         "keyColumnName": null,
         "valueColumnName": null
     }
+    make fields new first column
+    remove URLs values containing proxy or openathens
+    fill up and down value of URLs in new column URL
+    remove contents of URL column from URLs column
+    check URLs column is empty
