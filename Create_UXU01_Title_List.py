@@ -292,6 +292,7 @@ if ColumnsNeeded["250$a"][1] > 0: # If there are multiple 250$a fields
     input("Consolidate the edition information to a single 250$a column before continuing.")
 
 with open('Pivot_Reorder_and_Clean_Non-Repeating_Fields.json', 'w') as writeJSON:
+    # The above JSON doesn't exist yet
     json.dump(PostSubfieldSelectionJSON, writeJSON, indent=4)
 
 #Section: JSON for cleaning 264 fields
