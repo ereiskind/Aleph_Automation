@@ -1,5 +1,8 @@
 # Process for handling having multiple records for a given owned title in UXU01 and possibly UXU60
 
+import os
+from tkinter import messagebox
+
 # 1. Collect all possible BIB numbers for the platform/collection in question
 # 2. Send BIBs to cataloging to have them check what ones have ACQ records attached
 # 3. Pull HOL for BIBs and get TKR, if suppressed
