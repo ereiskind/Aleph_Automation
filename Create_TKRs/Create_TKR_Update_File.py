@@ -1,0 +1,1 @@
+#Alpeh sequential Line format: <BIB or HOL as 9 digits> <MARC field and indicators--if indicators are null, use spaces> L $$<first subfield code><value of first subfield><repeat pattern of dollar signs, subfield code, and subfield value without spaces for all subfields>
