@@ -13,6 +13,7 @@ Automation Functions for Aleph ILS
 * Create_TKRs: Generate TKRs for records based on 
   * A list of BIB numbers
   * A list of HOL numbers
+* Dedupe_Catalog_Records: Determine what UXU01 and possibly UXU60 records for duplicate titles exist
 * Get BIB numbers from a list of HOL numbers
 * Get HOL numbers from a list of BIB numbers
 * Get propriatary IDs and DOIs in 856$u from a list of BIB numbers
