@@ -15,8 +15,12 @@ from tkinter import messagebox
 # For BIBs, manage-70 for BIB-to-HOL
 # For HOLs, print-03 Aleph sequential of TKR, LKR, STA
 
-#Subsection: Organize Aleph Output
-# before JSON launch: tkinter.messagebox.showwarning(title=None, message=None, **options) that JSON is for Ebook Central
+#Subsection: Organize UXU01 Output
+messagebox.showinfo(title="Prepare Project", message="Load Aleph Sequential file into OpenRefine with column widths 10, 6, 2")
+messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central")
+os.startfile('Get_Ebook_Central_URLs_from_856_Aleph_Sequential.json')
+
+#Subsection: Organixe UXU60 Output
 
 
 #Section: Determine Which Records to Keep
