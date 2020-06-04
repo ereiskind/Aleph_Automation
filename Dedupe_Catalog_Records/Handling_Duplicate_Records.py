@@ -19,6 +19,8 @@ from tkinter import messagebox
 messagebox.showinfo(title="Prepare Project", message="Load Aleph Sequential file into OpenRefine with column widths 10, 6, 2")
 messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central")
 os.startfile('Get_Ebook_Central_URLs_from_856_Aleph_Sequential.json')
+# Need to cluster domains at this point
+# New JSON for the IDs and matching up the duplications--cell cross with a list of Ebook Central/MyiLibrary/Ebrary numbers probably needed
 
 #Subsection: Organixe UXU60 Output
 

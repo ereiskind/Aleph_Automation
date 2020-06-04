@@ -519,232 +519,324 @@
         "repeatCount": 10
     }
     {
-          "op": "core/text-transform",
-          "description": "Copy EBSCOhost URLs from ``Values`` into ``Temp``",
-          "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-          },
-          "columnName": "Temp",
-          "expression": "grel:find(cells.Values.value,/https?:\\/\\/search\\.ebscohost\\.com\\/login\\.aspx\\?.*AN=\\d+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
         "op": "core/text-transform",
-        "description": "Copy JSTOR URLs from ``Values`` into ``Temp``",
+        "description": "For records with no value in ``Temp``, copy URLs containing `ebookcentral`, `myilibrary`, `ebrary`, `eblib` after the last instance of `http` or `www` from ``Values`` to ``Temp``",
         "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(www\\.)?jstor\\.org\\/stable\\/[\\w.\\/]+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Copy OApen URLs with `=` from ``Values`` into ``Temp``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(library\\.|www\\.)?oapen\\.org\\/.*=\\d+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Copy OApen URLs without `=` from ``Values`` into ``Temp``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(library\\.|www\\.)?oapen\\.org\\/.*\\/\\d+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Copy Project MUSE URLs from ``Values`` into ``Temp``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/muse\\.jhu\\.edu\\/books?\\/\\d+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Copy ClinicalKey URLs from ``Values`` into ``Temp``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/www\\.clinicalkey\\.com.*\\/3-s2\\.0-C\\d+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Copy Credo Reference URLs from ``Values`` into ``Temp``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/search\\.credoreference\\.com\\/content\\/title\\/\\w+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Copy DOI URLs from ``Values`` into ``Temp``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(dx\\.)?doi\\.org\\/[\\w-\\.\\/]+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Copy SpringerLink URLs from ``Values`` into ``Temp``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/link\\.springer\\.com\\/[\\w-\\.\\/]+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Copy SAGE URLs from ``Values`` into ``Temp``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/\\w*\\.sagepub\\.com\\/\\w+\\/[\\w-]+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Copy Science Direct URLs from ``Values`` into ``Temp``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/www\\.sciencedirect\\.com\\/science\\/book\\/\\d+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Copy Oxford URLs from ``Values`` into ``Temp``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/www\\.oxford.*\\.com(\\/view)?\\/[\\w\\.\\/\\-:]+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-
-
-Clean temp2
-add cleaned to temp
-dedupe urls in each record
-get domains and propriatary IDs from URLs
-
-
-
-        {
-          "op": "core/column-addition",
-          "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-          },
-          "baseColumnName": "Fields",
-          "expression": "grel:null",
-          "onError": "set-to-blank",
-          "newColumnName": "URL Domain",
-          "columnInsertIndex": 2,
-          "description": "Create column URL Domain at index 2 based on column Fields using expression grel:null"
-        },
-        {
-          "op": "core/column-addition",
-          "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-          },
-          "baseColumnName": "URL Domain",
-          "expression": "grel:null",
-          "onError": "set-to-blank",
-          "newColumnName": "URL ID",
-          "columnInsertIndex": 3,
-          "description": "Create column URL ID at index 3 based on column URL Domain using expression grel:null"
-        },
-            {
-              "op": "core/column-addition",
-              "engineConfig": {
-                "facets": [],
-                "mode": "record-based"
-              },
-              "baseColumnName": "Temp",
-              "expression": "grel:substring(substring(find(cells.Temp.value,/\\/\\/.*\\//)[0],2),0,indexOf(substring(find(cells.Temp.value,/\\/\\/.*\\//)[0],2),\"/\"))",
-              "onError": "set-to-blank",
-              "newColumnName": "URL Domain",
-              "columnInsertIndex": 3,
-              "description": "Create column URL Domain at index 3 based on column Temp using expression grel:substring(substring(find(cells.Temp.value,/\\/\\/.*\\//)[0],2),0,indexOf(substring(find(cells.Temp.value,/\\/\\/.*\\//)[0],2),\"/\"))"
-            },
-            {
-              "op": "core/column-addition",
-              "engineConfig": {
-                "facets": [
-                  {
+            "facets": [
+                {
                     "type": "list",
-                    "name": "Equals",
+                    "name": "Temp",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Temp",
+        "expression": "grel:if(or(contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"ebookcentral\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"myilibrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"ebrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"eblib\")),substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\nif(or(contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"ebookcentral\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"myilibrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"ebrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"eblib\")),substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),value))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records with no value in ``Temp``, copy DOI URLs from ``Values`` to ``Temp``",
+        "engineConfig": {
+          "facets": [
+            {
+              "type": "list",
+              "name": "Temp",
+              "expression": "isBlank(value)",
+              "columnName": "Temp",
+              "invert": true,
+              "omitBlank": false,
+              "omitError": false,
+              "selection": [
+                {
+                  "v": {
+                    "v": false,
+                    "l": "false"
+                  }
+                }
+              ],
+              "selectBlank": false,
+              "selectError": false
+            }
+          ],
+          "mode": "record-based"
+        },
+        "columnName": "Temp",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(dx\\.)?doi\\.org\\/[\\w\\-\\.\\/]+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+      },
+      {
+        "op": "core/column-addition",
+        "description": "Create column ``URL Domain`` with the domain of the URL in ``Temp``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Temp",
+        "expression": "grel:substring(substring(find(cells.Temp.value,/\\/\\/.*\\//)[0],2),0,indexOf(substring(find(cells.Temp.value,/\\/\\/.*\\//)[0],2),\"/\"))",
+        "onError": "set-to-blank",
+        "newColumnName": "URL Domain",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add domains ending with characters other than `/` to ``URL Domain``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL Domain",
+                    "expression": "isBlank(value)",
+                    "columnName": "URL Domain",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "URL Domain",
+        "expression": "grel:substring(find(cells.Temp.value,/\\/\\/[\\w\\.\\-]*/)[0],2,length(find(cells.Temp.value,/\\/\\/[\\w\\.\\-]*/)[0]))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``URL ID`` with DOIs extracted from platform URLs for records with no values in ``Temp``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Temp",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Values",
+        "expression": "grel:find(value,/10\\.[\\w\\.]+\\/[\\w\\.\\-]+$/)[0]",
+        "onError": "set-to-blank",
+        "newColumnName": "URL ID",
+        "columnInsertIndex": 3
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For rows with DOIs extracted from platform URLs in ``URL ID``, make value of ``URL Domain`` `DOI`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "URL ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "URL Domain",
+        "expression": "grel:\"DOI\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Equals`` with the number of equals signs in the URL in ``Temp``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Temp",
+        "expression": "grel:if(isNull(value),null,if(contains(value,\"=\"),if(indexOf(value,\"=\")==lastIndexOf(value,\"=\"),\"Single\",\"Multiple\"),\"None\"))",
+        "onError": "set-to-blank",
+        "newColumnName": "Equals",
+        "columnInsertIndex": 3
+    }
+        {
+          "op": "core/text-transform",
+          "description": "Add `None Relevant` to ``URL Domain`` for all the records that still don't have a URL",
+          "engineConfig": {
+            "facets": [
+              {
+                "type": "list",
+                "name": "URL Domain",
+                "expression": "isBlank(value)",
+                "columnName": "URL Domain",
+                "invert": true,
+                "omitBlank": false,
+                "omitError": false,
+                "selection": [
+                  {
+                    "v": {
+                      "v": false,
+                      "l": "false"
+                    }
+                  }
+                ],
+                "selectBlank": false,
+                "selectError": false
+              }
+            ],
+            "mode": "record-based"
+          },
+          "columnName": "URL Domain",
+          "expression": "grel:\"None Relevant\"",
+          "onError": "keep-original",
+          "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``URL Domain``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL Domain",
                     "expression": "value",
-                    "columnName": "Equals",
+                    "columnName": "URL Domain",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "None Relevant",
+                                "l": "None Relevant"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "URL Domain"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``SYS Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "SYS Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with no value in ``URL Domain``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL Domain",
+                    "expression": "value",
+                    "columnName": "URL Domain",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [],
                     "selectBlank": true,
                     "selectError": false
-                  }
-                ],
-                "mode": "record-based"
-              },
-              "baseColumnName": "Temp",
-              "expression": "grel:if(contains(value,\"=\"),if(indexOf(value,\"=\")==lastIndexOf(value,\"=\"),\"Single\",\"Multiple\"),\"None\")",
-              "onError": "set-to-blank",
-              "newColumnName": "Equals",
-              "columnInsertIndex": 3,
-              "description": "Create column Equals at index 3 based on column Temp using expression grel:if(contains(value,\"=\"),if(indexOf(value,\"=\")==lastIndexOf(value,\"=\"),\"Single\",\"Multiple\"),\"None\")"
-            }
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``SYS Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "SYS Number"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Fields``",
+        "columnName": "Fields"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values``",
+        "columnName": "Values"
+    }
+]
