@@ -21,6 +21,7 @@ messagebox.showwarning(title="Ebook Central", message="The following JSON is for
 os.startfile('Get_Ebook_Central_URLs_from_856_Aleph_Sequential.json')
 # Need to cluster domains at this point
 # New JSON for the IDs and matching up the duplications--cell cross with a list of Ebook Central/MyiLibrary/Ebrary numbers probably needed
+os.startfile('Match_Duplicate_Records_by_856_Info.json')
 
 #Subsection: Organixe UXU60 Output
 

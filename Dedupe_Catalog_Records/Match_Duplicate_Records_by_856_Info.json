@@ -1,0 +1,84 @@
+[
+    {
+      "op": "core/text-transform",
+      "description": "Add ID numbers after `id=` at end of URL to ``URL ID``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "row-based"
+      },
+      "columnName": "URL ID",
+      "expression": "grel:substring(find(cells.Temp.value,/(id|ID)=\\d+$/)[0],3)",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    }
+    [
+        {
+          "op": "core/text-transform",
+          "engineConfig": {
+            "facets": [
+              {
+                "type": "list",
+                "name": "Equals",
+                "expression": "value",
+                "columnName": "Equals",
+                "invert": false,
+                "omitBlank": false,
+                "omitError": false,
+                "selection": [
+                  {
+                    "v": {
+                      "v": "None",
+                      "l": "None"
+                    }
+                  }
+                ],
+                "selectBlank": false,
+                "selectError": false
+              }
+            ],
+            "mode": "row-based"
+          },
+          "columnName": "URL ID",
+          "expression": "grel:substring(find(cells.Temp.value,/(id|ID)\\/\\d+$/)[0],3)",
+          "onError": "keep-original",
+          "repeat": false,
+          "repeatCount": 10,
+          "description": "Text transform on cells in column URL ID using expression grel:substring(find(cells.Temp.value,/(id|ID)\\/\\d+$/)[0],3)"
+        }
+      ]
+    [
+        {
+          "op": "core/text-transform",
+          "engineConfig": {
+            "facets": [
+              {
+                "type": "list",
+                "name": "URL Domain",
+                "expression": "value",
+                "columnName": "URL Domain",
+                "invert": false,
+                "omitBlank": false,
+                "omitError": false,
+                "selection": [
+                  {
+                    "v": {
+                      "v": "DOI",
+                      "l": "DOI"
+                    }
+                  }
+                ],
+                "selectBlank": false,
+                "selectError": false
+              }
+            ],
+            "mode": "row-based"
+          },
+          "columnName": "URL ID",
+          "expression": "grel:if(isNull(value),substring(cells.Temp.value,indexOf(cells.Temp.value,\"/10.\")+1),value)",
+          "onError": "keep-original",
+          "repeat": false,
+          "repeatCount": 10,
+          "description": "Text transform on cells in column URL ID using expression grel:if(isNull(value),substring(cells.Temp.value,indexOf(cells.Temp.value,\"/10.\")+1),value)"
+        }
+      ]
