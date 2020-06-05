@@ -181,7 +181,7 @@
         "guessCellType": true,
         "removeOriginalColumn": true,
         "mode": "separator",
-        "separator": "$",
+        "separator": "$$",
         "regex": false,
         "maxColumns": 0
     },
