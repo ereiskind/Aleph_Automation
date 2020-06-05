@@ -16,11 +16,13 @@ from tkinter import messagebox
 # For HOLs, print-03 Aleph sequential of TKR, LKR, STA
 
 #Subsection: Organize UXU01 Output
-messagebox.showinfo(title="Prepare Project", message="Load Aleph Sequential file into OpenRefine with column widths 10, 6, 2")
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 6, 2")
 messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central")
 os.startfile('Get_Ebook_Central_URLs_from_856_Aleph_Sequential.json')
-# Need to cluster domains at this point
+messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain.\"")
 # New JSON for the IDs and matching up the duplications--cell cross with a list of Ebook Central/MyiLibrary/Ebrary numbers probably needed
+os.startfile('Isolate_IDs_from_URLs.json')
+messagebox.showinfo(title="Instructions", message="Copy IDs from any unusually formatted URLs in \"Temp\" into \"URL ID.\"")
 os.startfile('Match_Duplicate_Records_by_856_Info.json')
 
 #Subsection: Organixe UXU60 Output

@@ -1,0 +1,158 @@
+[
+    {
+        "op": "core/text-transform",
+        "description": "Add ID numbers after `id=` at end of URL to ``URL ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:substring(find(cells.Temp.value,/(id|ID)=\\d+$/)[0],3)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add ID numbers after `id/` at end of URL to ``URL ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Equals",
+                    "expression": "value",
+                    "columnName": "Equals",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "None",
+                                "l": "None"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:substring(find(cells.Temp.value,/(id|ID)\\/\\d+$/)[0],3)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add ID numbers after `p=` at end of URL to ``URL ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:substring(find(cells.Temp.value,/p=\\d+$/)[0],3)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add ID numbers between `P_` and `_0` at end of URL to ``URL ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:substring(find(cells.Temp.value,/P_\\d+_0$/)[0],indexOf(find(cells.Temp.value,/P_\\d+_0$/)[0],\"_\")+1,lastIndexOf(find(cells.Temp.value,/P_\\d+_0$/)[0],\"_\"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add DOIs from DOI-containing URLs to ``URL ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL Domain",
+                    "expression": "value",
+                    "columnName": "URL Domain",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "DOI",
+                                "l": "DOI"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:if(isNull(value),substring(cells.Temp.value,indexOf(cells.Temp.value,\"/10.\")+1),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For rows where the URL in ``Temp`` has no path, add `[None]` to ``URL ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:if(isError(find(cells.Temp.value,/.*\\.[a-z]{3}.?$/)[0])==false,if(isNull(value),\"[None]\",value),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For rows with `None Relevant` in ``URL domain``, add `[None]` to ``URL ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL Domain",
+                    "expression": "value",
+                    "columnName": "URL Domain",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "None Relevant",
+                                "l": "None Relevant"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:\"[None]\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Equals``",
+        "columnName": "Equals"
+    }
+]
