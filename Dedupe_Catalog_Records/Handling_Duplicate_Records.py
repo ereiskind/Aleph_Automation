@@ -28,9 +28,29 @@ os.startfile('Match_Duplicate_Records_by_856_Info.json')
 #Subsection: Organixe UXU60 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 5, 3")
 os.startfile('Organize_HOL_for_Duplicate_BIB.json')
-# Get if other HOL attached
-# Get TKRs
-# Get if suppressed
+
+"""
+if UXU60TKRLoop in YesAnswers:
+        TKR_Loop(1, 3)
+        #Above, the first number is the TKR column number, the second is the column position; both values are one less than the initial desired value
+def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized to one less than their first desired values
+    MoreTKRs = True #Initalizing variable
+    while MoreTKRs == True:
+        ColumnNumber += 1
+        ColumnPosition +=1
+        SubstitutionString = Open_JSON_File_as_String_Object('C:\\Users\\ereiskind\\_Code\\Aleph_Search_Cleaning\\TKR_Loop.json')
+        JSONString = SubstitutionString.replace("?",str(ColumnNumber)).replace("@",str(ColumnPosition))
+        NewJSON = open('C:\\Users\\ereiskind\\_Code\\Aleph_Search_Cleaning\\TKR_Loop_Iterations.txt','w')
+        NewJSON.write(JSONString)
+        NewJSON.close() #If not included, file empty when open
+        os.startfile('C:\\Users\\ereiskind\\_Code\\Aleph_Search_Cleaning\\TKR_Loop_Iterations.txt')
+        Repeat = input("Are there still TKR statements in \"TKR$a\"? Y/N ")
+        Validate_Yes_No_Answer(Repeat, "Are there still TKR statements in \"TKR$a\"? Y/N ")
+        #If/else can be used to check if MoreTKRs shoud change as Validate_Yes_No_Answer ensures that Repeat can only have a limited set of valid values
+        if Repeat in NoAnswers:
+            MoreTKRs = False
+
+"""
 
 
 #Section: Determine Which Records to Keep
