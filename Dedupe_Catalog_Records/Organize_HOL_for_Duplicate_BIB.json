@@ -1,0 +1,838 @@
+
+
+
+
+[
+    {
+      "description": "Make each HOL record an OpenRefine record",
+      "op": "core/column-addition",
+      "description": "Create column ``Record`` in the first column with the record number for all rows in the record",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "newColumnName": "Record",
+      "columnInsertIndex": 0,
+      "baseColumnName": "_ - rows - _ - RecordNumber",
+      "expression": "grel:value",
+      "onError": "set-to-blank"
+    }
+    {
+      "op": "core/column-removal",
+      "description": "Remove column ``_ - rows - _ - RecordNumber``",
+      "columnName": "_ - rows - _ - RecordNumber"
+    },
+    {
+      "op": "core/column-removal",
+      "description": "Remove column ``_ - rows - _ - Indicators``",
+      "columnName": "_ - rows - _ - Indicators"
+    },
+    {
+      "op": "core/row-removal",
+      "description": "Remove blank rows between records",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "Record",
+            "expression": "isBlank(value).toString()",
+            "columnName": "Record",
+            "invert": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "true",
+                  "l": "true"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "record-based"
+      }
+    },
+    {
+      "op": "core/blank-down",
+      "description": "Blank down cells in column ``Record``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "row-based"
+      },
+      "columnName": "Record"
+    }
+    {
+      "op": "core/column-rename",
+      "description": "Rename column ``_ - rows - _ - Tag`` to ``Fields``",
+      "oldColumnName": "_ - rows - _ - Tag",
+      "newColumnName": "Fields"
+    },
+    {
+      "op": "core/column-rename",
+      "description": "Rename column ``_ - rows - _ - Content`` to ``Values``",
+      "oldColumnName": "_ - rows - _ - Content",
+      "newColumnName": "Values"
+    },
+    {
+      "description": "Remove unneeded information",
+      "op": "core/row-removal",
+      "description": "Remove non-FSU HOL records",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "Values",
+            "expression": "grel:toString(value==\"$aFS\")",
+            "columnName": "Values",
+            "invert": true,
+            "selection": [
+              {
+                "v": {
+                  "v": "true",
+                  "l": "true"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "record-based"
+      }
+    }
+    {
+      "op": "core/column-addition",
+      "description": "Create column ``SYS`` with value of LKR$b subfield",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "newColumnName": "SYS",
+      "columnInsertIndex": 2,
+      "baseColumnName": "Fields",
+      "expression": "grel:if(value==\"LKR\",substring(cells[\"Values\"].value,14),null)",
+      "onError": "set-to-blank"
+    },
+    {
+      "op": "core/text-transform",
+      "description": "Fill up and down values in column ``SYS``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "SYS",
+      "expression": "grel:row.record.cells[\"SYS\"].value[0]",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    },
+    {
+      "op": "core/column-move",
+      "description": "Make column ``SYS`` first column",
+      "columnName": "SYS",
+      "index": 0
+    },
+    {
+      "op": "core/column-addition",
+      "description": "Create column ``SYS Number`` with value of ``SYS``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "newColumnName": "SYS Number",
+      "columnInsertIndex": 1,
+      "baseColumnName": "SYS",
+      "expression": "grel:value",
+      "onError": "set-to-blank"
+    },
+    {
+      "op": "core/blank-down",
+      "description": "Blank down cells in column ``SYS``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "row-based"
+      },
+      "columnName": "SYS"
+    }
+    {
+      "op": "core/column-removal",
+      "description": "Remove column ``Record``",
+      "columnName": "Record"
+    }
+    {
+      "description": "Organize MARC fields",
+      "op": "core/row-removal",
+      "description": "Remove rows for fields other than 852, TKR, STA",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "Fields",
+            "expression": "value",
+            "columnName": "Fields",
+            "invert": true,
+            "omitBlank": false,
+            "omitError": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "STA",
+                  "l": "STA"
+                }
+              },
+              {
+                "v": {
+                  "v": "TKR",
+                  "l": "TKR"
+                }
+              },
+              {
+                "v": {
+                  "v": "852",
+                  "l": "852"
+                }
+              }
+            ],
+            "selectBlank": false,
+            "selectError": false
+          }
+        ],
+        "mode": "row-based"
+      }
+    }
+    {
+      "op": "core/column-removal",
+      "description": "Remove column ``SYS``",
+      "columnName": "SYS"
+    },
+    {
+      "op": "core/blank-down",
+      "description": "Blank down cells in column ``SYS Number``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "row-based"
+      },
+      "columnName": "SYS Number"
+    }
+    {
+      "description": "Organize MARC subfields",
+      "op": "core/column-split",
+      "description": "Split subfields in ``Values`` into their own columns",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "Values",
+      "guessCellType": true,
+      "removeOriginalColumn": true,
+      "mode": "separator",
+      "separator": "$",
+      "regex": false,
+      "maxColumns": 0
+    },
+    {
+      "op": "core/transpose-columns-into-rows",
+      "description": "Transpose values of columns created by split of ``Values`` into one new column ``Values``",
+      "startColumnName": "Values 1",
+      "columnCount": -1,
+      "ignoreBlankCells": true,
+      "fillDown": false,
+      "combinedColumnName": "Values",
+      "prependColumnName": false,
+      "separator": ":"
+    }
+    {
+      "op": "core/fill-down",
+      "description": "Fill down cells in column ``Fields``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "Fields"
+    }
+    {
+      "op": "core/fill-down",
+      "description": "Fill down cells in column ``SYS Number``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "SYS Number"
+    },
+    {
+      "op": "core/row-removal",
+      "description": "Remove rows with null value in ``Values``",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "Values",
+            "expression": "isBlank(value).toString()",
+            "columnName": "Values",
+            "invert": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "true",
+                  "l": "true"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "record-based"
+      }
+    },
+    {
+      "op": "core/blank-down",
+      "description": "Blank down cells in column ``SYS Number``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "row-based"
+      },
+      "columnName": "SYS Number"
+    }
+    {
+      "op": "core/text-transform",
+      "description": "Add subfield delimiter and code to value in ``Fields``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "Fields",
+      "expression": "grel:value+\"$\"+substring(cells[\"Values\"].value[0],0,1)",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    },
+    {
+      "op": "core/text-transform",
+      "description": "Remove subfield code from ``Values``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "Values",
+      "expression": "grel:substring(value,1)",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    }
+    {
+      "description": "Add sublibrary to records",
+      "op": "core/column-addition",
+      "description": "Create column ``HOL Sublibrary`` with value of ``Values`` in row where ``Fields`` is `852$b`",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "baseColumnName": "Values",
+      "expression": "grel:if(cells.Fields.value==\"852$b\",value,null)",
+      "onError": "set-to-blank",
+      "newColumnName": "HOL Sublibrary",
+      "columnInsertIndex": 1
+    },
+    {
+      "op": "core/text-transform",
+      "description": "Fill up and down cells in column ``HOL Sublibrary``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "HOL Sublibrary",
+      "expression": "grel:row.record.cells[\"HOL Sublibrary\"].value[0]",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    },
+    {
+      "op": "core/blank-down",
+      "description": "Blank down cells in column ``HOL Sublibrary``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "HOL Sublibrary"
+    }
+    {
+      "op": "core/text-transform",
+      "description": "Null values in column ``Values`` for subfields of field 852",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "Fields",
+            "expression": "grel:toString(contains(value,\"852\"))",
+            "columnName": "Fields",
+            "invert": false,
+            "omitBlank": false,
+            "omitError": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "true",
+                  "l": "true"
+                }
+              }
+            ],
+            "selectBlank": false,
+            "selectError": false
+          }
+        ],
+        "mode": "row-based"
+      },
+      "columnName": "Values",
+      "expression": "null",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    },
+    {
+      "op": "core/text-transform",
+      "description": "Null values in column ``Fields`` for subfields of field 852",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "Fields",
+            "expression": "grel:toString(contains(value,\"852\"))",
+            "columnName": "Fields",
+            "invert": false,
+            "omitBlank": false,
+            "omitError": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "true",
+                  "l": "true"
+                }
+              }
+            ],
+            "selectBlank": false,
+            "selectError": false
+          }
+        ],
+        "mode": "row-based"
+      },
+      "columnName": "Fields",
+      "expression": "null",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    }
+    {
+      "op": "core/column-addition",
+      "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",
+      "engineConfig": {
+        "facets": [],
+        "mode": "row-based"
+      },
+      "newColumnName": "All Others Blank",
+      "columnInsertIndex": 1,
+      "baseColumnName": "SYS Number",
+      "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+      "onError": "set-to-blank"
+    },
+    {
+      "op": "core/row-removal",
+      "description": "Remove rows where the value of ``All Others Blank`` is `true`",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "All Others Blank",
+            "expression": "value",
+            "columnName": "All Others Blank",
+            "invert": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "true",
+                  "l": "true"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "row-based"
+      }
+    },
+    {
+      "op": "core/column-removal",
+      "description": "Remove column ``All Others Blank``",
+      "columnName": "All Others Blank"
+    },
+    {
+      "description": "Mark suppressed records",
+      "op": "core/column-addition",
+      "description": "Create column ``Suppressed`` by filling up and down records with a STA field with value `TRUE`",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "Fields",
+            "expression": "value",
+            "columnName": "Fields",
+            "invert": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "STA$a",
+                  "l": "STA$a"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "record-based"
+      },
+      "newColumnName": "Suppressed",
+      "columnInsertIndex": 2,
+      "baseColumnName": "SYS Number",
+      "expression": "grel:\"TRUE\"",
+      "onError": "set-to-blank"
+    },
+    {
+      "op": "core/blank-down",
+      "description": "Blank down cells in column ``Suppressed``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "Suppressed"
+    }
+    {
+      "op": "core/text-transform",
+      "description": "Null values in column ``Values`` for subfield STA$a",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "Fields",
+            "expression": "value",
+            "columnName": "Fields",
+            "invert": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "STA$a",
+                  "l": "STA$a"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "row-based"
+      },
+      "columnName": "Values",
+      "expression": "null",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    },
+    {
+      "op": "core/text-transform",
+      "description": "Null values in column ``Fields`` for subfield STA$a",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "Fields",
+            "expression": "value",
+            "columnName": "Fields",
+            "invert": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "STA$a",
+                  "l": "STA$a"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "row-based"
+      },
+      "columnName": "Fields",
+      "expression": "null",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    }
+    {
+      "op": "core/column-addition",
+      "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",
+      "engineConfig": {
+        "facets": [],
+        "mode": "row-based"
+      },
+      "newColumnName": "All Others Blank",
+      "columnInsertIndex": 1,
+      "baseColumnName": "SYS Number",
+      "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+      "onError": "set-to-blank"
+    },
+    {
+      "op": "core/row-removal",
+      "description": "Remove rows where the value of ``All Others Blank`` is `true`",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "All Others Blank",
+            "expression": "value",
+            "columnName": "All Others Blank",
+            "invert": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "true",
+                  "l": "true"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "row-based"
+      }
+    },
+    {
+      "op": "core/column-removal",
+      "description": "Remove column ``All Others Blank``",
+      "columnName": "All Others Blank"
+    },
+    {
+      "description": "Clean and organize TKRs",
+      "op": "core/column-addition",
+      "description": "Create column ``TKR$a`` with values from ``Values`` in rows where ``Fields`` value is `TKR$a`",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "newColumnName": "TKR$a",
+      "columnInsertIndex": 4,
+      "baseColumnName": "Fields",
+      "expression": "grel:if(value==\"TKR$a\",cells[\"Values\"].value,null)",
+      "onError": "set-to-blank"
+    }
+    {
+      "op": "core/text-transform",
+      "description": "Null values in column ``Fields`` where column ``TKR$a`` has a value",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "TKR$a",
+            "expression": "isBlank(value).toString()",
+            "columnName": "TKR$a",
+            "invert": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "false",
+                  "l": "false"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "row-based"
+      },
+      "columnName": "Fields",
+      "expression": "null",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    },
+    {
+      "op": "core/text-transform",
+      "description": "Null values in column ``Values`` where column ``TKR$a`` has a value",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "TKR$a",
+            "expression": "isBlank(value).toString()",
+            "columnName": "TKR$a",
+            "invert": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "false",
+                  "l": "false"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "row-based"
+      },
+      "columnName": "Values",
+      "expression": "null",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    },
+    {
+      "op": "core/column-removal",
+      "description": "Remove column ``Fields``",
+      "columnName": "Fields"
+    },
+    {
+      "op": "core/column-removal",
+      "description": "Remove column ``Values``",
+      "columnName": "Values"
+    }
+    {
+      "op": "core/column-addition",
+      "description": "Create column ``FSU Tickler`` by filling up and down values from ``TKR$a``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "newColumnName": "FSU Tickler",
+      "columnInsertIndex": 3,
+      "baseColumnName": "TKR$a",
+      "expression": "grel:row.record.cells[\"TKR$a\"].value[0]",
+      "onError": "set-to-blank"
+    },
+    {
+      "op": "core/text-transform",
+      "description": "Change value of cells in ``TKR$a`` to null if ``FSU Tickler`` has the same value for that row",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "TKR$a",
+      "expression": "grel:if(value==cells[\"FSU Tickler\"].value,null,value)",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    }
+    {
+      "op": "core/blank-down",
+      "description": "Blank down cells in column ``FSU Tickler``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "FSU Tickler"
+    },
+    {
+      "op": "core/column-addition",
+      "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",
+      "engineConfig": {
+        "facets": [],
+        "mode": "row-based"
+      },
+      "newColumnName": "All Others Blank",
+      "columnInsertIndex": 1,
+      "baseColumnName": "SYS Number",
+      "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+      "onError": "set-to-blank"
+    },
+    {
+      "op": "core/row-removal",
+      "description": "Remove rows where the value of ``All Others Blank`` is `true`",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "All Others Blank",
+            "expression": "value",
+            "columnName": "All Others Blank",
+            "invert": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "true",
+                  "l": "true"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "row-based"
+      }
+    },
+    {
+      "op": "core/column-removal",
+      "description": "Remove column ``All Others Blank``",
+      "columnName": "All Others Blank"
+    }
+  ]
+  

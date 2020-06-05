@@ -26,6 +26,11 @@ messagebox.showwarning(title="Ebook Central", message="The following JSON is for
 os.startfile('Match_Duplicate_Records_by_856_Info.json')
 
 #Subsection: Organixe UXU60 Output
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 5, 3")
+os.startfile('Organize_HOL_for_Duplicate_BIB.json')
+# Get if other HOL attached
+# Get TKRs
+# Get if suppressed
 
 
 #Section: Determine Which Records to Keep
@@ -37,6 +42,7 @@ os.startfile('Match_Duplicate_Records_by_856_Info.json')
 
 #Section: Create Update Files For Records to Remain
 #Subsection: If New 856$u Needed, Supply It
+# Will need to get the UXU01 output and put it through OpenRefine again
 
 #Subsection: If TKR Needed, Supply It
 
