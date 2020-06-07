@@ -15,6 +15,9 @@ def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized
     while MoreTKRs == True:
         MoreTKRs = messagebox.askyesno(title="Instructions", message="Are there any more TKRs in the \"TKR$a\" column?")
         if MoreTKRs == False:
+            ClearingFile = open('TKR_Loop_Iterations.json', 'w')
+            ClearingFile.write("")
+            ClearingFile.close
             break
         ColumnNumber += 1
         ColumnPosition +=1
@@ -28,9 +31,10 @@ def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized
         # Replace ColumnPosition
         InstructionJSON[0]['columnInsertIndex'] = ColumnPosition
 
-        # Write JSON with replacements to new file
-        # Close newly written file
-        # Reopen new file
+        with open('TKR_Loop_Iterations.json', 'w') as CopyJSON:
+            json.dump(InstructionJSON, CopyJSON, indent=4)
+            CopyJSON.close
+        os.startfile('TKR_Loop_Iterations.json')
 
 
 #Section: Determine What BIBs Have ACQ Records
@@ -58,8 +62,8 @@ os.startfile('Match_Duplicate_Records_by_856_Info.json')
 #Subsection: Organixe UXU60 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 5, 3")
 os.startfile('Organize_HOL_for_Duplicate_BIB.json')
-TKR_Loop(1,6)
-# Remove empty TRK column
+TKR_Loop(1,5)
+os.startfile('Finish_Organizing_HOLs.json')
 
 
 #Section: Determine Which Records to Keep
