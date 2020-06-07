@@ -1,0 +1,86 @@
+[
+    {
+      "op": "core/column-addition",
+      "description": "Create column ``TKR ?`` by filling up and down the first value for the record in the looped column",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "newColumnName": "TKR ?",
+      "columnInsertIndex": @,
+      "baseColumnName": "TKR$a",
+      "expression": "grel:row.record.cells[\"TKR$a\"].value[0]",
+      "onError": "set-to-blank"
+    },
+    {
+      "op": "core/text-transform",
+      "description": "Change value of cells in ``TKR$a`` to null if ``TKR ?`` has the same value for that row",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "TKR$a",
+      "expression": "grel:if(value==cells[\"TKR ?\"].value,null,value)",
+      "onError": "keep-original",
+      "repeat": false,
+      "repeatCount": 10
+    }
+    {
+      "op": "core/blank-down",
+      "description": "Blank down cells in column ``TKR ?``",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "TKR ?"
+    }
+    {
+      "op": "core/column-addition",
+      "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",
+      "engineConfig": {
+        "facets": [],
+        "mode": "row-based"
+      },
+      "newColumnName": "All Others Blank",
+      "columnInsertIndex": 1,
+      "baseColumnName": "HOL Number",
+      "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+      "onError": "set-to-blank"
+    },
+    {
+      "op": "core/row-removal",
+      "description": "Remove rows where the value of ``All Others Blank`` is `true`",
+      "engineConfig": {
+        "facets": [
+          {
+            "type": "list",
+            "name": "All Others Blank",
+            "expression": "value",
+            "columnName": "All Others Blank",
+            "invert": false,
+            "selection": [
+              {
+                "v": {
+                  "v": "true",
+                  "l": "true"
+                }
+              }
+            ],
+            "selectNumber": false,
+            "selectDateTime": false,
+            "selectBoolean": false,
+            "omitBlank": false,
+            "selectBlank": false,
+            "omitError": false,
+            "selectError": false
+          }
+        ],
+        "mode": "row-based"
+      }
+    },
+    {
+      "op": "core/column-removal",
+      "description": "Remove column ``All Others Blank``",
+      "columnName": "All Others Blank"
+    }
+  ]  

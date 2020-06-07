@@ -2,22 +2,27 @@
 
 import os
 from tkinter import messagebox
+import json
 
 
 #Section: Functions
 def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized to one less than their first desired values
-    # Set MoreTKRs = True
-    # While MoreTKRs == True
-        # Messagebox asking if there are still TKRs in 
-        # If Messagebox click is no, break
-        # ColumnNumber += 1
-        # ColumnPosition +=1
+    MoreTKRs = True
+    while MoreTKRs == True:
+        MoreTKRs = messagebox.askyesno(title="Instructions", message="Are there any more TKRs in the \"TKR$a\" column?")
+        if MoreTKRs == False:
+            break
+        ColumnNumber += 1
+        ColumnPosition +=1
+        with open('TKR_Loop.json') as TemplateJSON:
+            JSONvar = json.load(TemplateJSON)
+        print(JSONvar)
+        print(type(JSONvar))
         # Open JSON with TKR loop instructions
         # Make replacements to placeholders in JSON
         # Write JSON with replacements to new file
         # Close newly written file
         # Reopen new file
-    pass
 
 
 #Section: Determine What BIBs Have ACQ Records
