@@ -3,6 +3,23 @@
 import os
 from tkinter import messagebox
 
+
+#Section: Functions
+def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized to one less than their first desired values
+    # Set MoreTKRs = True
+    # While MoreTKRs == True
+        # Messagebox asking if there are still TKRs in 
+        # If Messagebox click is no, break
+        # ColumnNumber += 1
+        # ColumnPosition +=1
+        # Open JSON with TKR loop instructions
+        # Make replacements to placeholders in JSON
+        # Write JSON with replacements to new file
+        # Close newly written file
+        # Reopen new file
+    pass
+
+
 #Section: Determine What BIBs Have ACQ Records
 #Subsection: Collect all possible BIB numbers for the platform/collection in question
 
@@ -28,29 +45,8 @@ os.startfile('Match_Duplicate_Records_by_856_Info.json')
 #Subsection: Organixe UXU60 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 5, 3")
 os.startfile('Organize_HOL_for_Duplicate_BIB.json')
-
-"""
-if UXU60TKRLoop in YesAnswers:
-        TKR_Loop(1, 3)
-        #Above, the first number is the TKR column number, the second is the column position; both values are one less than the initial desired value
-def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized to one less than their first desired values
-    MoreTKRs = True #Initalizing variable
-    while MoreTKRs == True:
-        ColumnNumber += 1
-        ColumnPosition +=1
-        SubstitutionString = Open_JSON_File_as_String_Object('C:\\Users\\ereiskind\\_Code\\Aleph_Search_Cleaning\\TKR_Loop.json')
-        JSONString = SubstitutionString.replace("?",str(ColumnNumber)).replace("@",str(ColumnPosition))
-        NewJSON = open('C:\\Users\\ereiskind\\_Code\\Aleph_Search_Cleaning\\TKR_Loop_Iterations.txt','w')
-        NewJSON.write(JSONString)
-        NewJSON.close() #If not included, file empty when open
-        os.startfile('C:\\Users\\ereiskind\\_Code\\Aleph_Search_Cleaning\\TKR_Loop_Iterations.txt')
-        Repeat = input("Are there still TKR statements in \"TKR$a\"? Y/N ")
-        Validate_Yes_No_Answer(Repeat, "Are there still TKR statements in \"TKR$a\"? Y/N ")
-        #If/else can be used to check if MoreTKRs shoud change as Validate_Yes_No_Answer ensures that Repeat can only have a limited set of valid values
-        if Repeat in NoAnswers:
-            MoreTKRs = False
-
-"""
+TKR_Loop(1,6)
+# Remove empty TRK column
 
 
 #Section: Determine Which Records to Keep
