@@ -712,6 +712,46 @@
         "columnName": "All Others Blank"
     },
     {
+        "op": "core/column-split",
+        "description": "Split column ``BIB Number`` at opening curly braacket",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "{",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``BIB Number 1`` to ``BIB Number``",
+        "oldColumnName": "BIB Number 1",
+        "newColumnName": "BIB Number"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``BIB Number 2`` to ``BIB Number of HOLs``",
+        "oldColumnName": "BIB Number 2",
+        "newColumnName": "BIB Number of HOLs"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Remove end curly bracket from values in ``BIB Number of HOLs``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number of HOLs",
+        "expression": "grel:substring(value,0,-1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
         "op": "core/column-addition",
         "description": "Create column ``FSU Tickler`` by filling up and down values from ``TKR$a``",
         "engineConfig": {
