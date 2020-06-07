@@ -6,8 +6,8 @@
         "facets": [],
         "mode": "record-based"
       },
-      "newColumnName": "TKR ?",
-      "columnInsertIndex": @,
+      "newColumnName": "TKR {}",
+      "columnInsertIndex": 0,
       "baseColumnName": "TKR$a",
       "expression": "grel:row.record.cells[\"TKR$a\"].value[0]",
       "onError": "set-to-blank"
@@ -20,11 +20,11 @@
         "mode": "record-based"
       },
       "columnName": "TKR$a",
-      "expression": "grel:if(value==cells[\"TKR ?\"].value,null,value)",
+      "expression": "grel:if(value==cells[\"TKR {}\"].value,null,value)",
       "onError": "keep-original",
       "repeat": false,
       "repeatCount": 10
-    }
+    },
     {
       "op": "core/blank-down",
       "description": "Blank down cells in column ``TKR ?``",
@@ -32,8 +32,8 @@
         "facets": [],
         "mode": "record-based"
       },
-      "columnName": "TKR ?"
-    }
+      "columnName": "TKR {}"
+    },
     {
       "op": "core/column-addition",
       "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",

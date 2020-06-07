@@ -15,11 +15,15 @@ def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized
         ColumnNumber += 1
         ColumnPosition +=1
         with open('TKR_Loop.json') as TemplateJSON:
-            JSONvar = json.load(TemplateJSON)
-        print(JSONvar)
-        print(type(JSONvar))
-        # Open JSON with TKR loop instructions
-        # Make replacements to placeholders in JSON
+            InstructionJSON = json.load(TemplateJSON)
+        
+        # Replace ColumnNumber
+        InstructionJSON[0]['newColumnName'] = InstructionJSON[0]['newColumnName'].format(ColumnNumber)
+        InstructionJSON[1]['expression'] = InstructionJSON[1]['expression'].format(ColumnNumber)
+        InstructionJSON[2]['columnName'] = InstructionJSON[2]['columnName'].format(ColumnNumber)
+        # Replace ColumnPosition
+        InstructionJSON[0]['columnInsertIndex'] = ColumnPosition
+
         # Write JSON with replacements to new file
         # Close newly written file
         # Reopen new file
