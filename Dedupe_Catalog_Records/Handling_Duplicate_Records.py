@@ -49,7 +49,7 @@ def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized
 # For BIBs, manage-70 for BIB-to-HOL
 # For HOLs, print-03 Aleph sequential of TKR, LKR, STA
 
-#Subsection: Organize UXU01 Output
+#Subsection: Organize UXU01 Output--Get IDs from URLs
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 6, 2")
 messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central")
 os.startfile('Get_Ebook_Central_URLs_from_856_Aleph_Sequential.json')
@@ -59,6 +59,10 @@ messagebox.showinfo(title="Instructions", message="Copy IDs from any unusually f
 messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central--the fill up and andwn then blank down is hard coded")
 os.startfile('Match_Duplicate_Records_by_856_Info.json')
 
+#Subsection: Organize UXU01 Output--Get IDs from ISBNs
+# Load list of BIBs which didn't have IDs from the 856 into Alpeh, run print-03 for 020 and 776
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 6, 2")
+
 #Subsection: Organixe UXU60 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 5, 3")
 os.startfile('Organize_HOL_for_Duplicate_BIB.json')
@@ -67,6 +71,8 @@ os.startfile('Finish_Organizing_HOLs.json')
 
 
 #Section: Determine Which Records to Keep
+# Using Excel vlookups and LibCentral, got Ebook Central, Ebrary, MyiLibrary IDs for as many BIBs as possible
+# Combined BIBs from 856 and HOL outputs in Excel
 #Subsection: Match Duplicate BIB Records
 # New JSON for the IDs and matching up the duplications--cell cross with a list of Ebook Central/MyiLibrary/Ebrary numbers probably needed
 
