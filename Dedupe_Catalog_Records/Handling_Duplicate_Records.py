@@ -7,6 +7,10 @@ import json
 
 #Section: Functions
 def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized to one less than their first desired values
+    """Generates the OpenRefine JSONs to move all a record's TKRs onto a single row.
+
+    Creates a messagebox asking if there are more TKRs; if yes, creates sequentially named columns with sequential insert indexes for the top value in column "TKR$a", then removes that value from that column. The function repeats until the messagebox gets a "no" answer.
+    """
     MoreTKRs = True
     while MoreTKRs == True:
         MoreTKRs = messagebox.askyesno(title="Instructions", message="Are there any more TKRs in the \"TKR$a\" column?")
