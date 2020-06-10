@@ -1,0 +1,142 @@
+[
+    {
+        "op": "core/text-transform",
+        "description": "Add info on FSU sublibrary, other schools' HOL, and ACQ to BIB in ``BIB Values``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Values",
+        "expression": "grel:if(cells[\"# of HOL\"].value>1,if(isNull(cells[\"ACQ\"].value),if(isNull(cells[\"Sublibrary Code\"].value),cells[\"BIB Number\"].value+\" [other schools]\",cells[\"BIB Number\"].value+\" [\"+cells[\"Sublibrary Code\"].value+\" and others]\"),if(isNull(cells[\"Sublibrary Code\"].value),cells[\"BIB Number\"].value+\" [other schools] ACQ\",cells[\"BIB Number\"].value+\" [\"+cells[\"Sublibrary Code\"].value+\" and others] ACQ\")),if(isNull(cells[\"ACQ\"].value),if(isNull(cells[\"Sublibrary Code\"].value),cells[\"BIB Number\"].value+\" [other school]\",cells[\"BIB Number\"].value+\" [\"+cells[\"Sublibrary Code\"].value+\"]\"),if(isNull(cells[\"Sublibrary Code\"].value),cells[\"BIB Number\"].value+\" [other school] ACQ\",cells[\"BIB Number\"].value+\" [\"+cells[\"Sublibrary Code\"].value+\"] ACQ\")))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ACQ``",
+        "columnName": "ACQ"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Sublibrary Code``",
+        "columnName": "Sublibrary Code"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``# of HOL``",
+        "columnName": "# of HOL"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Central`` with Ebook Central IDs",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Ebook Central ID",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Central",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on value of ``Ebook Central``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Ebook Central",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Ebook Central`` for rows that have values in that column",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Ebook Central"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Central Record``with the number of the record",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.record.index",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Central Record",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``Ebook Central Record`` in rows with no value in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Ebook Central Record",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Ebook Central``",
+        "columnName": "Ebook Central"
+    }
+
+
+Repeat above for Ebrary Id, MyiLibrary Id, Ebook Library Id, DOI columns
