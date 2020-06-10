@@ -63,8 +63,8 @@ os.startfile('Match_Duplicate_Records_by_856_Info.json')
 # Load list of BIBs which didn't have IDs from the 856 into Alpeh, run print-03 for 020 and 776
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 6, 2")
 os.startfile('Organize_ISBNs_from_Aleph_Sequential.json')
-messagebox.showinfo(title="Instructions", message="Clean up \"ISBN Types\" via clustering.")
-# ISBN pt. 2 JSON
+messagebox.showinfo(title="Instructions", message="Investigate ISBNs with lenghs other than 10 or 13, then clean up \"ISBN Types\" via clustering.")
+os.startfile('Dedupe_ISBNs_in_Single_Column.json')
 messagebox.showinfo(title="Instructions", message="Organize numbering in \"ISBN Types\" via clustering; don't remove length numbers.")
 #ToDo: create list of ISBN-13 that can be cross-referenced against a propriatary ID list--don't necessarily need to get broken out into columns if BIB fill down is last step, but deduping would be beneficial
 
