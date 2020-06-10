@@ -1,0 +1,104 @@
+[
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``eISBN Match``",
+        "columnName": "eISBN Match"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ISBN Match``",
+        "columnName": "ISBN Match"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``eISBN Owned``",
+        "columnName": "eISBN Owned"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ISBN Owned``",
+        "columnName": "ISBN Owned"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ISBN Value``",
+        "columnName": "ISBN Value"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ISBN Type``",
+        "columnName": "ISBN Type"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central ID"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Ebook Central Owned``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central Owned"
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove empty rows",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebrary ID`` with value of ``ebrary ID`` from LibCentral output for the value in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Ebook Central ID",
+        "expression": "grel:cell.cross(\"Ebook Central ISBN and ID xlsx\",\"Document ID\")[0].cells[\"ebrary ID\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebrary ID",
+        "columnInsertIndex": 2
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``MyiLibrary ID`` with value of ``MiL ID`` from LibCentral output for the value in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Ebook Central ID",
+        "expression": "grel:cell.cross(\"Ebook Central ISBN and ID xlsx\",\"Document ID\")[0].cells[\"MiL ID\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "MyiLibrary ID",
+        "columnInsertIndex": 3
+    }
+]
