@@ -1,0 +1,400 @@
+[
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ISBN Subfield``",
+        "columnName": "ISBN Subfield"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Numbering`` combining BIB number, ISBN type, and ISBN length",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Numbering",
+        "columnInsertIndex": 1,
+        "baseColumnName": "ISBN Type",
+        "expression": "grel:row.record.cells[\"BIB Number\"].value[0]+\"-\"+value+\"-\"+cells[\"ISBN Length\"].value",
+        "onError": "set-to-blank"
+    }
+    {
+        "description": "Remove Duplicate ISBNs",
+        "op": "core/column-addition",
+        "description": "Create column ``Dedupe`` with value of ``Numbering`` and ``ISBN Value`` combined in the rows where both those columns have duplicates",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Value",
+                    "expression": "facetCount(value, 'value', 'ISBN Value') > 1",
+                    "columnName": "ISBN Value",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Numbering",
+                    "expression": "facetCount(value, 'value', 'Numbering') > 1",
+                    "columnName": "Numbering",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Numbering",
+        "expression": "grel:value+\"-\"+cells[\"ISBN Value\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Dedupe",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Record``with the number of the record",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.record.index",
+        "onError": "set-to-blank",
+        "newColumnName": "Record",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Row`` with the number of the row within the record",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.index-row.record.fromRowIndex+1",
+        "onError": "set-to-blank",
+        "newColumnName": "Row",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``Dedupe``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Dedupe",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Dedupe`` for rows where both ``Numbering`` and ``ISBN Value`` have duplicates",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Value",
+                    "expression": "facetCount(value, 'value', 'ISBN Value') > 1",
+                    "columnName": "ISBN Value",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Numbering",
+                    "expression": "facetCount(value, 'value', 'Numbering') > 1",
+                    "columnName": "Numbering",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Dedupe"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with no values in column ``Dedupe`` where both ``Numbering`` and ``ISBN Value`` have duplicates that aren't null values",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Numbering",
+                    "expression": "facetCount(value, 'value', 'Numbering') > 1",
+                    "columnName": "Numbering",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Numbering",
+                    "expression": "isBlank(value)",
+                    "columnName": "Numbering",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Value",
+                    "expression": "facetCount(value, 'value', 'ISBN Value') > 1",
+                    "columnName": "ISBN Value",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Value",
+                    "expression": "isBlank(value)",
+                    "columnName": "ISBN Value",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Dedupe",
+                    "expression": "isBlank(value)",
+                    "columnName": "Dedupe",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/row-reorder",
+        "description": "Restore original row order",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "number",
+                    "column": "Record",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false
+                },
+                {
+                    "valueType": "string",
+                    "column": "Row",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Dedupe``",
+        "columnName": "Dedupe"
+    }
+    {
+        "description": "Specify ISBN Types, Including Numbering Repeated Types",
+        "op": "core/column-move",
+        "description": "Make ``Numbering`` first column",
+        "columnName": "Numbering",
+        "index": 0
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``Numbering``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Numbering",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Numbering``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Numbering"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add ISBN length and numbering for repeated ISBN types to values in column ``ISBN Type``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Type",
+        "expression": "grel:if(facetCount(cells[\"Numbering\"].value,\"value\",\"Numbering\")>1,value+\" \"+cells[\"ISBN Length\"].value+\" no\"+toString(row.index-row.record.fromRowIndex+1),value+\" \"+cells[\"ISBN Length\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Numbering``",
+        "columnName": "Numbering"
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Restore original row order",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "number",
+                    "column": "Record",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false
+                },
+                {
+                    "valueType": "string",
+                    "column": "Row",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Record``",
+        "columnName": "Record"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Row``",
+        "columnName": "Row"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ISBN Length``",
+        "columnName": "ISBN Length"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``BIBs`` by filling up and down value of ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.record.cells[\"BIB Number\"].value[0]",
+        "onError": "set-to-blank",
+        "newColumnName": "BIBs",
+        "columnInsertIndex": 3
+    }
+]
