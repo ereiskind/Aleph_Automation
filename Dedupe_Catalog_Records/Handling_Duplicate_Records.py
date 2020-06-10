@@ -77,13 +77,14 @@ messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file in
 os.startfile('Organize_HOL_for_Duplicate_BIB.json')
 TKR_Loop(1,5)
 messagebox.showinfo(title="Instructions", message="Export results now for complete HOL info--next JSON will create connection between FSU sublibrary codes and BIBs")
+messagebox.showwarning(title="TKR Removal", message="The JSON has removal for three extra TKR columns.")
+#ToDo: Create loop to get the right number of TKR columns removals
 os.startfile('Finish_Organizing_HOLs.json')
 
 
 #Section: Determine Which Records to Keep
 messagebox.showinfo(title="Instructions", message="Create sheet \"Composite\" with BIBs from 856 ID sheet and HOL sheet. Dedupe BIBs, then add columns \"BIB Values\", \"ACQ\", \"# of HOL\", \"Sublibrary\", \"Confirmed Duplicates\", \"Ebook Central ID\", \"Ebrary ID\", \"MyiLibrary ID\", and \"DOI\". Fill these columns with vlookups from the sheets with the corresponding info.")
-# Using Excel vlookups and LibCentral, got Ebook Central, Ebrary, MyiLibrary IDs for as many BIBs as possible
-# Combined BIBs from 856 and HOL outputs in Excel
+
 #Subsection: Match Duplicate BIB Records
 # New JSON for the IDs and matching up the duplications--cell cross with a list of Ebook Central/MyiLibrary/Ebrary numbers probably needed
 

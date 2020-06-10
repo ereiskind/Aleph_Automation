@@ -1,7 +1,230 @@
 [
     {
         "op": "core/column-removal",
+        "description": "Remove column ``TKR 2``",
+        "columnName": "TKR 2"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``TKR 3``",
+        "columnName": "TKR 3"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``TKR 4``",
+        "columnName": "TKR 4"
+    },    
+    {
+        "op": "core/column-removal",
         "description": "Remove column ``TKR$a``",
         "columnName": "TKR$a"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``BIB Number of HOLs``",
+        "columnName": "BIB Number of HOLs"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Suppressed``",
+        "columnName": "Suppressed"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``FSU Tickler``",
+        "columnName": "FSU Tickler"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``HOL Number``",
+        "columnName": "HOL Number"
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with no sublibrary code",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [],
+                    "selectBlank": true,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Combined`` with BIB and sublibrary code",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:value+\"-\"+cells[\"HOL Sublibrary\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Combined",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Duplicate`` containing `Multiple HOL with same sublibrary` in rows where ``Combined`` is a duplicate",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Combined",
+                    "expression": "facetCount(value, 'value', 'Combined') > 1",
+                    "columnName": "Combined",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "HOL Sublibrary",
+        "expression": "grel:\"Multiple HOL with same sublibrary\"",
+        "onError": "set-to-blank",
+        "newColumnName": "Duplicate",
+        "columnInsertIndex": 3
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Combined",
+                    "expression": "facetCount(value, 'value', 'Combined') > 1",
+                    "columnName": "Combined",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Dedupe rows with duplicate values in BIB and sublibrary",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Combined``",
+        "columnName": "Combined"
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows by BIB number then by sublibrary code",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "BIB Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                },
+                {
+                    "valueType": "string",
+                    "column": "HOL Sublibrary",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values for a record ``HOL Sublibrary`` on the first row of the record seperated by pipes",
+        "columnName": "HOL Sublibrary",
+        "keyColumnName": "BIB Number",
+        "separator": "|"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add value from ``Duplicate`` to ``HOL Sublibrary`` after pipe if value exists",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "HOL Sublibrary",
+        "expression": "grel:if(isNull(cells[\"Duplicate\"].value),value,value+\"|\"+cells[\"Duplicate\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Duplicate``",
+        "columnName": "Duplicate"
     }
 ]
