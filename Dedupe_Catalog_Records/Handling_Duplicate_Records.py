@@ -69,6 +69,7 @@ os.startfile('Dedupe_ISBNs_in_Single_Column.json')
 messagebox.showinfo(title="Instructions", message="Specific to Ebook Central: Run complete ISBN list in LibCentral title match feature, save result as \"Ebook Central ISBN and ID.xlsx\", and upload into OpenRefine.")
 messagebox.showwarning(title="OpenRefine Cache Clearing", message="If there's already a project with that name in OpenRefine, the project will need to be deleted and OpenRefine restarted; without the restart, OpenRefine will continue to try and use the older project.")
 os.startfile('Match_ISBNs_to_Ebook_Central_IDs.json')
+messagebox.showinfo(title="Instructions", message="Confirm any values remaining in \"eISBN Match\" or \"ISBN Match\" aren't the best matches for the BIB record.")
 #ToDo: create list of ISBN-13 that can be cross-referenced against a propriatary ID list--don't necessarily need to get broken out into columns if BIB fill down is last step, but deduping would be beneficial
 
 #Subsection: Organixe UXU60 Output

@@ -1,0 +1,310 @@
+[
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``eISBN Match`` with Ebook Central ID of ``ISBN Value`` if latter is found in eISBN column in LibCentral oputput",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "ISBN Value",
+        "expression": "grel:cell.cross(\"Ebook Central ISBN and ID xlsx\",\"EIsbn\")[0].cells[\"Document ID\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "eISBN Match",
+        "columnInsertIndex": 3
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ISBN Match`` with Ebook Central ID of ``ISBN Value`` if latter is found in ISBN column in LibCentral oputput",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "ISBN Value",
+        "expression": "grel:cell.cross(\"Ebook Central ISBN and ID xlsx\",\"PrintIsbn\")[0].cells[\"Document ID\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "ISBN Match",
+        "columnInsertIndex": 4
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Central ID`` by filling up and down value from ``eISBN Match`` if exists and ``ISBN Match`` if not",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "eISBN Match",
+        "expression": "grel:if(isBlank(row.record.cells[\"eISBN Match\"].value[0]),row.record.cells[\"ISBN Match\"].value[0],row.record.cells[\"eISBN Match\"].value[0])",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Central ID",
+        "columnInsertIndex": 1
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``eISBN Match`` also in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "eISBN Match",
+        "expression": "grel:if(value==cells[\"Ebook Central ID\"].value,null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``ISBN Match`` also in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Match",
+        "expression": "grel:if(value==cells[\"Ebook Central ID\"].value,null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Central Owned`` with value of ``Owned`` from LibCentral output for the value in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Ebook Central ID",
+        "expression": "grel:cell.cross(\"Ebook Central ISBN and ID xlsx\",\"Document ID\")[0].cells[\"Owned\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Central Owned",
+        "columnInsertIndex": 2
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``eISBN Owned`` with value of ``Owned`` from LibCentral output for the value in ``eISBN Match``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "eISBN Match",
+        "expression": "grel:cell.cross(\"Ebook Central ISBN and ID xlsx\",\"Document ID\")[0].cells[\"Owned\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "eISBN Owned",
+        "columnInsertIndex": 3
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ISBN Owned`` with value of ``Owned`` from LibCentral output for the value in ``ISBN Match``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "ISBN Match",
+        "expression": "grel:cell.cross(\"Ebook Central ISBN and ID xlsx\",\"Document ID\")[0].cells[\"Owned\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "ISBN Owned",
+        "columnInsertIndex": 4
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null values in ``eISBN Match`` where the ``eISBN Owned`` value is `No`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "eISBN Owned",
+                    "expression": "value",
+                    "columnName": "eISBN Owned",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No",
+                                "l": "No"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "eISBN Match",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null values in ``ISBN Match`` where the ``ISBN Owned`` value is `No`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Owned",
+                    "expression": "value",
+                    "columnName": "ISBN Owned",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No",
+                                "l": "No"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Match",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records where the value of ``Ebook Central ID`` isn't owned, fill up and down the value of ``eISBN Match`` in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central Owned",
+                    "expression": "value",
+                    "columnName": "Ebook Central Owned",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No",
+                                "l": "No"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central ID",
+        "expression": "grel:row.record.cells[\"eISBN Match\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Ebook Central Owned`` so it can be recreated",
+        "columnName": "Ebook Central Owned"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Central Owned`` with value of ``Owned`` from LibCentral output for the value in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Ebook Central ID",
+        "expression": "grel:cell.cross(\"Ebook Central ISBN and ID xlsx\",\"Document ID\")[0].cells[\"Owned\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Central Owned",
+        "columnInsertIndex": 2
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records where the value of ``Ebook Central ID`` isn't owned and the value in ``ISBN Match`` is owned, fill up and down the value of ``ISBN Match`` in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central Owned",
+                    "expression": "value",
+                    "columnName": "Ebook Central Owned",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No",
+                                "l": "No"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central ID",
+        "expression": "grel:row.record.cells[\"ISBN Match\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``eISBN Match`` also in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "eISBN Match",
+        "expression": "grel:if(value==cells[\"Ebook Central ID\"].value,null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``ISBN Match`` also in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Match",
+        "expression": "grel:if(value==cells[\"Ebook Central ID\"].value,null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Ebook Central Owned`` so it can be recreated",
+        "columnName": "Ebook Central Owned"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Central Owned`` with value of ``Owned`` from LibCentral output for the value in ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Ebook Central ID",
+        "expression": "grel:cell.cross(\"Ebook Central ISBN and ID xlsx\",\"Document ID\")[0].cells[\"Owned\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Central Owned",
+        "columnInsertIndex": 2
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``eISBN Owned``",
+        "columnName": "eISBN Owned"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ISBN Owned``",
+        "columnName": "ISBN Owned"
+    }
+]
