@@ -384,17 +384,4 @@
         "description": "Remove column ``ISBN Length``",
         "columnName": "ISBN Length"
     }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``BIBs`` by filling up and down value of ``BIB Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:row.record.cells[\"BIB Number\"].value[0]",
-        "onError": "set-to-blank",
-        "newColumnName": "BIBs",
-        "columnInsertIndex": 3
-    }
 ]

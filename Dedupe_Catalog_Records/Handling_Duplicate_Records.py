@@ -65,7 +65,9 @@ messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file in
 os.startfile('Organize_ISBNs_from_Aleph_Sequential.json')
 messagebox.showinfo(title="Instructions", message="Investigate ISBNs with lenghs other than 10 or 13, then clean up \"ISBN Types\" via clustering.")
 os.startfile('Dedupe_ISBNs_in_Single_Column.json')
-messagebox.showinfo(title="Instructions", message="Organize numbering in \"ISBN Types\" via clustering; don't remove length numbers.")
+#messagebox.showinfo(title="Instructions", message="Organize numbering in \"ISBN Types\" via clustering; don't remove length numbers.")
+messagebox.showinfo(title="Instructions", message="Specific to Ebook Central: Run complete ISBN list in LibCentral title match feature, save result as \"Ebook Central ISBN and ID.xlsx\", and upload into OpenRefine.")
+os.startfile('Match_ISBNs_to_Ebook_Central_IDs.json')
 #ToDo: create list of ISBN-13 that can be cross-referenced against a propriatary ID list--don't necessarily need to get broken out into columns if BIB fill down is last step, but deduping would be beneficial
 
 #Subsection: Organixe UXU60 Output
