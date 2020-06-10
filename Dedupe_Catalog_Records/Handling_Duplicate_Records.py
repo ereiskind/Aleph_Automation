@@ -71,16 +71,17 @@ messagebox.showwarning(title="OpenRefine Cache Clearing", message="If there's al
 os.startfile('Match_ISBNs_to_Ebook_Central_IDs.json')
 messagebox.showinfo(title="Instructions", message="Confirm any values remaining in \"eISBN Match\" or \"ISBN Match\" aren't the best matches for the BIB record.")
 os.startfile('Finish_Getting_IDs_from_ISBNs.json')
-#ToDo: create list of ISBN-13 that can be cross-referenced against a propriatary ID list--don't necessarily need to get broken out into columns if BIB fill down is last step, but deduping would be beneficial
 
 #Subsection: Organixe UXU60 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 5, 3")
 os.startfile('Organize_HOL_for_Duplicate_BIB.json')
 TKR_Loop(1,5)
+messagebox.showinfo(title="Instructions", message="Export results now for complete HOL info--next JSON will create connection between FSU sublibrary codes and BIBs")
 os.startfile('Finish_Organizing_HOLs.json')
 
 
 #Section: Determine Which Records to Keep
+messagebox.showinfo(title="Instructions", message="Create sheet \"Composite\" with BIBs from 856 ID sheet and HOL sheet. Dedupe BIBs, then add columns \"BIB Values\", \"ACQ\", \"# of HOL\", \"Sublibrary\", \"Confirmed Duplicates\", \"Ebook Central ID\", \"Ebrary ID\", \"MyiLibrary ID\", and \"DOI\". Fill these columns with vlookups from the sheets with the corresponding info.")
 # Using Excel vlookups and LibCentral, got Ebook Central, Ebrary, MyiLibrary IDs for as many BIBs as possible
 # Combined BIBs from 856 and HOL outputs in Excel
 #Subsection: Match Duplicate BIB Records
