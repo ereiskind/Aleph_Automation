@@ -86,7 +86,8 @@ os.startfile('Finish_Organizing_HOLs.json')
 messagebox.showinfo(title="Instructions", message="Create sheet \"Composite\" with BIBs from 856 ID sheet and HOL sheet. Dedupe BIBs, then add columns \"BIB Values\", \"ACQ\", \"# of HOL\", \"Sublibrary\", \"Confirmed Duplicates\", \"Ebook Central ID\", \"Ebrary ID\", \"MyiLibrary ID\", and \"DOI\". Fill these columns with vlookups from the sheets with the corresponding info.")
 
 #Subsection: Match Duplicate BIB Records
-# New JSON for the IDs and matching up the duplications--cell cross with a list of Ebook Central/MyiLibrary/Ebrary numbers probably needed
+messagebox.showinfo(title="Instructions", message="Upload sheet \"Composite\" to OpenRefine.")
+os.startfile('Match_Duplicate_BIBs.json')
 
 #Subsection: Determine Which BIB Records to Keep
 
