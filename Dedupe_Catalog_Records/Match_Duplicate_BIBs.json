@@ -137,6 +137,443 @@
         "description": "Remove column ``Ebook Central``",
         "columnName": "Ebook Central"
     }
-
-
-Repeat above for Ebrary Id, MyiLibrary Id, Ebook Library Id, DOI columns
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebrary`` with Ebrary IDs",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Ebrary ID",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebrary",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on value of ``Ebrary``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Ebrary",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Ebrary`` for rows that have values in that column",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebrary ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebrary ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Ebrary"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebrary Record``with the number of the record",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.record.index",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebrary Record",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``Ebrary Record`` in rows with no value in ``Ebrary ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebrary ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebrary ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Ebrary Record",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Ebrary``",
+        "columnName": "Ebrary"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``MyiLibrary`` with MyiLibrary IDs",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "MyiLibrary ID",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "MyiLibrary",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on value of ``MyiLibrary``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "MyiLibrary",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``MyiLibrary`` for rows that have values in that column",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "MyiLibrary ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "MyiLibrary ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "MyiLibrary"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``MyiLibrary Record``with the number of the record",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.record.index",
+        "onError": "set-to-blank",
+        "newColumnName": "MyiLibrary Record",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``MyiLibrary Record`` in rows with no value in ``MyiLibrary ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "MyiLibrary ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "MyiLibrary ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "MyiLibrary Record",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``MyiLibrary``",
+        "columnName": "MyiLibrary"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Library`` with Ebook Library IDs",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Ebook Library ID",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Library",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on value of ``Ebook Library``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Ebook Library",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Ebook Library`` for rows that have values in that column",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Library ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Library ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Ebook Library"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Library Record``with the number of the record",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.record.index",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Library Record",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``Ebook Library Record`` in rows with no value in ``Ebook Library ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Library ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Library ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Ebook Library Record",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Ebook Library``",
+        "columnName": "Ebook Library"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``DOIs`` with DOI",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "DOI",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "DOIs",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on value of ``DOIs``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "DOIs",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``DOIs`` for rows that have values in that column",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "DOI",
+                    "expression": "isBlank(value)",
+                    "columnName": "DOI",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "DOIs"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``DOI Record``with the number of the record",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.record.index",
+        "onError": "set-to-blank",
+        "newColumnName": "DOI Record",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``DOIs`` in rows with no value in ``DOI``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "DOI",
+                    "expression": "isBlank(value)",
+                    "columnName": "DOI",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "DOI Record",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``DOIs``",
+        "columnName": "DOIs"
+    }
