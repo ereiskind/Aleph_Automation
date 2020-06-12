@@ -577,3 +577,710 @@
         "description": "Remove column ``DOIs``",
         "columnName": "DOIs"
     }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``All Records`` combining the values of all the record columns seperated by hyphens and using `X` when the record column value is null",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:if(isNull(cells[\"Ebook Central Record\"].value),\"X\",cells[\"Ebook Central Record\"].value)+\"-\"+if(isNull(cells[\"Ebrary Record\"].value),\"X\",cells[\"Ebrary Record\"].value)+\"-\"+if(isNull(cells[\"MyiLibrary Record\"].value),\"X\",cells[\"MyiLibrary Record\"].value)+\"-\"+if(isNull(cells[\"Ebook Library Record\"].value),\"X\",cells[\"Ebook Library Record\"].value)+\"-\"+if(isNull(cells[\"DOI Record\"].value),\"X\",cells[\"DOI Record\"].value)",
+        "onError": "set-to-blank",
+        "newColumnName": "All Records",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change `X-X-X-X-X` in column ``All Records`` to `No ID-` followed by the record number",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "All Records",
+        "expression": "grel:if(value==\"X-X-X-X-X\",\"No ID-\"+row.record.index,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on the value of ``All Records``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "All Records",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``All Records``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "All Records"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Join all values in column ``BIB Values`` for a record in the record's first row seperated by pipes",
+        "columnName": "BIB Values",
+        "keyColumnName": "All Records",
+        "separator": "|"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with no value in ``BIB Values``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB Values",
+                    "expression": "isBlank(value)",
+                    "columnName": "BIB Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Change null values in column ``Ebook Central Record`` to `[null]`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central Record",
+        "expression": "grel:if(isNull(value),if(startsWith(cells[\"All Records\"].value,\"No ID\"),\"[null]\"+substring(cells[\"All Records\"].value,indexOf(cells[\"All Records\"].value,\"-\")),\"[null]\"),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Change null values in column ``Ebrary Record`` to `[null]`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebrary Record",
+        "expression": "grel:if(isNull(value),if(startsWith(cells[\"All Records\"].value,\"No ID\"),\"[null]\"+substring(cells[\"All Records\"].value,indexOf(cells[\"All Records\"].value,\"-\")),\"[null]\"),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Change null values in column ``MyiLibrary Record`` to `[null]`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "MyiLibrary Record",
+        "expression": "grel:if(isNull(value),if(startsWith(cells[\"All Records\"].value,\"No ID\"),\"[null]\"+substring(cells[\"All Records\"].value,indexOf(cells[\"All Records\"].value,\"-\")),\"[null]\"),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Change null values in column ``Ebook Library Record`` to `[null]`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Library Record",
+        "expression": "grel:if(isNull(value),if(startsWith(cells[\"All Records\"].value,\"No ID\"),\"[null]\"+substring(cells[\"All Records\"].value,indexOf(cells[\"All Records\"].value,\"-\")),\"[null]\"),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Change null values in column ``DOI Record`` to `[null]`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "DOI Record",
+        "expression": "grel:if(isNull(value),if(startsWith(cells[\"All Records\"].value,\"No ID\"),\"[null]\"+substring(cells[\"All Records\"].value,indexOf(cells[\"All Records\"].value,\"-\")),\"[null]\"),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``First Three`` with the first three values from column ``All Records``, substituting the record number for rows with no IDs for the first three values",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "All Records",
+        "expression": "grel:if(startsWith(value,\"No\"),substring(value,indexOf(value,\"-\")),if(split(value,\"-\")[0]+\"-\"+split(value,\"-\")[1]+\"-\"+split(value,\"-\")[2]==\"X-X-X\",toString(row.record.index),split(value,\"-\")[0]+\"-\"+split(value,\"-\")[1]+\"-\"+split(value,\"-\")[2]))",
+        "onError": "set-to-blank",
+        "newColumnName": "First Three",
+        "columnInsertIndex": 0
+    }
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``First Three``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "First Three",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``First Three``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "First Three"
+    }
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Join all values in column ``Ebook Library Record`` for a record in the record's first row seperated by pipes",
+        "columnName": "Ebook Library Record",
+        "keyColumnName": "First Three",
+        "separator": "|"
+    }
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Join all values in column ``DOI Record`` for a record in the record's first row seperated by pipes",
+        "columnName": "DOI Record",
+        "keyColumnName": "First Three",
+        "separator": "|"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Library Match`` indicating if the record's Ebook Library IDs match, where matching includes if only one is present",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "First Three",
+                    "expression": "isBlank(value)",
+                    "columnName": "First Three",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Ebook Library Record",
+        "expression": "grel:if(length(split(row.record.cells[\"Ebook Library Record\"].value[0],\"|\"))>2,\"Three+ rows\",if(or(split(row.record.cells[\"Ebook Library Record\"].value[0],\"|\")[0]==split(row.record.cells[\"Ebook Library Record\"].value[0],\"|\")[1],split(row.record.cells[\"Ebook Library Record\"].value[0],\"|\")[0]==\"[null]\",split(row.record.cells[\"Ebook Library Record\"].value[0],\"|\")[1]==\"[null]\"),\"Same ID\",\"Different IDs\"))",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Library Match",
+        "columnInsertIndex": 1
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Ebook Library Match``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Library Match"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``DOI Match`` indicating if the record's DOIs match, where matching includes if only one is present",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "First Three",
+                    "expression": "isBlank(value)",
+                    "columnName": "First Three",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "DOI Record",
+        "expression": "grel:if(length(split(row.record.cells[\"DOI Record\"].value[0],\"|\"))>2,\"Three+ rows\",if(or(split(row.record.cells[\"DOI Record\"].value[0],\"|\")[0]==split(row.record.cells[\"DOI Record\"].value[0],\"|\")[1],split(row.record.cells[\"DOI Record\"].value[0],\"|\")[0]==\"[null]\",split(row.record.cells[\"DOI Record\"].value[0],\"|\")[1]==\"[null]\"),\"Same ID\",\"Different IDs\"))",
+        "onError": "set-to-blank",
+        "newColumnName": "DOI Match",
+        "columnInsertIndex": 2
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``DOI Match``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "DOI Match"
+    }
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Join all values in column ``BIB Values`` for a record in the record's first row seperated by two pipes",
+        "columnName": "BIB Values",
+        "keyColumnName": "First Three",
+        "separator": "||"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down values in column ``Ebook Library ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Library Match",
+                    "expression": "value",
+                    "columnName": "Ebook Library Match",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Same ID",
+                                "l": "Same ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "DOI Match",
+                    "expression": "value",
+                    "columnName": "DOI Match",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Same ID",
+                                "l": "Same ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Library ID",
+        "expression": "grel:row.record.cells[\"Ebook Library ID\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down values in column ``DOI``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Library Match",
+                    "expression": "value",
+                    "columnName": "Ebook Library Match",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Same ID",
+                                "l": "Same ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "DOI Match",
+                    "expression": "value",
+                    "columnName": "DOI Match",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Same ID",
+                                "l": "Same ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "DOI",
+        "expression": "grel:row.record.cells[\"DOI\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with null value in ``BIB Values``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB Values",
+                    "expression": "isBlank(value)",
+                    "columnName": "BIB Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``DOI Match``",
+        "columnName": "DOI Match"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Ebook Library Match``",
+        "columnName": "Ebook Library Match"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``First Three``",
+        "columnName": "First Three"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Duplicates`` with `Ebook Central:` and the Ebook Central ID in rows that have a duplicate Ebook Central ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central Record",
+                    "expression": "value",
+                    "columnName": "Ebook Central Record",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "[null]",
+                                "l": "[null]"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central Record",
+                    "expression": "facetCount(value, 'value', 'Ebook Central Record') > 1",
+                    "columnName": "Ebook Central Record",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Ebook Central Record",
+        "expression": "grel:\"Ebook Central:\"+value",
+        "onError": "set-to-blank",
+        "newColumnName": "Duplicates",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add  `Ebrary:` and the Ebrary ID to ``Duplicates`` in rows that have a duplicate Ebrary ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebrary Record",
+                    "expression": "facetCount(value, 'value', 'Ebrary Record') > 1",
+                    "columnName": "Ebrary Record",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebrary Record",
+                    "expression": "value",
+                    "columnName": "Ebrary Record",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "[null]",
+                                "l": "[null]"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Duplicates",
+        "expression": "grel:if(isNull(value),\"Ebrary:\"+cells[\"Ebrary Record\"].value,value+\"|Ebrary:\"+cells[\"Ebrary Record\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add  `MyiLibrary:` and the MyiLibrary ID to ``Duplicates`` in rows that have a duplicate MyiLibrary ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "MyiLibrary Record",
+                    "expression": "facetCount(value, 'value', 'MyiLibrary Record') > 1",
+                    "columnName": "MyiLibrary Record",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "MyiLibrary Record",
+                    "expression": "value",
+                    "columnName": "MyiLibrary Record",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "[null]",
+                                "l": "[null]"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Duplicates",
+        "expression": "grel:if(isNull(value),\"MyiLibrary:\"+cells[\"MyiLibrary Record\"].value,value+\"|MyiLibrary:\"+cells[\"MyiLibrary Record\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add  `Ebook Library:` and the Ebook Library ID to ``Duplicates`` in rows that have a duplicate Ebook Library ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Library Record",
+                    "expression": "facetCount(value, 'value', 'Ebook Library Record') > 1",
+                    "columnName": "Ebook Library Record",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Library Record",
+                    "expression": "value",
+                    "columnName": "Ebook Library Record",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "[null]|[null]",
+                                "l": "[null]|[null]"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "[null]",
+                                "l": "[null]"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Duplicates",
+        "expression": "grel:if(isNull(value),\"Ebook Library:\"+cells[\"Ebook Library Record\"].value,value+\"|Ebook Library:\"+cells[\"Ebook Library Record\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``Duplicates``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Duplicates",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Duplicates``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Duplicates",
+                    "expression": "isBlank(value)",
+                    "columnName": "Duplicates",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Duplicates"
+    }
+
+
+join on multi-valued cells
+unfold BIBs and organize them
