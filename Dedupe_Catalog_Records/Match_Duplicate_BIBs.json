@@ -1252,6 +1252,19 @@
         }
     },
     {
+        "op": "core/column-addition",
+        "description": "Create column ``Join`` with value `Join` in rows with value in ``Duplicates``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Duplicates",
+        "expression": "grel:if(isNull(value),null,\"Join\")",
+        "onError": "set-to-blank",
+        "newColumnName": "Join",
+        "columnInsertIndex": 1
+    }
+    {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``Duplicates``",
         "engineConfig": {
