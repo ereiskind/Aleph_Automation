@@ -866,42 +866,6 @@
         },
         "columnName": "DOI Match"
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     {
         "op": "core/multivalued-cell-join",
         "description": "Join all values in column ``BIB Values`` for a record in the record's first row seperated by a pipe",
@@ -1410,36 +1374,54 @@
         }
     }
     {
-        "op": "core/column-reorder",
-        "description": "Remove columns used to combine BIBs",
-        "columnNames": [
-            "BIB Values",
-            "Ebook Central ID",
-            "Ebrary ID",
-            "MyiLibrary ID",
-            "Ebook Library ID",
-            "DOI"
-        ]
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Record`` with record number as string",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Values",
-        "expression": "grel:toString(row.record.index+1)",
-        "onError": "set-to-blank",
-        "newColumnName": "Record",
-        "columnInsertIndex": 0
+        "op": "core/column-removal",
+        "description": "Remove column ``Duplicates``",
+        "columnName": "Duplicates"
     },
     {
-        "op": "core/multivalued-cell-split",
-        "description": "Split values in column ``BIB Values`` at pipe into new rows",
-        "columnName": "BIB Values",
-        "keyColumnName": "Record",
-        "mode": "separator",
-        "separator": "|",
-        "regex": false
+        "op": "core/column-removal",
+        "description": "Remove column ``All Records``",
+        "columnName": "All Records"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``BIB Number``",
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``DOI Record      ",
+        "columnName": "DOI Record"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Ebook Library Record``",
+        "columnName": "Ebook Library Record"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``MyiLibrary Record``",
+        "columnName": "MyiLibrary Record"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Ebrary Record``",
+        "columnName": "Ebrary Record"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Ebook Central Record``",
+        "columnName": "Ebook Central Record"
     }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Confirmed Duplicates``",
+        "columnName": "Confirmed Duplicates"
+    }
+    {
+        "op": "core/column-move",
+        "description": "Move column ``245$a`` to beginning",
+        "columnName": "245$a",
+        "index": 0
+    }
+]
