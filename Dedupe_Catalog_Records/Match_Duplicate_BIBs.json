@@ -1252,36 +1252,117 @@
         }
     },
     {
-        "op": "core/column-addition",
-        "description": "Create column ``Join`` with value `Join` in rows with value in ``Duplicates``",
+        "op": "core/text-transform",
+        "description": "Add row number to cells with null value in column ``Duplicates``",
         "engineConfig": {
             "facets": [],
-            "mode": "record-based"
+            "mode": "row-based"
         },
-        "baseColumnName": "Duplicates",
-        "expression": "grel:if(isNull(value),null,\"Join\")",
-        "onError": "set-to-blank",
-        "newColumnName": "Join",
-        "columnInsertIndex": 1
-    }
+        "columnName": "Duplicates",
+        "expression": "grel:if(isNull(value),toString(row.index-row.record.fromRowIndex+1),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
     {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``Duplicates``",
         "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Duplicates"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Join all values in column ``BIB Values`` for a record in the record's first row seperated by two pipes",
+        "columnName": "BIB Values",
+        "keyColumnName": "Duplicates",
+        "separator": "||"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down values in column ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central ID",
+        "expression": "grel:row.record.cells[\"Ebook Central ID\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down values in column ``Ebrary ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebrary ID",
+        "expression": "grel:row.record.cells[\"Ebrary ID\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down values in column ``MyiLibrary ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "MyiLibrary ID",
+        "expression": "grel:row.record.cells[\"MyiLibrary ID\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down values in column ``Ebook Library ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Library ID",
+        "expression": "grel:row.record.cells[\"Ebook Library ID\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down values in column ``DOI``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "DOI",
+        "expression": "grel:row.record.cells[\"DOI\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with null value in ``BIB Values``",
+        "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Duplicates",
+                    "name": "BIB Values",
                     "expression": "isBlank(value)",
-                    "columnName": "Duplicates",
+                    "columnName": "BIB Values",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": true,
+                                "l": "true"
                             }
                         }
                     ],
@@ -1290,10 +1371,17 @@
                 }
             ],
             "mode": "row-based"
-        },
-        "columnName": "Duplicates"
+        }
     }
-
-
-join on multi-valued cells
-unfold BIBs and organize them
+    {
+        "op": "core/column-reorder",
+        "description": "Remove columns used to combine BIBs",
+        "columnNames": [
+            "BIB Values",
+            "Ebook Central ID",
+            "Ebrary ID",
+            "MyiLibrary ID",
+            "Ebook Library ID",
+            "DOI"
+        ]
+    }
