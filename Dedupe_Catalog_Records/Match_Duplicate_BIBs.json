@@ -866,12 +866,48 @@
         },
         "columnName": "DOI Match"
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     {
         "op": "core/multivalued-cell-join",
-        "description": "Join all values in column ``BIB Values`` for a record in the record's first row seperated by two pipes",
+        "description": "Join all values in column ``BIB Values`` for a record in the record's first row seperated by a pipe",
         "columnName": "BIB Values",
         "keyColumnName": "First Three",
-        "separator": "||"
+        "separator": "|"
     },
     {
         "op": "core/text-transform",
@@ -1275,10 +1311,10 @@
     },
     {
         "op": "core/multivalued-cell-join",
-        "description": "Join all values in column ``BIB Values`` for a record in the record's first row seperated by two pipes",
+        "description": "Join all values in column ``BIB Values`` for a record in the record's first row seperated by a pipe",
         "columnName": "BIB Values",
         "keyColumnName": "Duplicates",
-        "separator": "||"
+        "separator": "|"
     },
     {
         "op": "core/text-transform",
@@ -1384,4 +1420,26 @@
             "Ebook Library ID",
             "DOI"
         ]
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Record`` with record number as string",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Values",
+        "expression": "grel:toString(row.record.index+1)",
+        "onError": "set-to-blank",
+        "newColumnName": "Record",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``BIB Values`` at pipe into new rows",
+        "columnName": "BIB Values",
+        "keyColumnName": "Record",
+        "mode": "separator",
+        "separator": "|",
+        "regex": false
     }
