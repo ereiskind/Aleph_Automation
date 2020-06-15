@@ -1420,8 +1420,8 @@
     }
     {
         "op": "core/column-move",
-        "description": "Move column ``245$a`` to beginning",
-        "columnName": "245$a",
+        "description": "Move column ``Title`` to beginning",
+        "columnName": "Title",
         "index": 0
     }
 ]

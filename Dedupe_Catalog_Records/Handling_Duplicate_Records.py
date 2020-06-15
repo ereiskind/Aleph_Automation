@@ -72,6 +72,10 @@ os.startfile('Match_ISBNs_to_Ebook_Central_IDs.json')
 messagebox.showinfo(title="Instructions", message="Confirm any values remaining in \"eISBN Match\" or \"ISBN Match\" aren't the best matches for the BIB record.")
 os.startfile('Finish_Getting_IDs_from_ISBNs.json')
 
+#Subsection: Organize UXU01 Output--Get Titles
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with 245 field into OpenRefine with column widths 10, 6, 2")
+os.startfile('Get_Titles_from_245.json')
+
 #Subsection: Organixe UXU60 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 5, 3")
 os.startfile('Organize_HOL_for_Duplicate_BIB.json')
@@ -83,7 +87,7 @@ os.startfile('Finish_Organizing_HOLs.json')
 
 
 #Section: Determine Which Records to Keep
-messagebox.showinfo(title="Instructions", message="Get 245 values for all BIBs and isolate the a subfields. Create sheet \"Composite\" with BIBs from 856 ID sheet and HOL sheet. Dedupe BIBs in column \"BIB Number\", then add columns \"BIB Values\", \"ACQ\", \"# of HOL\", \"Sublibrary\", \"Confirmed Duplicates\", \"Ebook Central ID\", \"Ebrary ID\", \"MyiLibrary ID\", \"DOI\", and \"245$a\". Fill these columns with vlookups from the sheets with the corresponding info. For BIBs with multiple sublibraries, seperate the sublibraries with semicolons, not pipes; for suppressed HOLs, add \"\{Suppressed\}\" after the sublibrary code.")
+messagebox.showinfo(title="Instructions", message="Get 245 values for all BIBs and isolate the a subfields. Create sheet \"Composite\" with BIBs from 856 ID sheet and HOL sheet. Dedupe BIBs in column \"BIB Number\", then add columns \"BIB Values\", \"ACQ\", \"# of HOL\", \"Sublibrary\", \"Confirmed Duplicates\", \"Ebook Central ID\", \"Ebrary ID\", \"MyiLibrary ID\", \"DOI\", and \"Title\". Fill these columns with vlookups from the sheets with the corresponding info. For BIBs with multiple sublibraries, seperate the sublibraries with semicolons, not pipes; for suppressed HOLs, add \"\{Suppressed\}\" after the sublibrary code.")
 #ToDo: Include formulas for how to do the above vlookups
 
 #Subsection: Match Duplicate BIB Records

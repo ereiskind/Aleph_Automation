@@ -1,0 +1,36 @@
+[
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Column 3``",
+        "columnName": "Column 3"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Column 2``",
+        "columnName": "Column 2"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 1`` to ``BIB Number``",
+        "oldColumnName": "Column 1",
+        "newColumnName": "BIB Number"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Trim whitespace from cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 4`` to ``Values``",
+        "oldColumnName": "Column 4",
+        "newColumnName": "Values"
+    },
