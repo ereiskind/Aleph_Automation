@@ -83,7 +83,7 @@ os.startfile('Finish_Organizing_HOLs.json')
 
 
 #Section: Determine Which Records to Keep
-messagebox.showinfo(title="Instructions", message="Create sheet \"Composite\" with BIBs from 856 ID sheet and HOL sheet. Dedupe BIBs in column \"BIB Number\", then add columns \"BIB Values\", \"ACQ\", \"# of HOL\", \"Sublibrary\", \"Confirmed Duplicates\", \"Ebook Central ID\", \"Ebrary ID\", \"MyiLibrary ID\", and \"DOI\". Fill these columns with vlookups from the sheets with the corresponding info.")
+messagebox.showinfo(title="Instructions", message="Get 245 values for all BIBs and isolate the a subfields. Create sheet \"Composite\" with BIBs from 856 ID sheet and HOL sheet. Dedupe BIBs in column \"BIB Number\", then add columns \"BIB Values\", \"ACQ\", \"# of HOL\", \"Sublibrary\", \"Confirmed Duplicates\", \"Ebook Central ID\", \"Ebrary ID\", \"MyiLibrary ID\", \"DOI\", and \"245$a\". Fill these columns with vlookups from the sheets with the corresponding info. For BIBs with multiple sublibraries, seperate the sublibraries with semicolons, not pipes.")
 
 #Subsection: Match Duplicate BIB Records
 messagebox.showinfo(title="Instructions", message="Upload sheet \"Composite\" to OpenRefine.")
