@@ -34,3 +34,250 @@
         "oldColumnName": "Column 4",
         "newColumnName": "Values"
     },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Divide values in column ``Values`` into new rows at each `$$`",
+        "columnName": "Values",
+        "keyColumnName": "BIB Number",
+        "mode": "separator",
+        "separator": "$$",
+        "regex": false
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with null value in ``Values``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "isBlank(value).toString()",
+                    "columnName": "Values",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Values`` into subfield code and value",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Values",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "lengths",
+        "fieldLengths": [
+            1,
+            99999
+        ]
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Values 1`` to ``Subfield``",
+        "oldColumnName": "Values 1",
+        "newColumnName": "Subfield"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Values 2`` to ``Values``",
+        "oldColumnName": "Values 2",
+        "newColumnName": "Values"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows for subfields other than 245$a, 245$b, and 245$n",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Subfield",
+                    "expression": "value",
+                    "columnName": "Subfield",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "a",
+                                "l": "a"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "b",
+                                "l": "b"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "n",
+                                "l": "n"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove ISBD punctuation from end of 245$a and 245$b values",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Subfield",
+                    "expression": "value",
+                    "columnName": "Subfield",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "a",
+                                "l": "a"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "b",
+                                "l": "b"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:if(isNull(match(value,/(.*)\\s./)[0]),trim(value),match(value,/(.*)\\s[:|\\/]/)[0])",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Pivot`` with BIB number and record row number",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.record.cells[\"BIB Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "set-to-blank",
+        "newColumnName": "Pivot",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/key-value-columnize",
+        "description": "Pivot table to create column with names of values in ``Subfield`` containing values from ``Values``",
+        "keyColumnName": "Subfield",
+        "valueColumnName": "Values",
+        "noteColumnName": ""
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Title`` combining the 245$a, the 245$b after a colon if present, and the 245$n in parentheses if present",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Pivot",
+        "expression": "grel:if(isError(row.record.cells[\"n\"].value[0]),if(isError(row.record.cells[\"b\"].value[0]),row.record.cells[\"a\"].value[0],row.record.cells[\"a\"].value[0]+\": \"+row.record.cells[\"b\"].value[0]),if(isError(row.record.cells[\"b\"].value[0]),row.record.cells[\"a\"].value[0]+\" (\"+row.record.cells[\"n\"].value[0]+\")\",row.record.cells[\"a\"].value[0]+\": \"+row.record.cells[\"b\"].value[0]+\" (\"+row.record.cells[\"n\"].value[0]+\")\"))",
+        "onError": "set-to-blank",
+        "newColumnName": "Title",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with no value in ``BIB Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Pivot``",
+        "columnName": "Pivot"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``a``",
+        "columnName": "a"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``b``",
+        "columnName": "b"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``n``",
+        "columnName": "n"
+    }
+]
