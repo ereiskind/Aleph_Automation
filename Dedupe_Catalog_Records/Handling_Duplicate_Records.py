@@ -93,7 +93,8 @@ messagebox.showinfo(title="Instructions", message="Get 245 values for all BIBs a
 #Subsection: Match Duplicate BIB Records
 messagebox.showinfo(title="Instructions", message="Upload sheet \"Composite\" to OpenRefine.")
 os.startfile('Match_Duplicate_BIBs.json')
-messagebox.showinfo(title="Instructions", message="Perform clustering on column\"245$a\".")
+messagebox.showinfo(title="Instructions", message="Perform clustering on column\"Title\".")
+os.startfile('Match_Duplicate_BIBs_pt2.json')
 
 #Subsection: Determine Which BIB Records to Keep
 
