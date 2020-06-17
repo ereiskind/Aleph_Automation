@@ -1,25 +1,8 @@
-
-
-
-
-
-
-
-
-
-
-
-
 [
     {
         "op": "core/column-removal",
         "description": "Remove column ``Column 3``",
         "columnName": "Column 3"
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Column 2``",
-        "columnName": "Column 2"
     },
     {
         "op": "core/column-rename",
@@ -41,10 +24,29 @@
         "repeatCount": 10
     },
     {
+        "op": "core/text-transform",
+        "description": "Remove indicators and extra spaces from cells in column ``Column 2``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Column 2",
+        "expression": "grel:substring(value,0,3)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 2`` to ``Fields``",
+        "oldColumnName": "Column 2",
+        "newColumnName": "Fields"
+    }
+    {
         "op": "core/column-rename",
         "description": "Rename column ``Column 4`` to ``Values``",
         "oldColumnName": "Column 4",
-        "newColumnName": "Values"
+        "newColumnName": "Values"        
     },
     {
         "op": "core/multivalued-cell-split",
@@ -54,6 +56,15 @@
         "mode": "separator",
         "separator": "$$",
         "regex": false
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Fields"
     }
     {
         "op": "core/fill-down",
@@ -96,63 +107,80 @@
         }
     },
     {
-        "op": "core/column-split",
-        "description": "Split column ``Values`` into subfield code and value",
+        "op": "core/text-transform",
+        "description": "Add subfield delimiter and code to value in ``Fields``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:value+\"$\"+substring(cells[\"Values\"].value[0],0,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove subfield code from ``Values``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
         },
         "columnName": "Values",
-        "guessCellType": false,
-        "removeOriginalColumn": true,
-        "mode": "lengths",
-        "fieldLengths": [
-            1,
-            99999
-        ]
-    },
+        "expression": "grel:substring(value,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
     {
-        "op": "core/column-rename",
-        "description": "Rename column ``Values 1`` to ``Subfield``",
-        "oldColumnName": "Values 1",
-        "newColumnName": "Subfield"
-    },
-    {
-        "op": "core/column-rename",
-        "description": "Rename column ``Values 2`` to ``Values``",
-        "oldColumnName": "Values 2",
-        "newColumnName": "Values"
-    },
+        "op": "core/column-addition",
+        "description": "Create column ``No Field Number`` with the field and subfield code for the row’s value",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "No Field Number",
+        "columnInsertIndex": 2,
+        "baseColumnName": "Fields",
+        "expression": "grel:substring(value,-5)",
+        "onError": "set-to-blank"
+    }
     {
         "op": "core/row-removal",
-        "description": "Remove rows for subfields other than 245$a, 245$b, and 245$n",
+        "description": "Remove rows for subfields other than 245$a, 245$b, 245$n, 250$a",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Subfield",
+                    "name": "Fields",
                     "expression": "value",
-                    "columnName": "Subfield",
+                    "columnName": "Fields",
                     "invert": true,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": "a",
-                                "l": "a"
+                                "v": "250$a",
+                                "l": "250$a"
                             }
                         },
                         {
                             "v": {
-                                "v": "b",
-                                "l": "b"
+                                "v": "245$n",
+                                "l": "245$n"
                             }
                         },
                         {
                             "v": {
-                                "v": "n",
-                                "l": "n"
+                                "v": "245$b",
+                                "l": "245$b"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "245$a",
+                                "l": "245$a"
                             }
                         }
                     ],
@@ -162,7 +190,7 @@
             ],
             "mode": "row-based"
         }
-    },
+    }
     {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``BIB Number``",
@@ -226,24 +254,25 @@
     },
     {
         "op": "core/key-value-columnize",
-        "description": "Pivot table to create column with names of values in ``Subfield`` containing values from ``Values``",
-        "keyColumnName": "Subfield",
+        "description": "Pivot table to create column with names of values in ``Fields`` containing values from ``Values``",
+        "keyColumnName": "Fields",
         "valueColumnName": "Values",
-        "noteColumnName": ""
-    },
+        "noteColumnName": "",
+        "description": "Columnize by key column Fields and value column Values with note column "
+    }
     {
         "op": "core/column-addition",
-        "description": "Create column ``Title`` combining the 245$a, the 245$b after a colon if present, and the 245$n in parentheses if present",
+        "description": "Create column ``Title`` combining the 245$a, the 245$b after a colon if present, and the 245$n and 250$a with labels in seperate parentheticals if present",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
-        "baseColumnName": "Pivot",
-        "expression": "grel:if(isError(row.record.cells[\"n\"].value[0]),if(isError(row.record.cells[\"b\"].value[0]),row.record.cells[\"a\"].value[0],row.record.cells[\"a\"].value[0]+\": \"+row.record.cells[\"b\"].value[0]),if(isError(row.record.cells[\"b\"].value[0]),row.record.cells[\"a\"].value[0]+\" (\"+row.record.cells[\"n\"].value[0]+\")\",row.record.cells[\"a\"].value[0]+\": \"+row.record.cells[\"b\"].value[0]+\" (\"+row.record.cells[\"n\"].value[0]+\")\"))",
+        "baseColumnName": "245$a",
+        "expression": "grel:if(isError(row.record.cells[\"245$b\"].value[0]),if(isError(row.record.cells[\"245$n\"].value[0]),if(isError(row.record.cells[\"250$a\"].value[0]),row.record.cells[\"245$a\"].value[0],row.record.cells[\"245$a\"].value[0]+\" (ed=\"+row.record.cells[\"250$a\"].value[0]+\")\"),if(isError(row.record.cells[\"250$a\"].value[0]),row.record.cells[\"245$a\"].value[0]+\" (vol=\"+row.record.cells[\"245$n\"].value[0]+\")\",row.record.cells[\"245$a\"].value[0]+\" (vol=\"+row.record.cells[\"245$n\"].value[0]+\")\"+\" (ed=\"+row.record.cells[\"250$a\"].value[0]+\")\")),if(isError(row.record.cells[\"245$n\"].value[0]),if(isError(row.record.cells[\"250$a\"].value[0]),row.record.cells[\"245$a\"].value[0]+\": \"+row.record.cells[\"245$b\"].value[0],row.record.cells[\"245$a\"].value[0]+\": \"+row.record.cells[\"245$b\"].value[0]+\" (ed=\"+row.record.cells[\"250$a\"].value[0]+\")\"),if(isError(row.record.cells[\"250$a\"].value[0]),row.record.cells[\"245$a\"].value[0]+\": \"+row.record.cells[\"245$b\"].value[0]+\" (vol=\"+row.record.cells[\"245$n\"].value[0]+\")\",row.record.cells[\"245$a\"].value[0]+\": \"+row.record.cells[\"245$b\"].value[0]+\" (vol=\"+row.record.cells[\"245$n\"].value[0]+\")\"+\" (ed=\"+row.record.cells[\"250$a\"].value[0]+\")\")))",
         "onError": "set-to-blank",
         "newColumnName": "Title",
         "columnInsertIndex": 1
-    },
+    }
     {
         "op": "core/row-removal",
         "description": "Remove rows with no value in ``BIB Number``",
@@ -279,17 +308,22 @@
     },
     {
         "op": "core/column-removal",
-        "description": "Remove column ``a``",
-        "columnName": "a"
+        "description": "Remove column ``245$a``",
+        "columnName": "245$a"
     },
     {
         "op": "core/column-removal",
-        "description": "Remove column ``b``",
-        "columnName": "b"
+        "description": "Remove column ``245$b``",
+        "columnName": "245$b"
     },
     {
         "op": "core/column-removal",
-        "description": "Remove column ``n``",
-        "columnName": "n"
+        "description": "Remove column ``245$n``",
+        "columnName": "245$n"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``250$a``",
+        "columnName": "250$a"
     }
 ]
