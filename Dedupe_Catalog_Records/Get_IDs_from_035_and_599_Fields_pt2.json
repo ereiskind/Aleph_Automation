@@ -1,32 +1,155 @@
-
-
-
-
-
-
-
-
- {
-    "op": "core/column-addition",
-    "description": "Create column ``Pivot`` with BIB number and record row number",
-    "engineConfig": {
-        "facets": [],
-        "mode": "record-based"
+[
+    {
+        "op": "core/text-transform",
+        "description": "Append ID source and ID after pipes to value in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number",
+        "expression": "grel:value+\"|\"+if(isNull(cells[\"ID Source\"].value),cells[\"Unofficial ID Source\"].value,cells[\"ID Source\"].value)+\"|\"+cells.ID.value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     },
-    "baseColumnName": "BIB Number",
-    "expression": "grel:row.record.cells[\"BIB Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
-    "onError": "set-to-blank",
-    "newColumnName": "Pivot",
-    "columnInsertIndex": 1
-},
-{
-    "op": "core/key-value-columnize",
-    "description": "Pivot table to create column with names of values in ``Fields`` containing values from ``Values``",
-    "keyColumnName": "Fields",
-    "valueColumnName": "Values",
-    "noteColumnName": "",
-    "description": "Columnize by key column Fields and value column Values with note column "
-}
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``BIB Number``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "BIB Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with no ID source",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Unofficial ID Source``",
+        "columnName": "Unofficial ID Source"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Update ``ID Source`` with middle value from ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "ID Source",
+        "expression": "grel:split(cells[\"BIB Number\"].value,\"|\")[1]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove ID source and ID from column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number",
+        "expression": "grel:split(cells[\"BIB Number\"].value,\"|\")[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows by ``BIB Number``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "BIB Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Pivot`` with BIB number and record row number",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.record.cells[\"BIB Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "set-to-blank",
+        "newColumnName": "Pivot",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/key-value-columnize",
+        "description": "Pivot table to create column with names of values in ``ID Source`` containing values from ``ID``",
+        "keyColumnName": "ID Source",
+        "valueColumnName": "ID",
+        "noteColumnName": ""
+    }
+
+
+
+fill up and down columns that are meaningful for this matching
+
+
+
 {
     "op": "core/row-removal",
     "description": "Remove rows with no value in ``BIB Number``",
