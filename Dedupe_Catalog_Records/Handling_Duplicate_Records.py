@@ -45,6 +45,7 @@ def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized
 
 #Section: Collect BIB Information
 #Subsection: Pull Info from Aleph
+#ToDo: Update this list--realize that the order initially used isn't the best
 # For BIBs, print-03 Aleph sequential of 856 fields
 # For BIBs, manage-70 for BIB-to-HOL
 # For HOLs, print-03 Aleph sequential of TKR, LKR, STA
@@ -56,8 +57,12 @@ os.startfile('Get_Ebook_Central_URLs_from_856_Aleph_Sequential.json')
 messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain.\"")
 os.startfile('Isolate_IDs_from_URLs.json')
 messagebox.showinfo(title="Instructions", message="Copy IDs from any unusually formatted URLs in \"Temp\" into \"URL ID.\"")
-messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central--the fill up and andwn then blank down is hard coded")
+messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central--the fill up and and then blank down is hard coded")
 os.startfile('Match_Duplicate_Records_by_856_Info.json')
+
+#Subsection: Organize UXU01 Output--Organize Propriatary IDs from 001 Fields
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with fields 035 and 599 into OpenRefine with column widths 10, 5, 3")
+os.startfile('Get_IDs_from_035_and_599_Fields.json')
 
 #Subsection: Organize UXU01 Output--Get IDs from ISBNs
 # Load list of BIBs which didn't have IDs from the 856 into Alpeh, run print-03 for 020 and 776
@@ -95,6 +100,7 @@ messagebox.showinfo(title="Instructions", message="Upload sheet \"Composite\" to
 os.startfile('Match_Duplicate_BIBs.json')
 messagebox.showinfo(title="Instructions", message="Perform clustering on column\"Title\".")
 os.startfile('Match_Duplicate_BIBs_pt2.json')
+messagebox.showinfo(title="Instructions", message="At this point, check the BIB records for the openRefine records with three or more titles to determine if any can be condensed.")
 
 #Subsection: Determine Which BIB Records to Keep
 
