@@ -62,7 +62,10 @@ os.startfile('Match_Duplicate_Records_by_856_Info.json')
 
 #Subsection: Organize UXU01 Output--Organize Propriatary IDs from 001 Fields
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with fields 035 and 599 into OpenRefine with column widths 10, 5, 3")
+messagebox.showwarning(title="Ebook Central", message="The regex that should allow numbers that include dashes in them through doesn't.")
 os.startfile('Get_IDs_from_035_and_599_Fields.json')
+messagebox.showinfo(title="Instructions", message="Use text facets to change the ID source column values into the platforms and bib resources they represent.")
+os.startfile('Get_IDs_from_035_and_599_Fields_pt2.json')
 
 #Subsection: Organize UXU01 Output--Get IDs from ISBNs
 # Load list of BIBs which didn't have IDs from the 856 into Alpeh, run print-03 for 020 and 776

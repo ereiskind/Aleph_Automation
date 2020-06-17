@@ -1,0 +1,62 @@
+
+
+
+
+
+
+
+
+ {
+    "op": "core/column-addition",
+    "description": "Create column ``Pivot`` with BIB number and record row number",
+    "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+    },
+    "baseColumnName": "BIB Number",
+    "expression": "grel:row.record.cells[\"BIB Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
+    "onError": "set-to-blank",
+    "newColumnName": "Pivot",
+    "columnInsertIndex": 1
+},
+{
+    "op": "core/key-value-columnize",
+    "description": "Pivot table to create column with names of values in ``Fields`` containing values from ``Values``",
+    "keyColumnName": "Fields",
+    "valueColumnName": "Values",
+    "noteColumnName": "",
+    "description": "Columnize by key column Fields and value column Values with note column "
+}
+{
+    "op": "core/row-removal",
+    "description": "Remove rows with no value in ``BIB Number``",
+    "engineConfig": {
+        "facets": [
+            {
+                "type": "list",
+                "name": "BIB Number",
+                "expression": "isBlank(value)",
+                "columnName": "BIB Number",
+                "invert": false,
+                "omitBlank": false,
+                "omitError": false,
+                "selection": [
+                    {
+                        "v": {
+                            "v": true,
+                            "l": "true"
+                        }
+                    }
+                ],
+                "selectBlank": false,
+                "selectError": false
+            }
+        ],
+        "mode": "row-based"
+    }
+},
+{
+    "op": "core/column-removal",
+    "description": "Remove column ``Pivot``",
+    "columnName": "Pivot"
+},

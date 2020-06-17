@@ -1,0 +1,525 @@
+[
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Column 3``",
+        "columnName": "Column 3"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 1`` to ``BIB Number``",
+        "oldColumnName": "Column 1",
+        "newColumnName": "BIB Number"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Trim whitespace from cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove indicators and extra spaces from cells in column ``Column 2``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Column 2",
+        "expression": "grel:substring(value,0,3)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 2`` to ``Fields``",
+        "oldColumnName": "Column 2",
+        "newColumnName": "Fields"
+    }
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 4`` to ``Values``",
+        "oldColumnName": "Column 4",
+        "newColumnName": "Values"        
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Divide values in column ``Values`` into new rows at each `$$`",
+        "columnName": "Values",
+        "keyColumnName": "BIB Number",
+        "mode": "separator",
+        "separator": "$$",
+        "regex": false
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Fields"
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with null value in ``Values``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "isBlank(value).toString()",
+                    "columnName": "Values",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add subfield delimiter and code to value in ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:value+\"$\"+substring(cells[\"Values\"].value[0],0,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove subfield code from ``Values``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:substring(value,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows for subfields other than 035$a and 599$a",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "value",
+                    "columnName": "Fields",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "035$a",
+                                "l": "035$a"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "599$a",
+                                "l": "599$a"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where ``Values`` contains a space",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:toString(contains(value,\" \"))",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Append ampersand and values of ``Fields`` and ``Values`` to ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number",
+        "expression": "grel:value+\"&\"+cells.Fields.value+cells.Values.value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``BIB Number``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "BIB Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with null value in ``BIB Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/column-split",
+        "description": "Split column ``BIB Number`` at first ampersand",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "&",
+        "regex": false,
+        "maxColumns": 2
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``BIB Number 1`` to ``BIB Number``",
+        "oldColumnName": "BIB Number 1",
+        "newColumnName": "BIB Number"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``BIB Number 2``",
+        "columnName": "BIB Number 2"
+    }
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Values`` at opening parentheses",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Values",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "(",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ID Source`` with contents of parenthetical at end of 035 or 599 field",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Values 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Values 2",
+        "expression": "grel:if(endsWith(value,\")\"),substring(value,0,-1),value)",
+        "onError": "set-to-blank",
+        "newColumnName": "ID Source",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Unofficial ID Source`` containing the letters at the beginning of 035$a or 599$a values that didn't have parentheticals",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Values 1",
+        "expression": "grel:if(and(length(splitByCharType(toUppercase(value)))==2,isNotNull(match(splitByCharType(toUppercase(value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(value))[0],null)",
+        "onError": "set-to-blank",
+        "newColumnName": "Unofficial ID Source",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ID`` with numerical values from 035$a and 599$a values that didn't have parentheticals",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Values 1",
+        "expression": "grel:if(and(length(splitByCharType(toUppercase(value)))==2,isNotNull(match(splitByCharType(toUppercase(value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(value))[1],if(and(length(splitByCharType(toUppercase(value)))==1,isNotNull(match(splitByCharType(toUppercase(value))[0],/(\\d|\\-)*/))),value,null))",
+        "onError": "set-to-blank",
+        "newColumnName": "ID",
+        "columnInsertIndex": 3
+    }
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Values 2`` at closing parentheses",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Values 2",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": ")",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add contents of parentheticals to ``ID Source``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "ID Source",
+        "expression": "grel:if(isNotNull(cells[\"Values 2 1\"].value),cells[\"Values 2 1\"].value,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add the letters at the beginning of 035$a or 599$a to column ``Unofficial ID Source``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Unofficial ID Source",
+        "expression": "grel:if(isNull(value),if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2\"].value)))==2,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2\"].value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2\"].value))[0],null),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add numerical parts of 035$a and 599$a to ``ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "ID",
+        "expression": "grel:if(isNull(value),if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2\"].value)))==2,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2\"].value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2\"].value))[1],if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2\"].value)))==1,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2\"].value))[0],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2\"].value))[0],null)),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Fields``",
+        "columnName": "Fields"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values 1``",
+        "columnName": "Values 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values 2 1``",
+        "columnName": "Values 2 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values 2 2``",
+        "columnName": "Values 2 2"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with null value in ``ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+]
