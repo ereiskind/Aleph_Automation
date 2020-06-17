@@ -50,7 +50,7 @@ def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized
 # For HOLs, print-03 Aleph sequential of TKR, LKR, STA
 
 #Subsection: Organize UXU01 Output--Get IDs from URLs
-messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 6, 2")
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with 856 fields into OpenRefine with column widths 10, 6, 2")
 messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central")
 os.startfile('Get_Ebook_Central_URLs_from_856_Aleph_Sequential.json')
 messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain.\"")
@@ -73,8 +73,8 @@ messagebox.showinfo(title="Instructions", message="Confirm any values remaining 
 os.startfile('Finish_Getting_IDs_from_ISBNs.json')
 
 #Subsection: Organize UXU01 Output--Get Titles
-messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with 245 field into OpenRefine with column widths 10, 6, 2")
-os.startfile('Get_Titles_from_245.json')
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with 245 and 250 fields into OpenRefine with column widths 10, 6, 2")
+os.startfile('Get_Titles_from_245_and_250.json')
 
 #Subsection: Organixe UXU60 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 5, 3")
