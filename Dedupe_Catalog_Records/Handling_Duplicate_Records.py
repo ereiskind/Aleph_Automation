@@ -45,11 +45,14 @@ def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized
 
 #Section: Collect BIB Information
 #Subsection: Pull Info from Aleph
-#ToDo: Update this list--realize that the order initially used isn't the best
-# For BIBs, print-03 Aleph sequential of 856 fields
-# For BIBs, manage-70 for BIB-to-HOL
-# For HOLs, print-03 Aleph sequential of TKR, LKR, STA
+messagebox.showinfo(title="Instructions", message="For list of BIBs, use print-03 to generate Alpeh sequential file with 856##, 035##, 599##, 020##, 776##, 245##, 250## fields and indicators.")
+messagebox.showinfo(title="Instructions", message="For list of BIBs, use manage-70 to get list of HOLs.")
+messagebox.showinfo(title="Instructions", message="For list of HOLs, use print-03 to get Alpeh sequential file with TKR##, LKR##, STA## fields and indicators.")
 
+#Subsection: Organize UXU01 Output
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with 856 fields into OpenRefine with column widths 10, 6, 2")
+
+'''
 #Subsection: Organize UXU01 Output--Get IDs from URLs
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with 856 fields into OpenRefine with column widths 10, 6, 2")
 messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central")
@@ -84,6 +87,7 @@ os.startfile('Finish_Getting_IDs_from_ISBNs.json')
 #Subsection: Organize UXU01 Output--Get Titles
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with 245 and 250 fields into OpenRefine with column widths 10, 6, 2")
 os.startfile('Get_Titles_from_245_and_250.json')
+'''
 
 #Subsection: Organixe UXU60 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file into OpenRefine with column widths 10, 5, 3")
