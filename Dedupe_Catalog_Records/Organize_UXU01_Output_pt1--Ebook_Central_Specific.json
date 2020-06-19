@@ -1,0 +1,643 @@
+[
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Column 3``",
+        "columnName": "Column 3"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 1`` to ``BIB Number``",
+        "oldColumnName": "Column 1",
+        "newColumnName": "BIB Number"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Trim whitespace from cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove indicators and extra spaces from cells in column ``Column 2``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Column 2",
+        "expression": "grel:substring(value,0,3)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 2`` to ``Fields``",
+        "oldColumnName": "Column 2",
+        "newColumnName": "Fields"
+    }
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 4`` to ``Values``",
+        "oldColumnName": "Column 4",
+        "newColumnName": "Values"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where ``Values`` contains a space",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "value",
+                    "columnName": "Fields",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "035",
+                                "l": "035"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "599",
+                                "l": "599"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:toString(contains(value,\" \"))",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove 856 fields for LC catalog enhancement links",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "value",
+                    "columnName": "Fields",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "856",
+                                "l": "856"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:isError(find(value,/http.*loc\\.gov\\/catdir.*/)[0])",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Numbering`` combining the values of ``BIB Number`` and ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:value+\"-\"+cells.Fields.value",
+        "onError": "set-to-blank",
+        "newColumnName": "Numbering",
+        "columnInsertIndex": 0
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Keep Number`` with the number of times the value in ``Numbering`` appears",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "newColumnName": "Keep Number",
+        "columnInsertIndex": 1,
+        "baseColumnName": "Numbering",
+        "expression": "grel:facetCount(value,\"value\",\"Numbering\")",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Numbering``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Numbering"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Number`` with the row number for the value in ``Numbering``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Number",
+        "columnInsertIndex": 1,
+        "baseColumnName": "Numbering",
+        "expression": "grel:toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Turn values in ``Keep Number`` to text",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Keep Number",
+        "expression": "value.toString()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For fields repeated in a record, add row number to value of ``Fields``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Number",
+                    "expression": "value",
+                    "columnName": "Keep Number",
+                    "invert": true,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "1",
+                                "l": "1"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:\"Field #\"+cells[\"Number\"].value+\" \"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Numbering``",
+        "columnName": "Numbering"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Number``",
+        "columnName": "Number"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Keep Number``",
+        "columnName": "Keep Number"
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Divide values in column ``Values`` into new rows at each `$$`",
+        "columnName": "Values",
+        "keyColumnName": "BIB Number",
+        "mode": "separator",
+        "separator": "$$",
+        "regex": false
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Fields"
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with null value in ``Values``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "isBlank(value).toString()",
+                    "columnName": "Values",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add subfield delimiter and code to value in ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:value+\"$\"+substring(cells[\"Values\"].value[0],0,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove subfield code from ``Values``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:substring(value,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``No Field Number`` with the field and subfield code for the row’s value",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "No Field Number",
+        "columnInsertIndex": 2,
+        "baseColumnName": "Fields",
+        "expression": "grel:substring(value,-5)",
+        "onError": "set-to-blank"
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows for subfields other than 020$a, 020$q, 020$z, 035$a, 245$a, 245$b, 245$n, 250$a, 599$a, 776$i, 776$z, 845$u",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "No Field Number",
+                    "expression": "value",
+                    "columnName": "No Field Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "020$q",
+                                "l": "020$q"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "776$z",
+                                "l": "776$z"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "020$a",
+                                "l": "020$a"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "250$a",
+                                "l": "250$a"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "599$a",
+                                "l": "599$a"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "776$i",
+                                "l": "776$i"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "856$u",
+                                "l": "856$u"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "245$n",
+                                "l": "245$n"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "245$b",
+                                "l": "245$b"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "245$a",
+                                "l": "245$a"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "035$a",
+                                "l": "035$a"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "020$z",
+                                "l": "020$z"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove ISBD punctuation from end of 245$a and 245$b values",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "No Field Number",
+                    "expression": "value",
+                    "columnName": "No Field Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "245$b",
+                                "l": "245$b"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "245$a",
+                                "l": "245$a"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:if(isNull(match(value,/(.*)\\s./)[0]),trim(value),match(value,/(.*)\\s[:|\\/]/)[0])",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Revert all URL escape characters to their actual values in ``Values``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "No Field Number",
+                    "expression": "value",
+                    "columnName": "No Field Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "856$u",
+                                "l": "856$u"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:unescape(value,\"url\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Combine values of ``Fields`` and ``Values`` with `]|[` between",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:cells.Fields.value+\"]|[\"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Fields``",
+        "columnName": "Fields"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Pivot`` with BIB number and record row number",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.record.cells[\"BIB Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "set-to-blank",
+        "newColumnName": "Pivot",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/key-value-columnize",
+        "description": "Pivot table to create column with names of values in ``No Field Number`` containing values from ``Values``",
+        "keyColumnName": "No Field Number",
+        "valueColumnName": "Values",
+        "noteColumnName": ""
+    }
+    {
+        "op": "core/column-reorder",
+        "description": "Put columns in order of use",
+        "columnNames": [
+            "BIB Number",
+            "Pivot",
+            "245$a",
+            "245$b",
+            "245$n",
+            "250$a",
+            "856$u",
+            "035$a",
+            "599$a",
+            "020$a",
+            "020$z",
+            "020$q",
+            "776$z",
+            "776$i"
+        ]
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Title`` combining the 245$a, the 245$b after a colon if present, and the 245$n and 250$a with labels in seperate parentheticals if present",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "245$a",
+        "expression": "grel:if(isError(row.record.cells[\"245$b\"].value[0]),if(isError(row.record.cells[\"245$n\"].value[0]),if(isError(row.record.cells[\"250$a\"].value[0]),row.record.cells[\"245$a\"].value[0],row.record.cells[\"245$a\"].value[0]+\" (ed=\"+row.record.cells[\"250$a\"].value[0]+\")\"),if(isError(row.record.cells[\"250$a\"].value[0]),row.record.cells[\"245$a\"].value[0]+\" (vol=\"+row.record.cells[\"245$n\"].value[0]+\")\",row.record.cells[\"245$a\"].value[0]+\" (vol=\"+row.record.cells[\"245$n\"].value[0]+\")\"+\" (ed=\"+row.record.cells[\"250$a\"].value[0]+\")\")),if(isError(row.record.cells[\"245$n\"].value[0]),if(isError(row.record.cells[\"250$a\"].value[0]),row.record.cells[\"245$a\"].value[0]+\": \"+row.record.cells[\"245$b\"].value[0],row.record.cells[\"245$a\"].value[0]+\": \"+row.record.cells[\"245$b\"].value[0]+\" (ed=\"+row.record.cells[\"250$a\"].value[0]+\")\"),if(isError(row.record.cells[\"250$a\"].value[0]),row.record.cells[\"245$a\"].value[0]+\": \"+row.record.cells[\"245$b\"].value[0]+\" (vol=\"+row.record.cells[\"245$n\"].value[0]+\")\",row.record.cells[\"245$a\"].value[0]+\": \"+row.record.cells[\"245$b\"].value[0]+\" (vol=\"+row.record.cells[\"245$n\"].value[0]+\")\"+\" (ed=\"+row.record.cells[\"250$a\"].value[0]+\")\")))",
+        "onError": "set-to-blank",
+        "newColumnName": "Title",
+        "columnInsertIndex": 1
+    }

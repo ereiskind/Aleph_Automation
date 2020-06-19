@@ -50,7 +50,8 @@ messagebox.showinfo(title="Instructions", message="For list of BIBs, use manage-
 messagebox.showinfo(title="Instructions", message="For list of HOLs, use print-03 to get Alpeh sequential file with TKR##, LKR##, STA## fields and indicators.")
 
 #Subsection: Organize UXU01 Output
-messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with 856 fields into OpenRefine with column widths 10, 6, 2")
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU01 info into OpenRefine with column widths 10, 6, 2")
+os.startfile('Organize_UXU01_Output_pt1--Ebook_Central_Specific.json')
 
 '''
 #Subsection: Organize UXU01 Output--Get IDs from URLs
