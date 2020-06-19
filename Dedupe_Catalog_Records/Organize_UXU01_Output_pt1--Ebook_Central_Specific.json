@@ -590,44 +590,58 @@
             "776$i"
         ]
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    {
+        "op": "core/text-transform",
+        "description": "Remove MARC code from values in ``245$a``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "245$a",
+        "expression": "grel:trim(substring(value,indexOf(value,\"]|[\")+3))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove MARC code from values in ``245$b``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "245$b",
+        "expression": "grel:trim(substring(value,indexOf(value,\"]|[\")+3))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove MARC code from values in ``245$n``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "245$n",
+        "expression": "grel:trim(substring(value,indexOf(value,\"]|[\")+3))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove MARC code from values in ``250$a``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "250$a",
+        "expression": "grel:trim(substring(value,indexOf(value,\"]|[\")+3))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
     {
         "op": "core/column-addition",
         "description": "Create column ``Title`` combining the 245$a, the 245$b after a colon if present, and the 245$n and 250$a with labels in seperate parentheticals if present",
@@ -641,3 +655,744 @@
         "newColumnName": "Title",
         "columnInsertIndex": 1
     }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``245$a``",
+        "columnName": "245$a"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``245$b``",
+        "columnName": "245$b"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``245$n``",
+        "columnName": "245$n"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``250$a``",
+        "columnName": "250$a"
+    }
+    {
+        "op": "core/transpose-columns-into-rows",
+        "description": "Pivot all MARC tag column names into column ``Fields`` and the corresponding values into column ``Values``",
+        "startColumnName": "856$u",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": false,
+        "separator": null,
+        "keyColumnName": "Fields",
+        "valueColumnName": "Values"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Pivot``",
+        "columnName": "Pivot"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with no values",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create empty column ``Temp``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:null",
+        "onError": "set-to-blank",
+        "newColumnName": "Temp",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Copy Ebook Central URLs from ``Values`` into ``Temp``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/[\\w-]*\\/detail\\.action\\?docID=\\d+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Copy MyiLibrary URLs from ``Values`` into ``Temp``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(lib|www)\\.myilibrary\\.com\\/?(detail\\.asp)?\\?(id|ID)=\\d+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Copy Ebrary URLs with `=` from ``Values`` into ``Temp``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Temp",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/site\\.ebrary\\.com\\/.*(id|ID)=\\d+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Copy Ebrary URLs without `=` from ``Values`` to ``Temp``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Temp",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/site\\.ebrary\\.com\\/id\\/\\d+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Copy Ebook Library URLs from ``Values`` into ``Temp``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Temp",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(www.)?\\w*\\.eblib\\.com\\/[\\w\\/.?=&]*=\\w+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records with no value in ``Temp``, copy URLs containing `ebookcentral`, `myilibrary`, `ebrary`, `eblib` after the last instance of `http` or `www` from ``Values`` to ``Temp``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Temp",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Temp",
+        "expression": "grel:if(or(contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"ebookcentral\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"myilibrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"ebrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"eblib\")),substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\nif(or(contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"ebookcentral\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"myilibrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"ebrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"eblib\")),substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),value))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records with no value in ``Temp``, copy DOI URLs from ``Values`` to ``Temp``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Temp",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Temp",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(dx\\.)?doi\\.org\\/[\\w\\-\\.\\/]+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``URL Domain`` with the domain of the URL in ``Temp``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Temp",
+        "expression": "grel:substring(substring(find(cells.Temp.value,/\\/\\/.*\\//)[0],2),0,indexOf(substring(find(cells.Temp.value,/\\/\\/.*\\//)[0],2),\"/\"))",
+        "onError": "set-to-blank",
+        "newColumnName": "URL Domain",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add domains ending with characters other than `/` to ``URL Domain``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL Domain",
+                    "expression": "isBlank(value)",
+                    "columnName": "URL Domain",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "URL Domain",
+        "expression": "grel:substring(find(cells.Temp.value,/\\/\\/[\\w\\.\\-]*/)[0],2,length(find(cells.Temp.value,/\\/\\/[\\w\\.\\-]*/)[0]))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``URL ID`` with DOIs extracted from platform URLs for records with no values in ``Temp``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Temp",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Values",
+        "expression": "grel:find(value,/10\\.[\\w\\.]+\\/[\\w\\.\\-]+$/)[0]",
+        "onError": "set-to-blank",
+        "newColumnName": "URL ID",
+        "columnInsertIndex": 3
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For rows with DOIs extracted from platform URLs in ``URL ID``, make value of ``URL Domain`` `DOI`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "URL ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "URL Domain",
+        "expression": "grel:\"DOI\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Equals`` with the number of equals signs in the URL in ``Temp``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Temp",
+        "expression": "grel:if(isNull(value),null,if(contains(value,\"=\"),if(indexOf(value,\"=\")==lastIndexOf(value,\"=\"),\"Single\",\"Multiple\"),\"None\"))",
+        "onError": "set-to-blank",
+        "newColumnName": "Equals",
+        "columnInsertIndex": 3
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add `None Relevant` to ``URL Domain`` for all the records that still don't have a URL",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL Domain",
+                    "expression": "isBlank(value)",
+                    "columnName": "URL Domain",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "URL Domain",
+        "expression": "grel:\"None Relevant\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``URL Domain``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL Domain",
+                    "expression": "value",
+                    "columnName": "URL Domain",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "None Relevant",
+                                "l": "None Relevant"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "URL Domain"
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Values`` at MARC tag delimeter `]|[`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "value",
+                    "columnName": "Fields",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "035$a",
+                                "l": "035$a"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "599$a",
+                                "l": "599$a"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Values",
+        "guessCellType": false,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": "]|[",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values 1``",
+        "columnName": "Values 1"
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Values`` at opening parentheses",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "value",
+                    "columnName": "Fields",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "035$a",
+                                "l": "035$a"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "599$a",
+                                "l": "599$a"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Values 2",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "(",
+        "regex": false,
+        "maxColumns": 0
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``001 ID Source`` with contents of parenthetical at end of 035 or 599 field",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "value",
+                    "columnName": "Fields",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "035$a",
+                                "l": "035$a"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "599$a",
+                                "l": "599$a"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Values 2 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values 2 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Values 2 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values 2 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Values 2 2",
+        "expression": "grel:if(endsWith(value,\")\"),substring(value,0,-1),value)",
+        "onError": "set-to-blank",
+        "newColumnName": "001 ID Source",
+        "columnInsertIndex": 6
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Unofficial 001 ID Source`` containing the letters at the beginning of 035$a or 599$a values that didn't have parentheticals",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values 2 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values 2 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Values 2 1",
+        "expression": "grel:if(and(length(splitByCharType(toUppercase(value)))==2,isNotNull(match(splitByCharType(toUppercase(value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(value))[0],null)",
+        "onError": "set-to-blank",
+        "newColumnName": "Unofficial 001 ID Source",
+        "columnInsertIndex": 7
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``001 ID`` with numerical values from 035$a and 599$a values that didn't have parentheticals",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values 2 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values 2 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Values 2 1",
+        "expression": "grel:if(and(length(splitByCharType(toUppercase(value)))==2,isNotNull(match(splitByCharType(toUppercase(value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(value))[1],if(and(length(splitByCharType(toUppercase(value)))==1,isNotNull(match(splitByCharType(toUppercase(value))[0],/(\\d|\\-)*/))),value,null))",
+        "onError": "set-to-blank",
+        "newColumnName": "001 ID",
+        "columnInsertIndex": 8
+    }
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Values 2 2`` at closing parentheses",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Values 2 2",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": ")",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add contents of parentheticals to ``001 ID Source``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "001 ID Source",
+        "expression": "grel:if(isNotNull(cells[\"Values 2 2 1\"].value),cells[\"Values 2 2 1\"].value,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add the letters at the beginning of 035$a or 599$a to column ``Unofficial 001 ID Source``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Unofficial 001 ID Source",
+        "expression": "grel:if(isNull(value),if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value)))==2,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[0],null),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add numerical parts of 035$a and 599$a to ``001 ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "001 ID",
+        "expression": "grel:if(isNull(value),if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value)))==2,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[1],if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value)))==1,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[0],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[0],null)),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values 2 1``",
+        "columnName": "Values 2 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values 2 2 1``",
+        "columnName": "Values 2 2 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values 2 2 2``",
+        "columnName": "Values 2 2 2"
+    }
+]
