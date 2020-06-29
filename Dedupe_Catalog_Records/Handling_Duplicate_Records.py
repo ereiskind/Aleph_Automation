@@ -53,9 +53,11 @@ messagebox.showinfo(title="Instructions", message="For list of HOLs, use print-0
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU01 info into OpenRefine with column widths 10, 6, 2")
 messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central--the domain search regexes are hard coded")
 messagebox.showwarning(title="Regex", message="The regex that should allow numbers that include dashes in them through doesn't.")
+messagebox.showwarning(title="Credo", message="Credo IDs that are only letters don't get transfered to the \"001 ID\" column.")
 os.startfile('Organize_UXU01_Output_pt1--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain.\"")
+messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain\", including removing school names and proxy info from domains.")
 messagebox.showinfo(title="Instructions", message="Use text facets to change the values in \"001 ID Source\" and \"Unofficial 001 ID Source\" into the names of the platforms/sources they represent.")
+os.startfile('Organize_UXU01_Output_pt2--Ebook_Central_Specific.json')
 #ToDo: Get next steps from Isolate_IDs_from_URLs.json
 
 '''
