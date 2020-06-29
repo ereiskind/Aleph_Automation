@@ -1,0 +1,228 @@
+[
+    {
+        "op": "core/text-transform",
+        "description": "Add ID numbers after `id=` at end of URL to ``URL ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:substring(find(cells.Temp.value,/(id|ID)=\\d+$/)[0],3)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add ID numbers after `id/` at end of URL to ``URL ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Equals",
+                    "expression": "value",
+                    "columnName": "Equals",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "None",
+                                "l": "None"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:substring(find(cells.Temp.value,/(id|ID)\\/\\d+$/)[0],3)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add ID numbers after `p=` at end of URL to ``URL ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:substring(find(cells.Temp.value,/p=\\d+$/)[0],3)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add ID numbers between `P_` and `_0` at end of URL to ``URL ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:substring(find(cells.Temp.value,/P_\\d+_0$/)[0],indexOf(find(cells.Temp.value,/P_\\d+_0$/)[0],\"_\")+1,lastIndexOf(find(cells.Temp.value,/P_\\d+_0$/)[0],\"_\"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add DOIs from DOI-containing URLs to ``URL ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL Domain",
+                    "expression": "value",
+                    "columnName": "URL Domain",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "DOI",
+                                "l": "DOI"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:if(isNull(value),substring(cells.Temp.value,indexOf(cells.Temp.value,\"/10.\")+1),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For rows where the URL in ``Temp`` has no path, add `[None]` to ``URL ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:if(isError(find(cells.Temp.value,/.*\\.[a-z]{3}.?$/)[0])==false,if(isNull(value),\"[None]\",value),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For rows with `None Relevant` in ``URL domain``, add `[None]` to ``URL ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "URL Domain",
+                    "expression": "value",
+                    "columnName": "URL Domain",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "None Relevant",
+                                "l": "None Relevant"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "URL ID",
+        "expression": "grel:\"[None]\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Equals``",
+        "columnName": "Equals"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null value in ``Temp`` if the ID it contains is in ``URL ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp",
+        "expression": "grel:if(isNotNull(cells[\"URL ID\"].value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null empty cells in column ``001 ID Source``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "001 ID Source",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null empty cells in column ``Unofficial 001 ID Source``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Unofficial 001 ID Source",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Combine values in ``001 ID Source`` and ``Unofficial 001 ID Source`` in the former column, seperated by a pipe if both have a value and they're different",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "001 ID Source",
+        "expression": "grel:if(and(isNull(cells[\"001 ID Source\"].value),isNull(cells[\"Unofficial 001 ID Source\"].value)),null,if(isNotNull(cells[\"001 ID Source\"].value),if(isNotNull(cells[\"Unofficial 001 ID Source\"].value),if(cells[\"001 ID Source\"].value==cells[\"Unofficial 001 ID Source\"].value,cells[\"001 ID Source\"].value,cells[\"001 ID Source\"].value+\"|\"+cells[\"Unofficial 001 ID Source\"].value),cells[\"001 ID Source\"].value),cells[\"Unofficial 001 ID Source\"].value))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Append `-long` to all `YBP` values in column ``001 ID Source`` that begin with `999`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "001 ID Source",
+        "expression": "grel:if(and(value==\"YBP\",substring(cells[\"001 ID\"].value,0,3)==\"999\"),\"YPB-long\",value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Unofficial 001 ID Source``",
+        "columnName": "Unofficial 001 ID Source"
+    }
+]
