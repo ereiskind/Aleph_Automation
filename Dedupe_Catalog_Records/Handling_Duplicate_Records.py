@@ -61,6 +61,7 @@ messagebox.showinfo(title="Instructions", message="Use text facets to change the
 os.startfile('Organize_UXU01_Output_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Filter by blanks on \"Temp\" to copy IDs from any unusually formatted URLs into \"URL ID.\"")
 messagebox.showinfo(title="Instructions", message="Look at values with pipes in \"001 ID Source\" and determine which one to keep.")
+os.startfile('Organize_UXU01_Output_pt3--Ebook_Central_Specific.json')
 #ToDo: URL domain and Id combine and join multi-value cells
 #ToDo: 001 source and ID combien and join multi-value cells
 #ToDo: concatenate joined multi-value cells
