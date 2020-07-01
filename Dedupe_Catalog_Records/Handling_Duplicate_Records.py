@@ -63,6 +63,7 @@ os.startfile('Organize_UXU01_Output_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Filter by blanks on \"Temp\" to copy IDs from any unusually formatted URLs into \"URL ID.\"")
 messagebox.showinfo(title="Instructions", message="Look at values with pipes in \"001 ID Source\" and determine which one to keep.")
 os.startfile('Organize_UXU01_Output_pt3--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Investigate ISBNs with lenghs other than 10 or 13, then clean up \"ISBN Types\" via clustering.")
 
 #ToDo: look at BIB duplicates through IDs while keeping title and ISBN info attached to all BIBs
 

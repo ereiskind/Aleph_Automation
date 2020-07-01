@@ -834,26 +834,30 @@
         "keyColumnName": "BIB Number",
         "separator": "}|{"
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Divide values in column ``Values`` into new rows at each '}|{`",
+        "columnName": "Values",
+        "keyColumnName": "BIB Number",
+        "mode": "separator",
+        "separator": "}|{",
+        "regex": false
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Values`` at each `]|[`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "]|[",
+        "regex": false,
+        "maxColumns": 0
+    }
     {
         "op": "core/column-addition",
         "description": "Create column ``Temp`` combining field number, number of field within record, and BIB Number",
@@ -863,7 +867,7 @@
         },
         "newColumnName": "Temp",
         "columnInsertIndex": 0,
-        "baseColumnName": "Fields",
+        "baseColumnName": "Values 1",
         "expression": "grel:substring(value,0,indexOf(value,\"$\"))+\"-\"+row.record.cells[\"BIB Number\"].value[0]",
         "onError": "set-to-blank"
     }
@@ -879,12 +883,12 @@
     {
         "description": "Bring each field onto one line",
         "op": "core/text-transform",
-        "description": "Remove field numbers from values in column ``Fields``",
+        "description": "Remove field numbers from values in column ``Values 1``",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
-        "columnName": "Fields",
+        "columnName": "Values 1",
         "expression": "grel:substring(value,-5)",
         "onError": "keep-original",
         "repeat": false,
@@ -905,9 +909,9 @@
     },
     {
         "op": "core/key-value-columnize",
-        "description": "Pivot data so values in ``Fields`` are columns with values from ``Values``",
-        "keyColumnName": "Fields",
-        "valueColumnName": "Values",
+        "description": "Pivot data so values in ``Values 1`` are columns with values from ``Values 2``",
+        "keyColumnName": "Values 1",
+        "valueColumnName": "Values 2",
         "noteColumnName": ""
     }
     {
@@ -1338,72 +1342,72 @@
         "description": "Remove column ``All Others Blank``",
         "columnName": "All Others Blank"
     }
-        {
-          "op": "core/column-addition",
-          "description": "Create column ``Count``",
-          "engineConfig": {
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Count``",
+        "engineConfig": {
             "facets": [],
             "mode": "record-based"
-          },
-          "newColumnName": "Count",
-          "columnInsertIndex": 1,
-          "baseColumnName": "BIB Number",
-          "expression": "grel:row.record.cells[\"BIB Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
-          "onError": "set-to-blank"
         },
-        {
-          "op": "core/transpose-columns-into-rows",
-          "description": "Transpose values in columns ``020$a`` ``020$z`` ``776$z`` into single column ``ISBN`` with new column named ``ISBN Subfield`` containing the old column names",
-          "startColumnName": "020$a",
-          "columnCount": 3,
-          "ignoreBlankCells": true,
-          "fillDown": false,
-          "keyColumnName": "ISBN Subfield",
-          "valueColumnName": "ISBN"
-        }
-        {
-          "op": "core/column-removal",
-          "description": "Remove column ``Count``",
-          "columnName": "Count"
-        }
-        {
-          "op": "core/column-split",
-          "description": "Split column ``ISBN`` at pipe",
-          "engineConfig": {
+        "newColumnName": "Count",
+        "columnInsertIndex": 1,
+        "baseColumnName": "BIB Number",
+        "expression": "grel:row.record.cells[\"BIB Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/transpose-columns-into-rows",
+        "description": "Transpose values in columns ``020$a`` ``020$z`` ``776$z`` into single column ``ISBN`` with new column named ``ISBN Subfield`` containing the old column names",
+        "startColumnName": "020$a",
+        "columnCount": 3,
+        "ignoreBlankCells": true,
+        "fillDown": false,
+        "keyColumnName": "ISBN Subfield",
+        "valueColumnName": "ISBN"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Count``",
+        "columnName": "Count"
+    }
+    {
+        "op": "core/column-split",
+        "description": "Split column ``ISBN`` at pipe",
+        "engineConfig": {
             "facets": [],
             "mode": "record-based"
-          },
-          "columnName": "ISBN",
-          "guessCellType": false,
-          "removeOriginalColumn": true,
-          "mode": "separator",
-          "separator": "|",
-          "regex": false,
-          "maxColumns": 2
         },
-        {
-          "op": "core/column-rename",
-          "description": "Rename column ``ISBN 1`` to ``ISBN Value``",
-          "oldColumnName": "ISBN 1",
-          "newColumnName": "ISBN Value"
-        },
-        {
-          "op": "core/column-rename",
-          "description": "Rename column ``ISBN 2`` to ``ISBN Type``",
-          "oldColumnName": "ISBN 2",
-          "newColumnName": "ISBN Type"
-        },
-        {
-          "op": "core/column-addition",
-          "description": "Create column ``ISBN Length`` based off the length of the value in ``ISBN Value`` in that row",
-          "engineConfig": {
+        "columnName": "ISBN",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "|",
+        "regex": false,
+        "maxColumns": 2
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``ISBN 1`` to ``ISBN Value``",
+        "oldColumnName": "ISBN 1",
+        "newColumnName": "ISBN Value"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``ISBN 2`` to ``ISBN Type``",
+        "oldColumnName": "ISBN 2",
+        "newColumnName": "ISBN Type"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ISBN Length`` based off the length of the value in ``ISBN Value`` in that row",
+        "engineConfig": {
             "facets": [],
             "mode": "record-based"
-          },
-          "newColumnName": "ISBN Length",
-          "columnInsertIndex": 2,
-          "baseColumnName": "ISBN Value",
-          "expression": "grel:toString(length(value))",
-          "onError": "set-to-blank"
-        }
-      ]
+        },
+        "newColumnName": "ISBN Length",
+        "columnInsertIndex": 6,
+        "baseColumnName": "ISBN Value",
+        "expression": "grel:toString(length(value))",
+        "onError": "set-to-blank"
+    }
+]
