@@ -58,6 +58,7 @@ messagebox.showwarning(title="JSTOR", message="Pulling a DOI from a JSTOR URL se
 os.startfile('Organize_UXU01_Output_pt1--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain\" to change domain names into the platforms they represent.")
 messagebox.showinfo(title="Instructions", message="Use text facets to change the values in \"001 ID Source\" and \"Unofficial 001 ID Source\" into the names of the platforms/sources they represent.")
+messagebox.showwarning(title="YBP", message="Seperating the two different ID numbers provided by YBP is done by looking for those starting with \"999\" in the JSON--this should proobably be rethought.")
 os.startfile('Organize_UXU01_Output_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Filter by blanks on \"Temp\" to copy IDs from any unusually formatted URLs into \"URL ID.\"")
 messagebox.showinfo(title="Instructions", message="Look at values with pipes in \"001 ID Source\" and determine which one to keep.")

@@ -456,27 +456,34 @@
         "repeat": false,
         "repeatCount": 10
     }
-
-
-
-
-
-
-
-
-
-
-
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Title"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Values``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Values"
+    },
     {
         "op": "core/column-addition",
-        "description": "Create column ``Duplicate`` containing URL domain and ID in only the rows where that info has a duplicate value",
+        "description": "Create column ``Duplicate`` containing ID source and ID in only the rows where that info has a duplicate value",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Dedupe 2",
-                    "expression": "facetCount(value, 'value', 'Dedupe 2') > 1",
-                    "columnName": "Dedupe 2",
+                    "name": "IDs",
+                    "expression": "facetCount(value, 'value', 'IDs') > 1",
+                    "columnName": "IDs",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
@@ -494,7 +501,7 @@
             ],
             "mode": "row-based"
         },
-        "baseColumnName": "Dedupe 2",
+        "baseColumnName": "IDs",
         "expression": "grel:value",
         "onError": "set-to-blank",
         "newColumnName": "Duplicate",
@@ -502,77 +509,57 @@
     }
     {
         "op": "core/text-transform",
-        "description": "Null values in ``Duplicate`` containing `[None]`",
+        "description": "Null values in ``Duplicate`` containing `[null]`",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
         "columnName": "Duplicate",
-        "expression": "grel:if(contains(value,\"[None]\"),null,value)",
+        "expression": "grel:if(contains(value,\"[null]\"),null,value)",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
     }
     {
         "op": "core/column-split",
-        "description": "Split column ``Dedupe 2`` at first hyphen",
+        "description": "Split column ``IDs`` at `]|[`",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
-        "columnName": "Dedupe 2",
+        "columnName": "IDs",
         "guessCellType": false,
-        "removeOriginalColumn": true,
+        "removeOriginalColumn": false,
         "mode": "separator",
-        "separator": "-",
+        "separator": "]|[",
         "regex": false,
-        "maxColumns": 2
+        "maxColumns": 0
+    }
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``IDs 1`` to ``ID Source``",
+        "oldColumnName": "IDs 1",
+        "newColumnName": "ID Source"
     },
     {
         "op": "core/column-rename",
-        "description": "Rename column ``Dedupe 2 1`` to ``Domain``",
-        "oldColumnName": "Dedupe 2 1",
-        "newColumnName": "Domain"
-    },
-    {
-        "op": "core/column-rename",
-        "description": "Rename column ``Dedupe 2 2`` to ``ID``",
-        "oldColumnName": "Dedupe 2 2",
+        "description": "Rename column ``IDs 2`` to ``ID``",
+        "oldColumnName": "IDs 2",
         "newColumnName": "ID"
     },
     {
         "op": "core/column-addition",
-        "description": "Create column ``Check`` combining SYS number and URL domain",
+        "description": "Create column ``Check`` combining BIB number and ID source",
         "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Duplicate",
-                    "expression": "isBlank(value)",
-                    "columnName": "Duplicate",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
+            "facets": [],
             "mode": "record-based"
         },
-        "baseColumnName": "Domain",
-        "expression": "grel:row.record.cells[\"SYS Number\"].value[0]+\"-\"+value",
+        "baseColumnName": "ID Source",
+        "expression": "grel:row.record.cells[\"BIB Number\"].value[0]+\"]|[\"+value",
         "onError": "set-to-blank",
         "newColumnName": "Check",
-        "columnInsertIndex": 3
-    },
+        "columnInsertIndex": 2
+    }
     {
         "op": "core/text-transform",
         "description": "Null all unique values in ``Check``",
@@ -598,7 +585,7 @@
                     "selectError": false
                 }
             ],
-            "mode": "record-based"
+            "mode": "row-based"
         },
         "columnName": "Check",
         "expression": "null",
@@ -608,7 +595,7 @@
     }
     {
         "op": "core/text-transform",
-        "description": "Null value of ``Check`` for rows where ID is a longer version of another ID in the record which is also a duplicate",
+        "description": "add `#` to the end of values in column ``ID Source`` for rows where ``Check`` has a value",
         "engineConfig": {
             "facets": [
                 {
@@ -631,244 +618,342 @@
                     "selectError": false
                 }
             ],
-            "mode": "record-based"
+            "mode": "row-based"
         },
-        "columnName": "Check",
-        "expression": "grel:if(startsWith(cells.ID.value,substring(row.record.cells[\"Duplicate\"].value[0],indexOf(row.record.cells[\"Duplicate\"].value[0],\"-\")+1)),if(length(cells.ID.value)>length(substring(row.record.cells[\"Duplicate\"].value[0],indexOf(row.record.cells[\"Duplicate\"].value[0],\"-\")+1)),null,value),value)",
+        "columnName": "ID Source",
+        "expression": "grel:value+\"#\"",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
     }
-    {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``SYS Number`` in records that have values in ``Check``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Check",
-                    "expression": "isBlank(value)",
-                    "columnName": "Check",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "SYS Number"
-    },
-    {
-        "op": "core/row-removal",
-        "description": "Remove rows that have values in ``Check``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Check",
-                    "expression": "isBlank(value)",
-                    "columnName": "Check",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        }
-    }
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``SYS Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "SYS Number"
-    },
     {
         "op": "core/column-removal",
         "description": "Remove column ``Check``",
         "columnName": "Check"
     }
     {
-        "op": "core/key-value-columnize",
-        "description": "Pivot table to make ``Domain`` column names and ``ID`` values",
-        "keyColumnName": "Domain",
-        "valueColumnName": "ID",
-        "noteColumnName": ""
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``None Relevant``",
-        "columnName": "None Relevant"
-    },
-    {
-        "op": "core/column-split",
-        "description": "Split column ``Duplicate`` at first hyphen",
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Values``",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
-        "columnName": "Duplicate",
-        "guessCellType": false,
-        "removeOriginalColumn": true,
-        "mode": "separator",
-        "separator": "-",
-        "regex": false,
-        "maxColumns": 2
+        "columnName": "Values"
     },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``ID``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "ID",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``ID Source``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "ID Source",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": true,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/column-move",
+        "description": "Move column ``IDs`` to beginning",
+        "columnName": "IDs",
+        "index": 0
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``IDs``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "IDs"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Record Number`` with the number of the record based on the value of ``IDs``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "IDs",
+        "expression": "grel:row.record.index+1",
+        "onError": "set-to-blank",
+        "newColumnName": "Record Number",
+        "columnInsertIndex": 2
+    }
     {
         "op": "core/column-removal",
-        "description": "Remove column ``Duplicate 2``",
-        "columnName": "Duplicate 2"
+        "description": "Remove column ``IDs``",
+        "columnName": "IDs"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null unique values in column ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "facetCount(value, 'value', 'Record Number') > 1",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Record Number",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``BIB Number``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "BIB Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
     },
     {
-        "op": "core/column-rename",
-        "description": "Rename column ``Duplicate 1`` to ``Duplicate IDs``",
-        "oldColumnName": "Duplicate 1",
-        "newColumnName": "Duplicate IDs"
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Title"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Values``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Values"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Combine values in columns ``ID Source`` and ``ID`` seperated by `]|[`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ID",
+        "expression": "grel:cells[\"ID Source\"].value+\"]|[\"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ID Source``",
+        "columnName": "ID Source"
+    }
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``Record Number`` in a record in the first row divided by pipes",
+        "columnName": "Record Number",
+        "keyColumnName": "BIB Number",
+        "separator": "|"
     },
     {
         "op": "core/multivalued-cell-join",
-        "description": "Combine all values in ``Duplicate IDs`` for a record int he first row divided by pipes",
-        "columnName": "Duplicate IDs",
-        "keyColumnName": "SYS Number",
+        "description": "Combine all the rows for ``ID`` in the first row of the record seperated by `}|{`",
+        "columnName": "ID",
+        "keyColumnName": "BIB Number",
+        "separator": "}|{"
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Temp`` combining field number, number of field within record, and BIB Number",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Temp",
+        "columnInsertIndex": 0,
+        "baseColumnName": "Fields",
+        "expression": "grel:substring(value,0,indexOf(value,\"$\"))+\"-\"+row.record.cells[\"BIB Number\"].value[0]",
+        "onError": "set-to-blank"
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Temp``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Temp"
+    },
+    {
+        "description": "Bring each field onto one line",
+        "op": "core/text-transform",
+        "description": "Remove field numbers from values in column ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:substring(value,-5)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Count`` to keep all values during the pivot",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Count",
+        "columnInsertIndex": 1,
+        "baseColumnName": "Temp",
+        "expression": "grel:row.record.cells[\"Temp\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/key-value-columnize",
+        "description": "Pivot data so values in ``Fields`` are columns with values from ``Values``",
+        "keyColumnName": "Fields",
+        "valueColumnName": "Values",
+        "noteColumnName": ""
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Count``",
+        "columnName": "Count"
+    }
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Join all values in column ``020$a`` for a record in its first cell divided by pipes",
+        "columnName": "020$a",
+        "keyColumnName": "Temp",
         "separator": "|"
     }
     {
-        "op": "core/text-transform",
-        "description": "Fill up and down values in column ``Ebook Central``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebook Central",
-        "expression": "grel:row.record.cells[\"Ebook Central\"].value[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``Ebook Central``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebook Central"
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Fill up and down values in column ``Ebrary``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebrary",
-        "expression": "grel:row.record.cells[\"Ebrary\"].value[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``Ebrary``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebrary"
+        "op": "core/multivalued-cell-join",
+        "description": "Join all values in column ``020$z`` for a record in its first cell divided by pipes",
+        "columnName": "020$z",
+        "keyColumnName": "Temp",
+        "separator": "|"
     }
     {
-        "op": "core/text-transform",
-        "description": "Fill up and down values in column ``Ebook Library``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebook Library",
-        "expression": "grel:row.record.cells[\"Ebook Library\"].value[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
+        "op": "core/multivalued-cell-join",
+        "description": "Join all values in column ``776$z`` for a record in its first cell divided by pipes",
+        "columnName": "776$z",
+        "keyColumnName": "Temp",
+        "separator": "|"
     },
     {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``Ebook Library``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebook Library"
+        "op": "core/multivalued-cell-join",
+        "description": "Join all values in column ``020$q`` for a record in its first cell divided by pipes",
+        "columnName": "020$q",
+        "keyColumnName": "Temp",
+        "separator": ";"
     },
     {
-        "op": "core/text-transform",
-        "description": "Fill up and down values in column ``MyiLibrary``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "MyiLibrary",
-        "expression": "grel:row.record.cells[\"MyiLibrary\"].value[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``MyiLibrary``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "MyiLibrary"
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Fill up and down values in column ``DOI``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "DOI",
-        "expression": "grel:row.record.cells[\"DOI\"].value[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``DOI``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "DOI"
+        "op": "core/multivalued-cell-join",
+        "description": "Join all values in column ``776$i`` for a record in its first cell divided by pipes",
+        "columnName": "776$i",
+        "keyColumnName": "Temp",
+        "separator": "|"
     },
     {
         "op": "core/column-removal",
-        "description": "Remove column ``Dedupe``",
-        "columnName": "Dedupe"
+        "description": "Remove column ``Temp``",
+        "columnName": "Temp"
     }
     {
         "op": "core/column-addition",
@@ -879,8 +964,8 @@
         },
         "newColumnName": "All Others Blank",
         "columnInsertIndex": 1,
-        "baseColumnName": "SYS Number",
-        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+        "baseColumnName": "BIB Number",
+        "expression": "grel:toString(filter(row.columnNames,cn,isNonBlank(cells[cn].value)).length()==0)",
         "onError": "set-to-blank"
     },
     {
@@ -919,4 +1004,406 @@
         "description": "Remove column ``All Others Blank``",
         "columnName": "All Others Blank"
     }
-]
+    {
+        "description": "Split repeated subfields",
+        "op": "core/column-addition",
+        "description": "Create column ``020$a Split`` at start of table with value indicating if 020$a values in row will be split",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "020$a",
+        "expression": "grel:if(isNull(value),\"N/A\",toString(contains(value,\"|\")))",
+        "onError": "set-to-blank",
+        "newColumnName": "020$a Split",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values containing pipes in column ``020$a`` at pipes into new rows within the same record",
+        "columnName": "020$a",
+        "keyColumnName": "BIB Number",
+        "mode": "separator",
+        "separator": "|",
+        "regex": false
+    },
+    {
+        "op": "core/fill-down",
+        "description": "For ``020$a Split`` records with value `true`, fill down cells in column ``020$q``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Split",
+                    "expression": "value",
+                    "columnName": "Split",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "020$q"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``020$a Split``",
+        "columnName": "020$a Split"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``020$z Split`` at start of table with value indicating if 020$z values in row will be split",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "020$z",
+        "expression": "grel:if(isNull(value),\"N/A\",toString(contains(value,\"|\")))",
+        "onError": "set-to-blank",
+        "newColumnName": "020$z Split",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values containing pipes in column ``020$z`` at pipes into new rows within the same record",
+        "columnName": "020$z",
+        "keyColumnName": "BIB Number",
+        "mode": "separator",
+        "separator": "|",
+        "regex": false
+    },
+    {
+        "op": "core/fill-down",
+        "description": "For ``020$z Split`` records with value `true`, fill down cells in column ``020$q``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Split",
+                    "expression": "value",
+                    "columnName": "Split",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "020$q"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``020$z Split``",
+        "columnName": "020$z Split"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``776$z Split`` at start of table with value indicating if 776$z values in row will be split",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "776$z",
+        "expression": "grel:if(isNull(value),\"N/A\",toString(contains(value,\"|\")))",
+        "onError": "set-to-blank",
+        "newColumnName": "776$z Split",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values containing pipes in column ``776$z`` at pipes into new rows within the same record",
+        "columnName": "776$z",
+        "keyColumnName": "BIB Number",
+        "mode": "separator",
+        "separator": "|",
+        "regex": false
+    },
+    {
+        "op": "core/fill-down",
+        "description": "For ``776$z Split`` records with value `true`, fill down cells in column ``776$i``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Split",
+                    "expression": "value",
+                    "columnName": "Split",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "776$i"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``776$z Split``",
+        "columnName": "776$z Split"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null all blank cells in column ``020$a``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "020$a",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null all blank cells in column ``020$z``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "020$z",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null all blank cells in column ``020$q``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "020$q",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null all blank cells in column ``776$i``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "776$i",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null all blank cells in column ``776$z``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "776$z",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "description": "Append type information to each ISBN",
+        "op": "core/text-transform",
+        "description": "Add pipe between ISBN and descriptor in 020$a and add 020$q value in row after pipe",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "020$a",
+        "expression": "grel:if(isNotNull(value),if(and(indexOf(value,\" \")==-1, indexOf(value,\"(\")==-1),if(isNotNull(cells[\"020$q\"].value),value+\"|\"+cells[\"020$q\"].value,value+\"|020$a\"),if(isNotNull(cells[\"020$q\"].value),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\"))))+\"; \"+cells[\"020$q\"].value,if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\")))+\"; \"+cells[\"020$q\"].value,substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \")))+\"; \"+cells[\"020$q\"].value)),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\")))),if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\"))),substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \"))))))),null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add pipe between ISBN and descriptor in 020$z and add 020$q value in row after pipe",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "020$z",
+        "expression": "grel:if(isNotNull(value),if(and(indexOf(value,\" \")==-1, indexOf(value,\"(\")==-1),if(isNotNull(cells[\"020$q\"].value),value+\"|\"+cells[\"020$q\"].value,value+\"|020$z\"),if(isNotNull(cells[\"020$q\"].value),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\"))))+\"; \"+cells[\"020$q\"].value,if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\")))+\"; \"+cells[\"020$q\"].value,substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \")))+\"; \"+cells[\"020$q\"].value)),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\")))),if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\"))),substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \"))))))),null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add pipe between ISBN and descriptor in 776$z and add 776$i value in row after pipe",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "776$z",
+        "expression": "grel:if(isNotNull(value),if(and(indexOf(value,\" \")==-1, indexOf(value,\"(\")==-1),if(isNotNull(cells[\"776$i\"].value),value+\"|\"+cells[\"776$i\"].value,value+\"|776$z\"),if(isNotNull(cells[\"776$i\"].value),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\"))))+\"; \"+cells[\"776$i\"].value,if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\")))+\"; \"+cells[\"776$i\"].value,substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \")))+\"; \"+cells[\"776$i\"].value)),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\")))),if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\"))),substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \"))))))),null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "description": "Organize ISBN type information",
+        "op": "core/column-removal",
+        "description": "Remove column ``020$q``",
+        "columnName": "020$q"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``776$i``",
+        "columnName": "776$i"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``All Others Blank`` with value indicating if every other cell in the row is blank",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "newColumnName": "All Others Blank",
+        "columnInsertIndex": 1,
+        "baseColumnName": "BIB Number",
+        "expression": "grel:toString(filter(row.columnNames,cn,isNonBlank(cells[cn].value)).length()==0)",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where value of ``All Others Blank`` is `true`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "All Others Blank",
+                    "expression": "value",
+                    "columnName": "All Others Blank",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``All Others Blank``",
+        "columnName": "All Others Blank"
+    }
+        {
+          "op": "core/column-addition",
+          "description": "Create column ``Count``",
+          "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+          },
+          "newColumnName": "Count",
+          "columnInsertIndex": 1,
+          "baseColumnName": "BIB Number",
+          "expression": "grel:row.record.cells[\"BIB Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
+          "onError": "set-to-blank"
+        },
+        {
+          "op": "core/transpose-columns-into-rows",
+          "description": "Transpose values in columns ``020$a`` ``020$z`` ``776$z`` into single column ``ISBN`` with new column named ``ISBN Subfield`` containing the old column names",
+          "startColumnName": "020$a",
+          "columnCount": 3,
+          "ignoreBlankCells": true,
+          "fillDown": false,
+          "keyColumnName": "ISBN Subfield",
+          "valueColumnName": "ISBN"
+        }
+        {
+          "op": "core/column-removal",
+          "description": "Remove column ``Count``",
+          "columnName": "Count"
+        }
+        {
+          "op": "core/column-split",
+          "description": "Split column ``ISBN`` at pipe",
+          "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+          },
+          "columnName": "ISBN",
+          "guessCellType": false,
+          "removeOriginalColumn": true,
+          "mode": "separator",
+          "separator": "|",
+          "regex": false,
+          "maxColumns": 2
+        },
+        {
+          "op": "core/column-rename",
+          "description": "Rename column ``ISBN 1`` to ``ISBN Value``",
+          "oldColumnName": "ISBN 1",
+          "newColumnName": "ISBN Value"
+        },
+        {
+          "op": "core/column-rename",
+          "description": "Rename column ``ISBN 2`` to ``ISBN Type``",
+          "oldColumnName": "ISBN 2",
+          "newColumnName": "ISBN Type"
+        },
+        {
+          "op": "core/column-addition",
+          "description": "Create column ``ISBN Length`` based off the length of the value in ``ISBN Value`` in that row",
+          "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+          },
+          "newColumnName": "ISBN Length",
+          "columnInsertIndex": 2,
+          "baseColumnName": "ISBN Value",
+          "expression": "grel:toString(length(value))",
+          "onError": "set-to-blank"
+        }
+      ]
