@@ -56,20 +56,12 @@ messagebox.showwarning(title="Regex", message="The regex that should allow numbe
 messagebox.showwarning(title="Credo", message="Credo IDs that are only letters don't get transfered to the \"001 ID\" column.")
 messagebox.showwarning(title="JSTOR", message="Pulling a DOI from a JSTOR URL seems to involve all rows in that record having \"DOI\" appear in the \"URL Domain\" column.")
 os.startfile('Organize_UXU01_Output_pt1--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain\", including removing school names and proxy info from domains.")
+messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain\" to change domain names into the platforms they represent.")
 messagebox.showinfo(title="Instructions", message="Use text facets to change the values in \"001 ID Source\" and \"Unofficial 001 ID Source\" into the names of the platforms/sources they represent.")
 os.startfile('Organize_UXU01_Output_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Filter by blanks on \"Temp\" to copy IDs from any unusually formatted URLs into \"URL ID.\"")
 messagebox.showinfo(title="Instructions", message="Look at values with pipes in \"001 ID Source\" and determine which one to keep.")
 os.startfile('Organize_UXU01_Output_pt3--Ebook_Central_Specific.json')
-#ToDo: URL domain and Id combine and join multi-value cells
-#ToDo: 001 source and ID combien and join multi-value cells
-#ToDo: concatenate joined multi-value cells
-#ToDo: fill down above, title, BIB
-#toDo: remove rows with Fields of 035, 599, 856
-#ToDo: Join multi-value cell to get ISBNs together
-#ToDo: split multi-value cell, then combine with BIB to get rows with "BIB-ID source-ID"
-#ToDo: Dedupe IDs within BIBs
 
 #ToDo: look at BIB duplicates through IDs while keeping title and ISBN info attached to all BIBs
 
