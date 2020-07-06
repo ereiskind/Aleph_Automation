@@ -137,7 +137,7 @@
     },
     {
         "op": "core/blank-down",
-        "description": "Limited to rows where both ``Numbering`` and ``ISBN Value`` have duplicate non-null values, blank down cells in column ``Dedupe``",
+        "description": "Limited to rows where both ``BIB Number`` and ``ISBN Value`` have duplicate values, blank down cells in column ``Dedupe``",
         "engineConfig": {
             "facets": [
                 {
@@ -182,7 +182,7 @@
             "mode": "row-based"
         },
         "columnName": "Dedupe"
-    },
+    }
     {
         "op": "core/row-removal",
         "description": "Limited to rows where both ``Numbering`` and ``ISBN Value`` have duplicate non-null values, delete rows where column ``Dedupe`` is blank",
@@ -247,8 +247,154 @@
                 }
             ],
             "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/row-reorder",
+        "description": "Restore original row order",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "number",
+                    "column": "Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``Dedupe``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Dedupe",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Limited to rows where both ``BIB Number`` and ``ISBN Value`` have duplicate values, blank down cells in column ``Dedupe``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "facetCount(value, 'value', 'BIB Number') > 1",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Value",
+                    "expression": "facetCount(value, 'value', 'ISBN Value') > 1",
+                    "columnName": "ISBN Value",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
         },
-        "description": "Remove rows"
+        "columnName": "Dedupe"
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Limited to rows where both ``Numbering`` and ``ISBN Value`` have duplicate non-null values, delete rows where column ``Dedupe`` is blank",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "facetCount(value, 'value', 'BIB Number') > 1",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Value",
+                    "expression": "facetCount(value, 'value', 'ISBN Value') > 1",
+                    "columnName": "ISBN Value",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Dedupe",
+                    "expression": "isBlank(value)",
+                    "columnName": "Dedupe",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
     }
     {
         "op": "core/row-reorder",
@@ -272,6 +418,11 @@
         "columnName": "Dedupe"
     }
     {
+        "op": "core/column-removal",
+        "description": "Remove column ``Number``",
+        "columnName": "Number"
+    }
+    {
         "op": "core/row-reorder",
         "description": "Reorder rows based on ``BIB Number``",
         "mode": "row-based",
@@ -288,16 +439,6 @@
             ]
         }
     },
-
-
-
-
-
-
-
-
-
-
     {
         "op": "core/column-split",
         "description": "Create columns with BIB number and ISBN type and length",
@@ -325,15 +466,6 @@
         "oldColumnName": "BIB Number 1",
         "newColumnName": "BIB Number"
     },
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``BIB Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "BIB Number"
-    }
     {
         "op": "core/column-removal",
         "description": "Remove column ``BIB Number 2``",
@@ -372,6 +504,262 @@
         "columnName": "ISBN Length"
     }
     {
+        "op": "core/column-addition",
+        "description": "Create column ``ISBN`` with ISBN value and type, including length, at beginning of table",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "ISBN Value",
+        "expression": "grel:if(isNull(value),\"Record\"+toString(row.record.index+1),value+\" \"+if(contains(cells[\"ISBN Type\"].value,\" no\"),substring(cells[\"ISBN Type\"].value,0,lastIndexOf(cells[\"ISBN Type\"].value,\" \")),cells[\"ISBN Type\"].value))",
+        "onError": "set-to-blank",
+        "newColumnName": "ISBN",
+        "columnInsertIndex": 0
+    }
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``ISBN``",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "ISBN",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``ISBN``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ISBN Record Number`` with the number of the record based on the value of ``ISBN``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "ISBN",
+        "expression": "grel:row.record.index+1",
+        "onError": "set-to-blank",
+        "newColumnName": "ISBN Record Number",
+        "columnInsertIndex": 3
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null unique values in column ``ISBN Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Record Number",
+                    "expression": "facetCount(value, 'value', 'ISBN Record Number') > 1",
+                    "columnName": "ISBN Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Record Number",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove type info from values in column ``ISBN``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN",
+        "expression": "grel:substring(value,0,indexOf(value,\" \"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``ISBN``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ISBN Value Record Number`` with the number of the record based on the ISBN value",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "ISBN",
+        "expression": "grel:row.record.index+1",
+        "onError": "set-to-blank",
+        "newColumnName": "ISBN Value Record Number",
+        "columnInsertIndex": 4
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null unique values in column ``ISBN Value Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Value Record Number",
+                    "expression": "facetCount(value, 'value', 'ISBN Value Record Number') > 1",
+                    "columnName": "ISBN Value Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value Record Number",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``ISBN Value Record Number`` in records where all the rows have the same BIB number",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "grel:toString(forEach(row.record.cells[\"BIB Number\"].value,v,v).uniques().length())",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "1",
+                                "l": "1"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value Record Number",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ISBN``",
+        "columnName": "ISBN"
+    }
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``BIB Number``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "BIB Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    }
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``ISBN Record Number`` for a record in the first row seperated by pipes",
+        "columnName": "ISBN Record Number",
+        "keyColumnName": "BIB Number",
+        "separator": "|"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``ISBN Value Record Number`` for a record in the first row seperated by pipes",
+        "columnName": "ISBN Value Record Number",
+        "keyColumnName": "BIB Number",
+        "separator": "|"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Combine ISBN values and types seperated by `]|[`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value",
+        "expression": "grel:value+\"]|[\"+cells[\"ISBN Type\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ISBN Type``",
+        "columnName": "ISBN Type"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all ISBN infor for a record in the first row of the record seperated by `}|{`",
+        "columnName": "ISBN Value",
+        "keyColumnName": "BIB Number",
+        "separator": "}|{"
+    }
+    {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``Record Number``",
         "engineConfig": {
@@ -398,4 +786,236 @@
         },
         "columnName": "ID"
     }
-]
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "newColumnName": "All Others Blank",
+        "columnInsertIndex": 1,
+        "baseColumnName": "BIB Number",
+        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where the value of ``All Others Blank`` is `true`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "All Others Blank",
+                    "expression": "value",
+                    "columnName": "All Others Blank",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``All Others Blank``",
+        "columnName": "All Others Blank"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Fill in blank cells in ``Title`` with `Blank 245$a` and the record number",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title",
+        "expression": "grel:if(isBlank(value),\"Blank 245$a [\"+row.record.index+1+\"]\",value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Copy ``Title`` at the beginning of the table",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Title",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "Temp Title",
+        "columnInsertIndex": 0
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Trim whitespace from values in column ``Temp Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows according to ``Temp Title``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Temp Title",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Temp Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Temp Title"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Title Record Number`` with the number of the record based on the title",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Temp Title",
+        "expression": "grel:row.record.index+1",
+        "onError": "set-to-blank",
+        "newColumnName": "Title Record Number",
+        "columnInsertIndex": 5
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null unique values in column ``Title Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Title Record Number",
+                    "expression": "facetCount(value, 'value', 'Title Record Number') > 1",
+                    "columnName": "Title Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Title Record Number",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Trim value in column ``Temp Title`` at first colon or opening parenthesis",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title",
+        "expression": "grel:if(indexOf(value,\":\")>0,if(indexOf(value,\"(\")>0,substring(value,0,min(indexOf(value,\":\"),indexOf(value,\"(\"))),substring(value,0,indexOf(value,\":\"))),if(indexOf(value,\"(\")>0,substring(value,0,indexOf(value,\"(\")),value))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Temp Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Temp Title"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Trimmed Title Record Number`` with the number of the record based on the trimmed title",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Temp Title",
+        "expression": "grel:row.record.index+1",
+        "onError": "set-to-blank",
+        "newColumnName": "Trimmed Title Record Number",
+        "columnInsertIndex": 6
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null unique values in column ``Trimmed Title Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Trimmed Title Record Number",
+                    "expression": "facetCount(value, 'value', 'Trimmed Title Record Number') > 1",
+                    "columnName": "Trimmed Title Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Trimmed Title Record Number",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Temp Title``",
+        "columnName": "Temp Title"
+    }

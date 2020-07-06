@@ -55,6 +55,7 @@ messagebox.showwarning(title="Ebook Central", message="The following JSON is for
 messagebox.showwarning(title="Regex", message="The regex that should allow numbers that include dashes in them through doesn't.")
 messagebox.showwarning(title="Credo", message="Credo IDs that are only letters don't get transfered to the \"001 ID\" column.")
 messagebox.showwarning(title="JSTOR", message="Pulling a DOI from a JSTOR URL seems to involve all rows in that record having \"DOI\" appear in the \"URL Domain\" column.")
+messagebox.showwarning(title="Titles Not Captured", message="If there's an issue with the 245$a field, the \"Title\" column will be left blank.")
 os.startfile('Organize_UXU01_Output_pt1--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain\" to change domain names into the platforms they represent.")
 messagebox.showinfo(title="Instructions", message="Use text facets to change the values in \"001 ID Source\" and \"Unofficial 001 ID Source\" into the names of the platforms/sources they represent.")
@@ -64,7 +65,8 @@ messagebox.showinfo(title="Instructions", message="Filter by blanks on \"Temp\" 
 messagebox.showinfo(title="Instructions", message="Look at values with pipes in \"001 ID Source\" and determine which one to keep.")
 os.startfile('Organize_UXU01_Output_pt3--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Investigate ISBNs with lenghs other than 10 or 13, then clean up \"ISBN Types\" via clustering.")
-os.startfile('Organize_UXU01_Output_pt3--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Duplicate Dedupe Column Blank Down", message="The process for blanking down then removing rows with duplicate ISBNs for the record is done twice because the first time doesn't catch all the duplicates; the reason for this is unknown.")
+os.startfile('Organize_UXU01_Output_pt4--Ebook_Central_Specific.json')
 
 #ToDo: look at BIB duplicates through IDs while keeping title and ISBN info attached to all BIBs
 
