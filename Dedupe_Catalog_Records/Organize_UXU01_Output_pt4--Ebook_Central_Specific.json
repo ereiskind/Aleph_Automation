@@ -2020,3 +2020,270 @@
         "repeat": false,
         "repeatCount": 10
     }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ISBN Record Number``",
+        "columnName": "ISBN Record Number"
+    }
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``ISBN Value Record Number`` into new rows at pipes",
+        "columnName": "ISBN Value Record Number",
+        "keyColumnName": "BIB Number",
+        "mode": "separator",
+        "separator": "|",
+        "regex": false
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``ISBN Value``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ID"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``ISBN Value Record Number``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "ISBN Value Record Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill null values in column ``ISBN Value Record Number`` with `Row` and the record number",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value Record Number",
+        "expression": "grel:if(isNull(value),\"Row\"+toString(row.record.index+1),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-move",
+        "description": "Move column ``ISBN Value Record Number`` to beginning of table",
+        "columnName": "ISBN Value Record Number",
+        "index": 0
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``ISBN Value Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Value Record Number"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Title Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title Record Number"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Trimmed Title Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Trimmed Title Record Number"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ID"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``ISBN Value``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``BIB Number`` in a record in the first row of the record divided by `]}|{[`",
+        "columnName": "BIB Number",
+        "keyColumnName": "ISBN Value Record Number",
+        "separator": "]}|{["
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``Title`` in a record in the first row of the record divided by `]}|{[`",
+        "columnName": "Title",
+        "keyColumnName": "ISBN Value Record Number",
+        "separator": "]}|{["
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``ID`` in a record in the first row of the record divided by `]}|{[`",
+        "columnName": "ID",
+        "keyColumnName": "ISBN Value Record Number",
+        "separator": "]}|{["
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``ISBN Value`` in a record in the first row of the record divided by `]}|{[`",
+        "columnName": "ISBN Value",
+        "keyColumnName": "ISBN Value Record Number",
+        "separator": "]}|{["
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``Title Record Number`` in a record in the first row of the record divided by pipes",
+        "columnName": "Title Record Number",
+        "keyColumnName": "ISBN Value Record Number",
+        "separator": "|"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``Title Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Title Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Title Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Title Record Number",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``Trimmed Title Record Number`` in a record in the first row of the record divided by pipes",
+        "columnName": "Trimmed Title Record Number",
+        "keyColumnName": "ISBN Value Record Number",
+        "separator": "|"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``Trimmed Title Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Trimmed Title Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Trimmed Title Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Trimmed Title Record Number",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
