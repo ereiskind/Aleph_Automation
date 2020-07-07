@@ -2564,55 +2564,161 @@
         "expression": "grel:row.record.index+1",
         "onError": "set-to-blank",
         "newColumnName": "Record Number",
+        "columnInsertIndex": 0
+    }
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``BIB Number`` into new rows at `]}|{[``",
+        "columnName": "BIB Number",
+        "keyColumnName": "Record Number",
+        "mode": "separator",
+        "separator": "]}|{[",
+        "regex": false
+    }
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``Title`` into new rows at `]}|{[``",
+        "columnName": "Title",
+        "keyColumnName": "Record Number",
+        "mode": "separator",
+        "separator": "]}|{[",
+        "regex": false
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``ID`` into new rows at `]}|{[``",
+        "columnName": "ID",
+        "keyColumnName": "Record Number",
+        "mode": "separator",
+        "separator": "]}|{[",
+        "regex": false
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``ISBN Value`` into new rows at `]}|{[``",
+        "columnName": "ISBN Value",
+        "keyColumnName": "Record Number",
+        "mode": "separator",
+        "separator": "]}|{[",
+        "regex": false
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number"
+    },
+    {
+        "op": "core/column-move",
+        "description": "Move column ``BIB Number`` to beginning of table",
+        "columnName": "BIB Number",
+        "index": 0
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Dedupe`` combining values of ``BIB Number`` and ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:value+\"-\"+cells[\"Record Number\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Dedupe",
         "columnInsertIndex": 1
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``Dedupe``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Dedupe",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Dedupe``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Dedupe"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with no value in ``Dedupe``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Dedupe",
+                    "expression": "isBlank(value)",
+                    "columnName": "Dedupe",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Dedupe``",
+        "columnName": "Dedupe"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with unique values in ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "facetCount(value, 'value', 'Record Number') > 1",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
     }
 
 
 
 
 
-
-
-
-
-
-
-
-    [
-        {
-          "op": "core/multivalued-cell-split",
-          "columnName": "ISBN Value",
-          "keyColumnName": "BIB Number",
-          "mode": "separator",
-          "separator": "]}|{[",
-          "regex": false,
-          "description": "Split multi-valued cells in column ISBN Value"
-        },
-        {
-          "op": "core/multivalued-cell-split",
-          "columnName": "ID",
-          "keyColumnName": "BIB Number",
-          "mode": "separator",
-          "separator": "]}|{[",
-          "regex": false,
-          "description": "Split multi-valued cells in column ID"
-        },
-        {
-          "op": "core/multivalued-cell-split",
-          "columnName": "Title",
-          "keyColumnName": "BIB Number",
-          "mode": "separator",
-          "separator": "]}|{[",
-          "regex": false,
-          "description": "Split multi-valued cells in column Title"
-        },
-        {
-          "op": "core/multivalued-cell-split",
-          "columnName": "BIB Number",
-          "keyColumnName": "BIB Number",
-          "mode": "separator",
-          "separator": "]}|{[",
-          "regex": false,
-          "description": "Split multi-valued cells in column BIB Number"
-        }
-      ]
