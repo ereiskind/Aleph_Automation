@@ -71,6 +71,8 @@ messagebox.showwarning(title="Ebook Central", message="Non-Ebook Central ID sour
 messagebox.showwarning(title="Ebook Central", message="The following JSON contains hard coded fill up and down then blank down instructions--in actuality, a loop knowing the names of the columns created needs to create that part of the JSON.")
 messagebox.showwarning(title="Exact Match via Ebook Central Columns", message="The \"Exact Match via Ebook Central ID\" column was created because there weren't any BIBs with multiple Ebook Central IDs.")
 os.startfile('Organize_UXU01_Output_pt4--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Download OpenRefine to Excel...")
+#ToDo: next steps???
 
 #ToDo: look at BIB duplicates through IDs while keeping title and ISBN info attached to all BIBs
 
