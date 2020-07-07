@@ -67,6 +67,9 @@ messagebox.showinfo(title="Instructions", message="Look at values with pipes in 
 os.startfile('Organize_UXU01_Output_pt3--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Investigate ISBNs with lenghs other than 10 or 13, then clean up \"ISBN Types\" via clustering.")
 messagebox.showinfo(title="Duplicate Dedupe Column Blank Down", message="The process for blanking down then removing rows with duplicate ISBNs for the record is done twice because the first time doesn't catch all the duplicates; the reason for this is unknown.")
+messagebox.showwarning(title="Ebook Central", message="Non-Ebook Central ID sources that didn't have duplicate IDs have their columns removed in this JSON.")
+messagebox.showwarning(title="Ebook Central", message="The following JSON contains hard coded fill up and down then blank down instructions--in actuality, a loop knowing the names of the columns created needs to create that part of the JSON.")
+messagebox.showwarning(title="Exact Match via Ebook Central Columns", message="The \"Exact Match via Ebook Central ID\" column was created because there weren't any BIBs with multiple Ebook Central IDs.")
 os.startfile('Organize_UXU01_Output_pt4--Ebook_Central_Specific.json')
 
 #ToDo: look at BIB duplicates through IDs while keeping title and ISBN info attached to all BIBs
