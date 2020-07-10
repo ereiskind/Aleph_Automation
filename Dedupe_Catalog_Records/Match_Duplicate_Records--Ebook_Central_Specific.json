@@ -1,21 +1,120 @@
 [
-
-
-
-
-
     {
         "op": "core/column-addition",
-        "description": "Create column ``Record Number`` with the number from the BIB matching in the UXU01 OpenRefine project",
+        "description": "Create column ``BIB URL`` containing the URL for that row's BIB number from the OpenRefine project named `URL`",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
         "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Record Number\"].value",
+        "expression": "grel:cell.cross(\"URLs\",\"BIB Number\")[0].cells.Values.value",
         "onError": "set-to-blank",
-        "newColumnName": "Record Number",
+        "newColumnName": "BIB URL",
         "columnInsertIndex": 5
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``OCLC`` with the OCLC ID(s) from the BIB matching in the UXU01 OpenRefine project",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"OCLC\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "OCLC",
+        "columnInsertIndex": 6
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Library`` with the Ebook Library ID(s) from the BIB matching in the UXU01 OpenRefine project",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Ebook Library\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Library",
+        "columnInsertIndex": 6
+    }  
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebrary`` with the Ebrary ID(s) from the BIB matching in the UXU01 OpenRefine project",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Ebrary\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebrary",
+        "columnInsertIndex": 6
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``MyiLibrary`` with the MyiLibrary ID(s) from the BIB matching in the UXU01 OpenRefine project",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"MyiLibrary\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "MyiLibrary",
+        "columnInsertIndex": 6
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Central`` with the possible Ebook Central IDs from the BIB matching in the UXU01 OpenRefine project",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Ebook Central\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Central",
+        "columnInsertIndex": 6
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``DOI`` with the DOI from the BIB matching in the UXU01 OpenRefine project",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"DOI\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "DOI",
+        "columnInsertIndex": 6
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Central ID`` with the Ebook Central ID from the BIB matching in the UXU01 OpenRefine project",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Ebook Central ID\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Central ID",
+        "columnInsertIndex": 6
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Title`` with the title from the BIB matching in the UXU01 OpenRefine project",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Title\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Title",
+        "columnInsertIndex": 6
     }
     {
         "op": "core/column-addition",
@@ -32,105 +131,103 @@
     }
     {
         "op": "core/column-addition",
-        "description": "Create column ``Title`` with the title from the BIB matching in the UXU01 OpenRefine project",
+        "description": "Create column ``Record Number`` with the number from the BIB matching in the UXU01 OpenRefine project",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
         "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Title\"].value",
+        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Record Number\"].value",
         "onError": "set-to-blank",
-        "newColumnName": "Title",
-        "columnInsertIndex": 7
+        "newColumnName": "Record Number",
+        "columnInsertIndex": 6
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "op": "core/text-transform",
+        "description": "Copy Ebook Central URLs from ``Values`` into ``URLs``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "URLs",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/[\\w-]*\\/detail\\.action\\?docID=\\d+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Copy MyiLibrary URLs from ``Values`` into ``URLs``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "URLs",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(lib|www)\\.myilibrary\\.com\\/?(detail\\.asp)?\\?(id|ID)=\\d+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     }
     {
-        "op": "core/column-addition",
-        "description": "Create column ``Ebook Central ID`` with the Ebook Central ID from the BIB matching in the UXU01 OpenRefine project",
+        "op": "core/text-transform",
+        "description": "Copy Ebrary URLs with `=` from ``Values`` into ``URLs``",
         "engineConfig": {
             "facets": [],
-            "mode": "record-based"
+            "mode": "row-based"
         },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Ebook Central ID\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "Ebook Central ID",
-        "columnInsertIndex": 8
+        "columnName": "URLs",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/site\\.ebrary\\.com\\/.*(id|ID)=\\d+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     }
     {
-        "op": "core/column-addition",
-        "description": "Create column ``DOI`` with the DOI from the BIB matching in the UXU01 OpenRefine project",
+        "op": "core/text-transform",
+        "description": "Copy Ebrary URLs without `=` from ``Values`` to ``URLs``",
         "engineConfig": {
             "facets": [],
-            "mode": "record-based"
+            "mode": "row-based"
         },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"DOI\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "DOI",
-        "columnInsertIndex": 9
+        "columnName": "URLs",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/site\\.ebrary\\.com\\/id\\/\\d+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     }
     {
-        "op": "core/column-addition",
-        "description": "Create column ``Ebook Central`` with the possible Ebook Central IDs from the BIB matching in the UXU01 OpenRefine project",
+        "op": "core/text-transform",
+        "description": "Copy Ebook Library URLs from ``Values`` into ``URLs``",
         "engineConfig": {
             "facets": [],
-            "mode": "record-based"
+            "mode": "row-based"
         },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Ebook Central\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "Ebook Central",
-        "columnInsertIndex": 10
+        "columnName": "URLs",
+        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(www.)?\\w*\\.eblib\\.com\\/[\\w\\/.?=&]*=\\w+/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``MyiLibrary`` with the MyiLibrary ID(s) from the BIB matching in the UXU01 OpenRefine project",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"MyiLibrary\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "MyiLibrary",
-        "columnInsertIndex": 11
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Ebrary`` with the Ebrary ID(s) from the BIB matching in the UXU01 OpenRefine project",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Ebrary\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "Ebrary",
-        "columnInsertIndex": 12
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Ebook Library`` with the Ebook Library ID(s) from the BIB matching in the UXU01 OpenRefine project",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"Ebook Library\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "Ebook Library",
-        "columnInsertIndex": 13
-    }    
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``OCLC`` with the OCLC ID(s) from the BIB matching in the UXU01 OpenRefine project",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"ebook_central_all_6 19 2020 txt\",\"BIB Number\")[0].cells[\"OCLC\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "OCLC",
-        "columnInsertIndex": 14
-    }
+

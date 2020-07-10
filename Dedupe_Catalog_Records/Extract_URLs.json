@@ -426,136 +426,115 @@
         "repeatCount": 10
     }
     {
+        "op": "core/column-split",
+        "description": "Split column ``Values`` into new columns at each point matching `http://` or `https://`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "guessCellType": false,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": "https?:\\/\\/",
+        "regex": true,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``Values 1``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values 1",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/transpose-columns-into-rows",
+        "description": "Pivot columns created by splitting ``Values`` into a single column named ``Segments`` while filling down all other columns",
+        "combinedColumnName": "Segments",
+        "startColumnName": "Values 1",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": true,
+        "prependColumnName": false,
+        "separator": ":",
+        "keyColumnName": null,
+        "valueColumnName": null
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where ``Segments`` has proxy headers containing `login?url=`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Segments",
+                    "expression": "grel:toString(contains(value,\"login?url=\"))",
+                    "columnName": "Segments",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
         "op": "core/column-addition",
-        "description": "Create empty column ``URLs``",
+        "description": "Create column ``Dedupe`` combining values of ``BIB Number`` and ``Fields``",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
         "baseColumnName": "BIB Number",
-        "expression": "grel:null",
-        "onError": "set-to-blank",
-        "newColumnName": "URLs",
-        "columnInsertIndex": 2
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Copy Ebook Central URLs from ``Values`` into ``URLs``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "URLs",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/[\\w-]*\\/detail\\.action\\?docID=\\d+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Copy MyiLibrary URLs from ``Values`` into ``URLs``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "URLs",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(lib|www)\\.myilibrary\\.com\\/?(detail\\.asp)?\\?(id|ID)=\\d+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Copy Ebrary URLs with `=` from ``Values`` into ``URLs``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "URLs",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/site\\.ebrary\\.com\\/.*(id|ID)=\\d+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Copy Ebrary URLs without `=` from ``Values`` to ``URLs``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "URLs",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/site\\.ebrary\\.com\\/id\\/\\d+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Copy Ebook Library URLs from ``Values`` into ``URLs``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "URLs",
-        "expression": "grel:find(cells.Values.value,/https?:\\/\\/(www.)?\\w*\\.eblib\\.com\\/[\\w\\/.?=&]*=\\w+/)[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Values``",
-        "columnName": "Values"
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Dedupe`` combining the BIB number and either the value of ``URLs`` or `No URL` and the record number",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "URLs",
-        "expression": "grel:if(isNull(value),cells[\"BIB Number\"].value+\"-No URL-\"+toString(row.record.index+1),cells[\"BIB Number\"].value+\"-\"+value)",
+        "expression": "grel:value+\"-\"+cells.Fields.value",
         "onError": "set-to-blank",
         "newColumnName": "Dedupe",
         "columnInsertIndex": 1
-    }
-    {
-        "op": "core/row-reorder",
-        "description": "Reorder rows based on ``Dedupe``",
-        "mode": "record-based",
-        "sorting": {
-            "criteria": [
-                {
-                    "valueType": "string",
-                    "column": "Dedupe",
-                    "blankPosition": 2,
-                    "errorPosition": 1,
-                    "reverse": false,
-                    "caseSensitive": false
-                }
-            ]
-        }
-    },
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``Dedupe``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Dedupe"
     },
     {
         "op": "core/row-removal",
-        "description": "Remove rows with no value in ``Dedupe``",
+        "description": "Remove rows where ``Dedupe`` is a duplicate value and ``Segments`` contains `shibb` or `openathens`",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
+                    "name": "Segments",
+                    "expression": "grel:toString(or(contains(value,\"shibb\"),contains(value,\"openathens\")))",
+                    "columnName": "Segments",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
                     "name": "Dedupe",
-                    "expression": "isBlank(value)",
+                    "expression": "facetCount(value, 'value', 'Dedupe') > 1",
                     "columnName": "Dedupe",
                     "invert": false,
                     "omitBlank": false,
@@ -572,24 +551,63 @@
                     "selectError": false
                 }
             ],
-            "mode": "row-based"
+            "mode": "record-based"
         }
-    },
+    }
     {
         "op": "core/column-removal",
         "description": "Remove column ``Dedupe``",
         "columnName": "Dedupe"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add BIB number to beginning of ``Segments``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Segments",
+        "expression": "grel:cells[\"BIB Number\"].value+\"-\"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``Segments``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Segments",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Segments``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Segments"
     },
     {
         "op": "core/row-removal",
-        "description": "Remove rows where ``URLs`` is blank",
+        "description": "Remove rows with no value in ``Segments``",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "URLs",
+                    "name": "Segments",
                     "expression": "isBlank(value)",
-                    "columnName": "URLs",
+                    "columnName": "Segments",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
@@ -607,6 +625,11 @@
             ],
             "mode": "row-based"
         }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Segments``",
+        "columnName": "Segments"
     },
     {
         "op": "core/column-addition",
@@ -637,7 +660,7 @@
                 }
             ]
         }
-    },
+    }, 
     {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``BIB Number``",
@@ -649,8 +672,8 @@
     },
     {
         "op": "core/multivalued-cell-join",
-        "description": "Combine all values in column ``URLs`` in a record in the first row of that record seperated by pipes",
-        "columnName": "URLs",
+        "description": "Combine all values in column ``Values`` in a record in the first row of that record seperated by pipes",
+        "columnName": "Values",
         "keyColumnName": "BIB Number",
         "separator": "|"
     }
