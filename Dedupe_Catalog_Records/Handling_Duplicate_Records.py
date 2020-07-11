@@ -52,8 +52,8 @@ messagebox.showinfo(title="Instructions", message="For list of HOLs, use print-0
 #Subsection: Organize UXU01 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU01 info into OpenRefine with column widths 10, 6, 2.")
 #ToDo: Create GUI element to capture name of this OpenRefine project and save it to variable UXU01OpenRefineProject
-messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central--the domain search regexes are hard coded")
-messagebox.showwarning(title="Regex", message="The regex that should allow numbers that include dashes in them through doesn't.")
+messagebox.showwarning(title="Creating Title", message="The step to create the title column won't work unless there's a 245$a, 245$b, 245$n, and 250$a column.")
+messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central--the domain search regexes are hard coded. On a related note, any URLs from those domains not fitting the regexes are excluded.")
 messagebox.showwarning(title="Credo", message="Credo IDs that are only letters don't get transfered to the \"001 ID\" column.")
 messagebox.showwarning(title="JSTOR", message="Pulling a DOI from a JSTOR URL seems to involve all rows in that record having \"DOI\" appear in the \"URL Domain\" column.")
 messagebox.showwarning(title="Titles Not Captured", message="If there's an issue with the 245$a field, the \"Title\" column will be left blank.")

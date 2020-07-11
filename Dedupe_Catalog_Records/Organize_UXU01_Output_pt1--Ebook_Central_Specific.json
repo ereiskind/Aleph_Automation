@@ -826,39 +826,6 @@
     }
     {
         "op": "core/text-transform",
-        "description": "For records with no value in ``Temp``, copy URLs containing `ebookcentral`, `myilibrary`, `ebrary`, `eblib` after the last instance of `http` or `www` from ``Values`` to ``Temp``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Temp",
-                    "expression": "isBlank(value)",
-                    "columnName": "Temp",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "Temp",
-        "expression": "grel:if(or(contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"ebookcentral\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"myilibrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"ebrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\"eblib\")),substring(cells.Values.value,lastIndexOf(cells.Values.value,\"http\")),\nif(or(contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"ebookcentral\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"myilibrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"ebrary\"),contains(substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),\"eblib\")),substring(cells.Values.value,lastIndexOf(cells.Values.value,\"www\")),value))",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
         "description": "For records with no value in ``Temp``, copy DOI URLs from ``Values`` to ``Temp``",
         "engineConfig": {
             "facets": [
@@ -867,14 +834,14 @@
                     "name": "Temp",
                     "expression": "isBlank(value)",
                     "columnName": "Temp",
-                    "invert": true,
+                    "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": true,
+                                "l": "true"
                             }
                         }
                     ],
@@ -882,14 +849,14 @@
                     "selectError": false
                 }
             ],
-            "mode": "record-based"
+            "mode": "row-based"
         },
         "columnName": "Temp",
         "expression": "grel:find(cells.Values.value,/https?:\\/\\/(dx\\.)?doi\\.org\\/[\\w\\-\\.\\/]+/)[0]",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
-    },
+    }
     {
         "op": "core/column-addition",
         "description": "Create column ``URL Domain`` with the domain of the URL in ``Temp``",
@@ -965,14 +932,14 @@
                     "name": "Temp",
                     "expression": "isBlank(value)",
                     "columnName": "Temp",
-                    "invert": true,
+                    "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": true,
+                                "l": "true"
                             }
                         }
                     ],
@@ -980,7 +947,7 @@
                     "selectError": false
                 }
             ],
-            "mode": "record-based"
+            "mode": "row-based"
         },
         "baseColumnName": "Values",
         "expression": "grel:find(value,/10\\.[\\w\\.]+\\/[\\w\\.\\-]+$/)[0]",
@@ -1069,7 +1036,7 @@
     },
     {
         "op": "core/blank-down",
-        "description": "Blank down cells in column ``URL Domain``",
+        "description": "Blank down `None Relevant` values in column ``URL Domain``",
         "engineConfig": {
             "facets": [
                 {
@@ -1098,7 +1065,7 @@
     },
     {
         "op": "core/column-split",
-        "description": "Split column ``Values`` at MARC tag delimeter `]|[`",
+        "description": "For 035 and 599 field rows, split column ``Values`` at MARC tag delimeter `]|[`",
         "engineConfig": {
             "facets": [
                 {
