@@ -50,8 +50,7 @@ messagebox.showinfo(title="Instructions", message="For list of BIBs, use manage-
 messagebox.showinfo(title="Instructions", message="For list of HOLs, use print-03 to get Alpeh sequential file with TKR##, LKR##, STA##, 852## fields and indicators.")
 
 #Subsection: Organize UXU01 Output
-messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU01 info into OpenRefine with column widths 10, 6, 2.")
-#ToDo: Create GUI element to capture name of this OpenRefine project and save it to variable UXU01OpenRefineProject
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU01 info into OpenRefine with column widths 10, 6, 2. Name the project \"UXU01_Cleanup\".")
 messagebox.showwarning(title="Creating Title", message="The step to create the title column won't work unless there's a 245$a, 245$b, 245$n, and 250$a column.")
 messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central--the domain search regexes are hard coded. On a related note, any URLs from those domains not fitting the regexes are excluded.")
 messagebox.showwarning(title="Credo", message="Credo IDs that are only letters don't get transfered to the \"001 ID\" column.")
@@ -73,6 +72,7 @@ messagebox.showwarning(title="Ebook Central", message="The following JSON contai
 messagebox.showwarning(title="Exact Match via Ebook Central Columns", message="The \"Exact Match via Ebook Central ID\" column was created because there weren't any BIBs with multiple Ebook Central IDs.")
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 os.startfile('Organize_UXU01_Output_pt4--Ebook_Central_Specific.json')
+#Alert: This seems to not include BIBs that don't have FSU 856 fields--is this a problem?
 
 #Subsection: Organize UXU60 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU60 info into OpenRefine with column widths 10, 5, 3.")
@@ -90,9 +90,9 @@ os.startfile('Extract_URLs.json')
 
 #Section: Determine Which Records to Keep
 #Subsection: Match Duplicate BIB Records
+messagebox.showinfo(title="Instructions", message="This JSON continues using the UXU60 OpenRefine project.")
 messagebox.showwarning(title="Cell Cross Project Name", message="The JSON currently has the OpenRefine project for Ebook Central's name hard-coded into it.")
 messagebox.showwarning(title="Cell Cross Project Columns", message="The JSON currently has ID columns for the Ebook Central BIB project hard-coded into it.")
-#ToDo: Create function that uses value stored in variable UXU01OpenRefineProject in cell cross functions in JSON below to pull appropriate columns
 #ToDo: Get list of columns to pull from UXU01 OpenRefine project and create loop to load them into this project with the last column being the first JSON object so all the object can use the same column insert index
 os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
 
