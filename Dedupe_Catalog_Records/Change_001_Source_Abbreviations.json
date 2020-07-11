@@ -1,0 +1,262 @@
+[
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "Au-PeEL"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "Ebook Library"
+        }
+      ],
+      "description": "Mass edit cells in column 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "CaONFJC"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "MyiLibrary"
+        }
+      ],
+      "description": "Mass edit cells in column 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "CaPaEBR"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "Ebrary"
+        }
+      ],
+      "description": "Mass edit cells in column 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "DE-He213"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "Springer-Verlag"
+        }
+      ],
+      "description": "Mass edit cells in column 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "MiAaPQ"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "ProQuest"
+        }
+      ],
+      "description": "Mass edit cells in column 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "NhCcYBP"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "YBP"
+        }
+      ],
+      "description": "Mass edit cells in column 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "OCoLC"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "OCLC"
+        }
+      ],
+      "description": "Mass edit cells in column 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "SFPDA_MiAaPQ"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "ProQuest"
+        }
+      ],
+      "description": "Mass edit cells in column 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "YBPUID"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "YBP"
+        }
+      ],
+      "description": "Mass edit cells in column 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "Unofficial 001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "MIL"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "MyiLibrary"
+        }
+      ],
+      "description": "Mass edit cells in column Unofficial 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "Unofficial 001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "EBR"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "Ebrary"
+        }
+      ],
+      "description": "Mass edit cells in column Unofficial 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "Unofficial 001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "EBL"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "Ebook Library"
+        }
+      ],
+      "description": "Mass edit cells in column Unofficial 001 ID Source"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "Unofficial 001 ID Source",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "EBC"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "Ebook Central"
+        }
+      ],
+      "description": "Mass edit cells in column Unofficial 001 ID Source"
+    }
+  ]

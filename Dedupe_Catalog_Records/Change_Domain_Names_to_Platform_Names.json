@@ -1,0 +1,102 @@
+[
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "URL Domain",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "ebookcentral.proquest.com"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "Ebook Central"
+        }
+      ],
+      "description": "Mass edit cells in column URL Domain"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "URL Domain",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "lib.myilibrary.com"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "MyiLibrary"
+        }
+      ],
+      "description": "Mass edit cells in column URL Domain"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "URL Domain",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "site.ebrary.com"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "Ebrary"
+        }
+      ],
+      "description": "Mass edit cells in column URL Domain"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "URL Domain",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "ucf.eblib.com"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "Ebook Library"
+        }
+      ],
+      "description": "Mass edit cells in column URL Domain"
+    },
+    {
+      "op": "core/mass-edit",
+      "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+      },
+      "columnName": "URL Domain",
+      "expression": "value",
+      "edits": [
+        {
+          "from": [
+            "www.myilibrary.com"
+          ],
+          "fromBlank": false,
+          "fromError": false,
+          "to": "MyiLibrary"
+        }
+      ],
+      "description": "Mass edit cells in column URL Domain"
+    }
+  ]
