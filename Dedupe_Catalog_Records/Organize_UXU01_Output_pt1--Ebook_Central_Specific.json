@@ -980,7 +980,7 @@
                     "selectError": false
                 }
             ],
-            "mode": "record-based"
+            "mode": "row-based"
         },
         "columnName": "URL Domain",
         "expression": "grel:\"DOI\"",
