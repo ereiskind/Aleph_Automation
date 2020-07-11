@@ -461,7 +461,7 @@
         "description": "Blank down cells in column ``Title``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "Title"
     },
@@ -470,7 +470,7 @@
         "description": "Blank down cells in column ``Values``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "Values"
     },
@@ -632,6 +632,11 @@
         "columnName": "Check"
     }
     {
+        "op": "core/column-removal",
+        "description": "Remove column ``Duplicate``",
+        "columnName": "Duplicate"
+    }
+    {
         "op": "core/fill-down",
         "description": "Fill down cells in column ``Values``",
         "engineConfig": {
@@ -719,6 +724,39 @@
         "onError": "set-to-blank",
         "newColumnName": "Record Number",
         "columnInsertIndex": 2
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``Record Number`` for the record representing no ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "IDs",
+                    "expression": "grel:toString(value==\"[null]\")",
+                    "columnName": "IDs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     }
     {
         "op": "core/column-removal",
