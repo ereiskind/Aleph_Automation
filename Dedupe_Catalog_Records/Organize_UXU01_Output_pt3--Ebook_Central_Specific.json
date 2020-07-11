@@ -827,7 +827,7 @@
         "description": "Blank down cells in column ``Title``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "Title"
     },
@@ -836,7 +836,7 @@
         "description": "Blank down cells in column ``Values``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "Values"
     },
