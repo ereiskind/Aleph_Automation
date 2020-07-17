@@ -64,10 +64,11 @@ messagebox.showwarning(title="Credo", message="Credo IDs that are letters follow
 os.startfile('Organize_UXU01_Output_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Look at values with pipes in \"001 ID Source\" and determine which one to keep.")
 os.startfile('Organize_UXU01_Output_pt3--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Investigate ISBNs with lenghs other than 10 or 13, then clean up \"ISBN Types\" via clustering.")
-messagebox.showinfo(title="Duplicate Dedupe Column Blank Down", message="The process for blanking down then removing rows with duplicate ISBNs for the record is done twice because the first time doesn't catch all the duplicates; the reason for this is unknown.")
+messagebox.showinfo(title="Instructions", message="Investigate ISBNs with lengths other than 10 or 13, then clean up \"ISBN Types\" via clustering.")
+messagebox.showwarning(title="Duplicate Dedupe Column Blank Down", message="The process for blanking down then removing rows with duplicate ISBNs for the record is done twice because the first time doesn't catch all the duplicates; the reason for this is unknown.")
 messagebox.showwarning(title="Ebook Central", message="Non-Ebook Central ID sources that didn't have duplicate IDs have their columns removed in this JSON.")
 messagebox.showwarning(title="Ebook Central", message="The following JSON contains hard coded fill up and down then blank down instructions--in actuality, a loop knowing the names of the columns created needs to create that part of the JSON.")
+#ToDo: figure out how to constructo loop for fill up and down then blank down hard coded into the pt4 JSON
 messagebox.showwarning(title="Exact Match via Ebook Central Columns", message="The \"Exact Match via Ebook Central ID\" column was created because there weren't any BIBs with multiple Ebook Central IDs.")
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 os.startfile('Organize_UXU01_Output_pt4--Ebook_Central_Specific.json')
