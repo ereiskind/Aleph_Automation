@@ -337,19 +337,6 @@
         "repeatCount": 10
     },
     {
-        "op": "core/column-addition",
-        "description": "Create column ```BIB-HOL Numbers`` combining BIB and HOL numbers seperated by a dash",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:value+\"-\"+cells[\"HOL Number\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "BIB-HOL Numbers",
-        "columnInsertIndex": 2
-    },
-    {
         "op": "core/column-move",
         "description": "Move column ``Record Number`` to beginning",
         "columnName": "Record Number",
@@ -382,29 +369,73 @@
         "columnName": "Record Number"
     }
     {
-        "op": "core/transpose-columns-into-rows",
-        "description": "Move all TKRs into one new column named ``FSU TKRs``",
-        "combinedColumnName": "FSU TKRs",
-        "startColumnName": "FSU Tickler",
-        "columnCount": -1,
-        "ignoreBlankCells": true,
-        "fillDown": true,
-        "prependColumnName": false,
-        "separator": ":",
-        "keyColumnName": null,
-        "valueColumnName": null
-    }
-    {
         "op": "core/column-addition",
-        "description": "Create column ``TKR Base`` with the row's TKR value without the load date",
+        "description": "Create column ``INDX Ebook Central`` with the record's first value from ``Ebook Central ID`` if it's an ID and the ISBNs from the BIB cleanup project if it's not",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
-        "baseColumnName": "FSU TKRs",
-        "expression": "grel:if(isError(find(value,/(.*)\\d{8}/)[0]),null,substring(value,0,-8))",
+        "baseColumnName": "BIB Number",
+        "expression": "grel:if(startsWith(cells[\"Ebook Central ID\"].value,\"null\"),cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"ISBN Value\"].value,row.record.cells[\"Ebook Central ID\"].value[0])",
         "onError": "set-to-blank",
-        "newColumnName": "TKR Base",
-        "columnInsertIndex": 17
+        "newColumnName": "INDX Ebook Central",
+        "columnInsertIndex": 1
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``Ebook Central ID`` that are the same as that row's value in ``INDX Ebook Central``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central ID",
+        "expression": "grel:if(value==cells[\"INDX Ebook Central\"].value,null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Divide values in column ``INDX Ebook Central`` into new rows at each `}|{`",
+        "columnName": "INDX Ebook Central",
+        "keyColumnName": "Record Number",
+        "mode": "separator",
+        "separator": "}|{",
+        "regex": false
+    },
+    {
+        "op": "core/column-split",
+        "description": "For records where ``Ebook Central ID`` still has values, create new columns by splitting the value of column ``INDX Ebook Central`` at each `]|[`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "INDX Ebook Central",
+        "guessCellType": false,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": "]|[",
+        "regex": false,
+        "maxColumns": 0
     }
 ]
