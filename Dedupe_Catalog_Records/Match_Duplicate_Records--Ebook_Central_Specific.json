@@ -277,29 +277,6 @@
         "description": "Remove column ``All Others Blank``",
         "columnName": "All Others Blank"
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     {
         "op": "core/text-transform",
         "description": "Make all values in column ``Record Number`` strings",
@@ -383,48 +360,51 @@
         "description": "Reorder rows based on ``Record Number``",
         "mode": "row-based",
         "sorting": {
-          "criteria": [
-            {
-              "valueType": "string",
-              "column": "Record Number",
-              "blankPosition": 2,
-              "errorPosition": 1,
-              "reverse": false,
-              "caseSensitive": false
-            }
-          ]
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Record Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
         }
-      },
-      {
+    },
+    {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``Record Number``",
         "engineConfig": {
-          "facets": [],
-          "mode": "row-based"
+            "facets": [],
+            "mode": "row-based"
         },
         "columnName": "Record Number"
-      }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    final format: records by Ebook Central ID containing BIB and HOL combinations
+    }
+    {
+        "op": "core/transpose-columns-into-rows",
+        "description": "Move all TKRs into one new column named ``FSU TKRs``",
+        "combinedColumnName": "FSU TKRs",
+        "startColumnName": "FSU Tickler",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": true,
+        "prependColumnName": false,
+        "separator": ":",
+        "keyColumnName": null,
+        "valueColumnName": null
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``TKR Base`` with the row's TKR value without the load date",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "FSU TKRs",
+        "expression": "grel:if(isError(find(value,/(.*)\\d{8}/)[0]),null,substring(value,0,-8))",
+        "onError": "set-to-blank",
+        "newColumnName": "TKR Base",
+        "columnInsertIndex": 17
+    }
+]
