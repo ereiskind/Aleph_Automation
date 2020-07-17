@@ -494,7 +494,7 @@
             "mode": "row-based"
         },
         "columnName": "Values",
-        "expression": "grel:if(isNull(match(value,/(.*)\\s./)[0]),trim(value),match(value,/(.*)\\s[:|\\/]/)[0])",
+        "expression": "grel:if(match(value,/.*\\s(.)/)[0]==\"/\",match(value,/(.*)\\s\\//)[0],if(match(value,/.*\\s(.)/)[0]==\":\",match(value,/(.*)\\s:/)[0],if(match(value,/.*\\s(.)/)[0]==\";\",match(value,/(.*)\\s;/)[0],if(match(value,/.*\\s(.)/)[0]==\".\",match(value,/(.*)\\s\\./)[0],if(match(value,/.*\\s(.)/)[0]==\"=\",match(value,/(.*)\\s=/)[0],trim(value))))))",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
