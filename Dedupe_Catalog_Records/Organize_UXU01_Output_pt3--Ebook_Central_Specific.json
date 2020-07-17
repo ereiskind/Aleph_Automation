@@ -1416,6 +1416,19 @@
         "newColumnName": "ISBN Type"
     },
     {
+        "op": "core/text-transform",
+        "description": "Remove DOI prefix from DOIs in column ``ISBN Value``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value",
+        "expression": "grel:if(isError(find(value,/10\\.[\\w\\.]+\\/[\\w\\.\\-]+$/)[0]),value,substring(value,indexOf(value,\"/\")+1))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
         "op": "core/column-addition",
         "description": "Create column ``ISBN Length`` based off the length of the value in ``ISBN Value`` in that row",
         "engineConfig": {
@@ -1427,5 +1440,262 @@
         "baseColumnName": "ISBN Value",
         "expression": "grel:toString(length(value))",
         "onError": "set-to-blank"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Remove final character from values in column ``ISBN Value`` with 14 characters",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Length",
+                    "expression": "value",
+                    "columnName": "ISBN Length",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "14",
+                                "l": "14"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Value",
+        "expression": "grel:substring(value,0,-1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove dashes from values in column ``ISBN Value`` with 17 characters",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Length",
+                    "expression": "value",
+                    "columnName": "ISBN Length",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "17",
+                                "l": "17"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Value",
+        "expression": "grel:replace(value,\"-\",\"\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Replace values in column ``ISBN Type`` with the letters at the end of the values in ``ISBN Values`` that are 18 or 20 characters long",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Length",
+                    "expression": "value",
+                    "columnName": "ISBN Length",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "18",
+                                "l": "18"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "20",
+                                "l": "20"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Type",
+        "expression": "grel:splitByCharType(cells[\"ISBN Value\"].value)[1]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove the letters from the end of values in column ``ISBN Value`` that are 18 or 20 characters long",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Length",
+                    "expression": "value",
+                    "columnName": "ISBN Length",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "18",
+                                "l": "18"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "20",
+                                "l": "20"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Value",
+        "expression": "grel:splitByCharType(cells[\"ISBN Value\"].value)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove encoding value `&#x0009` from values in column ``ISBN Value`` that are 21 charaters long",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Length",
+                    "expression": "value",
+                    "columnName": "ISBN Length",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "21",
+                                "l": "21"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Value",
+        "expression": "grel:replace(value,\"&#x0009;\",\"\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``ISBN Value`` into new rows at `u`",
+        "columnName": "ISBN Value",
+        "keyColumnName": "BIB Number",
+        "mode": "separator",
+        "separator": "u",
+        "regex": false
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``ISBN Subfield`` in records with an ``ISBN Length`` value of 27",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Length",
+                    "expression": "value",
+                    "columnName": "ISBN Length",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "27",
+                                "l": "27"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Subfield"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``ISBN Type`` in records with an ``ISBN Length`` value of 27",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Length",
+                    "expression": "value",
+                    "columnName": "ISBN Length",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "27",
+                                "l": "27"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Type"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Update values in column ``ISBN Length``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Length",
+        "expression": "grel:toString(length(cells[\"ISBN Value\"].value))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     }
 ]
