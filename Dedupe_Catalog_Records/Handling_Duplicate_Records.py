@@ -94,7 +94,8 @@ messagebox.showinfo(title="Instructions", message="This JSON continues using the
 messagebox.showwarning(title="Cell Cross Project Columns", message="The JSON currently has ID columns for the Ebook Central BIB project hard-coded into it.")
 #ToDo: Get list of columns to pull from UXU01 OpenRefine project and create loop to load them into this project with the last column being the first JSON object so all the object can use the same column insert index
 os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Remove rows with TKRs for other platforms.")
+messagebox.showwarning(title="Ebook Central", message="Following instructions are very specific to Ebook Central.")
+messagebox.showinfo(title="Instructions", message="Download the OpenRefine project into Excel. Dedupe \"INDX Ebook Central 1\" and copy into LibCentral's title match feature. Save the ISBN and ID columns from the title match output as \"ISBNs and eBook Central IDs.xlsx\".")
 os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
 
 """
@@ -110,7 +111,6 @@ messagebox.showinfo(title="Instructions", message="At this point, check the BIB 
 
 #Section: Create Update Files For Records to Remain
 #Subsection: If New 856$u Needed, Supply It
-# Will need to get the UXU01 output and put it through OpenRefine again
 
 #Subsection: If TKR Needed, Supply It
 

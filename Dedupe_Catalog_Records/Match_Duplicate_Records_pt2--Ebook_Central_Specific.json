@@ -1,46 +1,153 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-      {
-        "op": "core/column-addition",
-        "description": "Create column ``INDX Ebook Central`` with the record's first value from ``Ebook Central ID`` if it's an ID and `INDX?` with the record and row number if it's not",
-        "engineConfig": {
-          "facets": [],
-          "mode": "record-based"
-        },
-        "baseColumnName": "Record Number",
-        "expression": "grel:if(startsWith(cells[\"Ebook Central ID\"].value,\"null\"),\"INDX?-\"+toString(row.record.index+1)+\"-\"+toString(row.index-row.record.fromRowIndex+1),row.record.cells[\"Ebook Central ID\"].value[0])",
-        "onError": "set-to-blank",
-        "newColumnName": "INDX Ebook Central",
-        "columnInsertIndex": 1
-      },
-      {
+[
+    {
         "op": "core/text-transform",
-        "description": "Null values in column ``Ebook Central ID`` that are the same as that row's value in ``INDX Ebook Central``",
+        "description": "Copy ``INDX Ebook Central 1`` values into column ``INDX Ebook Central 2``",
         "engineConfig": {
-          "facets": [],
-          "mode": "record-based"
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
         },
-        "columnName": "Ebook Central ID",
-        "expression": "grel:if(value==cells[\"INDX Ebook Central\"].value,null,value)",
+        "columnName": "INDX Ebook Central 2",
+        "expression": "grel:cells[\"INDX Ebook Central 1\"].value",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
-      }
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records with a value in ``Ebook Central ID``, null value in column ``INDX Ebook Central``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "INDX Ebook Central",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Replace ISBNs in column ``INDX Ebook Central 1`` with their Ebook Central IDs based on the print ISBN column of the LibCentral download",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "INDX Ebook Central 1",
+        "expression": "grel:if(isError(cell.cross(\"ISBNs and Ebook Central IDs xlsx\",\"PrintIsbn\")[0].cells[\"Document ID\"].value),null,cell.cross(\"ISBNs and Ebook Central IDs xlsx\",\"PrintIsbn\")[0].cells[\"Document ID\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Replace ISBNs in column ``INDX Ebook Central 2`` with their Ebook Central IDs based on the eISBN column of the LibCentral download",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "INDX Ebook Central 2",
+        "expression": "grel:if(isError(cell.cross(\"ISBNs and Ebook Central IDs xlsx\",\"EIsbn\")[0].cells[\"Document ID\"].value),null,cell.cross(\"ISBNs and Ebook Central IDs xlsx\",\"EIsbn\")[0].cells[\"Document ID\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
 
 
 
 
+
+
+
+
+
+
+
+
+confirm that there's only one ID per record
+make INDX the first column
+Do checks on which one to keep
+
+      
 
 
 
