@@ -2690,34 +2690,6 @@
         "columnName": "Dedupe"
     },
     {
-        "op": "core/row-removal",
-        "description": "Remove rows with unique values in ``Record Number``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Record Number",
-                    "expression": "facetCount(value, 'value', 'Record Number') > 1",
-                    "columnName": "Record Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        }
-    }
-    {
         "op": "core/row-reorder",
         "description": "Reorder rows based on ``Record Number``",
         "mode": "record-based",
@@ -2968,7 +2940,7 @@
         "description": "Fill down cells in column ``OCLC``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "OCLC"
     },
@@ -2984,7 +2956,7 @@
         "description": "Fill down cells in column ``MyiLibrary``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "MyiLibrary"
     },
@@ -3000,7 +2972,7 @@
         "description": "Fill down cells in column ``Ebrary``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "Ebrary"
     },
@@ -3017,7 +2989,7 @@
         "description": "Fill down cells in column ``Ebook Library``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "Ebook Library"
     },
@@ -3033,7 +3005,7 @@
         "description": "Fill down cells in column ``Ebook Central``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "Ebook Central"
     },
@@ -3049,7 +3021,7 @@
         "description": "Fill down cells in column ``Bibliographic Data Services``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "Bibliographic Data Services"
     },
@@ -3065,7 +3037,7 @@
         "description": "Fill down cells in column ``YBP-long``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "YPB-long"
     }
@@ -3081,7 +3053,7 @@
         "description": "Fill down cells in column ``YBP``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "YBP"
     },
@@ -3097,7 +3069,7 @@
         "description": "Fill down cells in column ``SIAM``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "SIAM"
     },
@@ -3113,7 +3085,7 @@
         "description": "Fill down cells in column ``Credo``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "Credo"
     },
@@ -3129,7 +3101,7 @@
         "description": "Fill down cells in column ``Oxford UP``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "Oxford UP"
     },
@@ -3145,7 +3117,7 @@
         "description": "Fill down cells in column ``DOI``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "DOI"
     },
@@ -3161,7 +3133,7 @@
         "description": "Fill down cells in column ``APA``",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "APA"
     },

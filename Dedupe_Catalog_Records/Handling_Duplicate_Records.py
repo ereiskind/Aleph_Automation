@@ -91,7 +91,6 @@ os.startfile('Extract_URLs.json')
 #Section: Determine Which Records to Keep
 #Subsection: Match Duplicate BIB Records
 messagebox.showinfo(title="Instructions", message="This JSON continues using the UXU60 OpenRefine project.")
-messagebox.showwarning(title="Cell Cross Project Name", message="The JSON currently has the OpenRefine project for Ebook Central's name hard-coded into it.")
 messagebox.showwarning(title="Cell Cross Project Columns", message="The JSON currently has ID columns for the Ebook Central BIB project hard-coded into it.")
 #ToDo: Get list of columns to pull from UXU01 OpenRefine project and create loop to load them into this project with the last column being the first JSON object so all the object can use the same column insert index
 os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
