@@ -1,0 +1,54 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+      {
+        "op": "core/column-addition",
+        "description": "Create column ``INDX Ebook Central`` with the record's first value from ``Ebook Central ID`` if it's an ID and `INDX?` with the record and row number if it's not",
+        "engineConfig": {
+          "facets": [],
+          "mode": "record-based"
+        },
+        "baseColumnName": "Record Number",
+        "expression": "grel:if(startsWith(cells[\"Ebook Central ID\"].value,\"null\"),\"INDX?-\"+toString(row.record.index+1)+\"-\"+toString(row.index-row.record.fromRowIndex+1),row.record.cells[\"Ebook Central ID\"].value[0])",
+        "onError": "set-to-blank",
+        "newColumnName": "INDX Ebook Central",
+        "columnInsertIndex": 1
+      },
+      {
+        "op": "core/text-transform",
+        "description": "Null values in column ``Ebook Central ID`` that are the same as that row's value in ``INDX Ebook Central``",
+        "engineConfig": {
+          "facets": [],
+          "mode": "record-based"
+        },
+        "columnName": "Ebook Central ID",
+        "expression": "grel:if(value==cells[\"INDX Ebook Central\"].value,null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    final format: records by Ebook Central ID containing BIB and HOL combinations

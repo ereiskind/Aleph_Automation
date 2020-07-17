@@ -95,6 +95,7 @@ messagebox.showwarning(title="Cell Cross Project Columns", message="The JSON cur
 #ToDo: Get list of columns to pull from UXU01 OpenRefine project and create loop to load them into this project with the last column being the first JSON object so all the object can use the same column insert index
 os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Remove rows with TKRs for other platforms.")
+os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
 
 """
 messagebox.showinfo(title="Instructions", message="Upload sheet \"Composite\" to OpenRefine.")
