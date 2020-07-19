@@ -404,6 +404,64 @@
         "regex": false
     },
     {
+        "op": "core/fill-down",
+        "description": "In records with blank cells in ``HOL Number``, fill down cells in column ``HOL Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "HOL Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "HOL Number"
+    }
+    {
+        "op": "core/fill-down",
+        "description": "In records with blank cells in ``BIB Number``, fill down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "HOL Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
         "op": "core/column-split",
         "description": "For records where ``Ebook Central ID`` still has values, create new columns by splitting the value of column ``INDX Ebook Central`` at each `]|[`",
         "engineConfig": {
