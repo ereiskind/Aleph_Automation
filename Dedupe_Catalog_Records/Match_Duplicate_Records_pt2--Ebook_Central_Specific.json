@@ -131,6 +131,157 @@
         "repeat": false,
         "repeatCount": 10
     }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Temp INDX`` with the value of both INDX Ebook Central number columns if they're the same, the value of the INDX Ebook Central column with an ID if one has an ID and one is null, or `ERROR: different values` if both have differnt IDs",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "INDX Ebook Central",
+                    "expression": "isBlank(value)",
+                    "columnName": "INDX Ebook Central",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "INDX Ebook Central",
+        "expression": "grel:if(cells[\"INDX Ebook Central 1\"].value==cells[\"INDX Ebook Central 2\"].value,cells[\"INDX Ebook Central 1\"].value,if(or(isNull(cells[\"INDX Ebook Central 1\"].value),isNull(cells[\"INDX Ebook Central 2\"].value)),if(isNull(cells[\"INDX Ebook Central 1\"].value),cells[\"INDX Ebook Central 2\"].value,cells[\"INDX Ebook Central 1\"].value),\"ERROR: different values\"))",
+        "onError": "set-to-blank",
+        "newColumnName": "Temp INDX",
+        "columnInsertIndex": 4
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records with no value in ``INDX Ebook Central``, fill ``INDX Ebook Central`` down with the record's first value in ``Temp INDX`` with `*` added to the end or `null*` if the record has no values in ``Temp INDX``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "INDX Ebook Central",
+                    "expression": "isBlank(value)",
+                    "columnName": "INDX Ebook Central",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "INDX Ebook Central",
+        "expression": "grel:if(isError(row.record.cells[\"Temp INDX\"].value[0]),\"null*\",row.record.cells[\"Temp INDX\"].value[0]+\"*\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records with ``INDX Ebook Central`` values added in the last step, null ID values in ``Temp INDX`` that match the ID values in ``INDX Ebook Central`` and change all values in records with no IDs in ``INDX Ebook Central`` to `Still no ID`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "INDX Ebook Central",
+                    "expression": "grel:toString(endsWith(value,\"*\"))",
+                    "columnName": "INDX Ebook Central",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Temp INDX",
+        "expression": "grel:if(isError(toNumber(substring(cells[\"INDX Ebook Central\"].value,0,-1))==value),\"Still no ID\",if(toNumber(substring(cells[\"INDX Ebook Central\"].value,0,-1))==value,null,value))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records where the ID just added to ``INDX Ebook Central`` is the only ID identified for the record, remove the asterisk at the end of the ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "INDX Ebook Central",
+                    "expression": "grel:toString(endsWith(value,\"*\"))",
+                    "columnName": "INDX Ebook Central",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp INDX",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp INDX",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "INDX Ebook Central",
+        "expression": "grel:substring(value,0,-1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
 
 
 
