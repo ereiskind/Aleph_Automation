@@ -1,0 +1,203 @@
+[
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``INDX Ebook Central``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "INDX Ebook Central"
+    },
+    {
+        "op": "core/column-reorder",
+        "description": "Reorder columns to put ``INDX Ebook Central`` at beginning and remove unneeded columns",
+        "columnNames": [
+            "INDX Ebook Central",
+            "HOL Number",
+            "BIB Number",
+            "BIB Number of HOLs",
+            "HOL Sublibrary",
+            "Suppressed",
+            "Ebook Central BIB URLs",
+            "Title",
+            "FSU Tickler",
+            "TKR 2",
+            "TKR 3",
+            "TKR 4"
+        ]
+    }
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``INDX Ebook Central`` to ``Ebook Central ID``",
+        "oldColumnName": "INDX Ebook Central",
+        "newColumnName": "Ebook Central ID"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Keep HOL?`` with a value indicating if the BIB for that row has an ACQ record",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:if(isError(cell.cross(\"BIB with ACQ xlsx\",\"BIB Number\")[0].cells[\"BIB Number\"].value),\"No ACQ for BIB\",\"BIB has ACQ\")",
+        "onError": "set-to-blank",
+        "newColumnName": "Keep HOL?",
+        "columnInsertIndex": 1
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records with only one HOL, add `TRUE: Only HOL for ID` before the current value of ``Ebook Central ID`` and put the current value in brackets",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central ID",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central ID",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:\"TRUE: Only HOL for ID [\"+value+\"]\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``HOL Test`` with values from ``Keep HOL?`` in records without decisions made on the HOLs",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Keep HOL?",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "HOL Test",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combien all the values for a record in column ``HOL Test`` in the first row of the record divided by pipes",
+        "columnName": "HOL Test",
+        "keyColumnName": "Ebook Central ID",
+        "separator": "|"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records with BIBs that do and don't have ACQ records attached where all HOL are in FSUER, change the value of ``Keep HOL?`` to `TRUE: This HOL's BIB has ACQ, other's doesn't` or `FALSE: This HOL's BIB has no ACQ, other's does` based on the column's current value",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Test",
+                    "expression": "grel:toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))",
+                    "columnName": "HOL Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSLAW",
+                                "l": "FSLAW"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUSC",
+                                "l": "FSUSC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULC",
+                                "l": "FSULC"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:if(value==\"BIB has ACQ\",\"TRUE: This HOL's BIB has ACQ, other's doesn't\",\"FALSE: This HOL's BIB has no ACQ, other's does\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }

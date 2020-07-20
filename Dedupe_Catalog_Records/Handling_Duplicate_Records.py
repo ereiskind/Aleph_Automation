@@ -105,6 +105,9 @@ messagebox.showinfo(title="Instructions", message="Create custom text filter wit
 #HOL 100419984 = Ebook Central ID 1698569
 
 #Subsection: Determine Which HOL Records to Keep
+messagebox.showinfo(title="Instructions", message="Save all BIBs that have an ACQ record attached in a spreadsheet named \"BIB with ACQ\" and upload to OpenRefine. Cell A1 should contain \"BIB Number\" and all the BIBs be nine-digit text strings.")
+messagebox.showwarning(title="Ebook Central and TKRs", message="The second step in this JSON is for reordering columns--that makes it specific to Ebook Central in the column names and the number of TKR columns.")
+messagebox.showwarning(title="FSU Sublibraries", message="The inverse of FSUER sublibraries lists out the excluded sublibraries.")
 os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
 #ToDo: Make INDX forst column
 #ToDo: Do checks on which row in each record to keep
