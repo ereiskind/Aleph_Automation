@@ -98,6 +98,11 @@ messagebox.showwarning(title="Ebook Central", message="Following instructions ar
 messagebox.showinfo(title="Instructions", message="Download the OpenRefine project into Excel. Dedupe \"INDX Ebook Central 1\" and copy into LibCentral's title match feature. Save the ISBN and ID columns from the title match output as \"ISBNs and eBook Central IDs.xlsx\".")
 os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Create custom text filter with \"toString(startsWith(value,"*"))\" and set to true. For all titles in the matching records, manually determine the appropriate ID and change the value in \"INDX Ebook Central\" to that ID.")
+#HOL 077392679 = Ebook Central ID 3052071
+#HOL 077465248 = Ebook Central ID 3053278
+#HOL 099570882 = Ebook Central ID 1121224
+#HOL 103492998 = Ebook Central ID 4197994
+#HOL 100419984 = Ebook Central ID 1698569
 
 #Subsection: Determine Which HOL Records to Keep
 os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')

@@ -680,7 +680,7 @@
             "mode": "record-based"
         },
         "columnName": "INDX Ebook Central",
-        "expression": "grel:if(row.record.toRowIndex-row.record.fromRowIndex>1,if(row.record.cells[\"INDX Ebook Central\"].value[0]==\"null*\",\"Multiple HOL Without ID\",\"*HOLs Matched in Order to IDs \"+substring(row.record.cells[\"INDX Ebook Central\"].value[0],0,-1)+\"|\"+row.record.cells[\"Temp INDX\"].value[0]),if(value==\"null*\",\"HOL \"+cells[\"HOL Number\"].value+\" Without ID\",\"*HOL ISBNs Matched to IDs \"+substring(row.record.cells[\"INDX Ebook Central\"].value[0],0,-1)+\"|\"+row.record.cells[\"Temp INDX\"].value[0]))",
+        "expression": "grel:if(row.record.toRowIndex-row.record.fromRowIndex>1,if(row.record.cells[\"INDX Ebook Central\"].value[0]==\"null*\",\"Multiple HOL (\"+toString(row.record.index)+\") Without ID\",\"*HOLs Matched in Order to IDs \"+substring(row.record.cells[\"INDX Ebook Central\"].value[0],0,-1)+\"|\"+row.record.cells[\"Temp INDX\"].value[0]),if(value==\"null*\",\"HOL \"+cells[\"HOL Number\"].value+\" Without ID\",\"*HOL ISBNs Matched to IDs \"+substring(row.record.cells[\"INDX Ebook Central\"].value[0],0,-1)+\"|\"+row.record.cells[\"Temp INDX\"].value[0]))",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
