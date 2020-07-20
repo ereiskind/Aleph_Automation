@@ -97,7 +97,7 @@ os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
 messagebox.showwarning(title="Ebook Central", message="Following instructions are very specific to Ebook Central.")
 messagebox.showinfo(title="Instructions", message="Download the OpenRefine project into Excel. Dedupe \"INDX Ebook Central 1\" and copy into LibCentral's title match feature. Save the ISBN and ID columns from the title match output as \"ISBNs and eBook Central IDs.xlsx\".")
 os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Create custom text filter with \"toString(startsWith(value,"*"))\" and set to true. For all titles in the matching records, manually determine the appropriate ID and change the value in \"INDX Ebook Central\" to that ID.")
+messagebox.showinfo(title="Instructions", message="Create custom text filter with \"toString(startsWith(value,\"*\"))\" and set to true. For all titles in the matching records, manually determine the appropriate ID and change the value in \"INDX Ebook Central\" to that ID.")
 #HOL 077392679 = Ebook Central ID 3052071
 #HOL 077465248 = Ebook Central ID 3053278
 #HOL 099570882 = Ebook Central ID 1121224
@@ -105,10 +105,17 @@ messagebox.showinfo(title="Instructions", message="Create custom text filter wit
 #HOL 100419984 = Ebook Central ID 1698569
 
 #Subsection: Determine Which HOL Records to Keep
-messagebox.showinfo(title="Instructions", message="Save all BIBs that have an ACQ record attached in a spreadsheet named \"BIB with ACQ\" and upload to OpenRefine. Cell A1 should contain \"BIB Number\" and all the BIBs be nine-digit text strings.")
+messagebox.showinfo(title="Instructions", message="Create spreadsheet \"Cross-Reference.xlsx\" with columns \"BIB with ACQ\" listing the BIBs with ACQ records attached and \"Ebook Central Owned\" with the Ebook Central IDs of the titles owned on that platform. The BIBs be nine-digit text strings, the IDs should be formatted as text.")
 messagebox.showwarning(title="Ebook Central and TKRs", message="The second step in this JSON is for reordering columns--that makes it specific to Ebook Central in the column names and the number of TKR columns.")
-messagebox.showwarning(title="FSU Sublibraries", message="The inverse of FSUER sublibraries lists out the excluded sublibraries.")
+messagebox.showwarning(title="FSU Sublibraries", message="The JSONs stating that all the HOL are in FSUER rely on selecting all sublibraries but FSUER and having the selection be the inverse--as a result, the excluded sublibraries are listed out.")
+messagebox.showwarning(title="Exclusion via TKR", message="The TKRs not matching Ebook Central used to remove records with no Ebook Central HOL are hard coded into the JSON.")
 os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Create text facet on \"HOL Sublibrary\".")
+messagebox.showinfo(title="Instructions", message="On column \"Keep HOL?\" create custom facet \"toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))\".")
+messagebox.showinfo(title="Instructions", message="On column \"HOL Test\" create custom facet \"toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))\".")
+# Manually look at Multiple HOL across sublibraries, some with ACQ and some without
+# Multiple HOL where all have ACQ
+
 #ToDo: Make INDX forst column
 #ToDo: Do checks on which row in each record to keep
 #ToDo: Final format--Records by Ebook Central ID with BIB and HOL combinations

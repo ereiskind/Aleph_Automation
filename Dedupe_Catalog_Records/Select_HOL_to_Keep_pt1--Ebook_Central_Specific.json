@@ -40,11 +40,32 @@
             "mode": "record-based"
         },
         "baseColumnName": "BIB Number",
-        "expression": "grel:if(isError(cell.cross(\"BIB with ACQ xlsx\",\"BIB Number\")[0].cells[\"BIB Number\"].value),\"No ACQ for BIB\",\"BIB has ACQ\")",
+        "expression": "grel:if(isError(cell.cross(\"Cross Reference xlsx\",\"BIB with ACQ\")[0].cells[\"BIB Number\"].value),\"No ACQ for BIB\",\"BIB has ACQ\")",
         "onError": "set-to-blank",
         "newColumnName": "Keep HOL?",
         "columnInsertIndex": 1
     }
+
+
+
+
+
+
+
+
+Transfer ID for Ebook Central Owned from Cross Reference project
+
+
+
+
+
+
+
+
+
+
+
+
     {
         "op": "core/text-transform",
         "description": "For records with only one HOL, add `TRUE: Only HOL for ID` before the current value of ``Ebook Central ID`` and put the current value in brackets",
@@ -201,3 +222,401 @@
         "repeat": false,
         "repeatCount": 10
     }
+    {
+        "op": "core/text-transform",
+        "description": "For records where none of the BIBs have ACQ records attached where all HOL are in FSUER, change the value of ``Keep HOL?`` to `Loaded for URL` if the HOL listed in the row has an Ebook Central TKR and is the only one attached to the BIB",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Test",
+                    "expression": "grel:toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))",
+                    "columnName": "HOL Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSOAR",
+                                "l": "FSOAR"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSLAW",
+                                "l": "FSLAW"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUDC",
+                                "l": "FSUDC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPA",
+                                "l": "FSUPA"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUSC",
+                                "l": "FSUSC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPC",
+                                "l": "FSUPC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULN",
+                                "l": "FSULN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULC",
+                                "l": "FSULC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSMUS",
+                                "l": "FSMUS"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Test",
+                    "expression": "grel:toString(contains(value,\"BIB has ACQ\"))",
+                    "columnName": "HOL Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:if(and(cells[\"BIB Number of HOLs\"].value==\"1\",substring(cells[\"FSU Tickler\"].value,0,-5)==\"(FTaSU)ProQuestEbookCentral201\"),\"Loaded for URL\",value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records where none of the BIBs have ACQ records attached, where all HOL are in FSUER, and where one of the ``Keep HOL?`` values is `Loaded for URL`, change the value of ``Keep HOL?`` to `FALSE: Loaded for URL` or `TRUE: HOL for BIB with ACQ` depending on the current value of the column",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Test",
+                    "expression": "grel:toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))",
+                    "columnName": "HOL Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSOAR",
+                                "l": "FSOAR"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSLAW",
+                                "l": "FSLAW"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUDC",
+                                "l": "FSUDC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPA",
+                                "l": "FSUPA"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUSC",
+                                "l": "FSUSC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPC",
+                                "l": "FSUPC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULN",
+                                "l": "FSULN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULC",
+                                "l": "FSULC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSMUS",
+                                "l": "FSMUS"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Test",
+                    "expression": "grel:toString(contains(value,\"BIB has ACQ\"))",
+                    "columnName": "HOL Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:toString(value==\"Loaded for URL\"))",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:if(value==\"Loaded for URL\",\"FALSE: Loaded for URL\",\"TRUE: HOL for BIB with ACQ, other loaded for URL\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+
+
+
+
+
+
+
+    {
+        "op": "core/row-removal",
+        "description": "Remove all rows in records where all the HOL have TKRs containing `Oxford`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSU Tickler",
+                    "expression": "grel:toString(contains(value,\"Oxford\"))",
+                    "columnName": "FSU Tickler",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": true,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove all rows in records where all the HOL have TKRs containing `Sage`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSU Tickler",
+                    "expression": "grel:toString(contains(value,\"Sage\"))",
+                    "columnName": "FSU Tickler",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": true,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+
+
