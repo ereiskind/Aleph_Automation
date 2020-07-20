@@ -99,7 +99,8 @@ messagebox.showinfo(title="Instructions", message="Download the OpenRefine proje
 os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Create custom text filter with \"toString(startsWith(value,"*"))\" and set to true. For all titles in the matching records, manually determine the appropriate ID and change the value in \"INDX Ebook Central\" to that ID.")
 
-#Subsection: Determine Which BIB Records to Keep
+#Subsection: Determine Which HOL Records to Keep
+os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
 #ToDo: Make INDX forst column
 #ToDo: Do checks on which row in each record to keep
 #ToDo: Final format--Records by Ebook Central ID with BIB and HOL combinations
