@@ -97,16 +97,12 @@ os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
 messagebox.showwarning(title="Ebook Central", message="Following instructions are very specific to Ebook Central.")
 messagebox.showinfo(title="Instructions", message="Download the OpenRefine project into Excel. Dedupe \"INDX Ebook Central 1\" and copy into LibCentral's title match feature. Save the ISBN and ID columns from the title match output as \"ISBNs and eBook Central IDs.xlsx\".")
 os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
-
-"""
-messagebox.showinfo(title="Instructions", message="Upload sheet \"Composite\" to OpenRefine.")
-os.startfile('Match_Duplicate_BIBs.json')
-messagebox.showinfo(title="Instructions", message="Perform clustering on column\"Title\".")
-os.startfile('Match_Duplicate_BIBs_pt2.json')
-messagebox.showinfo(title="Instructions", message="At this point, check the BIB records for the openRefine records with three or more titles to determine if any can be condensed.")
-"""
+messagebox.showinfo(title="Instructions", message="Create custom text filter with \"toString(startsWith(value,"*"))\" and set to true. For all titles in the matching records, manually determine the appropriate ID and change the value in \"INDX Ebook Central\" to that ID.")
 
 #Subsection: Determine Which BIB Records to Keep
+#ToDo: Make INDX forst column
+#ToDo: Do checks on which row in each record to keep
+#ToDo: Final format--Records by Ebook Central ID with BIB and HOL combinations
 
 
 #Section: Create Update Files For Records to Remain

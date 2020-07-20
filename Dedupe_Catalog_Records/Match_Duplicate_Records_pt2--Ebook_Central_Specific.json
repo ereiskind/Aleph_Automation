@@ -600,17 +600,9 @@
             "mode": "row-based"
         }
     }
-
-
-
-
-
-
-
-
     {
         "op": "core/text-transform",
-        "description": "For records where the ID just added to ``INDX Ebook Central`` is the only ID identified for the record, remove the asterisk at the end of the ID",
+        "description": "For records where the ID in ``INDX Ebook Central`` has an asterisk but is the only ID identified for the record, remove the asterisk at the end of the ID",
         "engineConfig": {
             "facets": [
                 {
@@ -637,14 +629,14 @@
                     "name": "Temp INDX",
                     "expression": "isBlank(value)",
                     "columnName": "Temp INDX",
-                    "invert": true,
+                    "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": true,
+                                "l": "true"
                             }
                         }
                     ],
@@ -661,140 +653,65 @@
         "repeatCount": 10
     }
     {
-        "op": "core/column-addition",
-        "description": "Create column ``Number HOL Rows`` with the number of rows that have that row's HOL in the records that don't have an Ebook Central ID",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "INDX Ebook Central",
-                    "expression": "grel:toString(endsWith(value,\"*\"))",
-                    "columnName": "INDX Ebook Central",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "true",
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "baseColumnName": "HOL Number",
-        "expression": "grel:facetCount(value,\"value\",\"HOL Number\")",
-        "onError": "set-to-blank",
-        "newColumnName": "Number HOL Rows",
-        "columnInsertIndex": 2
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Number Record Rows`` with the number of rows in the record for records that don't have an Ebook Central ID",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "INDX Ebook Central",
-                    "expression": "grel:toString(endsWith(value,\"*\"))",
-                    "columnName": "INDX Ebook Central",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "true",
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "baseColumnName": "Number HOL Rows",
-        "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex",
-        "onError": "set-to-blank",
-        "newColumnName": "Number Record Rows",
-        "columnInsertIndex": 3
-    }
-
-
-
-
-    {
         "op": "core/text-transform",
+        "description": "Change value of ``INDX Ebook Central`` to `HOL <HOL Number> Without ID` or `Multiple HOL Without ID` if those accurately describe the record, to `*HOLs Matched in Order to IDs` followed by a pipe-seperated list of IDs for records with multiple HOLS and IDs, or to `*HOL ISBNs Matched to IDs` followed by a pipe-seperated list of IDs for records with one HOL but multiple IDs",
         "engineConfig": {
-          "facets": [
-            {
-              "type": "list",
-              "name": "INDX Ebook Central",
-              "expression": "grel:toString(endsWith(value,\"*\"))",
-              "columnName": "INDX Ebook Central",
-              "invert": false,
-              "omitBlank": false,
-              "omitError": false,
-              "selection": [
+            "facets": [
                 {
-                  "v": {
-                    "v": "true",
-                    "l": "true"
-                  }
+                    "type": "list",
+                    "name": "INDX Ebook Central",
+                    "expression": "grel:toString(endsWith(value,\"*\"))",
+                    "columnName": "INDX Ebook Central",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
                 }
-              ],
-              "selectBlank": false,
-              "selectError": false
-            }
-          ],
-          "mode": "record-based"
+            ],
+            "mode": "record-based"
         },
         "columnName": "INDX Ebook Central",
-        "expression": "grel:if(cells[\"Number HOL Rows\"].value==cells[\"Number Record Rows\"].value,if(value==\"null*\",\"Single HOL Without ID\",\"Single HOL, ISBNs Matched Multiple IDs\"),if(value==\"null*\",\"Multiple HOL Without ID\",\"Multiple IDs and HOLs\"))",
+        "expression": "grel:if(row.record.toRowIndex-row.record.fromRowIndex>1,if(row.record.cells[\"INDX Ebook Central\"].value[0]==\"null*\",\"Multiple HOL Without ID\",\"*HOLs Matched in Order to IDs \"+substring(row.record.cells[\"INDX Ebook Central\"].value[0],0,-1)+\"|\"+row.record.cells[\"Temp INDX\"].value[0]),if(value==\"null*\",\"HOL \"+cells[\"HOL Number\"].value+\" Without ID\",\"*HOL ISBNs Matched to IDs \"+substring(row.record.cells[\"INDX Ebook Central\"].value[0],0,-1)+\"|\"+row.record.cells[\"Temp INDX\"].value[0]))",
         "onError": "keep-original",
         "repeat": false,
-        "repeatCount": 10,
-        "description": "Text transform on cells in column INDX Ebook Central using expression grel:if(cells[\"Number HOL Rows\"].value==cells[\"Number Record Rows\"].value,if(value==\"null*\",\"Single HOL Without ID\",\"Single HOL, ISBNs Matched Multiple IDs\"),if(value==\"null*\",\"Multiple HOL Without ID\",\"Multiple IDs and HOLs\"))"
-      }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-confirm that there's only one ID per record
-make INDX the first column
-Do checks on which one to keep
-
-      
-
-
-
-
-
-
-
-
-
-
-    final format: records by Ebook Central ID containing BIB and HOL combinations
+        "repeatCount": 10
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in any records with blank values in column ``INDX Ebook Central``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "INDX Ebook Central",
+                    "expression": "isBlank(value)",
+                    "columnName": "INDX Ebook Central",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "INDX Ebook Central"
+    }
+]
