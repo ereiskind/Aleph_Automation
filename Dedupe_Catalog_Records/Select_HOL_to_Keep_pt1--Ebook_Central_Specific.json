@@ -1,5 +1,35 @@
 [
     {
+        "op": "core/text-transform",
+        "description": "If ``Ebook Central BIB URLs`` is an Ebook Central URL, make sure that the value in ``INDX Ebook Central`` matches the ID at the end of the URL",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "INDX Ebook Central",
+        "expression": "grel:if(contains(cells[\"Ebook Central BIB URLs\"].value,\"ebookcentral\"),if(substring(cells[\"Ebook Central BIB URLs\"].value,lastIndexOf(cells[\"Ebook Central BIB URLs\"].value,\"=\")+1)==value[0],value,substring(cells[\"Ebook Central BIB URLs\"].value,lastIndexOf(cells[\"Ebook Central BIB URLs\"].value,\"=\")+1)),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``INDX Ebook Central``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "INDX Ebook Central",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    }
+    {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``INDX Ebook Central``",
         "engineConfig": {
@@ -94,6 +124,45 @@
     }
     {
         "op": "core/text-transform",
+        "description": "Add `Print HOL` to the beginning of the value in column ``Keep HOL?`` for those HOL in print sublibraries",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSOAR (OA)",
+                                "l": "FSOAR (OA)"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUER",
+                                "l": "FSUER"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:\"Print HOL: \"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
         "description": "For records with only one HOL, add `TRUE: Only HOL for ID` before the current value of ``Ebook Central ID`` and put the current value in brackets",
         "engineConfig": {
             "facets": [
@@ -165,6 +234,100 @@
         "keyColumnName": "Ebook Central ID",
         "separator": "|"
     },
+    {
+        "op": "core/row-removal",
+        "description": "Remove all rows in records where all the HOL have TKRs containing `Oxford`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSU Tickler",
+                    "expression": "grel:toString(contains(value,\"Oxford\"))",
+                    "columnName": "FSU Tickler",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": true,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove all rows in records where all the HOL have TKRs containing `Sage`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSU Tickler",
+                    "expression": "grel:toString(contains(value,\"Sage\"))",
+                    "columnName": "FSU Tickler",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": true,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
     {
         "op": "core/text-transform",
         "description": "For records with BIBs that both do and don't have ACQ records attached where all HOL are in FSUER, change the value of ``Keep HOL?`` to `TRUE: This HOL's BIB has ACQ, other's doesn't` or `FALSE: This HOL's BIB has no ACQ, other's does` based on the column's current value",
@@ -542,99 +705,5 @@
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
-    }
-    {
-        "op": "core/row-removal",
-        "description": "Remove all rows in records where all the HOL have TKRs containing `Oxford`",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Keep HOL?",
-                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
-                    "columnName": "Keep HOL?",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "FSU Tickler",
-                    "expression": "grel:toString(contains(value,\"Oxford\"))",
-                    "columnName": "FSU Tickler",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": true,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        }
-    }
-    {
-        "op": "core/row-removal",
-        "description": "Remove all rows in records where all the HOL have TKRs containing `Sage`",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Keep HOL?",
-                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
-                    "columnName": "Keep HOL?",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "FSU Tickler",
-                    "expression": "grel:toString(contains(value,\"Sage\"))",
-                    "columnName": "FSU Tickler",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": true,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        }
     }
 ]
