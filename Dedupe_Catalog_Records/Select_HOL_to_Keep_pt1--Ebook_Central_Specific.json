@@ -45,27 +45,53 @@
         "newColumnName": "Keep HOL?",
         "columnInsertIndex": 1
     }
-
-
-
-
-
-
-
-
-Transfer ID for Ebook Central Owned from Cross Reference project
-
-
-
-
-
-
-
-
-
-
-
-
+    {
+        "op": "core/row-removal",
+        "description": "Remove records with no FSUER HOL and no BIBs with URLs for FSU",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSUER",
+                                "l": "FSUER"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
     {
         "op": "core/text-transform",
         "description": "For records with only one HOL, add `TRUE: Only HOL for ID` before the current value of ``Ebook Central ID`` and put the current value in brackets",
@@ -94,7 +120,7 @@ Transfer ID for Ebook Central Owned from Cross Reference project
             "mode": "record-based"
         },
         "columnName": "Keep HOL?",
-        "expression": "grel:\"TRUE: Only HOL for ID [\"+value+\"]\"",
+        "expression": "grel:\"TRUE: Only HOL for ID [\"+cells[\"Ebook Central ID\"].value+\"]\"",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
@@ -134,14 +160,14 @@ Transfer ID for Ebook Central Owned from Cross Reference project
     },
     {
         "op": "core/multivalued-cell-join",
-        "description": "Combien all the values for a record in column ``HOL Test`` in the first row of the record divided by pipes",
+        "description": "Combine all the values for a record in column ``HOL Test`` in the first row of the record divided by pipes",
         "columnName": "HOL Test",
         "keyColumnName": "Ebook Central ID",
         "separator": "|"
     },
     {
         "op": "core/text-transform",
-        "description": "For records with BIBs that do and don't have ACQ records attached where all HOL are in FSUER, change the value of ``Keep HOL?`` to `TRUE: This HOL's BIB has ACQ, other's doesn't` or `FALSE: This HOL's BIB has no ACQ, other's does` based on the column's current value",
+        "description": "For records with BIBs that both do and don't have ACQ records attached where all HOL are in FSUER, change the value of ``Keep HOL?`` to `TRUE: This HOL's BIB has ACQ, other's doesn't` or `FALSE: This HOL's BIB has no ACQ, other's does` based on the column's current value",
         "engineConfig": {
             "facets": [
                 {
@@ -229,44 +255,6 @@ Transfer ID for Ebook Central Owned from Cross Reference project
             "facets": [
                 {
                     "type": "list",
-                    "name": "Keep HOL?",
-                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
-                    "columnName": "Keep HOL?",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "HOL Test",
-                    "expression": "grel:toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))",
-                    "columnName": "HOL Test",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
                     "name": "HOL Sublibrary",
                     "expression": "value",
                     "columnName": "HOL Sublibrary",
@@ -334,6 +322,44 @@ Transfer ID for Ebook Central Owned from Cross Reference project
                 },
                 {
                     "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Test",
+                    "expression": "grel:toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))",
+                    "columnName": "HOL Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
                     "name": "HOL Test",
                     "expression": "grel:toString(contains(value,\"BIB has ACQ\"))",
                     "columnName": "HOL Test",
@@ -359,7 +385,7 @@ Transfer ID for Ebook Central Owned from Cross Reference project
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
-    },
+    }
     {
         "op": "core/text-transform",
         "description": "For records where none of the BIBs have ACQ records attached, where all HOL are in FSUER, and where one of the ``Keep HOL?`` values is `Loaded for URL`, change the value of ``Keep HOL?`` to `FALSE: Loaded for URL` or `TRUE: HOL for BIB with ACQ` depending on the current value of the column",
@@ -517,13 +543,6 @@ Transfer ID for Ebook Central Owned from Cross Reference project
         "repeat": false,
         "repeatCount": 10
     }
-
-
-
-
-
-
-
     {
         "op": "core/row-removal",
         "description": "Remove all rows in records where all the HOL have TKRs containing `Oxford`",
@@ -618,5 +637,4 @@ Transfer ID for Ebook Central Owned from Cross Reference project
             "mode": "record-based"
         }
     }
-
-
+]
