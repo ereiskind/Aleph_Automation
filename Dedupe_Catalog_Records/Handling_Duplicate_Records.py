@@ -592,12 +592,14 @@ messagebox.showinfo(title="Instructions", message="Create custom text filteron c
 ]"""
 
 #Subsection: Determine Which HOL Records to Keep
+# These JSONs contain extensive after-the-fact checking that the title matching didn't match unlike titles or match differnt editions or volumes of the same title--this should be moved earlier in the process
 messagebox.showinfo(title="Instructions", message="Create spreadsheet \"Cross-Reference.xlsx\" with columns \"BIB with ACQ\" listing the BIBs with ACQ records attached and \"Ebook Central Owned\" with the Ebook Central IDs of the titles owned on that platform. The BIBs be nine-digit text strings, the IDs should be formatted as text.")
 messagebox.showwarning(title="Ebook Central and TKRs", message="The second step in this JSON is for reordering columns--that makes it specific to Ebook Central in the column names and the number of TKR columns.")
 messagebox.showwarning(title="FSU Sublibraries", message="HOL in sublibraries other than FSUER are removed in the JSON below. This requires selecting all sublibraries other than FSUER.")
 messagebox.showwarning(title="Exclusion via TKR", message="The TKRs not matching Ebook Central used to remove records with no Ebook Central HOL are hard coded into the JSON.")
 os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Create text facet on \"HOL Sublibrary\".")
+messagebox.showinfo(title="Instructions", message="Perform clustering on \"Title Check 2\".")
+os.startfile('Select_HOL_to_Keep_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="On column \"Keep HOL?\" create custom facet \"toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))\".")
 messagebox.showinfo(title="Instructions", message="On column \"HOL Test\" create custom facet \"toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))\".")
 # Manually look at Multiple HOL across sublibraries, some with ACQ and some without
