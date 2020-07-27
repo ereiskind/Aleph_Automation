@@ -55,6 +55,7 @@ messagebox.showwarning(title="Creating Title", message="The step to create the t
 messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central--the domain search regexes are hard coded. On a related note, any URLs from those domains not fitting the regexes are excluded.")
 messagebox.showwarning(title="Credo", message="Credo IDs that are only letters don't get transfered to the \"001 ID\" column.")
 messagebox.showwarning(title="JSTOR", message="Pulling a DOI from a JSTOR URL seems to involve all rows in that record having \"DOI\" appear in the \"URL Domain\" column.")
+#Alert: The title cleaning in Match_Duplicate_Records--Ebook_Central_Specific.json should be moved here
 os.startfile('Organize_UXU01_Output_pt1--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain\" to change domain names into the platforms they represent. \"Change_Domain_Names_to_Platform_Names.json\" can help with this.")
 messagebox.showwarning(title="Regex Only URLs", message="The only URLs pulled out for their IDs are the ones that match the regexes.")
@@ -96,6 +97,7 @@ messagebox.showwarning(title="Cell Cross Project Columns", message="The JSON cur
 os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
 messagebox.showwarning(title="Ebook Central", message="Following instructions are very specific to Ebook Central.")
 messagebox.showinfo(title="Instructions", message="Download the OpenRefine project into Excel. Dedupe \"INDX Ebook Central 1\" and copy into LibCentral's title match feature. Save the ISBN and ID columns from the title match output as \"ISBNs and eBook Central IDs.xlsx\".")
+messagebox.showinfo(title="Instructions", message="Add text filter to \"Replacement Character in Title\" and edit the titles to remove the replacement characters.")
 os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Create custom text filter with \"toString(startsWith(value,\"*\"))\" and set to true. For all titles in the matching records, manually determine the appropriate ID and change the value in \"INDX Ebook Central\" to that ID.")
 #HOL 077392679 = Ebook Central ID 3052071

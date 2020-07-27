@@ -122,6 +122,27 @@
             "mode": "record-based"
         }
     }
+
+
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+          "facets": [],
+          "mode": "record-based"
+        },
+        "baseColumnName": "Title",
+        "expression": "grel:if(substring(row.record.cells[\"Title\"].value[0],-1)==\".\",if(substring(value,-1)==\".\",toTitlecase(trim(row.record.cells[\"Title\"].value[0]))==toTitlecase(trim(value)),toTitlecase(trim(substring(row.record.cells[\"Title\"].value[0],0,-1)))==toTitlecase(trim(value))),if(substring(value,-1)==\".\",toTitlecase(trim(row.record.cells[\"Title\"].value[0]))==toTitlecase(trim(substring(value,0,-1))),toTitlecase(trim(row.record.cells[\"Title\"].value[0]))==toTitlecase(trim(value))))",
+        "onError": "set-to-blank",
+        "newColumnName": "Title Check",
+        "columnInsertIndex": 9,
+        "description": "Create column Title Check at index 9 based on column Title using expression grel:if(substring(row.record.cells[\"Title\"].value[0],-1)==\".\",if(substring(value,-1)==\".\",toTitlecase(trim(row.record.cells[\"Title\"].value[0]))==toTitlecase(trim(value)),toTitlecase(trim(substring(row.record.cells[\"Title\"].value[0],0,-1)))==toTitlecase(trim(value))),if(substring(value,-1)==\".\",toTitlecase(trim(row.record.cells[\"Title\"].value[0]))==toTitlecase(trim(substring(value,0,-1))),toTitlecase(trim(row.record.cells[\"Title\"].value[0]))==toTitlecase(trim(value))))"
+      }
+
+
+
+
+
+
     {
         "op": "core/text-transform",
         "description": "Add `Print HOL` to the beginning of the value in column ``Keep HOL?`` for those HOL in print sublibraries",

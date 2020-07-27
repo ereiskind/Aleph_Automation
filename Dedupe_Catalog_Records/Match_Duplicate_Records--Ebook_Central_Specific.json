@@ -130,6 +130,52 @@
         "columnInsertIndex": 6
     }
     {
+        "op": "core/column-addition",
+        "description": "Create column ``Replacement Character in Title`` with Boolean indicating if value of ``Title`` has a Unicode replacement character",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Title",
+        "expression": "grel:or(contains(join(unicode(value),\"|\"),\"|65533\"),contains(join(unicode(value),\"|\"),\"65533|\"))",
+        "onError": "set-to-blank",
+        "newColumnName": "Replacement Character in Title",
+        "columnInsertIndex": 8
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For values in ``Title`` without Unicode replacement characters, revert HTML, XML, and UTF-8 encodings to their Unicode characters",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Replacement Character in Title",
+                    "expression": "value",
+                    "columnName": "Replacement Character in Title",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Title",
+        "expression": "grel:value.unescape(\"html\").unescape(\"xml\").reinterpret(\"utf-8\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
         "op": "core/multivalued-cell-split",
         "description": "Split values in column ``BIB URL`` into rows at pipes",
         "columnName": "BIB URL",
