@@ -1,104 +1,34 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Keep HOL?`` with a value indicating if the BIB for that row has an ACQ record",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:if(isError(cell.cross(\"Cross Reference xlsx\",\"BIB with ACQ\")[0].cells[\"BIB Number\"].value),\"No ACQ for BIB\",\"BIB has ACQ\")",
-        "onError": "set-to-blank",
-        "newColumnName": "Keep HOL?",
-        "columnInsertIndex": 1
-    }
-
-
-
-
-
-
-
-
+[
     {
         "op": "core/text-transform",
-        "description": "Add `Print HOL` to the beginning of the value in column ``Keep HOL?`` for those HOL in print sublibraries",
+        "description": "Null all blank cells in column ``Title Check 2``",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "HOL Sublibrary",
-                    "expression": "value",
-                    "columnName": "HOL Sublibrary",
-                    "invert": true,
+                    "name": "Title Check 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Title Check 1",
+                    "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": "FSOAR (OA)",
-                                "l": "FSOAR (OA)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSUER",
-                                "l": "FSUER"
+                                "v": false,
+                                "l": "false"
                             }
                         }
                     ],
                     "selectBlank": false,
                     "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Keep HOL?",
-        "expression": "grel:\"Print HOL: \"+value",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {
-        "op": "core/text-transform",
-        "description": "For records with only one HOL, add `TRUE: Only HOL for ID` before the current value of ``Ebook Central ID`` and put the current value in brackets",
-        "engineConfig": {
-            "facets": [
+                },
                 {
                     "type": "list",
-                    "name": "Ebook Central ID",
+                    "name": "Title Check 2",
                     "expression": "isBlank(value)",
-                    "columnName": "Ebook Central ID",
-                    "invert": true,
+                    "columnName": "Title Check 2",
+                    "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
@@ -113,25 +43,120 @@
                     "selectError": false
                 }
             ],
+            "mode": "row-based"
+        },
+        "columnName": "Title Check 2",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Title Check 3``",
+        "columnName": "Title Check 3"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``Title Check 1`` for records where all values in both ``Title Check 1`` and ``Title Check 2`` match",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Title Check 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Title Check 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Title Check 1",
+                    "expression": "grel:toString(row.record.cells[\"Title Check 1\"].value[0]==value)",
+                    "columnName": "Title Check 1",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Title Check 2",
+                    "expression": "grel:toString(row.record.cells[\"Title Check 2\"].value[0]==value)",
+                    "columnName": "Title Check 2",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": true
+                }
+            ],
             "mode": "record-based"
         },
-        "columnName": "Keep HOL?",
-        "expression": "grel:\"TRUE: Only HOL for ID [\"+cells[\"Ebook Central ID\"].value+\"]\"",
+        "columnName": "Title Check 1",
+        "expression": "null",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
     }
     {
-        "op": "core/column-addition",
-        "description": "Create column ``HOL Test`` with values from ``Keep HOL?`` in records without decisions made on the HOLs",
+        "op": "core/text-transform",
+        "description": "For records where all the values in ``Title Check 1`` match, change null values in column ``Title Check 2`` to `null`",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Keep HOL?",
-                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
-                    "columnName": "Keep HOL?",
+                    "name": "Title Check 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Title Check 1",
                     "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Title Check 1",
+                    "expression": "grel:toString(row.record.cells[\"Title Check 1\"].value[0]==value)",
+                    "columnName": "Title Check 1",
+                    "invert": true,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
@@ -148,130 +173,36 @@
             ],
             "mode": "record-based"
         },
-        "baseColumnName": "Keep HOL?",
-        "expression": "grel:value",
-        "onError": "set-to-blank",
-        "newColumnName": "HOL Test",
-        "columnInsertIndex": 2
+        "columnName": "Title Check 2",
+        "expression": "grel:if(isNull(value),\"null\",value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     },
     {
         "op": "core/multivalued-cell-join",
-        "description": "Combine all the values for a record in column ``HOL Test`` in the first row of the record divided by pipes",
-        "columnName": "HOL Test",
+        "description": "For records where all the values in ``Title Check 1`` match, combine all the values in column ``Title Check 2`` in the first row of the column seperated by pipes",
+        "columnName": "Title Check 2",
         "keyColumnName": "Ebook Central ID",
         "separator": "|"
     },
     {
-        "op": "core/row-removal",
-        "description": "Remove all rows in records where all the HOL have TKRs containing `Oxford`",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Keep HOL?",
-                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
-                    "columnName": "Keep HOL?",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "FSU Tickler",
-                    "expression": "grel:toString(contains(value,\"Oxford\"))",
-                    "columnName": "FSU Tickler",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": true,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        }
-    }
-    {
-        "op": "core/row-removal",
-        "description": "Remove all rows in records where all the HOL have TKRs containing `Sage`",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Keep HOL?",
-                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
-                    "columnName": "Keep HOL?",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "FSU Tickler",
-                    "expression": "grel:toString(contains(value,\"Sage\"))",
-                    "columnName": "FSU Tickler",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": true,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        }
-    }
-    {
         "op": "core/text-transform",
-        "description": "For records with BIBs that both do and don't have ACQ records attached where all HOL are in FSUER, change the value of ``Keep HOL?`` to `TRUE: This HOL's BIB has ACQ, other's doesn't` or `FALSE: This HOL's BIB has no ACQ, other's does` based on the column's current value",
+        "description": "For records where all the values in ``Title Check 1`` match and all the values in ``Title Check 2`` were either null or `ed 1`, null the value in ``Title Check 1``",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Keep HOL?",
-                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
-                    "columnName": "Keep HOL?",
+                    "name": "Title Check 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Title Check 1",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": "false",
+                                "v": false,
                                 "l": "false"
                             }
                         }
@@ -281,146 +212,15 @@
                 },
                 {
                     "type": "list",
-                    "name": "HOL Test",
-                    "expression": "grel:toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))",
-                    "columnName": "HOL Test",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "true",
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "HOL Sublibrary",
-                    "expression": "value",
-                    "columnName": "HOL Sublibrary",
+                    "name": "Title Check 1",
+                    "expression": "grel:toString(row.record.cells[\"Title Check 1\"].value[0]==value)",
+                    "columnName": "Title Check 1",
                     "invert": true,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": "FSLAW",
-                                "l": "FSLAW"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSUSC",
-                                "l": "FSUSC"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSULC",
-                                "l": "FSULC"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "Keep HOL?",
-        "expression": "grel:if(value==\"BIB has ACQ\",\"TRUE: This HOL's BIB has ACQ, other's doesn't\",\"FALSE: This HOL's BIB has no ACQ, other's does\")",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "For records where none of the BIBs have ACQ records attached where all HOL are in FSUER, change the value of ``Keep HOL?`` to `Loaded for URL` if the HOL listed in the row has an Ebook Central TKR and is the only one attached to the BIB",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "HOL Sublibrary",
-                    "expression": "value",
-                    "columnName": "HOL Sublibrary",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "FSOAR",
-                                "l": "FSOAR"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSLAW",
-                                "l": "FSLAW"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSUDC",
-                                "l": "FSUDC"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSUPA",
-                                "l": "FSUPA"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSUSC",
-                                "l": "FSUSC"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSUPC",
-                                "l": "FSUPC"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSULN",
-                                "l": "FSULN"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSULC",
-                                "l": "FSULC"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSMUS",
-                                "l": "FSMUS"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Keep HOL?",
-                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
-                    "columnName": "Keep HOL?",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
                                 "v": "false",
                                 "l": "false"
                             }
@@ -431,185 +231,9 @@
                 },
                 {
                     "type": "list",
-                    "name": "HOL Test",
-                    "expression": "grel:toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))",
-                    "columnName": "HOL Test",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "HOL Test",
-                    "expression": "grel:toString(contains(value,\"BIB has ACQ\"))",
-                    "columnName": "HOL Test",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "Keep HOL?",
-        "expression": "grel:if(and(cells[\"BIB Number of HOLs\"].value==\"1\",substring(cells[\"FSU Tickler\"].value,0,-5)==\"(FTaSU)ProQuestEbookCentral201\"),\"Loaded for URL\",value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "For records where none of the BIBs have ACQ records attached, where all HOL are in FSUER, and where one of the ``Keep HOL?`` values is `Loaded for URL`, change the value of ``Keep HOL?`` to `FALSE: Loaded for URL` or `TRUE: HOL for BIB with ACQ` depending on the current value of the column",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Keep HOL?",
-                    "expression": "grel:toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))",
-                    "columnName": "Keep HOL?",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "HOL Test",
-                    "expression": "grel:toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))",
-                    "columnName": "HOL Test",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "HOL Sublibrary",
-                    "expression": "value",
-                    "columnName": "HOL Sublibrary",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "FSOAR",
-                                "l": "FSOAR"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSLAW",
-                                "l": "FSLAW"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSUDC",
-                                "l": "FSUDC"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSUPA",
-                                "l": "FSUPA"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSUSC",
-                                "l": "FSUSC"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSUPC",
-                                "l": "FSUPC"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSULN",
-                                "l": "FSULN"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSULC",
-                                "l": "FSULC"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FSMUS",
-                                "l": "FSMUS"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "HOL Test",
-                    "expression": "grel:toString(contains(value,\"BIB has ACQ\"))",
-                    "columnName": "HOL Test",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Keep HOL?",
-                    "expression": "grel:toString(value==\"Loaded for URL\"))",
-                    "columnName": "Keep HOL?",
+                    "name": "Title Check 2",
+                    "expression": "grel:toString(or(value==\"null|ed 1\",value==\"ed 1|null\"))",
+                    "columnName": "Title Check 2",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
@@ -627,10 +251,19 @@
             ],
             "mode": "record-based"
         },
-        "columnName": "Keep HOL?",
-        "expression": "grel:if(value==\"Loaded for URL\",\"FALSE: Loaded for URL\",\"TRUE: HOL for BIB with ACQ, other loaded for URL\")",
+        "columnName": "Title Check 1",
+        "expression": "null",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "For records where all the values in ``Title Check 1`` match, split values in first row of column ``Title Check 2`` at pipes into seperate rows",
+        "columnName": "Title Check 2",
+        "keyColumnName": "Ebook Central ID",
+        "mode": "separator",
+        "separator": "|",
+        "regex": false
     }
 ]
