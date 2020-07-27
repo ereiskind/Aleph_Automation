@@ -601,6 +601,9 @@ os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Perform clustering on \"Title Check 2\".")
 messagebox.showinfo(title="Instructions", message="Manually check records that have items in a potential \"Title Check 3\". If the titles are matches, null the values in all \"Title Check\" columns.")
 os.startfile('Select_HOL_to_Keep_pt2--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Set a blank filter on \"Title check 1\" to false, then download the results to Excel. Use the spreadsheet to check what matches aren't actually matches.")
+#ToDo: import info about non-matches back into OpenRefine
+os.startfile('Select_HOL_to_Keep_pt3--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="On column \"Keep HOL?\" create custom facet \"toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))\".")
 messagebox.showinfo(title="Instructions", message="On column \"HOL Test\" create custom facet \"toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))\".")
 # Manually look at Multiple HOL across sublibraries, some with ACQ and some without
