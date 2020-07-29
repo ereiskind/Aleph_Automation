@@ -4909,9 +4909,11 @@ messagebox.showwarning(title="Ebook Central", message="Non-Ebook Central ID sour
 messagebox.showwarning(title="Ebook Central", message="The following JSON contains hard coded fill up and down then blank down instructions--in actuality, a loop knowing the names of the columns created needs to create that part of the JSON.")
 #ToDo: figure out how to constructo loop for fill up and down then blank down hard coded into the pt4 JSON
 messagebox.showwarning(title="Exact Match via Ebook Central Columns", message="The \"Exact Match via Ebook Central ID\" column was created because there weren't any BIBs with multiple Ebook Central IDs.")
-#ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 os.startfile('Organize_UXU01_Output_pt4--Ebook_Central_Specific.json')
 #Alert: This seems to not include BIBs that don't have FSU 856 fields--is this a problem?
+messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp Title 2\".")
+messagebox.showinfo(title="Instructions", message="Manually check records that have items in a potential \"Temp Title 3\". If the titles are matches, null the values in all \"Title Check\" columns.")
+#ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 
 #Subsection: Organize UXU60 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU60 info into OpenRefine with column widths 10, 5, 3.")
@@ -5436,8 +5438,7 @@ messagebox.showwarning(title="Ebook Central and TKRs", message="The second step 
 messagebox.showwarning(title="FSU Sublibraries", message="HOL in sublibraries other than FSUER are removed in the JSON below. This requires selecting all sublibraries other than FSUER.")
 messagebox.showwarning(title="Exclusion via TKR", message="The TKRs not matching Ebook Central used to remove records with no Ebook Central HOL are hard coded into the JSON.")
 os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Perform clustering on \"Title Check 2\".")
-messagebox.showinfo(title="Instructions", message="Manually check records that have items in a potential \"Title Check 3\". If the titles are matches, null the values in all \"Title Check\" columns.")
+
 os.startfile('Select_HOL_to_Keep_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Set a blank filter on \"Title Check 1\" to false, then download the results to Excel. If the titles can be confirmed as matches, delete from the spreadsheet. Consider titles that have no edition info and titles that are first editions as matches.")
 messagebox.showinfo(title="Instructions", message="Upload that Excel worksheet to OpenRefine as \"Title Mismatches\".")

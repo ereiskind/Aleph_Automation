@@ -875,6 +875,47 @@
         "repeatCount": 10
     }
     {
+        "op": "core/text-transform",
+        "description": "Change value of ``Temp Title`` to titlecase, with spaces trimmed, hyphens replaced with spaces, and ending periods removed",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title",
+        "expression": "grel:if(substring(value,-1)==\".\",toTitlecase(trim(replace(substring(value,0,-1),\"-\",\" \"))),toTitlecase(trim(replace(value,\"-\",\" \"))))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Temp Title`` at the parentheticals used for edition or volume",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title",
+        "guessCellType": false,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": "\\((ed|vol)=",
+        "regex": true,
+        "maxColumns": 0
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Remove periods, commas, and ampersands from ``Temp Title 1``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title 1",
+        "expression": "grel:trim(value.replace(\".\",\"\").replace(\",\",\"\").replace(\"&\",\"And\"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
         "op": "core/row-reorder",
         "description": "Reorder rows according to ``Temp Title``",
         "mode": "record-based",
@@ -911,7 +952,7 @@
         "expression": "grel:row.record.index+1",
         "onError": "set-to-blank",
         "newColumnName": "Title Record Number",
-        "columnInsertIndex": 5
+        "columnInsertIndex": 8
     },
     {
         "op": "core/text-transform",
@@ -945,7 +986,56 @@
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
-    },
+    }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     {
         "op": "core/text-transform",
         "description": "Trim value in column ``Temp Title`` at first colon or opening parenthesis",

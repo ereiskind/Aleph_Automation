@@ -319,6 +319,39 @@
         },
         "columnName": "Ebook Central ID"
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     {
         "op": "core/column-addition",
         "description": "Create column ``Title Check`` with value of ``Title`` in titlecase, with spaces trimmed, hyphense replaces with spaces, and ending periods removed",
