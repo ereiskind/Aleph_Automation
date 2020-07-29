@@ -55,7 +55,7 @@ messagebox.showwarning(title="Creating Title", message="The step to create the t
 messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central--the domain search regexes are hard coded. On a related note, any URLs from those domains not fitting the regexes are excluded.")
 messagebox.showwarning(title="Credo", message="Credo IDs that are only letters don't get transfered to the \"001 ID\" column.")
 messagebox.showwarning(title="JSTOR", message="Pulling a DOI from a JSTOR URL seems to involve all rows in that record having \"DOI\" appear in the \"URL Domain\" column.")
-#Alert: The title cleaning in Match_Duplicate_Records--Ebook_Central_Specific.json should be moved here
+#Alert: The title cleaning in Match_Duplicate_Records--Ebook_Central_Specific.json and subsequent JSONs should be moved here
 os.startfile('Organize_UXU01_Output_pt1--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain\" to change domain names into the platforms they represent. \"Change_Domain_Names_to_Platform_Names.json\" can help with this.")
 messagebox.showwarning(title="Regex Only URLs", message="The only URLs pulled out for their IDs are the ones that match the regexes.")
@@ -601,12 +601,12 @@ os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Perform clustering on \"Title Check 2\".")
 messagebox.showinfo(title="Instructions", message="Manually check records that have items in a potential \"Title Check 3\". If the titles are matches, null the values in all \"Title Check\" columns.")
 os.startfile('Select_HOL_to_Keep_pt2--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Set a blank filter on \"Title check 1\" to false, then download the results to Excel. Use the spreadsheet to check what matches aren't actually matches.")
-#ToDo: import info about non-matches back into OpenRefine
+messagebox.showinfo(title="Instructions", message="Set a blank filter on \"Title Check 1\" to false, then download the results to Excel. If the titles can be confirmed as matches, delete from the spreadsheet. Consider titles that have no edition info and titles that are first editions as matches.")
+messagebox.showinfo(title="Instructions", message="Upload that Excel worksheet to OpenRefine as \"Title Mismatches\".")
+messagebox.showwarning(title="Evlauating in Excel", message="The evaluating is done in Excel to avoid editing individual cells, which isn't captured by the extract functionality. When this title matching gets moved to the more appropriate place earlier in the process, it probably won't be needed.")
 os.startfile('Select_HOL_to_Keep_pt3--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="On column \"Keep HOL?\" create custom facet \"toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))\".")
 messagebox.showinfo(title="Instructions", message="On column \"HOL Test\" create custom facet \"toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))\".")
-# Manually look at Multiple HOL across sublibraries, some with ACQ and some without
 # Multiple HOL where all have ACQ
 
 #ToDo: Make INDX forst column
