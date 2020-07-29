@@ -987,4 +987,69 @@
         "repeat": false,
         "repeatCount": 10
     }
+    {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``ISBN Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Record Number",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``ISBN Value Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value Record Number",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Make values in column ``Title Record Number`` strings",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title Record Number",
+        "expression": "value.toString()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``Title Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title Record Number",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
 ]

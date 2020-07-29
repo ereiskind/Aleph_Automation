@@ -4912,6 +4912,4288 @@ messagebox.showwarning(title="Exact Match via Ebook Central Columns", message="T
 os.startfile('Organize_UXU01_Output_pt4--Ebook_Central_Specific.json')
 #Alert: This seems to not include BIBs that don't have FSU 856 fields--is this a problem?
 messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp Title 2\".")
+"""[
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume 2,)",
+          "volume 2 /)",
+          "volume 2)",
+          "volume 2,) ",
+          "volume 2 :)",
+          "volume 2) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2"
+      },
+      {
+        "from": [
+          "volume 1,)",
+          "volume 1,) ",
+          "volume 1 /)",
+          "volume 1 :)",
+          "[volume 1]) ",
+          "volume 1 /) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1"
+      },
+      {
+        "from": [
+          "1st Ed.)",
+          "[1st Ed.].)",
+          "1st Ed,)",
+          "1st [ed.].)",
+          "1st. Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      },
+      {
+        "from": [
+          "second Edition.)",
+          "second Edition /)",
+          "second Edition)",
+          "[second Edition])",
+          "second Edition. /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2"
+      },
+      {
+        "from": [
+          "[new Ed.].)",
+          "new Ed.)",
+          "[new Ed.] /)",
+          "[new Ed.])",
+          "[new] Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      },
+      {
+        "from": [
+          "2nd Ed., Rev.)",
+          "2nd Rev. Ed.)",
+          "2nd Ed. Rev.)",
+          "rev. 2nd Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2 rev"
+      },
+      {
+        "from": [
+          "volume Ii /)",
+          "volume Ii,)",
+          "volume Ii)",
+          "volume Ii,) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 51"
+      },
+      {
+        "from": [
+          "2nd Ed.)",
+          "2nd Ed. /)",
+          "2nd. Ed.)",
+          "[2nd Ed.].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2"
+      },
+      {
+        "from": [
+          "volume 3)",
+          "volume 3,) ",
+          "volume 3 /)",
+          "volume 3,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 3"
+      },
+      {
+        "from": [
+          "fourth Edition.)",
+          "fourth Edition /)",
+          "fourth Edition)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 4"
+      },
+      {
+        "from": [
+          "1st [edition].)",
+          "1st Edition)",
+          "1st Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      },
+      {
+        "from": [
+          "rev. And Updated Ed.)",
+          "[rev. And Updated Ed.])",
+          "[rev. And Updated Ed.].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      },
+      {
+        "from": [
+          "2nd Ed., Rev. And Expanded.)",
+          "2nd Ed., Rev. And Expanded /)",
+          "2nd Ed., Rev. And Expanded)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2 rev"
+      },
+      {
+        "from": [
+          "volume I,)",
+          "volume I)",
+          "volume I) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1"
+      },
+      {
+        "from": [
+          "3rd Ed.)",
+          "3rd Ed. /)",
+          "[3rd Ed.].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3"
+      },
+      {
+        "from": [
+          "5th Ed.)",
+          "5th Ed. /)",
+          "[5th] Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 5"
+      },
+      {
+        "from": [
+          "12th Ed.)",
+          "12th Ed. /)",
+          "[12th Ed.].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 12"
+      },
+      {
+        "from": [
+          "first Edition.)",
+          "first Edition)",
+          "first [edition].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      },
+      {
+        "from": [
+          "revised And Expanded Second Edition.)",
+          "second Edition, Revised And Expanded.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      },
+      {
+        "from": [
+          "rev. And Expanded Ed.)",
+          "rev. And Expanded Ed. /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      },
+      {
+        "from": [
+          "ninth Edition.)",
+          "ninth Edition /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 9"
+      },
+      {
+        "from": [
+          "rev. Ed.)",
+          "rev. Ed. /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      },
+      {
+        "from": [
+          "5th Ed. Rev.)",
+          "5th Ed., Rev.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 5 rev"
+      },
+      {
+        "from": [
+          "volume Nine /)",
+          "volume Nine,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 9"
+      },
+      {
+        "from": [
+          "3rd Ed., Rev. And Updated.)",
+          "rev. And Updated 3rd Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3 rev"
+      },
+      {
+        "from": [
+          "part 2 /)",
+          "part 2,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2"
+      },
+      {
+        "from": [
+          "updated And Expanded Edition.)",
+          "updated And Expanded [edition].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      },
+      {
+        "from": [
+          "1 [edition].)",
+          "1 Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      },
+      {
+        "from": [
+          "third Edition.)",
+          "third Edition /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3"
+      },
+      {
+        "from": [
+          "eighth Edition.)",
+          "eighth Edition /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 8"
+      },
+      {
+        "from": [
+          "volume 4)",
+          "volume 4,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 4"
+      },
+      {
+        "from": [
+          "1st Rev. Ed.)",
+          "1st Ed., Rev.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1 rev"
+      },
+      {
+        "from": [
+          "seventh Edition.)",
+          "seventh Edition /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 7"
+      },
+      {
+        "from": [
+          "[enhanced Credo Edition])",
+          "[enhanced Credo Edition].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": ""
+      },
+      {
+        "from": [
+          "fifth Edition.)",
+          "fifth Edition /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 5"
+      },
+      {
+        "from": [
+          "2014 /)",
+          "2014)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "2014  ed"
+      },
+      {
+        "from": [
+          "sixth Edition.)",
+          "sixth Edition /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 6"
+      },
+      {
+        "from": [
+          "ii)",
+          "ii,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "CHECK 2"
+      },
+      {
+        "from": [
+          "volume 37 /)",
+          "volume 37)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 37"
+      },
+      {
+        "from": [
+          "revised And Updated [edition].)",
+          "revised And Updated Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      },
+      {
+        "from": [
+          "vol. 2 /)",
+          "vol. 2,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2"
+      },
+      {
+        "from": [
+          "revised Edition.)",
+          "revised Edition /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      },
+      {
+        "from": [
+          "volume Two,)",
+          "volume Two /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2"
+      },
+      {
+        "from": [
+          "4th Ed.)",
+          "4th Ed. /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 4"
+      },
+      {
+        "from": [
+          "volume 5)",
+          "volume 5,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 5"
+      },
+      {
+        "from": [
+          "2nd Edition.)",
+          "2nd Edition /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2"
+      },
+      {
+        "from": [
+          "7th Ed.)",
+          "7th Ed. /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 7"
+      },
+      {
+        "from": [
+          "english Ed.)",
+          "[english Ed.].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": ""
+      },
+      {
+        "from": [
+          "part B) ",
+          "part B,) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "part B"
+      },
+      {
+        "from": [
+          "first U.S. Edition.)",
+          "first Us Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "first U.S. Edition.)"
+      },
+      {
+        "from": [
+          "updated Ed.)",
+          "[updated Ed.].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      },
+      {
+        "from": [
+          "[pbk. Ed., 1998])",
+          "[pbk. Ed., 1998].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": ""
+      },
+      {
+        "from": [
+          "volume 29 /)",
+          "volume 29 :)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 29"
+      },
+      {
+        "from": [
+          "11th Ed. /)",
+          "11th Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 11"
+      },
+      {
+        "from": [
+          "6th Ed.)",
+          "6th Ed. /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 6"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "ed 5",
+          "5 Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 5"
+      },
+      {
+        "from": [
+          "vol 1",
+          "vol. 1,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1"
+      },
+      {
+        "from": [
+          "ed 1",
+          "1. Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      },
+      {
+        "from": [
+          "vol 3",
+          "vol. 3)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 3"
+      },
+      {
+        "from": [
+          "vol 29",
+          "vol. 29 /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 29"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "value",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "20th Edition.)",
+                "l": "20th Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "3rd Ed., Oxford Pbk Ed. /)",
+                "l": "3rd Ed., Oxford Pbk Ed. /)"
+              }
+            },
+            {
+              "v": {
+                "v": "10th Edition.)",
+                "l": "10th Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "11th Ed., A New And Enlarged Ed. / By Sarah Corbin Robert [and Others].)",
+                "l": "11th Ed., A New And Enlarged Ed. / By Sarah Corbin Robert [and Others].)"
+              }
+            },
+            {
+              "v": {
+                "v": "18th Ed.)",
+                "l": "18th Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "4th Edition.)",
+                "l": "4th Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "7th Edition.)",
+                "l": "7th Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "21st Edition.)",
+                "l": "21st Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "9th Ed.)",
+                "l": "9th Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "50th Edition.)",
+                "l": "50th Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "8th Ed.)",
+                "l": "8th Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "2nd Ed. 2018.)",
+                "l": "2nd Ed. 2018.)"
+              }
+            },
+            {
+              "v": {
+                "v": "3rd Edition.)",
+                "l": "3rd Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "4th Ed. [kindle Ed.])",
+                "l": "4th Ed. [kindle Ed.])"
+              }
+            },
+            {
+              "v": {
+                "v": "15th Ed.)",
+                "l": "15th Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "16th Ed.)",
+                "l": "16th Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "13th Ed.)",
+                "l": "13th Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "10th Ed.)",
+                "l": "10th Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "34th Ed.)",
+                "l": "34th Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "1st Ed. 2017.)",
+                "l": "1st Ed. 2017.)"
+              }
+            },
+            {
+              "v": {
+                "v": "17th Ed.)",
+                "l": "17th Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "51st Edition.)",
+                "l": "51st Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "22nd Edition.)",
+                "l": "22nd Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "2nd Ed., Pbk. Ed.)",
+                "l": "2nd Ed., Pbk. Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "4th Ed., 2012 2013 Update.)",
+                "l": "4th Ed., 2012 2013 Update.)"
+              }
+            },
+            {
+              "v": {
+                "v": "25th Edition.)",
+                "l": "25th Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "1st Ed ; Foreword By Vicki L. Ruiz.)",
+                "l": "1st Ed ; Foreword By Vicki L. Ruiz.)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "grel:\"ed \"+find(value,/\\d+/)[0]",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Temp Title 2 using expression grel:\"ed \"+find(value,/\\d+/)[0]"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "rev. 4th Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 4 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "rev. & Updated 3rd Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fully Revised 2nd Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "completely Rev. And Updated, 3rd Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "6th Ed., [rev. And Expanded].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 6 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "4th Ed., Rev. And Expanded.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 4 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "3rd Ed., Rev. And Expanded.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "3rd Ed. Rev.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "3rd Ed. Rev. And Updated Work.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2nd Ed., Updated And Expanded.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2nd Ed., New Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2nd Ed., Rev. And Updated.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "all New 5th Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 5"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "all New 4th Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 4"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "3rd Ed. ; Thirtieth Anniversary Ed. With A New Introduction.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2nd Ed., Rev. 10th Anniversary Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "[147th Ed.] /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 147"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2004 Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "2004 ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2011 Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "2011 ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2012 Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "2012 ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/\\d+\\w{2} (E|e)d/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2014 Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "2014 ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:startsWith(value,\"vol.\")",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "vol. 23 /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 23"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:startsWith(value,\"vol.\")",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "vol. 26 :)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 26"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:startsWith(value,\"vol.\")",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "vol. 31 /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 31"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:startsWith(value,\"vol.\")",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "vol. 62)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 62"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:startsWith(value,\"vol.\")",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "vol. 73)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 73"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:startsWith(value,\"vol.\")",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "vol. Iv)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 4"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:startsWith(value,\"vol.\")",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "vol.2b,) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2B"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/volume \\d+ /))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume 1 3 :)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1-3"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/volume \\d+ /))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "grel:\"vol \"+split(value,\" \")[1]",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Temp Title 2 using expression grel:\"vol \"+split(value,\" \")[1]"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/volume \\d+/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume 33, Number 2,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 33"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/volume \\d+/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume 31,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 31"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/volume \\d+/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume 6)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 6"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/volume \\d+/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume 7,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 7"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/volume \\d+/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume 6a) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 6a"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "grel:length(find(value,/volume \\d+/))>0",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume 6b) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 6b"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "[pbk. Ed., 1997])"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": ""
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "3e [ed.] /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "7th Rev. Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 7 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "edition 15.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 15"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "eighth Edition, Entirely Revised And Reset.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 8 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "expanded Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "extended And Revised Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "extended Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fifth Editon.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 5"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fifty First Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 51"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fifty Second Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 52"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fisrt Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fourth Edition, 2012 2013 Update.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 4"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fourth Edition, Dsm 5 Chapter Update.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 4"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fully Rev. And Expanded Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "new Ed., Rev. And Expanded.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "new Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "new Paperback Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "new Rev. Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "rev. And Updated)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "rev. Ed. Upd. With A New Preface.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "rev. Ed. With A New Preface.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "rev. English Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "rev.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "revised And Expanded Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "second Edition, Completely Revised And Updated.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "second Edition, Corrected 7th Printing)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2 rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "sixth Edition, 2016.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 6"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "tenth Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 10"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "third Edition, 2015.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "twenty First Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 21"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "updated Ed. With A New Preface /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "updated Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume Eight ,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 8"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume Four,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 4"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume One,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume Three /) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 3"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume Vii,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 7"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume Xx /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 20"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Temp Title 2",
+          "expression": "value",
+          "columnName": "Temp Title 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "1st Mariner Books Ed.)",
+                "l": "1st Mariner Books Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "standard Text Ed.)",
+                "l": "standard Text Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "first Texas A&m University Press Edition.)",
+                "l": "first Texas A&m University Press Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "1st Houghton Mifflin Pbk. Ed.)",
+                "l": "1st Houghton Mifflin Pbk. Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "comprehensive Ed.)",
+                "l": "comprehensive Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "samuel French Acting Edition.)",
+                "l": "samuel French Acting Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "english Language Edition.)",
+                "l": "english Language Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "1st Electronic Reading Ed.)",
+                "l": "1st Electronic Reading Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "first Wings Press Edition.)",
+                "l": "first Wings Press Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "1st Pbk. Ed.)",
+                "l": "1st Pbk. Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "first Harvard University Press Edition.)",
+                "l": "first Harvard University Press Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "1st Da Capo Press Ed.)",
+                "l": "1st Da Capo Press Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "desktop Ed.)",
+                "l": "desktop Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "oxford University Press Pbk.)",
+                "l": "oxford University Press Pbk.)"
+              }
+            },
+            {
+              "v": {
+                "v": "annotated Ed.)",
+                "l": "annotated Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "critical Edition.)",
+                "l": "critical Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "english Language Ed.)",
+                "l": "english Language Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "taylor & Francis E Library Ed.)",
+                "l": "taylor & Francis E Library Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "paperback Edition.)",
+                "l": "paperback Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "first U.S. Edition.)",
+                "l": "first U.S. Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "concise Pbk. Ed.)",
+                "l": "concise Pbk. Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "digital Ed.)",
+                "l": "digital Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "american Ed.)",
+                "l": "american Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "1st English Ed.)",
+                "l": "1st English Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "first Mariner Books Edition.)",
+                "l": "first Mariner Books Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "1st Paperback Ed.)",
+                "l": "1st Paperback Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "first Tcg Edition.)",
+                "l": "first Tcg Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "online Only Edition.)",
+                "l": "online Only Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "1a. Ed. Virtual.)",
+                "l": "1a. Ed. Virtual.)"
+              }
+            },
+            {
+              "v": {
+                "v": "dover Ed.)",
+                "l": "dover Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "first American Edition.)",
+                "l": "first American Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "del Rey Trade Pbk. Ed.)",
+                "l": "del Rey Trade Pbk. Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "dover Edition.)",
+                "l": "dover Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "english Edition.)",
+                "l": "english Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "first Simon & Schuster Hardcover Edition.)",
+                "l": "first Simon & Schuster Hardcover Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "1st Counterpoint Pbk. Ed.)",
+                "l": "1st Counterpoint Pbk. Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "first Scribner Hardcover Edition.)",
+                "l": "first Scribner Hardcover Edition.)"
+              }
+            },
+            {
+              "v": {
+                "v": "1st Da Capo Press Pbk. Ed.)",
+                "l": "1st Da Capo Press Pbk. Ed.)"
+              }
+            },
+            {
+              "v": {
+                "v": "first Scribner Trade Paperback Edition.)",
+                "l": "first Scribner Trade Paperback Edition.)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Temp Title 2 using expression null"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "[update].)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "rev ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "1. Auflage.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "1)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "1st.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "1std.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2016 /) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2016"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "28) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 28"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "20th Ann. Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "20 ann ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "20th Anniversary Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "20 ann ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "25th Anniversary Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "25 ann ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "7th U.S. Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 7"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "94th Annual Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 94"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "abridged And Updated Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "annotated Script Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": ""
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "band 16,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 16"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "band Viii, Faszikel 2,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 8"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "band Viii, Vierundzwanaigster Gesang,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 8"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "band Viii,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 8"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "bicentennial Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "bicentennial ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "centenary Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "centenary ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "centenary Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "centenary ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "CHECK 2"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "first Report)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "grade 2)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "iii,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 3"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "index To Volumes I Xx /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1-20"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "number 34 /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 34"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "one /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "part 3,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 3"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "part A) "
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "part B"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "part I,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "pbk. Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": ""
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "phase I Report /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "phase Ii Report /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "report 1)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "report 2  C4isr)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "rev. And Expanded 10th Anniversary Ed. /)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "10 ann ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "rev. Ed., [10th Anniversary Ed.])"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "10 ann ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "revised And Expanded 10th Anniversary Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "10 ann ed rev"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "twenty Fifth Anniversary Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "25 ann ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "textkritische Ausg.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": ""
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume Five, Part One,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 5-1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume Five, Part Two,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 5-2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume Four, Part 2,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 4-2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume Seven, Part 1,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 7-1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume Seven, Part 2,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 7-2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "volume Six, Part Two,)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 6-2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Temp Title 2",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "[tome 2.3, Livres Ii Iv])"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2-3"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 2"
+  }
+]"""
 messagebox.showinfo(title="Instructions", message="Manually check records that have items in a potential \"Temp Title 3\". If the titles are matches, null the values in all \"Title Check\" columns.")
 os.startfile('Organize_UXU01_Output_pt5--Ebook_Central_Specific.json')
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
