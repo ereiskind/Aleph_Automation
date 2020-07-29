@@ -1,3 +1,145 @@
+[
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Temp Title Edition`` with edition values from ``Temp Title 2``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Temp Title 2",
+        "expression": "grel:if(contains(value,\"ed\"),value,null)",
+        "onError": "set-to-blank",
+        "newColumnName": "Temp Title Edition",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Temp Title Volume`` with volume values from ``Temp Title 2``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Temp Title 2",
+        "expression": "grel:if(contains(value,\"vol\"),value,null)",
+        "onError": "set-to-blank",
+        "newColumnName": "Temp Title Volume",
+        "columnInsertIndex": 3
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add edition values from ``Temp Title 3`` to ``Temp Title Edition``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title Edition",
+        "expression": "grel:if(contains(cells[\"Temp Title 3\"].value,\"ed\"),cells[\"Temp Title 3\"].value,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add volume values from ``Temp Title 3`` to ``Temp Title Volume``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title Volume",
+        "expression": "grel:if(contains(cells[\"Temp Title 3\"].value,\"vol\"),cells[\"Temp Title 3\"].value,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Temp Title 2``",
+        "columnName": "Temp Title 2"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Temp Title 3``",
+        "columnName": "Temp Title 3"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column Temp Title",
+        "columnName": "Temp Title"
+    },
+    {
+        "op": "core/column-split",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title 1",
+        "description": "Split column ``Temp Title 1`` at first colon",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": ":",
+        "regex": false,
+        "maxColumns": 2
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Sort`` with values of ``Temp Title 1 1``, ``Temp Title 1 2``, ``Temp Title Edition``, and ``Temp Title Volume`` divided by pipes",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Temp Title 1 1",
+        "expression": "grel:value+\"|\"+if(isNull(cells[\"Temp Title 1 2\"].value),\"null\",cells[\"Temp Title 1 2\"].value)+\"|\"+if(isNull(cells[\"Temp Title Edition\"].value),\"null\",cells[\"Temp Title Edition\"].value)+\"|\"+if(isNull(cells[\"Temp Title Volume\"].value),\"null\",cells[\"Temp Title Volume\"].value)",
+        "onError": "set-to-blank",
+        "newColumnName": "Sort",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on value of ``Sort``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Sort",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Sort``",
+        "columnName": "Sort"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For rows with subtitles, add the subtitle to ``Temp Title 1 1`` after a double colon",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title 1 1",
+        "expression": "grel:if(isNotNull(cells[\"Temp Title 1 2\"].value),value+\"::\"+cells[\"Temp Title 1 2\"].value,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Temp Title 1 2``",
+        "columnName": "Temp Title 1 2"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Temp Title 1 1`` to ``Temp Title``",
+        "oldColumnName": "Temp Title 1 1",
+        "newColumnName": "Temp Title"
+    }
 
 
 
@@ -12,10 +154,10 @@
 
 
 
-
-
-
-
+if subtitle, edition, volume match, record number in new "column"--check this with custom facet toString(row.record.cells[\"Title Check 1\"].value[0]==value) selectedfalse inverted
+if any of above match to null, record number in column created above
+split at double colon
+repeat above
 
 
 

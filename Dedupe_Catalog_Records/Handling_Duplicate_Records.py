@@ -9194,7 +9194,189 @@ messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp 
     "description": "Mass edit cells in column Temp Title 2"
   }
 ]"""
-messagebox.showinfo(title="Instructions", message="Manually check records that have items in a potential \"Temp Title 3\". If the titles are matches, null the values in all \"Title Check\" columns.")
+messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp Title 3\".")
+"""[
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 3",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "1st Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 3"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 3",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "24th Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 24"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 3"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 3",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2nd Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 3"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 3",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "digital First Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": ""
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 3"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 3",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "english Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": ""
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 3"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 3",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "first Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 3"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 3",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "second Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 3"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 3",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "third Edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ed 3"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 3"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 3",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2011 2012 Ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "2011-2012 ed"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 3"
+  }
+]"""
 os.startfile('Organize_UXU01_Output_pt5--Ebook_Central_Specific.json')
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 
