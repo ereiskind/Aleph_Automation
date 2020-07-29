@@ -4913,6 +4913,7 @@ os.startfile('Organize_UXU01_Output_pt4--Ebook_Central_Specific.json')
 #Alert: This seems to not include BIBs that don't have FSU 856 fields--is this a problem?
 messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp Title 2\".")
 messagebox.showinfo(title="Instructions", message="Manually check records that have items in a potential \"Temp Title 3\". If the titles are matches, null the values in all \"Title Check\" columns.")
+os.startfile('Organize_UXU01_Output_pt5--Ebook_Central_Specific.json')
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 
 #Subsection: Organize UXU60 Output
