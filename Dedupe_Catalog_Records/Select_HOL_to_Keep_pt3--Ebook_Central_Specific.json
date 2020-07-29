@@ -9,12 +9,12 @@
 
 
 
+.cells["BIB Number"].value),"noID",cell.cross("UXU01_Cleanup","Ebook Central ID")[0].cells["BIB Number"].value)
 
 
 
 
-
-
+cell.cross("UXU01_Cleanup","BIB Number")[0].cells["Ebook Central ID"].value
 
 
 
