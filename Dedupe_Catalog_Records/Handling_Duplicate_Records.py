@@ -10526,6 +10526,9 @@ messagebox.showinfo(title="Instructions", message="Create a filter for blanks on
   }
 ]"""
 os.startfile('Organize_UXU01_Output_pt6--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Create a filter for blanks on \"No Subtitle Record Number\" and set it to true. If the titles in the record don't match, change the values in \"No Subtitle Record Number\" with \"toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)\".")
+# Put the JSON for the above indetification here
+os.startfile('Organize_UXU01_Output_pt7--Ebook_Central_Specific.json')
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 
 #Subsection: Organize UXU60 Output
