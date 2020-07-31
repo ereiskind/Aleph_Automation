@@ -904,6 +904,40 @@
     }
     {
         "op": "core/text-transform",
+        "description": "Remove smart quotes and encoding mistakes from ``Temp Title 1`` values not containing the replacement character",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Temp Title 1",
+                    "expression": "grel:or(contains(value,\"�\"),contains(value,\"ﬀ\"))",
+                    "columnName": "Temp Title 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Temp Title",
+        "expression": "grel:value.replace(/[‘’‚‛‹›‚]/,\"\\'\").replace(/[“”«»„]/,\"\\\"\").reinterpret(\"utf-8\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Temp Title using expression grel:value.replace(/[‘’‚‛‹›‚]/,\"\\'\").replace(/[“”«»„]/,\"\\\"\").reinterpret(\"utf-8\")"
+    }
+    {
+        "op": "core/text-transform",
         "description": "Remove periods, commas, and ampersands from ``Temp Title 1``",
         "engineConfig": {
             "facets": [],
