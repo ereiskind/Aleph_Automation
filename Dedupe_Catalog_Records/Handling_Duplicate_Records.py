@@ -9378,6 +9378,8 @@ messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp 
   }
 ]"""
 os.startfile('Organize_UXU01_Output_pt5--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Create a filter for blanks on \"Inexact Title Record Number\" and set it to true. If the titles in the record don't match, change the values in \"Inexact Title Record Number\" with SOMETHING.") #ToDo: Determine what that something is
+os.startfile('Organize_UXU01_Output_pt6--Ebook_Central_Specific.json')
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 
 #Subsection: Organize UXU60 Output
