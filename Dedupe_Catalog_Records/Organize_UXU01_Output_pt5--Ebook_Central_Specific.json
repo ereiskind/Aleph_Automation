@@ -140,112 +140,522 @@
         "oldColumnName": "Temp Title 1 1",
         "newColumnName": "Temp Title"
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if subtitle, edition, volume match, record number in new "column"--check this with custom facet toString(row.record.cells[\"Title Check 1\"].value[0]==value) selectedfalse inverted
-if any of above match to null, record number in column created above
-split at double colon
-repeat above
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   {
-    "op": "core/text-transform",
-    "description": "Trim value in column ``Temp Title`` at first colon or opening parenthesis",
-    "engineConfig": {
-        "facets": [],
-        "mode": "record-based"
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Temp Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Temp Title"
     },
-    "columnName": "Temp Title",
-    "expression": "grel:if(indexOf(value,\":\")>0,if(indexOf(value,\"(\")>0,substring(value,0,min(indexOf(value,\":\"),indexOf(value,\"(\"))),substring(value,0,indexOf(value,\":\"))),if(indexOf(value,\"(\")>0,substring(value,0,indexOf(value,\"(\")),value))",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-}
-{
-    "op": "core/blank-down",
-    "description": "Blank down cells in column ``Temp Title``",
-    "engineConfig": {
-        "facets": [],
-        "mode": "row-based"
+    {
+        "op": "core/text-transform",
+        "description": "Change null values in column ``Temp Title Edition`` to `null`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title Edition",
+        "expression": "grel:if(isNull(value),\"null\",value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     },
-    "columnName": "Temp Title"
-},
-{
-    "op": "core/column-addition",
-    "description": "Create column ``Trimmed Title Record Number`` with the number of the record based on the trimmed title",
-    "engineConfig": {
-        "facets": [],
-        "mode": "record-based"
-    },
-    "baseColumnName": "Temp Title",
-    "expression": "grel:row.record.index+1",
-    "onError": "set-to-blank",
-    "newColumnName": "Trimmed Title Record Number",
-    "columnInsertIndex": 6
-}
-{
-    "op": "core/text-transform",
-    "description": "Null unique values in column ``Trimmed Title Record Number``",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "Trimmed Title Record Number",
-                "expression": "facetCount(value, 'value', 'Trimmed Title Record Number') > 1",
-                "columnName": "Trimmed Title Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": false,
-                            "l": "false"
+    {
+        "op": "core/text-transform",
+        "description": "Change null values in column ``Temp Title Volume`` to `null`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title Volume",
+        "expression": "grel:if(isNull(value),\"null\",value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Inexact Title Record Number`` with the record number for records with multiple rows that all have the same value in both ``Temp Title Edition`` and ``Temp Title Volume`` but don't have a value in ``Title Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Temp Title Edition",
+                    "expression": "grel:row.record.cells[\"Temp Title Edition\"].value[0]==value",
+                    "columnName": "Temp Title Edition",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "record-based"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp Title Volume",
+                    "expression": "grel:row.record.cells[\"Temp Title Volume\"].value[0]==value",
+                    "columnName": "Temp Title Volume",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Title Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Title Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp Title",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp Title",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Temp Title",
+        "expression": "grel:row.record.index+1",
+        "onError": "set-to-blank",
+        "newColumnName": "Inexact Title Record Number",
+        "columnInsertIndex": 8
+    }
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values for a record in column ``Temp Title Edition`` in the first row of the record divided by pipes",
+        "columnName": "Temp Title Edition",
+        "keyColumnName": "Temp Title",
+        "separator": "|"
     },
-    "columnName": "Trimmed Title Record Number",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-}
-{
-    "op": "core/column-removal",
-    "description": "Remove column ``Temp Title``",
-    "columnName": "Temp Title"
-}
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values for a record in column ``Temp Title Volume`` in the first row of the record divided by pipes",
+        "columnName": "Temp Title Volume",
+        "keyColumnName": "Temp Title",
+        "separator": "|"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records with multiple rows, no values in ``Title Record Number``, and null values in both ``Temp Title Edition`` and ``Temp Title Volume``, change the value of ``Inexact Title Record Number`` to the record number",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Title Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Title Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp Title",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp Title",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp Title Edition",
+                    "expression": "grel:contains(value,\"null\")",
+                    "columnName": "Temp Title Edition",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp Title Volume",
+                    "expression": "grel:contains(value,\"null\")",
+                    "columnName": "Temp Title Volume",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Inexact Title Record Number",
+        "expression": "grel:row.record.index+1",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``Temp Title Edition`` into new rows at pipes/send values in ``Temp Title Edition`` back to their original rows",
+        "columnName": "Temp Title Edition",
+        "keyColumnName": "Temp Title",
+        "mode": "separator",
+        "separator": "|",
+        "regex": false
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``Temp Title Volume`` into new rows at pipes/send values in ``Temp Title Volume`` back to their original rows",
+        "columnName": "Temp Title Volume",
+        "keyColumnName": "Temp Title",
+        "mode": "separator",
+        "separator": "|",
+        "regex": false
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Temp Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title"
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Temp Title`` at double colon",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "::",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For ``Temp Title 2``, change null values to `null` and trim existing values",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title 2",
+        "expression": "grel:if(isNull(value),\"null\",trim(value))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Temp Title 1``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Temp Title 1"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``No Subtitle Record Number`` with the record number for records with multiple rows that all have same value in both ``Temp Title Edition`` and ``Temp Title Volume`` but don't have a value in ``Title Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Temp Title Edition",
+                    "expression": "grel:row.record.cells[\"Temp Title Edition\"].value[0]==value",
+                    "columnName": "Temp Title Edition",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp Title Volume",
+                    "expression": "grel:row.record.cells[\"Temp Title Volume\"].value[0]==value",
+                    "columnName": "Temp Title Volume",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Title Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Title Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp Title 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp Title 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Temp Title 1",
+        "expression": "grel:row.record.index+1",
+        "onError": "set-to-blank",
+        "newColumnName": "No Subtitle Record Number",
+        "columnInsertIndex": 10
+    }
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values for a record in column ``Temp Title Edition`` in the first row of the record divided by pipes",
+        "columnName": "Temp Title Edition",
+        "keyColumnName": "Temp Title 1",
+        "separator": "|"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values for a record in column ``Temp Title Volume`` in the first row of the record divided by pipes",
+        "columnName": "Temp Title Volume",
+        "keyColumnName": "Temp Title 1",
+        "separator": "|"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records with multiple rows, no values in ``Title Record Number``, and null values in both ``Temp Title Edition`` and ``Temp Title Volume``, change the value of ``No Subtitle Record Number`` to the record number",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Title Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Title Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp Title Edition",
+                    "expression": "grel:contains(value,\"null\")",
+                    "columnName": "Temp Title Edition",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp Title Volume",
+                    "expression": "grel:contains(value,\"null\")",
+                    "columnName": "Temp Title Volume",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Temp Title 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Temp Title 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "No Subtitle Record Number",
+        "expression": "grel:row.record.index+1",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Temp Title Edition``",
+        "columnName": "Temp Title Edition"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Temp Title Volume``",
+        "columnName": "Temp Title Volume"
+    }    
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Temp Title 1``",
+        "columnName": "Temp Title 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Temp Title 2``",
+        "columnName": "Temp Title 2"
+    },
+
+
+
+
+
+
+
+
+
 {
     "op": "core/text-transform",
     "description": "Null values in ``Record Number`` in rows where ``ID`` is blank",
