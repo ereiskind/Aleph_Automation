@@ -32,39 +32,6 @@
         "description": "Remove column ``No Subtitle Record Number``",
         "columnName": "No Subtitle Record Number"
     },
-
-
-
-unfold current groupings then refold so all the records numbers representing the groups a given BIB belongs to are on a single line
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     {
         "op": "core/column-addition",
         "description": "Create column ``Record Number`` containing the number of the record",
@@ -332,6 +299,19 @@ unfold current groupings then refold so all the records numbers representing the
         "repeatCount": 10
     }
     {
+        "op": "core/column-addition",
+        "description": "Create column ``Pivot`` to keep records together during the pivot",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Record Number",
+        "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
+        "onError": "set-to-blank",
+        "newColumnName": "Pivot",
+        "columnInsertIndex": 1
+    },
+    {
         "op": "core/key-value-columnize",
         "description": "Pivot table to create columns for values in ``ID 1`` containing the values in ``ID 2``",
         "keyColumnName": "ID 1",
@@ -339,68 +319,107 @@ unfold current groupings then refold so all the records numbers representing the
         "noteColumnName": ""
     },
     {
-        "op": "core/column-addition",
-        "description": "Create column ``Ebook Central ID`` by filling up and down value of ``Ebook Central``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "Ebook Central",
-        "expression": "grel:row.record.cells[\"Ebook Central\"].value[0]",
-        "onError": "set-to-blank",
-        "newColumnName": "Ebook Central ID",
-        "columnInsertIndex": 3
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Null values in column ``Ebook Central`` equal  to that row's value in ``Ebook Central ID``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebook Central",
-        "expression": "grel:if(value==cells[\"Ebook Central ID\"].value,null,value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
+        "op": "core/column-removal",
+        "description": "Remove column ``Pivot``",
+        "columnName": "Pivot"
     }
     {
         "op": "core/column-addition",
-        "description": "Create column ``Exact Match via Ebook Central ID`` containing the record number in only those records that have exactly one Ebook Central ID",
+        "description": "Create column ``Status`` with a value depending on the value of ``Ebook Central``--`No ID` is the record has no value,  `Match` if the row is null or matches the record's first value, and `No Match` if the row doesn't match the record's first value",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Ebook Central",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Ebook Central ID",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central ID",
+                    "name": "Status",
+                    "expression": "value",
+                    "columnName": "Status",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": "mismatch",
+                                "l": "mismatch"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Ebook Central",
+        "expression": "grel:if(isError(row.record.cells[\"Ebook Central\"].value[0]),\"No ID\",if(or(value==null,value==row.record.cells[\"Ebook Central\"].value[0]),\"Match\",\"No Match\"))",
+        "onError": "set-to-blank",
+        "newColumnName": "Status",
+        "columnInsertIndex": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records that had exactly one Ebook Central ID, change ``Record Number`` to `Ebook Central::` followed by the Ebook Central ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Status",
+                    "expression": "value",
+                    "columnName": "Status",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No Match",
+                                "l": "No Match"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "No ID",
+                                "l": "No ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isNotNull(value),\"Ebook Central::\"+row.record.cells[\"Ebook Central\"].value[0],value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number using expression grel:if(isNotNull(value),\"Ebook Central::\"+row.record.cells[\"Ebook Central\"].value[0],value)"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ID Record Number`` with `Ebook Central::` followed by the Ebook Central ID in records that had exactly one ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Status",
+                    "expression": "value",
+                    "columnName": "Status",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No Match",
+                                "l": "No Match"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "No ID",
+                                "l": "No ID"
                             }
                         }
                     ],
@@ -411,11 +430,116 @@ unfold current groupings then refold so all the records numbers representing the
             "mode": "record-based"
         },
         "baseColumnName": "BIB Number",
-        "expression": "grel:row.record.index+1",
+        "expression": "grel:\"Ebook Central::\"+row.record.cells[\"Ebook Central\"].value[0]",
         "onError": "set-to-blank",
-        "newColumnName": "Exact Match via Ebook Central ID",
-        "columnInsertIndex": 1
+        "newColumnName": "ID Record Number",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null values in column ``Ebook Central`` for records with the ID in ``ID Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Status",
+                    "expression": "value",
+                    "columnName": "Status",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No Match",
+                                "l": "No Match"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "No ID",
+                                "l": "No ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For a record with the value `No Match` in ``Status``, change all the values in ``Status`` to `No Match`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Status",
+                    "expression": "value",
+                    "columnName": "Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No Match",
+                                "l": "No Match"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Status",
+        "expression": "grel:\"No Match\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     }
+    {
+        "op": "core/text-transform",
+        "description": "For records that contain multiple Ebook Central IDs, change the value of ``Record Number`` in all rows to the BIB, a dash, and the record number",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Status",
+                    "expression": "value",
+                    "columnName": "Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No Match",
+                                "l": "No Match"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:cells[\"BIB Number\"].value+\"-\"+row.record.cells[\"Record Number\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
     {
         "op": "core/fill-down",
         "description": "Fill down cells in column ``Record Number``",
@@ -431,9 +555,7 @@ unfold current groupings then refold so all the records numbers representing the
         "columnNames": [
             "BIB Number",
             "Record Number",
-            "Exact Match via Ebook Central ID",
             "Title",
-            "Ebook Central ID",
             "ID",
             "ISBN Value",
             "Ebook Central",
@@ -453,20 +575,58 @@ unfold current groupings then refold so all the records numbers representing the
         "columnName": "BIB Number"
     },
     {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``ISBN Value``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value"
+    }
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``Ebook Central`` in a record in the first row of the record divided by pipes",
+        "columnName": "Ebook Central",
+        "keyColumnName": "BIB Number",
+        "separator": "|"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``Ebook Central``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
         "op": "core/multivalued-cell-join",
         "description": "Combine all values in column ``MyiLibrary`` in a record in the first row of the record divided by pipes",
         "columnName": "MyiLibrary",
         "keyColumnName": "BIB Number",
         "separator": "|"
-    },
-    {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``MyiLibrary``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "MyiLibrary"
     },
     {
         "op": "core/text-transform",
@@ -487,15 +647,6 @@ unfold current groupings then refold so all the records numbers representing the
         "columnName": "Ebrary",
         "keyColumnName": "BIB Number",
         "separator": "|"
-    },
-    {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``Ebrary``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebrary"
     },
     {
         "op": "core/text-transform",
@@ -519,15 +670,6 @@ unfold current groupings then refold so all the records numbers representing the
         "description": "Join multi-valued cells in column Ebook Library"
     },
     {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``Ebook Library``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebook Library"
-    },
-    {
         "op": "core/text-transform",
         "description": "Null blank cells in column ``Ebook Library``",
         "engineConfig": {
@@ -542,48 +684,10 @@ unfold current groupings then refold so all the records numbers representing the
     }
     {
         "op": "core/multivalued-cell-join",
-        "description": "Combine all values in column ``Ebook Central`` in a record in the first row of the record divided by pipes",
-        "columnName": "Ebook Central",
-        "keyColumnName": "BIB Number",
-        "separator": "|"
-    },
-    {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``Ebook Central``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebook Central"
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Null blank cells in column ``Ebook Central``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebook Central",
-        "expression": "grel:if(isBlank(value),null,value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/multivalued-cell-join",
         "description": "Combine all values in column ``DOI`` in a record in the first row of the record divided by pipes",
         "columnName": "DOI",
         "keyColumnName": "BIB Number",
         "separator": "|"
-    },
-    {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``DOI``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "DOI"
     },
     {
         "op": "core/text-transform",
@@ -604,61 +708,74 @@ unfold current groupings then refold so all the records numbers representing the
         "columnName": "ID"
     }
     {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``Record Number``",
+        "op": "core/column-addition",
+        "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",
         "engineConfig": {
             "facets": [],
-            "mode": "record-based"
+            "mode": "row-based"
         },
-        "columnName": "Record Number"
-    },
-    {
-        "op": "core/multivalued-cell-join",
-        "description": "Combine all values in column ``Record Number`` in a record in the first row of the record divided by pipes",
-        "columnName": "Record Number",
-        "keyColumnName": "BIB Number",
-        "separator": "|"
-    },
-    {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``BIB Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "BIB Number"
+        "newColumnName": "All Others Blank",
+        "columnInsertIndex": 1,
+        "baseColumnName": "BIB Number",
+        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+        "onError": "set-to-blank"
     },
     {
         "op": "core/row-removal",
-        "description": "Remove rows with null value in ``Record Number``",
+        "description": "Remove rows where the value of ``All Others Blank`` is `true`",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Record Number",
-                    "expression": "isBlank(value)",
-                    "columnName": "Record Number",
+                    "name": "All Others Blank",
+                    "expression": "value",
+                    "columnName": "All Others Blank",
                     "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": true,
+                                "v": "true",
                                 "l": "true"
                             }
                         }
                     ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
                     "selectBlank": false,
+                    "omitError": false,
                     "selectError": false
                 }
             ],
             "mode": "row-based"
         }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``All Others Blank``",
+        "columnName": "All Others Blank"
     }
     {
+        "op": "core/row-reorder",
+        "description": "Reorder rows by ``BIB Number``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "BIB Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
         "op": "core/blank-down",
-        "description": "Blank down cells in column BIB Number",
+        "description": "Blank down cells in column ``BIB Number``",
         "engineConfig": {
             "facets": [],
             "mode": "row-based"
@@ -666,16 +783,38 @@ unfold current groupings then refold so all the records numbers representing the
         "columnName": "BIB Number"
     }
     {
-        "op": "core/text-transform",
-        "description": "Make all values in column ``Record Number`` strings",
+        "op": "core/column-split",
+        "description": "Split values in column ``Record Number`` at dashes",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+          "facets": [
+            {
+              "type": "list",
+              "name": "Record Number",
+              "expression": "grel:toString(contains(value,\"-\"))",
+              "columnName": "Record Number",
+              "invert": false,
+              "omitBlank": false,
+              "omitError": false,
+              "selection": [
+                {
+                  "v": {
+                    "v": "true",
+                    "l": "true"
+                  }
+                }
+              ],
+              "selectBlank": false,
+              "selectError": false
+            }
+          ],
+          "mode": "record-based"
         },
         "columnName": "Record Number",
-        "expression": "value.toString()",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
+        "guessCellType": true,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": "-",
+        "regex": false,
+        "maxColumns": 0
+      }
 ]

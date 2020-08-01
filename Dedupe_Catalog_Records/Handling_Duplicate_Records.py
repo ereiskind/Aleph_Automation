@@ -11726,6 +11726,14 @@ messagebox.showinfo(title="Instructions", message="Create a filter for blanks on
   }
 ]"""
 os.startfile('Organize_UXU01_Output_pt7--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Create a custom filter on \"Record Number\" with the value \"toString(contains(value,\"-\"))\" and set it to true. Create a text filter on \"Record Number 2\". If a value in \"Record Number 2\" connects two BIBs that shouldn't be related, change the value to an empty string.")
+#ToDo: Determine what multiple Ebook Central ID matched BIBs should be matched
+#ToDo: Use having value in Record Number 2 to link BIBs back together
+#ToDo: Blank down Record Number to get rid of duplicates
+#ToDo: Multi-cell Join remaining Record Number values
+#ToDo: Bring Record Number, URL, ISBN, title, other ID values over to UXU60 project via cell cross
+#ToDo: Using existing JSONs as guide, perform final matching using HOL
+
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 
 #Subsection: Organize UXU60 Output
