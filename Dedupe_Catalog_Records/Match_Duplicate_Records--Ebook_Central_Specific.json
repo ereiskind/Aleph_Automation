@@ -14,19 +14,6 @@
     }
     {
         "op": "core/column-addition",
-        "description": "Create column ``OCLC`` with the OCLC ID(s) from the BIB matching in the UXU01 OpenRefine project",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"OCLC\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "OCLC",
-        "columnInsertIndex": 6
-    }
-    {
-        "op": "core/column-addition",
         "description": "Create column ``Ebook Library`` with the Ebook Library ID(s) from the BIB matching in the UXU01 OpenRefine project",
         "engineConfig": {
             "facets": [],
@@ -103,6 +90,30 @@
         "newColumnName": "Ebook Central ID",
         "columnInsertIndex": 6
     }
+
+
+
+
+
+
+
+
+
+
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``OCLC`` with the OCLC ID(s) from the BIB matching in the UXU01 OpenRefine project",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"OCLC\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "OCLC",
+        "columnInsertIndex": 6
+    }
+
     {
         "op": "core/column-addition",
         "description": "Create column ``Title`` with the title from the BIB matching in the UXU01 OpenRefine project",

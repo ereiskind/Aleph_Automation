@@ -32,6 +32,39 @@
         "description": "Remove column ``No Subtitle Record Number``",
         "columnName": "No Subtitle Record Number"
     },
+
+
+
+unfold current groupings then refold so all the records numbers representing the groups a given BIB belongs to are on a single line
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     {
         "op": "core/column-addition",
         "description": "Create column ``Record Number`` containing the number of the record",
@@ -393,11 +426,23 @@
         "columnName": "Record Number"
     },
     {
-        "op": "core/column-move",
-        "description": "Move column ``BIB Number`` to beginning of table",
-        "columnName": "BIB Number",
-        "index": 0
-    },
+        "op": "core/column-reorder",
+        "description": "Remove unneeded ID columns and make ``BIB Number`` first column",
+        "columnNames": [
+            "BIB Number",
+            "Record Number",
+            "Exact Match via Ebook Central ID",
+            "Title",
+            "Ebook Central ID",
+            "ID",
+            "ISBN Value",
+            "Ebook Central",
+            "MyiLibrary",
+            "Ebrary",
+            "Ebook Library",
+            "DOI"
+        ]
+    }
     {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``BIB Number``",
@@ -424,6 +469,19 @@
         "columnName": "MyiLibrary"
     },
     {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``MyiLibrary``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "MyiLibrary",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
         "op": "core/multivalued-cell-join",
         "description": "Combine all values in column ``Ebrary`` in a record in the first row of the record divided by pipes",
         "columnName": "Ebrary",
@@ -439,6 +497,19 @@
         },
         "columnName": "Ebrary"
     },
+    {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``Ebrary``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebrary",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
     {
         "op": "core/multivalued-cell-join",
         "description": "Combine all values in column ``Ebook Library`` in a record in the first row of the record divided by pipes",
@@ -457,6 +528,19 @@
         "columnName": "Ebook Library"
     },
     {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``Ebook Library``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Library",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
         "op": "core/multivalued-cell-join",
         "description": "Combine all values in column ``Ebook Central`` in a record in the first row of the record divided by pipes",
         "columnName": "Ebook Central",
@@ -472,6 +556,19 @@
         },
         "columnName": "Ebook Central"
     },
+    {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``Ebook Central``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
     {
         "op": "core/multivalued-cell-join",
         "description": "Combine all values in column ``DOI`` in a record in the first row of the record divided by pipes",
@@ -489,6 +586,19 @@
         "columnName": "DOI"
     },
     {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``DOI``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "DOI",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
         "op": "core/column-removal",
         "description": "Remove column ``ID``",
         "columnName": "ID"
@@ -501,6 +611,13 @@
             "mode": "record-based"
         },
         "columnName": "Record Number"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``Record Number`` in a record in the first row of the record divided by pipes",
+        "columnName": "Record Number",
+        "keyColumnName": "BIB Number",
+        "separator": "|"
     },
     {
         "op": "core/fill-down",
@@ -548,158 +665,17 @@
         },
         "columnName": "BIB Number"
     }
+    {
+        "op": "core/text-transform",
+        "description": "Make all values in column ``Record Number`` strings",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "value.toString()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
 ]
-
-contains(value,"�")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{
-    "op": "core/multivalued-cell-join",
-    "description": "Combine all values in column ``OCLC`` in a record in the first row of the record divided by pipes",
-    "columnName": "OCLC",
-    "keyColumnName": "BIB Number",
-    "separator": "|"
-},
-{
-    "op": "core/fill-down",
-    "description": "Fill down cells in column ``OCLC``",
-    "engineConfig": {
-        "facets": [],
-        "mode": "record-based"
-    },
-    "columnName": "OCLC"
-},
-
-{
-    "op": "core/multivalued-cell-join",
-    "description": "Combine all values in column ``Bibliographic Data Services`` in a record in the first row of the record divided by pipes",
-    "columnName": "Bibliographic Data Services",
-    "keyColumnName": "BIB Number",
-    "separator": "|"
-},
-{
-    "op": "core/fill-down",
-    "description": "Fill down cells in column ``Bibliographic Data Services``",
-    "engineConfig": {
-        "facets": [],
-        "mode": "record-based"
-    },
-    "columnName": "Bibliographic Data Services"
-},
-{
-    "op": "core/multivalued-cell-join",
-    "description": "Combine all values in column ``YBP-long`` in a record in the first row of the record divided by pipes",
-    "columnName": "YPB-long",
-    "keyColumnName": "BIB Number",
-    "separator": "|"
-},
-{
-    "op": "core/fill-down",
-    "description": "Fill down cells in column ``YBP-long``",
-    "engineConfig": {
-        "facets": [],
-        "mode": "record-based"
-    },
-    "columnName": "YPB-long"
-}
-{
-    "op": "core/multivalued-cell-join",
-    "description": "Combine all values in column ``YBP`` in a record in the first row of the record divided by pipes",
-    "columnName": "YBP",
-    "keyColumnName": "BIB Number",
-    "separator": "|"
-},
-{
-    "op": "core/fill-down",
-    "description": "Fill down cells in column ``YBP``",
-    "engineConfig": {
-        "facets": [],
-        "mode": "record-based"
-    },
-    "columnName": "YBP"
-},
-{
-    "op": "core/multivalued-cell-join",
-    "description": "Combine all values in column ``SIAM`` in a record in the first row of the record divided by pipes",
-    "columnName": "SIAM",
-    "keyColumnName": "BIB Number",
-    "separator": "|"
-},
-{
-    "op": "core/fill-down",
-    "description": "Fill down cells in column ``SIAM``",
-    "engineConfig": {
-        "facets": [],
-        "mode": "record-based"
-    },
-    "columnName": "SIAM"
-},
-{
-    "op": "core/multivalued-cell-join",
-    "description": "Combine all values in column ``Credo`` in a record in the first row of the record divided by pipes",
-    "columnName": "Credo",
-    "keyColumnName": "BIB Number",
-    "separator": "|"
-},
-{
-    "op": "core/fill-down",
-    "description": "Fill down cells in column ``Credo``",
-    "engineConfig": {
-        "facets": [],
-        "mode": "record-based"
-    },
-    "columnName": "Credo"
-},
-{
-    "op": "core/multivalued-cell-join",
-    "description": "Combine all values in column ``Oxford UP`` in a record in the first row of the record divided by pipes",
-    "columnName": "Oxford UP",
-    "keyColumnName": "BIB Number",
-    "separator": "|"
-},
-{
-    "op": "core/fill-down",
-    "description": "Fill down cells in column ``Oxford UP``",
-    "engineConfig": {
-        "facets": [],
-        "mode": "record-based"
-    },
-    "columnName": "Oxford UP"
-},
-
-{
-    "op": "core/multivalued-cell-join",
-    "description": "Combine all values in column ``APA`` in a record in the first row of the record divided by pipes",
-    "columnName": "APA",
-    "keyColumnName": "BIB Number",
-    "separator": "|"
-},
-{
-    "op": "core/fill-down",
-    "description": "Fill down cells in column ``APA``",
-    "engineConfig": {
-        "facets": [],
-        "mode": "record-based"
-    },
-    "columnName": "APA"
-},
-
-
-
-
