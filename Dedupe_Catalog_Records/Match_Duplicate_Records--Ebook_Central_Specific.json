@@ -14,6 +14,19 @@
     }
     {
         "op": "core/column-addition",
+        "description": "Create column ``DOI`` with the DOI from the BIB matching in the UXU01 OpenRefine project",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"DOI\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "DOI",
+        "columnInsertIndex": 6
+    }
+    {
+        "op": "core/column-addition",
         "description": "Create column ``Ebook Library`` with the Ebook Library ID(s) from the BIB matching in the UXU01 OpenRefine project",
         "engineConfig": {
             "facets": [],
@@ -51,69 +64,6 @@
         "newColumnName": "MyiLibrary",
         "columnInsertIndex": 6
     }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Ebook Central`` with the possible Ebook Central IDs from the BIB matching in the UXU01 OpenRefine project",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"Ebook Central\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "Ebook Central",
-        "columnInsertIndex": 6
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``DOI`` with the DOI from the BIB matching in the UXU01 OpenRefine project",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"DOI\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "DOI",
-        "columnInsertIndex": 6
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Ebook Central ID`` with the Ebook Central ID from the BIB matching in the UXU01 OpenRefine project",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"Ebook Central ID\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "Ebook Central ID",
-        "columnInsertIndex": 6
-    }
-
-
-
-
-
-
-
-
-
-
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``OCLC`` with the OCLC ID(s) from the BIB matching in the UXU01 OpenRefine project",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"OCLC\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "OCLC",
-        "columnInsertIndex": 6
-    }
-
     {
         "op": "core/column-addition",
         "description": "Create column ``Title`` with the title from the BIB matching in the UXU01 OpenRefine project",
@@ -335,74 +285,132 @@
         "columnName": "All Others Blank"
     }
     {
-        "op": "core/text-transform",
-        "description": "Make all values in column ``Record Number`` strings",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``Record Number`` intpo new rows at pipes",
         "columnName": "Record Number",
-        "expression": "value.toString()",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
+        "keyColumnName": "HOL Number",
+        "mode": "separator",
+        "separator": "|",
+        "regex": false
+    },
     {
-        "op": "core/text-transform",
-        "description": "Make all values in column ``Ebook Central ID`` strings",
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``BIB Number``",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
-        "columnName": "Ebook Central ID",
-        "expression": "value.toString()",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
+        "columnName": "BIB Number"
+    },
     {
-        "op": "core/text-transform",
-        "description": "Fill null values in column ``Ebook Central ID`` with `null` and the record number",
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``BIB Number of HOLs``",
         "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Ebook Central ID",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central ID",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
+            "facets": [],
             "mode": "record-based"
         },
-        "columnName": "Ebook Central ID",
-        "expression": "grel:\"null\"+toString(row.record.index+1)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
+        "columnName": "BIB Number of HOLs"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``HOL Sublibrary``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "HOL Sublibrary"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Suppressed``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Suppressed"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Ebook Central BIB URLs``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central BIB URLs"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Replacement Character in Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Replacement Character in Title"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``MyiLibrary``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "MyiLibrary"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Ebrary``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebrary"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Ebook Library``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Library"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``DOI``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "DOI"
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``HOL Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "HOL Number"
     },
     {
         "op": "core/column-move",
-        "description": "Move column ``Record Number`` to beginning",
+        "description": "Move column ``Record Number`` to beginning of table",
         "columnName": "Record Number",
         "index": 0
-    }
+    },
     {
         "op": "core/row-reorder",
         "description": "Reorder rows based on ``Record Number``",
-        "mode": "row-based",
+        "mode": "record-based",
         "sorting": {
             "criteria": [
                 {
@@ -424,110 +432,17 @@
             "mode": "row-based"
         },
         "columnName": "Record Number"
-    }
+    },
     {
         "op": "core/column-addition",
-        "description": "Create column ``INDX Ebook Central`` with the record's first value from ``Ebook Central ID`` if it's an ID and the ISBNs from the BIB cleanup project if it's not",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:if(startsWith(cells[\"Ebook Central ID\"].value,\"null\"),cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"ISBN Value\"].value,row.record.cells[\"Ebook Central ID\"].value[0])",
-        "onError": "set-to-blank",
-        "newColumnName": "INDX Ebook Central",
-        "columnInsertIndex": 1
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Null values in column ``Ebook Central ID`` that are the same as that row's value in ``INDX Ebook Central``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Ebook Central ID",
-        "expression": "grel:if(value==cells[\"INDX Ebook Central\"].value,null,value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/multivalued-cell-split",
-        "description": "Divide values in column ``INDX Ebook Central`` into new rows at each `}|{`",
-        "columnName": "INDX Ebook Central",
-        "keyColumnName": "Record Number",
-        "mode": "separator",
-        "separator": "}|{",
-        "regex": false
-    },
-    {
-        "op": "core/fill-down",
-        "description": "In records with blank cells in ``HOL Number``, fill down cells in column ``HOL Number``",
+        "description": "Create column ``ISBN`` with the ISBN values for the BIB from the UXU01 project for the records where ``Record Number`` isn't an Ebook Central ID",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "HOL Number",
-                    "expression": "isBlank(value)",
-                    "columnName": "HOL Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "HOL Number"
-    }
-    {
-        "op": "core/fill-down",
-        "description": "In records with blank cells in ``BIB Number``, fill down cells in column ``BIB Number``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "HOL Number",
-                    "expression": "isBlank(value)",
-                    "columnName": "HOL Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "BIB Number"
-    },
-    {
-        "op": "core/column-split",
-        "description": "For records where ``Ebook Central ID`` still has values, create new columns by splitting the value of column ``INDX Ebook Central`` at each `]|[`",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Ebook Central ID",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central ID",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
@@ -545,12 +460,127 @@
             ],
             "mode": "record-based"
         },
-        "columnName": "INDX Ebook Central",
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"ISBN Value\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "ISBN",
+        "columnInsertIndex": 3
+    }
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Divide values in column ``ISBN`` into new rows at each `}|{`",
+        "columnName": "ISBN",
+        "keyColumnName": "Record Number",
+        "mode": "separator",
+        "separator": "}|{",
+        "regex": false
+    },
+    {
+        "op": "core/column-split",
+        "description": "For the records where ``Record Number`` isn't an Ebook Central ID, split column ``ISBN`` at `]|[`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN",
         "guessCellType": false,
-        "removeOriginalColumn": false,
+        "removeOriginalColumn": true,
         "mode": "separator",
         "separator": "]|[",
         "regex": false,
         "maxColumns": 0
     }
 ]
+
+{
+    "op": "core/text-transform",
+    "description": "Null values in column ``Ebook Central ID`` that are the same as that row's value in ``INDX Ebook Central``",
+    "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+    },
+    "columnName": "Ebook Central ID",
+    "expression": "grel:if(value==cells[\"INDX Ebook Central\"].value,null,value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+}
+
+{
+    "op": "core/fill-down",
+    "description": "In records with blank cells in ``HOL Number``, fill down cells in column ``HOL Number``",
+    "engineConfig": {
+        "facets": [
+            {
+                "type": "list",
+                "name": "HOL Number",
+                "expression": "isBlank(value)",
+                "columnName": "HOL Number",
+                "invert": false,
+                "omitBlank": false,
+                "omitError": false,
+                "selection": [
+                    {
+                        "v": {
+                            "v": true,
+                            "l": "true"
+                        }
+                    }
+                ],
+                "selectBlank": false,
+                "selectError": false
+            }
+        ],
+        "mode": "record-based"
+    },
+    "columnName": "HOL Number"
+}
+{
+    "op": "core/fill-down",
+    "description": "In records with blank cells in ``BIB Number``, fill down cells in column ``BIB Number``",
+    "engineConfig": {
+        "facets": [
+            {
+                "type": "list",
+                "name": "HOL Number",
+                "expression": "isBlank(value)",
+                "columnName": "HOL Number",
+                "invert": false,
+                "omitBlank": false,
+                "omitError": false,
+                "selection": [
+                    {
+                        "v": {
+                            "v": true,
+                            "l": "true"
+                        }
+                    }
+                ],
+                "selectBlank": false,
+                "selectError": false
+            }
+        ],
+        "mode": "record-based"
+    },
+    "columnName": "BIB Number"
+},

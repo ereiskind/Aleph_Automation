@@ -14632,11 +14632,6 @@ messagebox.showinfo(title="Instructions", message="Select each value in the \"Re
   }
 ]"""
 os.startfile('Organize_UXU01_Output_pt8--Ebook_Central_Specific.json')
-#ToDo: Blank down Record Number to get rid of duplicates
-#ToDo: Multi-cell Join remaining Record Number values
-#ToDo: Bring Record Number, URL, ISBN, title, other ID values over to UXU60 project via cell cross
-#ToDo: Using existing JSONs as guide, perform final matching using HOL
-
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 
 #Subsection: Organize UXU60 Output
@@ -14657,11 +14652,294 @@ os.startfile('Extract_URLs.json')
 #Subsection: Match Duplicate BIB Records
 messagebox.showinfo(title="Instructions", message="This JSON continues using the UXU60 OpenRefine project.")
 messagebox.showwarning(title="Cell Cross Project Columns", message="The JSON currently has ID columns for the Ebook Central BIB project hard-coded into it.")
+messagebox.showwarning(title="Fill Down", message="The JSON fills down columns, so it needs to know how many TKR columns were created; it currently has four hard coded in.")
 #ToDo: Get list of columns to pull from UXU01 OpenRefine project and create loop to load them into this project with the last column being the first JSON object so all the object can use the same column insert index
 os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Set text filter on \"Replacement Character in Title\" to true and edit the titles as needed to match the 245 fields in the BIBs of origin.")
+"""[
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Replacement Character in Title",
+          "expression": "value",
+          "columnName": "Replacement Character in Title",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Title",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "A Postcolonial Critique of the Linde et al. v. Arab Bank, PLC â€œTerrorismâ€� Bank Cases"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "A Postcolonial Critique of the Linde et al. v. Arab Bank, PLC \"Terrorism\" Bank Cases"
+      }
+    ],
+    "description": "Mass edit cells in column Title"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Replacement Character in Title",
+          "expression": "value",
+          "columnName": "Replacement Character in Title",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Title",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Letters of a Sufi scholar: the correspondence of Ê»Abd al-GhanÄ« al-NÄ�bulusÄ« (1641-1731)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Letters of a Sufi scholar: the correspondence of ʻAbd al-Ghanī al-Nābulusī (1641-1731)"
+      }
+    ],
+    "description": "Mass edit cells in column Title"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Replacement Character in Title",
+          "expression": "value",
+          "columnName": "Replacement Character in Title",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Title",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "New Mexico and the PimeriÌ�a Alta: the colonial period in the American Southwest"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "New Mexico and the Pimería Alta: the colonial period in the American Southwest"
+      }
+    ],
+    "description": "Mass edit cells in column Title"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Replacement Character in Title",
+          "expression": "value",
+          "columnName": "Replacement Character in Title",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Title",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "â€œRomanticismâ€� â€“ and Byron. (ed=1st ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "“Romanticism” – and Byron. (ed=1st ed.)"
+      }
+    ],
+    "description": "Mass edit cells in column Title"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Replacement Character in Title",
+          "expression": "value",
+          "columnName": "Replacement Character in Title",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Title",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Poetry, the geometry of the living substance: four essays on Ã�gnes Nemes Nagy"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Poetry, the geometry of the living substance: four essays on Ágnes Nemes Nagy"
+      }
+    ],
+    "description": "Mass edit cells in column Title"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Replacement Character in Title",
+          "expression": "value",
+          "columnName": "Replacement Character in Title",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Title",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Poetry, the Geometry of the Living Substance: Four Essays on Ã�gnes Nemes Nagy. (ed=1st ed.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Poetry, the Geometry of the Living Substance: Four Essays on Ágnes Nemes Nagy. (ed=1st ed.)"
+      }
+    ],
+    "description": "Mass edit cells in column Title"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Replacement Character in Title",
+          "expression": "value",
+          "columnName": "Replacement Character in Title",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Title",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "HÅ�ryÅ«ji reconsidered: [HÅ�ryÅ«ji no saikeutÅ�]"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Hōryūji reconsidered: [Hōryūji no saikeutō]"
+      }
+    ],
+    "description": "Mass edit cells in column Title"
+  },
+  ]"""
 messagebox.showwarning(title="Ebook Central", message="Following instructions are very specific to Ebook Central.")
-messagebox.showinfo(title="Instructions", message="Download the OpenRefine project into Excel. Dedupe \"INDX Ebook Central 1\" and copy into LibCentral's title match feature. Save the ISBN and ID columns from the title match output as \"ISBNs and eBook Central IDs.xlsx\".")
-messagebox.showinfo(title="Instructions", message="Add text filter to \"Replacement Character in Title\" and edit the titles to remove the replacement characters.")
+messagebox.showinfo(title="Instructions", message="Download the OpenRefine project into Excel. Dedupe \"ISBN 1\" and copy into LibCentral's title match feature. Save the ISBN and ID columns from the title match output as \"ISBNs and eBook Central IDs.xlsx\". Upload the worksheet into OpenRefine, removing the file extension from the project name.")
 os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Create custom text filteron column \"INDX Ebook Central\" with \"toString(startsWith(value,\"*\"))\" and set to true. For all titles in the matching records, manually determine the appropriate ID and change the value in \"INDX Ebook Central\" to that ID.")
 """[
