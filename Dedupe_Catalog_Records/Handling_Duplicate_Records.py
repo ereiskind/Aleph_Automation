@@ -14631,8 +14631,7 @@ messagebox.showinfo(title="Instructions", message="Select each value in the \"Re
     "description": "Text transform on cells in column Record Number 2 using expression null"
   }
 ]"""
-#ToDo: Determine what multiple Ebook Central ID matched BIBs should be matched
-#ToDo: Use having value in Record Number 2 to link BIBs back together
+os.startfile('Organize_UXU01_Output_pt8--Ebook_Central_Specific.json')
 #ToDo: Blank down Record Number to get rid of duplicates
 #ToDo: Multi-cell Join remaining Record Number values
 #ToDo: Bring Record Number, URL, ISBN, title, other ID values over to UXU60 project via cell cross
