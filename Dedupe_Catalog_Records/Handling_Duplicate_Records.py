@@ -14937,7 +14937,7 @@ messagebox.showinfo(title="Instructions", message="Set text filter on \"Replacem
     ],
     "description": "Mass edit cells in column Title"
   },
-  ]"""
+]"""
 messagebox.showwarning(title="Ebook Central", message="Following instructions are very specific to Ebook Central.")
 messagebox.showinfo(title="Instructions", message="Download the OpenRefine project into Excel. Dedupe \"ISBN 1\" and copy into LibCentral's title match feature. Save the ISBN and ID columns from the title match output as \"ISBNs and eBook Central IDs.xlsx\". Upload the worksheet into OpenRefine, removing the file extension from the project name.")
 os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')

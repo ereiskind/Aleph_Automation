@@ -425,6 +425,58 @@
         }
     },
     {
+        "op": "core/text-transform",
+        "description": "Add a hash to the end of unique non-Ebook Central values in column ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "facetCount(value, 'value', 'Record Number') > 1",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:value+\"#\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``Record Number``",
         "engineConfig": {
@@ -464,7 +516,7 @@
         "expression": "grel:cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"ISBN Value\"].value",
         "onError": "set-to-blank",
         "newColumnName": "ISBN",
-        "columnInsertIndex": 3
+        "columnInsertIndex": 4
     }
     {
         "op": "core/multivalued-cell-split",
