@@ -786,28 +786,28 @@
         "op": "core/column-split",
         "description": "Split values in column ``Record Number`` at dashes",
         "engineConfig": {
-          "facets": [
-            {
-              "type": "list",
-              "name": "Record Number",
-              "expression": "grel:toString(contains(value,\"-\"))",
-              "columnName": "Record Number",
-              "invert": false,
-              "omitBlank": false,
-              "omitError": false,
-              "selection": [
+            "facets": [
                 {
-                  "v": {
-                    "v": "true",
-                    "l": "true"
-                  }
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:toString(contains(value,\"-\"))",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
                 }
-              ],
-              "selectBlank": false,
-              "selectError": false
-            }
-          ],
-          "mode": "record-based"
+            ],
+            "mode": "record-based"
         },
         "columnName": "Record Number",
         "guessCellType": true,
@@ -816,5 +816,38 @@
         "separator": "-",
         "regex": false,
         "maxColumns": 0
-      }
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Change value in column ``Record Number 1`` to the number of times the value in ``Record Number 2`` appears in that column",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:toString(contains(value,\"-\"))",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 1",
+        "expression": "grel:if(isNull(cells[\"Record Number 2\"].value),null,facetCount(cells[\"Record Number 2\"].value, 'value', 'Record Number 2'))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
 ]
