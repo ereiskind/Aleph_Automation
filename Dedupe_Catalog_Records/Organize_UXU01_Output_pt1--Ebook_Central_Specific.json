@@ -1362,4 +1362,108 @@
         "description": "Remove column ``Values 2 2 2``",
         "columnName": "Values 2 2 2"
     }
+    {
+        "op": "core/text-transform",
+        "description": "For rows with null value in ``001 ID Source`` and a unique value in ``Unofficial 001 ID Source``, append value of ``Unofficial 001 ID Source`` to values in column ``001 ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Unofficial 001 ID Source",
+                    "expression": "facetCount(value, 'value', 'Unofficial 001 ID Source') > 1",
+                    "columnName": "Unofficial 001 ID Source",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "001 ID Source",
+                    "expression": "isBlank(value)",
+                    "columnName": "001 ID Source",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "001 ID",
+        "expression": "grel:cells[\"Unofficial 001 ID Source\"].value+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For rows with null value in ``001 ID Source`` and a unique value in ``Unofficial 001 ID Source``, null value of ``Unofficial 001 ID Source``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Unofficial 001 ID Source",
+                    "expression": "facetCount(value, 'value', 'Unofficial 001 ID Source') > 1",
+                    "columnName": "Unofficial 001 ID Source",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "001 ID Source",
+                    "expression": "isBlank(value)",
+                    "columnName": "001 ID Source",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Unofficial 001 ID Source",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
 ]

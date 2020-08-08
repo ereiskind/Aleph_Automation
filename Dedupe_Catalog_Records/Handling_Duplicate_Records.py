@@ -55,13 +55,1545 @@ messagebox.showwarning(title="Creating Title", message="The step to create the t
 messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central--the domain search regexes are hard coded. On a related note, any URLs from those domains not fitting the regexes are excluded.")
 messagebox.showwarning(title="Credo", message="Credo IDs that are only letters don't get transfered to the \"001 ID\" column.")
 messagebox.showwarning(title="JSTOR", message="Pulling a DOI from a JSTOR URL seems to involve all rows in that record having \"DOI\" appear in the \"URL Domain\" column.")
-#Alert: The title cleaning in Match_Duplicate_Records--Ebook_Central_Specific.json and subsequent JSONs should be moved here
 os.startfile('Organize_UXU01_Output_pt1--Ebook_Central_Specific.json')
+# The folowing is for a title where the volume info isn't in the BIB records
+"""[
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "grel:value==\"034636879\"",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Title",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Handbook of autism and pervasive developmental disorders (ed=Fourth edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Handbook of autism and pervasive developmental disorders (ed=Fourth edition.)(vol=1)"
+      }
+    ],
+    "description": "Mass edit cells in column Title"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "grel:value==\"034026703\"",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Title",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Handbook of autism and pervasive developmental disorders (ed=Fourth edition.)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Handbook of autism and pervasive developmental disorders (ed=Fourth edition.)(vol=2)"
+      }
+    ],
+    "description": "Mass edit cells in column Title"
+  }
+]"""
 messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain\" to change domain names into the platforms they represent. \"Change_Domain_Names_to_Platform_Names.json\" can help with this.")
+"""[
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "ebookcentral.proquest.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Central"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "lib.myilibrary.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "MyiLibrary"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "site.ebrary.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebrary"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "ucf.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "www.myilibrary.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "MyiLibrary"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "dx.doi.org"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "DOI"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "doi.org"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "DOI"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fgcu.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "fsu.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "public.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "usf.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "www.famu.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "www.FIU.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "www.fsu.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "www.ucf.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "www.UCF.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "www.UFL.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "URL Domain",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "www.usf.eblib.com"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column URL Domain"
+  }
+]"""
 messagebox.showwarning(title="Regex Only URLs", message="The only URLs pulled out for their IDs are the ones that match the regexes.")
 messagebox.showinfo(title="Instructions", message="Use text facets to change the values in \"001 ID Source\" and \"Unofficial 001 ID Source\" into the names of the platforms/sources they represent. \"Change_001_Source_Abbreviations.json\" can help with this.")
+"""[
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "Au-PeEL"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "CaONFJC"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "MyiLibrary"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "CaPaEBR"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebrary"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "DE-He213"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Springer-Verlag"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "MiAaPQ"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ProQuest"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "NhCcYBP"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "YBP"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "OCoLC"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "OCLC"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "SFPDA_MiAaPQ"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "ProQuest"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "YBPUID"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "YBP"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "MIL"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "MyiLibrary"
+      }
+    ],
+    "description": "Mass edit cells in column Unofficial 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "EBR"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebrary"
+      }
+    ],
+    "description": "Mass edit cells in column Unofficial 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "EBL"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column Unofficial 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "EBC"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Central"
+      }
+    ],
+    "description": "Mass edit cells in column Unofficial 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "AU-PeEL"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "CaBNVSL"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "SIAM"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "CaBNvSL"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "SIAM"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "DcWaAPA"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "APA"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "DNLM"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "US Med Library"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "FANhCcYBP"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "YBP"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "FR-PaOEC"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "OECD"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "IN-ChSCO"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Scope e-Knowedge Center"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "MiFhGG"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Gale"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "StDuBDS"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Bibliographic Data Services"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "UtOrBLW"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Backstage Library Works"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "VaAlASP"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Alexander Street Press"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "001 ID Source",
+          "expression": "value",
+          "columnName": "001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "FU",
+                "l": "FU"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "001 ID Source",
+          "expression": "value",
+          "columnName": "001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "FTS",
+                "l": "FTS"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "001 ID Source",
+          "expression": "value",
+          "columnName": "001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "FIOLAS",
+                "l": "FIOLAS"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "001 ID Source",
+          "expression": "value",
+          "columnName": "001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CEL",
+                "l": "CEL"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "OCN",
+                "l": "OCN"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Unofficial 001 ID Source using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CIS",
+                "l": "CIS"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "001 ID",
+    "expression": "grel:cells[\"Unofficial 001 ID Source\"].value+value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column 001 ID using expression grel:cells[\"Unofficial 001 ID Source\"].value+value"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CIS",
+                "l": "CIS"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Unofficial 001 ID Source using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "APA",
+                "l": "APA"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Unofficial 001 ID Source using expression null"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "EBS"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "EBSCO"
+      }
+    ],
+    "description": "Mass edit cells in column Unofficial 001 ID Source"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "EDZ",
+                "l": "EDZ"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Unofficial 001 ID Source using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "GTP",
+                "l": "GTP"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "001 ID",
+    "expression": "grel:cells[\"Unofficial 001 ID Source\"].value+value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column 001 ID using expression grel:cells[\"Unofficial 001 ID Source\"].value+value"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "GTP",
+                "l": "GTP"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Unofficial 001 ID Source using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "001 ID Source",
+          "expression": "value",
+          "columnName": "001 ID Source",
+          "invert": true,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Backstage Library Works",
+                "l": "Backstage Library Works"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "OROUK",
+                "l": "OROUK"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "grel:\"Backstage Library Works\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column 001 ID Source using expression grel:\"Backstage Library Works\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "001 ID Source",
+          "expression": "value",
+          "columnName": "001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Backstage Library Works",
+                "l": "Backstage Library Works"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [],
+          "selectBlank": true,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column 001 ID Source using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "OROUK",
+                "l": "OROUK"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Unofficial 001 ID Source using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "SLC",
+                "l": "SLC"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "001 ID",
+    "expression": "grel:cells[\"Unofficial 001 ID Source\"].value+value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column 001 ID using expression grel:cells[\"Unofficial 001 ID Source\"].value+value"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "SLC",
+                "l": "SLC"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Unofficial 001 ID Source",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Unofficial 001 ID Source using expression null"
+  },
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Unofficial 001 ID Source",
+          "expression": "value",
+          "columnName": "Unofficial 001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "FIMED",
+                "l": "FIMED"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "description": "Remove rows"
+  }
+]"""
 messagebox.showwarning(title="YBP", message="\"YBP-long\" 001 IDs are identified as those at least 10 digits long and beginning with \"999\".")
-messagebox.showwarning(title="Credo", message="Credo IDs that are letters followed by numbers have the letters in the \"Unofficial 001 ID\" column.")
 os.startfile('Organize_UXU01_Output_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Look at values with pipes in \"001 ID Source\" and determine which one to keep.")
 os.startfile('Organize_UXU01_Output_pt3--Ebook_Central_Specific.json')
