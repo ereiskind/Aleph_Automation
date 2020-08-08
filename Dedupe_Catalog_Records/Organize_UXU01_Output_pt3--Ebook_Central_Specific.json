@@ -548,6 +548,58 @@
         "newColumnName": "ID"
     },
     {
+        "op": "core/text-transform",
+        "description": "For rows with MyiLibrary IDs starting with `CIS`, add `-cis` to the end of the ``ID Source`` value",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ID Source",
+                    "expression": "value",
+                    "columnName": "ID Source",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "MyiLibrary",
+                                "l": "MyiLibrary"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ID",
+                    "expression": "grel:startsWith(value,\"CIS\")",
+                    "columnName": "ID",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ID Source",
+        "expression": "grel:value+\"-cis\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
         "op": "core/column-addition",
         "description": "Create column ``Check`` combining BIB number and ID source",
         "engineConfig": {
@@ -665,17 +717,17 @@
     },
     {
         "op": "core/text-transform",
+        "description": "For rows with no ID value or an ID value from a duplicated source, change the value in column ``IDs`` to `null` and the record number",
         "engineConfig": {
-          "facets": [],
-          "mode": "record-based"
+            "facets": [],
+            "mode": "record-based"
         },
         "columnName": "IDs",
         "expression": "grel:if(or(value==\"[null]\",endsWith(cells[\"ID Source\"].value,\"#\")),\"null\"+toString(row.record.index+1),value)",
         "onError": "keep-original",
         "repeat": false,
-        "repeatCount": 10,
-        "description": "Text transform on cells in column IDs using expression grel:if(or(value==\"[null]\",endsWith(cells[\"ID Source\"].value,\"#\")),\"null\"+toString(row.record.index+1),value)"
-      }
+        "repeatCount": 10
+    }
     {
         "op": "core/row-reorder",
         "description": "Reorder rows based on ``ID``",
@@ -738,6 +790,15 @@
         "newColumnName": "Record Number",
         "columnInsertIndex": 2
     }
+
+
+
+
+
+
+
+
+
     {
         "op": "core/column-removal",
         "description": "Remove column ``IDs``",

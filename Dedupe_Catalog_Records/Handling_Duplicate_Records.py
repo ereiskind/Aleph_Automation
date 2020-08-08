@@ -1758,6 +1758,7 @@ messagebox.showinfo(title="Instructions", message="Create custom facet on \"001 
     "description": "Mass edit cells in column 001 ID Source"
   }
 ]"""
+messagebox.showwarning(title="MyiLibrary", message="The following JSON Specifically contains a step for seperating the MyiLibrary ID source identifiers for the IDs from URLs and 035/599 fields.")
 os.startfile('Organize_UXU01_Output_pt3--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Investigate ISBNs with lengths other than 10 or 13, then clean up \"ISBN Types\" via clustering.")
 """[
