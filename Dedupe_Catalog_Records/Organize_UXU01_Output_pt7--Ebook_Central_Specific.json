@@ -784,6 +784,78 @@
     }
     {
         "op": "core/column-split",
+        "description": "Split values in column ``Record Number`` at double colon",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "guessCellType": false,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": "::",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Record Number 1`` to ``ID Mismatch``",
+        "oldColumnName": "Record Number 1",
+        "newColumnName": "ID Mismatch"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Null values in ``ID Mismatch`` in rows that don't have Ebook Central IDs",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ID Mismatch",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change values in column ``Record Number 1`` to Boolean indicating if all the Ebook Central IDs in the record match",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ID Mismatch",
+        "expression": "grel:if(isError(row.record.cells[\"Record Number 2\"].value[0]),value,if(isNull(cells[\"Record Number 2\"].value),value,row.record.cells[\"Record Number 2\"].value[0]==cells[\"Record Number 2\"].value))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Record Number 2``",
+        "columnName": "Record Number 2"
+    }
+    {
+        "op": "core/column-split",
         "description": "Split values in column ``Record Number`` at dashes",
         "engineConfig": {
             "facets": [
@@ -849,5 +921,43 @@
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "In rows where the value of ``ID Mismatch`` is `false`, change the value of ``Record Number 1`` to `false`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ID Mismatch",
+                    "expression": "value",
+                    "columnName": "ID Mismatch",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Record Number 1",
+        "expression": "grel:\"false\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ID Mismatch``",
+        "columnName": "ID Mismatch"
     }
 ]

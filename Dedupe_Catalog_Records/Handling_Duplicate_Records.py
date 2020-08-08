@@ -13461,8 +13461,153 @@ messagebox.showinfo(title="Instructions", message="Create a filter for blanks on
   }
 ]"""
 os.startfile('Organize_UXU01_Output_pt7--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Create a custom filter on \"Record Number\" with the value \"toString(contains(value,\"-\"))\" and set it to true. Create a text filter on \"Record Number 2\".")
-messagebox.showinfo(title="Instructions", message="Select each value in the \"Record Number 2\" text filter on at a time. If two records are connected by multiple \"Record Number 2\" values but have different Ebook Central IDs, change the value of \"Record Number\" with \"\"Ebook Central::\"+cells[\"Ebook Central\"].value\", clear the filter on \"Record Number\", and null the values in \"Record Number 2\". If the bibliographic info for a given BIB doesn't match with the Ebook Central ID pulled form a single URL, change the value of \"Record Number\" to use the Ebook Central ID matching the info in the BIB.")
+messagebox.showinfo(title="Instructions", message="In record view, create a filter for blanks on \"Record Number 1\" and set it to false. Create a text filter on both \"Record Number 1\" and \"Record Number 2\".")
+messagebox.showinfo(title="Instructions", message="Selct \"false\" on the blanks filter for \"Record Number 1\". For the records that match, determine which propriatary ID matches the title and change all values in \"Record Number\" with the propriatary ID to that number.")
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "value",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "false",
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "034026703",
+                "l": "034026703"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:if(startsWith(toString(value),\"Ebook Central\"),substring(value,0,indexOf(value,\"::\")+2)+\"4033723\",value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:if(startsWith(toString(value),\"Ebook Central\"),substring(value,0,indexOf(value,\"::\")+2)+\"4033723\",value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "value",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "false",
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "030808190",
+                "l": "030808190"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:if(startsWith(toString(value),\"Ebook Central\"),substring(value,0,indexOf(value,\"::\")+2)+\"951321\",value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:if(startsWith(toString(value),\"Ebook Central\"),substring(value,0,indexOf(value,\"::\")+2)+\"951321\",value)"
+  }
+]"""
+messagebox.showinfo(title="Instructions", message="Select each number in the \"Record Number 2\" text filter on at a time. If two records are connected by multiple \"Record Number 2\" values but have different Ebook Central IDs, change the value of \"Record Number\" with \"\"Ebook Central::\"+cells[\"Ebook Central\"].value\", clear the filter on \"Record Number\", and null the values in \"Record Number 2\". If the bibliographic info for a given BIB doesn't match with the Ebook Central ID pulled form a single URL, change the value of \"Record Number\" to use the Ebook Central ID matching the info in the BIB.")
 """[
   {
     "op": "core/text-transform",
