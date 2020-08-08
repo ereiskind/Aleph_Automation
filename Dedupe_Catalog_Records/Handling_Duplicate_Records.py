@@ -1595,7 +1595,169 @@ messagebox.showinfo(title="Instructions", message="Use text facets to change the
 ]"""
 messagebox.showwarning(title="YBP", message="\"YBP-long\" 001 IDs are identified as those at least 10 digits long and beginning with \"999\".")
 os.startfile('Organize_UXU01_Output_pt2--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Look at values with pipes in \"001 ID Source\" and determine which one to keep.")
+messagebox.showinfo(title="Instructions", message="Create custom facet on \"001 ID Source\" with \"contains(value,\"|\")\" and switch view to rows. For each row, determine which value in the column \"001 ID Source\" to keep.")
+"""[
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "001 ID Source",
+          "expression": "grel:contains(value,\"|\")",
+          "columnName": "001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "ProQuest|Ebook Central"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Central"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "001 ID Source",
+          "expression": "grel:contains(value,\"|\")",
+          "columnName": "001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "ProQuest|Ebrary"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebrary"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "001 ID Source",
+          "expression": "grel:contains(value,\"|\")",
+          "columnName": "001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "YBP|Ebook Library"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebook Library"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "001 ID Source",
+          "expression": "grel:contains(value,\"|\")",
+          "columnName": "001 ID Source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "001 ID Source",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "YBP|Ebrary"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Ebrary"
+      }
+    ],
+    "description": "Mass edit cells in column 001 ID Source"
+  }
+]"""
 os.startfile('Organize_UXU01_Output_pt3--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Investigate ISBNs with lengths other than 10 or 13, then clean up \"ISBN Types\" via clustering.")
 """[
