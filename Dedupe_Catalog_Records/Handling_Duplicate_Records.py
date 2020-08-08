@@ -13517,8 +13517,8 @@ messagebox.showinfo(title="Instructions", message="Selct \"false\" on the blanks
           "selection": [
             {
               "v": {
-                "v": "034026703",
-                "l": "034026703"
+                "v": "030808190",
+                "l": "030808190"
               }
             }
           ],
@@ -13529,11 +13529,85 @@ messagebox.showinfo(title="Instructions", message="Selct \"false\" on the blanks
       "mode": "record-based"
     },
     "columnName": "Record Number",
-    "expression": "grel:if(startsWith(toString(value),\"Ebook Central\"),substring(value,0,indexOf(value,\"::\")+2)+\"4033723\",value)",
+    "expression": "grel:if(startsWith(toString(value),\"Ebook Central\"),substring(value,0,indexOf(value,\"::\")+2)+\"951321\",value)",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:if(startsWith(toString(value),\"Ebook Central\"),substring(value,0,indexOf(value,\"::\")+2)+\"4033723\",value)"
+    "description": "Text transform on cells in column Record Number using expression grel:if(startsWith(toString(value),\"Ebook Central\"),substring(value,0,indexOf(value,\"::\")+2)+\"951321\",value)"
+  }
+]"""
+messagebox.showinfo(title="Instructions", message="Select each number in the \"Record Number 2\" text filter on at a time. Determine which BIBs have a given propriatary ID, change the value of \"Record Number\" to that ID by filtering on \"BIB Number\", then remove the BIB filter and null \"Ebook Central\" and then null \"Record Number 2\".")
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "034026703",
+                "l": "034026703"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "value",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "false",
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::4033723\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4033723\""
   },
   {
     "op": "core/text-transform",
@@ -13560,6 +13634,25 @@ messagebox.showinfo(title="Instructions", message="Selct \"false\" on the blanks
         },
         {
           "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "030808190",
+                "l": "030808190"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
           "name": "Record Number 1",
           "expression": "value",
           "columnName": "Record Number 1",
@@ -13571,1584 +13664,6 @@ messagebox.showinfo(title="Instructions", message="Selct \"false\" on the blanks
               "v": {
                 "v": "false",
                 "l": "false"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "BIB Number",
-          "expression": "value",
-          "columnName": "BIB Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "030808190",
-                "l": "030808190"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:if(startsWith(toString(value),\"Ebook Central\"),substring(value,0,indexOf(value,\"::\")+2)+\"951321\",value)",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:if(startsWith(toString(value),\"Ebook Central\"),substring(value,0,indexOf(value,\"::\")+2)+\"951321\",value)"
-  }
-]"""
-messagebox.showinfo(title="Instructions", message="Select each number in the \"Record Number 2\" text filter on at a time. If two records are connected by multiple \"Record Number 2\" values but have different Ebook Central IDs, change the value of \"Record Number\" with \"\"Ebook Central::\"+cells[\"Ebook Central\"].value\", clear the filter on \"Record Number\", and null the values in \"Record Number 2\". If the bibliographic info for a given BIB doesn't match with the Ebook Central ID pulled form a single URL, change the value of \"Record Number\" to use the Ebook Central ID matching the info in the BIB.")
-"""[
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 10262,
-                "l": "10262"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 10262,
-                "l": "10262"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 9023,
-                "l": "9023"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 9023,
-                "l": "9023"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 8900,
-                "l": "8900"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 8900,
-                "l": "8900"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 8698,
-                "l": "8698"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 7822,
-                "l": "7822"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::2056249\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::2056249\""
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 7822,
-                "l": "7822"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 8698,
-                "l": "8698"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 7759,
-                "l": "7759"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 7759,
-                "l": "7759"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 7636,
-                "l": "7636"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 7636,
-                "l": "7636"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 7356,
-                "l": "7356"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::3035208\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::3035208\""
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 7356,
-                "l": "7356"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 4157,
-                "l": "4157"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 4157,
-                "l": "4157"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 9339,
-                "l": "9339"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::2194890\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::2194890\""
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 9339,
-                "l": "9339"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 4837,
-                "l": "4837"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Title",
-          "expression": "value",
-          "columnName": "Title",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "Social media in the public sector: a guide to participation, collaboration, and transparency in the networked world (ed=1st ed.)",
-                "l": "Social media in the public sector: a guide to participation, collaboration, and transparency in the networked world (ed=1st ed.)"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::918160\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::918160\""
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 4837,
-                "l": "4837"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Title",
-          "expression": "value",
-          "columnName": "Title",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "Social media in the public sector field guide: designing and implementing strategies and policies (ed=1st ed.)",
-                "l": "Social media in the public sector field guide: designing and implementing strategies and policies (ed=1st ed.)"
-              }
-            },
-            {
-              "v": {
-                "v": "Social media in the public sector field guide: designing and implementing strategies and policies",
-                "l": "Social media in the public sector field guide: designing and implementing strategies and policies"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::947601\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::947601\""
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 4837,
-                "l": "4837"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 2166,
-                "l": "2166"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "BIB Number",
-          "expression": "value",
-          "columnName": "BIB Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "037183193",
-                "l": "037183193"
-              }
-            },
-            {
-              "v": {
-                "v": "033325517",
-                "l": "033325517"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::1895824\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::1895824\""
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 2166,
-                "l": "2166"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "BIB Number",
-          "expression": "value",
-          "columnName": "BIB Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "036855676",
-                "l": "036855676"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::4455265\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4455265\""
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 2166,
-                "l": "2166"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 9237,
-                "l": "9237"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "BIB Number",
-          "expression": "value",
-          "columnName": "BIB Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "037183163",
-                "l": "037183163"
-              }
-            },
-            {
-              "v": {
-                "v": "035032697",
-                "l": "035032697"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 9237,
-                "l": "9237"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "BIB Number",
-          "expression": "value",
-          "columnName": "BIB Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "035303308",
-                "l": "035303308"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::1882091\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::1882091\""
-  },
-  {
-    "op": "core/row-removal",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 9237,
-                "l": "9237"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "BIB Number",
-          "expression": "value",
-          "columnName": "BIB Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "037183125",
-                "l": "037183125"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "description": "Remove rows"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 9237,
-                "l": "9237"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 7922,
-                "l": "7922"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "BIB Number",
-          "expression": "value",
-          "columnName": "BIB Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "036695699",
-                "l": "036695699"
-              }
-            },
-            {
-              "v": {
-                "v": "023804958",
-                "l": "023804958"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::874224\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::874224\""
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": 7922,
-                "l": "7922"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "BIB Number",
-          "expression": "value",
-          "columnName": "BIB Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "034796376",
-                "l": "034796376"
-              }
-            },
-            {
-              "v": {
-                "v": "030808190",
-                "l": "030808190"
               }
             }
           ],
@@ -15171,37 +13686,23 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": 7922,
-                "l": "7922"
+                "v": false,
+                "l": "false"
               }
             }
           ],
           "selectBlank": false,
           "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
+        },
         {
           "type": "list",
           "name": "Record Number 2",
@@ -15213,8 +13714,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 3336,
-                "l": "3336"
+                "v": 3303,
+                "l": "3303"
               }
             }
           ],
@@ -15268,17 +13769,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -15296,8 +13797,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 3336,
-                "l": "3336"
+                "v": 3303,
+                "l": "3303"
               }
             }
           ],
@@ -15345,17 +13846,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -15373,8 +13874,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 3336,
-                "l": "3336"
+                "v": 3303,
+                "l": "3303"
               }
             }
           ],
@@ -15422,6 +13923,25 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
           "name": "Record Number 2",
           "expression": "value",
           "columnName": "Record Number 2",
@@ -15431,8 +13951,60 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 3336,
-                "l": "3336"
+                "v": 3303,
+                "l": "3303"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 3303,
+                "l": "3303"
               }
             }
           ],
@@ -15455,17 +14027,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -15483,8 +14055,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 8971,
-                "l": "8971"
+                "v": 4804,
+                "l": "4804"
               }
             }
           ],
@@ -15502,14 +14074,14 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": "037183598",
-                "l": "037183598"
+                "v": "035303187",
+                "l": "035303187"
               }
             },
             {
               "v": {
-                "v": "034650631",
-                "l": "034650631"
+                "v": "036719727",
+                "l": "036719727"
               }
             }
           ],
@@ -15520,11 +14092,11 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "mode": "record-based"
     },
     "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::4523847\"",
+    "expression": "grel:\"Ebook Central::918160\"",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4523847\""
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::918160\""
   },
   {
     "op": "core/text-transform",
@@ -15532,17 +14104,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -15560,8 +14132,33 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 8971,
-                "l": "8971"
+                "v": 4804,
+                "l": "4804"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "036719767",
+                "l": "036719767"
+              }
+            },
+            {
+              "v": {
+                "v": "035303192",
+                "l": "035303192"
               }
             }
           ],
@@ -15572,16 +14169,35 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "mode": "record-based"
     },
     "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::4305741\"",
+    "expression": "grel:\"Ebook Central::947601\"",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4305741\""
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::947601\""
   },
   {
     "op": "core/text-transform",
     "engineConfig": {
       "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
         {
           "type": "list",
           "name": "Record Number 2",
@@ -15593,8 +14209,60 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 8971,
-                "l": "8971"
+                "v": 4804,
+                "l": "4804"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 4804,
+                "l": "4804"
               }
             }
           ],
@@ -15617,17 +14285,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -15645,8 +14313,1046 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 7934,
-                "l": "7934"
+                "v": 10325,
+                "l": "10325"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "037183163",
+                "l": "037183163"
+              }
+            },
+            {
+              "v": {
+                "v": "035303308",
+                "l": "035303308"
+              }
+            },
+            {
+              "v": {
+                "v": "035032697",
+                "l": "035032697"
+              }
+            },
+            {
+              "v": {
+                "v": "037183125",
+                "l": "037183125"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::1882091\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::1882091\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 10325,
+                "l": "10325"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "035303309",
+                "l": "035303309"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::1794093\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::1794093\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 10325,
+                "l": "10325"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 10325,
+                "l": "10325"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number 2 using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 10208,
+                "l": "10208"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "035302892",
+                "l": "035302892"
+              }
+            },
+            {
+              "v": {
+                "v": "036695744",
+                "l": "036695744"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::487648\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::487648\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 10208,
+                "l": "10208"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "037183151",
+                "l": "037183151"
+              }
+            },
+            {
+              "v": {
+                "v": "034592084",
+                "l": "034592084"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::1840834\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::1840834\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 10208,
+                "l": "10208"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 10208,
+                "l": "10208"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number 2 using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 2248,
+                "l": "2248"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "025126910",
+                "l": "025126910"
+              }
+            },
+            {
+              "v": {
+                "v": "036695934",
+                "l": "036695934"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::4657614\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4657614\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 2248,
+                "l": "2248"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "032013136",
+                "l": "032013136"
+              }
+            },
+            {
+              "v": {
+                "v": "036695965",
+                "l": "036695965"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::4960447\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4960447\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 2248,
+                "l": "2248"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 2248,
+                "l": "2248"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number 2 using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 3613,
+                "l": "3613"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "036695101",
+                "l": "036695101"
+              }
+            },
+            {
+              "v": {
+                "v": "032598854",
+                "l": "032598854"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::615908\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::615908\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 3613,
+                "l": "3613"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "036695100",
+                "l": "036695100"
+              }
+            },
+            {
+              "v": {
+                "v": "032598855",
+                "l": "032598855"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::615902\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::615902\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 3613,
+                "l": "3613"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 3613,
+                "l": "3613"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number 2 using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 5805,
+                "l": "5805"
               }
             }
           ],
@@ -15700,17 +15406,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -15728,8 +15434,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 7934,
-                "l": "7934"
+                "v": 5805,
+                "l": "5805"
               }
             }
           ],
@@ -15759,16 +15465,35 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "mode": "record-based"
     },
     "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value",
+    "expression": "grel:\"Ebook Central::240426\"",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+cells[\"Ebook Central\"].value"
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::240426\""
   },
   {
     "op": "core/text-transform",
     "engineConfig": {
       "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
         {
           "type": "list",
           "name": "Record Number 2",
@@ -15780,8 +15505,60 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 7934,
-                "l": "7934"
+                "v": 5805,
+                "l": "5805"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 5805,
+                "l": "5805"
               }
             }
           ],
@@ -15804,17 +15581,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -15832,8 +15609,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 7028,
-                "l": "7028"
+                "v": 6999,
+                "l": "6999"
               }
             }
           ],
@@ -15881,17 +15658,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -15909,8 +15686,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 7028,
-                "l": "7028"
+                "v": 6999,
+                "l": "6999"
               }
             }
           ],
@@ -15958,6 +15735,25 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
           "name": "Record Number 2",
           "expression": "value",
           "columnName": "Record Number 2",
@@ -15967,8 +15763,60 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 7028,
-                "l": "7028"
+                "v": 6999,
+                "l": "6999"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 6999,
+                "l": "6999"
               }
             }
           ],
@@ -15991,17 +15839,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -16019,8 +15867,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 2280,
-                "l": "2280"
+                "v": 7895,
+                "l": "7895"
               }
             }
           ],
@@ -16038,14 +15886,14 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": "025126910",
-                "l": "025126910"
+                "v": "036695699",
+                "l": "036695699"
               }
             },
             {
               "v": {
-                "v": "036695934",
-                "l": "036695934"
+                "v": "023804958",
+                "l": "023804958"
               }
             }
           ],
@@ -16056,11 +15904,11 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "mode": "record-based"
     },
     "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::4657614\"",
+    "expression": "grel:\"Ebook Central::874224\"",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4657614\""
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::874224\""
   },
   {
     "op": "core/text-transform",
@@ -16068,17 +15916,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -16096,8 +15944,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 2280,
-                "l": "2280"
+                "v": 7895,
+                "l": "7895"
               }
             }
           ],
@@ -16115,14 +15963,14 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": "032013136",
-                "l": "032013136"
+                "v": "034796376",
+                "l": "034796376"
               }
             },
             {
               "v": {
-                "v": "036695965",
-                "l": "036695965"
+                "v": "030808190",
+                "l": "030808190"
               }
             }
           ],
@@ -16133,16 +15981,35 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "mode": "record-based"
     },
     "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::4960447\"",
+    "expression": "grel:\"Ebook Central::951321\"",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4960447\""
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::951321\""
   },
   {
     "op": "core/text-transform",
     "engineConfig": {
       "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
         {
           "type": "list",
           "name": "Record Number 2",
@@ -16154,8 +16021,60 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 2280,
-                "l": "2280"
+                "v": 7895,
+                "l": "7895"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 7895,
+                "l": "7895"
               }
             }
           ],
@@ -16178,17 +16097,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -16206,8 +16125,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 3646,
-                "l": "3646"
+                "v": 2134,
+                "l": "2134"
               }
             }
           ],
@@ -16225,14 +16144,14 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": "036695101",
-                "l": "036695101"
+                "v": "037183193",
+                "l": "037183193"
               }
             },
             {
               "v": {
-                "v": "032598854",
-                "l": "032598854"
+                "v": "033325517",
+                "l": "033325517"
               }
             }
           ],
@@ -16243,11 +16162,11 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "mode": "record-based"
     },
     "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::615908\"",
+    "expression": "grel:\"Ebook Central::1895824\"",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::615908\""
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::1895824\""
   },
   {
     "op": "core/text-transform",
@@ -16255,17 +16174,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -16283,8 +16202,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 3646,
-                "l": "3646"
+                "v": 2134,
+                "l": "2134"
               }
             }
           ],
@@ -16302,14 +16221,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": "036695100",
-                "l": "036695100"
-              }
-            },
-            {
-              "v": {
-                "v": "032598855",
-                "l": "032598855"
+                "v": "036855676",
+                "l": "036855676"
               }
             }
           ],
@@ -16320,11 +16233,11 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "mode": "record-based"
     },
     "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::615902\"",
+    "expression": "grel:\"Ebook Central::4455265\"",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::615902\""
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4455265\""
   },
   {
     "op": "core/text-transform",
@@ -16332,50 +16245,17 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number 2",
-          "expression": "value",
-          "columnName": "Record Number 2",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": 3646,
-                "l": "3646"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number 2",
-    "expression": "null",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number 2 using expression null"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -16393,8 +16273,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 1741,
-                "l": "1741"
+                "v": 2134,
+                "l": "2134"
               }
             }
           ],
@@ -16404,17 +16284,36 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       ],
       "mode": "record-based"
     },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::1769040\"",
+    "columnName": "Ebook Central",
+    "expression": "null",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::1769040\""
+    "description": "Text transform on cells in column Ebook Central using expression null"
   },
   {
     "op": "core/text-transform",
     "engineConfig": {
       "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
         {
           "type": "list",
           "name": "Record Number 2",
@@ -16426,8 +16325,8 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 1741,
-                "l": "1741"
+                "v": 2134,
+                "l": "2134"
               }
             }
           ],
@@ -16450,37 +16349,23 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
       "facets": [
         {
           "type": "list",
-          "name": "Record Number",
-          "expression": "grel:toString(contains(value,\"-\"))",
-          "columnName": "Record Number",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
           "selection": [
             {
               "v": {
-                "v": "true",
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
           "selectBlank": false,
           "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::5283177\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::5283177\""
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
+        },
         {
           "type": "list",
           "name": "Record Number 2",
@@ -16492,8 +16377,137 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
           "selection": [
             {
               "v": {
-                "v": 16871,
-                "l": "16871"
+                "v": 8944,
+                "l": "8944"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "037183598",
+                "l": "037183598"
+              }
+            },
+            {
+              "v": {
+                "v": "034650631",
+                "l": "034650631"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::4523847\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4523847\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 8944,
+                "l": "8944"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 8944,
+                "l": "8944"
               }
             }
           ],
@@ -16509,6 +16523,796 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
     "repeat": false,
     "repeatCount": 10,
     "description": "Text transform on cells in column Record Number 2 using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 9471,
+                "l": "9471"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "037026615",
+                "l": "037026615"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::5824668\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::5824668\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 9471,
+                "l": "9471"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "037497728",
+                "l": "037497728"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::5878292\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::5878292\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 9471,
+                "l": "9471"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 9471,
+                "l": "9471"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number 2 using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 8997,
+                "l": "8997"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "036810109",
+                "l": "036810109"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::1808781\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::1808781\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 8997,
+                "l": "8997"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "036848159",
+                "l": "036848159"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::4940426\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4940426\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 8997,
+                "l": "8997"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 8997,
+                "l": "8997"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number 2 using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 8671,
+                "l": "8671"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "036810107",
+                "l": "036810107"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::4741076\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4741076\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 8671,
+                "l": "8671"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "036810113",
+                "l": "036810113"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::1931604\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::1931604\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 8671,
+                "l": "8671"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "value",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": 8671,
+                "l": "8671"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number 2 using expression null"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number 1",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 2",
+          "invert": true,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 1",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number 1 using expression null"
   }
 ]"""
 os.startfile('Organize_UXU01_Output_pt8--Ebook_Central_Specific.json')
