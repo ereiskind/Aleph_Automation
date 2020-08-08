@@ -11069,6 +11069,46 @@ messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp 
       }
     ],
     "description": "Mass edit cells in column Temp Title 3"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 3",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "1)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 1"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 3"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Temp Title 3",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "2)"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "vol 2"
+      }
+    ],
+    "description": "Mass edit cells in column Temp Title 3"
   }
 ]"""
 os.startfile('Organize_UXU01_Output_pt5--Ebook_Central_Specific.json')
