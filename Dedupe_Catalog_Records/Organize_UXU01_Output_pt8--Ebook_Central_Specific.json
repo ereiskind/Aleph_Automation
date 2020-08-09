@@ -24,6 +24,578 @@
         "columnName": "Record Number"
     }
     {
+        "op": "core/row-removal",
+        "description": "Remove rows where the value of ``Record Number`` is null",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/column-move",
+        "description": "Move column ``Record Number`` to beginning",
+        "columnName": "Record Number",
+        "index": 0
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on value of ``Record Number``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Record Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Record Number"
+    }
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``ISBN Value`` into new rows at each `}|{`",
+        "columnName": "ISBN Value",
+        "keyColumnName": "Record Number",
+        "mode": "separator",
+        "separator": "}|{",
+        "regex": false
+    },
+    {
+        "op": "core/column-split",
+        "description": "For records where ``Record Number`` isn't an Ebook Central ID, create new columns based on dividing ``ISBN Value`` at each `]|[`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(toString(value),\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value",
+        "guessCellType": false,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": "]|[",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/column-move",
+        "description": "Move column ``BIB Number`` to beginning of table",
+        "columnName": "BIB Number",
+        "index": 0
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values for a record in column ``ISBN Value`` in the first row of the record seperated by `}|{`",
+        "columnName": "ISBN Value",
+        "keyColumnName": "BIB Number",
+        "separator": "}|{"
+    },
+    {
+        "op": "core/column-move",
+        "description": "Move column ``BIB Number`` away from the beginning of the table/out of the index position",
+        "columnName": "BIB Number",
+        "index": 1
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change values in column ``ISBN Value 2`` to match ``ISBN Value 1``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(toString(value),\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value 2",
+        "expression": "grel:cells[\"ISBN Value 1\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For the records where ``Record Number`` isn't an Ebook Central ID, replace ISBNs in column ``ISBN Value 1`` with their Ebook Central IDs based on the eISBN column of the LibCentral download",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(toString(value),\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value 1",
+        "expression": "grel:if(isError(cell.cross(\"ISBNs and Ebook Central IDs\",\"EIsbn\")[0].cells[\"Document ID\"].value),null,cell.cross(\"ISBNs and Ebook Central IDs\",\"EIsbn\")[0].cells[\"Document ID\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For the records where ``Record Number`` isn't an Ebook Central ID, replace ISBNs in column ``ISBN Value 2`` with their Ebook Central IDs based on the print ISBN column of the LibCentral download",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(toString(value),\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value 2",
+        "expression": "grel:if(isError(cell.cross(\"ISBNs and Ebook Central IDs\",\"PrintIsbn\")[0].cells[\"Document ID\"].value),null,cell.cross(\"ISBNs and Ebook Central IDs\",\"PrintIsbn\")[0].cells[\"Document ID\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "newColumnName": "All Others Blank",
+        "columnInsertIndex": 1,
+        "baseColumnName": "Record Number",
+        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where the value of ``All Others Blank`` is `true`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "All Others Blank",
+                    "expression": "value",
+                    "columnName": "All Others Blank",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``All Others Blank``",
+        "columnName": "All Others Blank"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ID from ISBN`` with that row's Ebook Central ID from the cell cross or both IDs prepended with the ISBN that it was matched on if the row has two different IDs",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(toString(value),\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "ISBN Value 1",
+        "expression": "grel:if(isNull(value),if(isNull(cells[\"ISBN Value 2\"].value),null,cells[\"ISBN Value 2\"].value),if(isNull(cells[\"ISBN Value 2\"].value),value,if(value==cells[\"ISBN Value 2\"].value,value,\"ISBN:\"+cells[\"ISBN Value 2\"].value+\"|eISBN:\"+value)))",
+        "onError": "set-to-blank",
+        "newColumnName": "ID from ISBN",
+        "columnInsertIndex": 5
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change values in column ``ISBN Value 1`` to `No ID found` if the record had no Ebook Central ID match, `null` if the value in ``ID from ISBN`` for the row is null, or the Boolean indicating if the record's first ID in ``ID from ISBN`` and that row's ID in ``ID from ISBN`` match",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(toString(value),\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value 1",
+        "expression": "grel:if(isError(row.record.cells[\"ID from ISBN\"].value[0]),\"No ID found\",if(isNull(cells[\"ID from ISBN\"].value),\"null\",row.record.cells[\"ID from ISBN\"].value[0]==cells[\"ID from ISBN\"].value))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records where all of the Ebook Central IDs found by ISBN matching are the same, change ``Record Number`` to `Ebook Central::` plus the ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(toString(value),\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Value 1",
+                    "expression": "value",
+                    "columnName": "ISBN Value 1",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No ID found",
+                                "l": "No ID found"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:\"Ebook Central::\"+row.record.cells[\"ID from ISBN\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records with no Ebook Central ID, make the values in column ``Record Number`` strings",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(toString(value),\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Value 1",
+                    "expression": "value",
+                    "columnName": "ISBN Value 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No ID found",
+                                "l": "No ID found"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "value.toString()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/fill-down",
+        "description": "For records with no Ebook Central ID, fill down cells in column ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(toString(value),\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Value 1",
+                    "expression": "value",
+                    "columnName": "ISBN Value 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No ID found",
+                                "l": "No ID found"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For the records where the ISBNs matched to multiple Ebook Central IDs, list all of the matched IDs seperated by pipes in each row in column ``ISBN Value 1``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(toString(value),\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Value 1",
+                    "expression": "value",
+                    "columnName": "ISBN Value 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Value 1",
+        "expression": "grel:join(uniques(row.record.cells[\"ID from ISBN\"].value),\"|\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-move",
+        "description": "Move column ``BIB Number`` to beginning",
+        "columnName": "BIB Number",
+        "index": 0
+    }
+]
+
+
+
+
+
+
+
+
+
+    {
         "op": "core/multivalued-cell-join",
         "description": "Combine all values in column ``Record Number`` in a record in the first row of the record divided by pipes",
         "columnName": "Record Number",

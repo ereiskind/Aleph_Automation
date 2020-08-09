@@ -48,6 +48,8 @@ def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized
 messagebox.showinfo(title="Instructions", message="For list of BIBs, use print-03 to generate Alpeh sequential file with 856##, 035##, 599##, 020##, 776##, 245##, 250## fields and indicators.")
 messagebox.showinfo(title="Instructions", message="For list of BIBs, use manage-70 to get list of HOLs.")
 messagebox.showinfo(title="Instructions", message="For list of HOLs, use print-03 to get Alpeh sequential file with TKR##, LKR##, STA##, 852## fields and indicators.")
+messagebox.showwarning(title="Ebook Central", message="Following instructions are very specific to Ebook Central.")
+messagebox.showinfo(title="Instructions", message="Download the OpenRefine project into Excel. Dedupe \"ISBN 1\" and copy into LibCentral's title match feature. Save the ISBN and ID columns from the title match output as \"ISBNs and eBook Central IDs.xlsx\". Upload the worksheet into OpenRefine, removing the file extension from the project name.")
 
 #Subsection: Organize UXU01 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU01 info into OpenRefine with column widths 10, 6, 2. Name the project \"UXU01_Cleanup\".")
@@ -19675,6 +19677,7 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
   }
 ]"""
 os.startfile('Organize_UXU01_Output_pt8--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Create text filter on \"ISBN Values 1\" and select each string of IDs individually. Determine which Ebook Central ID is the best match for that BIB, then change \"Record Number\" to \"Ebook Central::\" plus that ID.")
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 
 #Subsection: Organize UXU60 Output
@@ -19981,8 +19984,6 @@ messagebox.showinfo(title="Instructions", message="Set text filter on \"Replacem
     "description": "Mass edit cells in column Title"
   },
 ]"""
-messagebox.showwarning(title="Ebook Central", message="Following instructions are very specific to Ebook Central.")
-messagebox.showinfo(title="Instructions", message="Download the OpenRefine project into Excel. Dedupe \"ISBN 1\" and copy into LibCentral's title match feature. Save the ISBN and ID columns from the title match output as \"ISBNs and eBook Central IDs.xlsx\". Upload the worksheet into OpenRefine, removing the file extension from the project name.")
 os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Create custom text filteron column \"INDX Ebook Central\" with \"toString(startsWith(value,\"*\"))\" and set to true. For all titles in the matching records, manually determine the appropriate ID and change the value in \"INDX Ebook Central\" to that ID.")
 """[

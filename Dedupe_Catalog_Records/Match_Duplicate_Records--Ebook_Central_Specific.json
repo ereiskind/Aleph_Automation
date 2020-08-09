@@ -485,6 +485,25 @@
         },
         "columnName": "Record Number"
     },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     {
         "op": "core/column-addition",
         "description": "Create column ``ISBN`` with the ISBN values for the BIB from the UXU01 project for the records where ``Record Number`` isn't an Ebook Central ID",
