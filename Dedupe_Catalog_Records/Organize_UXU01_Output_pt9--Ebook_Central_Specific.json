@@ -1,0 +1,58 @@
+
+
+
+
+
+
+
+
+
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``Record Number`` in a record in the first row of the record divided by pipes",
+        "columnName": "Record Number",
+        "keyColumnName": "BIB Number",
+        "separator": "|"
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with null in ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change all values in column ``Record Number`` to text",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "value.toString()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+]
