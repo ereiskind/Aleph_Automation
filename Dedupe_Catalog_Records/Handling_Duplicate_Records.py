@@ -19678,6 +19678,211 @@ messagebox.showinfo(title="Instructions", message="Select each number in the \"R
 ]"""
 os.startfile('Organize_UXU01_Output_pt8--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Create text filter on \"ISBN Values 1\" and select each string of IDs individually. Determine which Ebook Central ID is the best match for that BIB, then change \"Record Number\" to \"Ebook Central::\" plus that ID.")
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "ISBN Value 1",
+          "expression": "value",
+          "columnName": "ISBN Value 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "1121224|845138",
+                "l": "1121224|845138"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::1121224\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::1121224\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "ISBN Value 1",
+          "expression": "value",
+          "columnName": "ISBN Value 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "1698569|6165086",
+                "l": "1698569|6165086"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::1698569\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::1698569\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "ISBN Value 1",
+          "expression": "value",
+          "columnName": "ISBN Value 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "3053278|3052071",
+                "l": "3053278|3052071"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "020430629",
+                "l": "020430629"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::3052071\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::3052071\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "ISBN Value 1",
+          "expression": "value",
+          "columnName": "ISBN Value 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "3053278|3052071",
+                "l": "3053278|3052071"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "021459401",
+                "l": "021459401"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::3053278\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::3053278\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "ISBN Value 1",
+          "expression": "value",
+          "columnName": "ISBN Value 1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "4197994|6163852",
+                "l": "4197994|6163852"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::4197994\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4197994\""
+  }
+]"""
 os.startfile('Organize_UXU01_Output_pt9--Ebook_Central_Specific.json')
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 
