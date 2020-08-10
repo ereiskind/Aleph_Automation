@@ -1,14 +1,216 @@
+
+
+
+
+
+
+
+
+
+
+
+
+   
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ISBN`` with the ISBN values for the BIB from the UXU01 project for the records where ``Record Number`` isn't an Ebook Central ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"ISBN Value\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "ISBN",
+        "columnInsertIndex": 4
+    }
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Divide values in column ``ISBN`` into new rows at each `}|{`",
+        "columnName": "ISBN",
+        "keyColumnName": "Record Number",
+        "mode": "separator",
+        "separator": "}|{",
+        "regex": false
+    },
+    {
+        "op": "core/column-split",
+        "description": "For the records where ``Record Number`` isn't an Ebook Central ID, split column ``ISBN`` at `]|[`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "]|[",
+        "regex": false,
+        "maxColumns": 0
+    }
+]
+
+{
+    "op": "core/text-transform",
+    "description": "Null values in column ``Ebook Central ID`` that are the same as that row's value in ``INDX Ebook Central``",
+    "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+    },
+    "columnName": "Ebook Central ID",
+    "expression": "grel:if(value==cells[\"INDX Ebook Central\"].value,null,value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+}
+
+{
+    "op": "core/fill-down",
+    "description": "In records with blank cells in ``HOL Number``, fill down cells in column ``HOL Number``",
+    "engineConfig": {
+        "facets": [
+            {
+                "type": "list",
+                "name": "HOL Number",
+                "expression": "isBlank(value)",
+                "columnName": "HOL Number",
+                "invert": false,
+                "omitBlank": false,
+                "omitError": false,
+                "selection": [
+                    {
+                        "v": {
+                            "v": true,
+                            "l": "true"
+                        }
+                    }
+                ],
+                "selectBlank": false,
+                "selectError": false
+            }
+        ],
+        "mode": "record-based"
+    },
+    "columnName": "HOL Number"
+}
+{
+    "op": "core/fill-down",
+    "description": "In records with blank cells in ``BIB Number``, fill down cells in column ``BIB Number``",
+    "engineConfig": {
+        "facets": [
+            {
+                "type": "list",
+                "name": "HOL Number",
+                "expression": "isBlank(value)",
+                "columnName": "HOL Number",
+                "invert": false,
+                "omitBlank": false,
+                "omitError": false,
+                "selection": [
+                    {
+                        "v": {
+                            "v": true,
+                            "l": "true"
+                        }
+                    }
+                ],
+                "selectBlank": false,
+                "selectError": false
+            }
+        ],
+        "mode": "record-based"
+    },
+    "columnName": "BIB Number"
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 [
     {
+        "op": "core/column-removal",
+        "description": "Remove column ``Replacement Character in Title``",
+        "columnName": "Replacement Character in Title"
+    }
+    {
         "op": "core/text-transform",
-        "description": "Copy ``INDX Ebook Central 1`` values into column ``INDX Ebook Central 2``",
+        "description": "For the records where ``Record Number`` isn't an Ebook Central ID, make value of ``ISBN 2`` the same ISBN as is in ``ISBN 1``",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Ebook Central ID",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central ID",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
@@ -26,22 +228,22 @@
             ],
             "mode": "record-based"
         },
-        "columnName": "INDX Ebook Central 2",
-        "expression": "grel:cells[\"INDX Ebook Central 1\"].value",
+        "columnName": "ISBN 2",
+        "expression": "grel:cells[\"ISBN 1\"].value",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
     }
     {
         "op": "core/text-transform",
-        "description": "For records with a value in ``Ebook Central ID``, null value in column ``INDX Ebook Central``",
+        "description": "For the records where ``Record Number`` isn't an Ebook Central ID, replace ISBNs in column ``INDX Ebook Central 1`` with their Ebook Central IDs based on the print ISBN column of the LibCentral download",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Ebook Central ID",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central ID",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
@@ -59,78 +261,226 @@
             ],
             "mode": "record-based"
         },
-        "columnName": "INDX Ebook Central",
-        "expression": "null",
+        "columnName": "ISBN 1",
+        "expression": "grel:if(isError(cell.cross(\"ISBNs and Ebook Central IDs\",\"PrintIsbn\")[0].cells[\"Document ID\"].value),null,cell.cross(\"ISBNs and Ebook Central IDs\",\"PrintIsbn\")[0].cells[\"Document ID\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For the records where ``Record Number`` isn't an Ebook Central ID, replace ISBNs in column ``INDX Ebook Central 2`` with their Ebook Central IDs based on the eISBN column of the LibCentral download",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN 2",
+        "expression": "grel:if(isError(cell.cross(\"ISBNs and Ebook Central IDs\",\"EIsbn\")[0].cells[\"Document ID\"].value),null,cell.cross(\"ISBNs and Ebook Central IDs\",\"EIsbn\")[0].cells[\"Document ID\"].value)",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
     }
     {
-        "op": "core/text-transform",
-        "description": "Replace ISBNs in column ``INDX Ebook Central 1`` with their Ebook Central IDs based on the print ISBN column of the LibCentral download",
+        "op": "core/column-addition",
+        "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "newColumnName": "All Others Blank",
+        "columnInsertIndex": 1,
+        "baseColumnName": "Record Number",
+        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where the value of ``All Others Blank`` is `true`",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Ebook Central ID",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central ID",
+                    "name": "All Others Blank",
+                    "expression": "value",
+                    "columnName": "All Others Blank",
                     "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": "true",
+                                "l": "true"
                             }
                         }
                     ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
                     "selectBlank": false,
+                    "omitError": false,
                     "selectError": false
                 }
             ],
-            "mode": "record-based"
-        },
-        "columnName": "INDX Ebook Central 1",
-        "expression": "grel:if(isError(cell.cross(\"ISBNs and Ebook Central IDs xlsx\",\"PrintIsbn\")[0].cells[\"Document ID\"].value),null,cell.cross(\"ISBNs and Ebook Central IDs xlsx\",\"PrintIsbn\")[0].cells[\"Document ID\"].value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``All Others Blank``",
+        "columnName": "All Others Blank"
     }
     {
-        "op": "core/text-transform",
-        "description": "Replace ISBNs in column ``INDX Ebook Central 2`` with their Ebook Central IDs based on the eISBN column of the LibCentral download",
+        "op": "core/column-addition",
+        "description": "Create column ``ID from ISBN`` with that row's Ebook Central ID from the cell cross or both IDs prepended with the ISBN that it was matched on if the row has two different IDs",
         "engineConfig": {
-            "facets": [
+          "facets": [
+            {
+              "type": "list",
+              "name": "Record Number",
+              "expression": "grel:contains(value,\"Ebook Central\")",
+              "columnName": "Record Number",
+              "invert": false,
+              "omitBlank": false,
+              "omitError": false,
+              "selection": [
                 {
-                    "type": "list",
-                    "name": "Ebook Central ID",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central ID",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
+                  "v": {
+                    "v": false,
+                    "l": "false"
+                  }
                 }
-            ],
-            "mode": "record-based"
+              ],
+              "selectBlank": false,
+              "selectError": false
+            }
+          ],
+          "mode": "record-based"
         },
-        "columnName": "INDX Ebook Central 2",
-        "expression": "grel:if(isError(cell.cross(\"ISBNs and Ebook Central IDs xlsx\",\"EIsbn\")[0].cells[\"Document ID\"].value),null,cell.cross(\"ISBNs and Ebook Central IDs xlsx\",\"EIsbn\")[0].cells[\"Document ID\"].value)",
+        "baseColumnName": "ISBN 1",
+        "expression": "grel:if(isNull(value),if(isNull(cells[\"ISBN 2\"].value),null,cells[\"ISBN 2\"].value),if(isNull(cells[\"ISBN 2\"].value),value,if(cells[\"ISBN 2\"].value==value,value,\"ISBN:\"+value+\"|eISBN:\"+cells[\"ISBN 2\"].value)))",
+        "onError": "set-to-blank",
+        "newColumnName": "ID from ISBN",
+        "columnInsertIndex": 5
+      }
+      {
+        "op": "core/text-transform",
+        "description": "For records where ``Record Number`` is an unique, non-Ebook Central ID, change ``Record Number`` to `Ebook Central::` and an Ebook Central ID if the record ISBNs were matched to exactly one Ebook Central ID, to `ID::` and the record number without the has if there's no Ebook Central ID, and append `multiple Ebook Central ID for BIB` if there were multiple Ebook Central ID matches",
+        "engineConfig": {
+          "facets": [
+            {
+              "type": "list",
+              "name": "Record Number",
+              "expression": "grel:contains(value,\"Ebook Central\")",
+              "columnName": "Record Number",
+              "invert": false,
+              "omitBlank": false,
+              "omitError": false,
+              "selection": [
+                {
+                  "v": {
+                    "v": false,
+                    "l": "false"
+                  }
+                }
+              ],
+              "selectBlank": false,
+              "selectError": false
+            },
+            {
+              "type": "list",
+              "name": "Record Number",
+              "expression": "grel:endsWith(value,\"#\")",
+              "columnName": "Record Number",
+              "invert": false,
+              "omitBlank": false,
+              "omitError": false,
+              "selection": [
+                {
+                  "v": {
+                    "v": true,
+                    "l": "true"
+                  }
+                }
+              ],
+              "selectBlank": false,
+              "selectError": false
+            }
+          ],
+          "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isError(row.record.cells[\"ID from ISBN\"].value[0]),\"ID::\"+substring(value,0,-1),if(or(isNull(cells[\"ID from ISBN\"].value),cells[\"ID from ISBN\"].value==row.record.cells[\"ID from ISBN\"].value[0]),\"Ebook Central::\"+toString(round(row.record.cells[\"ID from ISBN\"].value[0])),value+\"multiple Ebook Central ID for BIB\"))",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
-    }
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    [
+        {
+          "op": "core/column-move",
+          "columnName": "BIB Number",
+          "index": 0,
+          "description": "Move column BIB Number to position 0"
+        },
+        {
+          "op": "core/column-addition",
+          "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+          },
+          "baseColumnName": "Record Number",
+          "expression": "grel:if(isError(row.record.cells[\"ID from ISBN\"].value[0]),value,if(or(isNull(cells[\"ID from ISBN\"].value),cells[\"ID from ISBN\"].value==row.record.cells[\"ID from ISBN\"].value[0]),\"Ebook Central::\"+toString(round(row.record.cells[\"ID from ISBN\"].value[0])),\"different from first\"))",
+          "onError": "set-to-blank",
+          "newColumnName": "temp",
+          "columnInsertIndex": 2,
+          "description": "Create column temp at index 2 based on column Record Number using expression grel:if(isError(row.record.cells[\"ID from ISBN\"].value[0]),value,if(or(isNull(cells[\"ID from ISBN\"].value),cells[\"ID from ISBN\"].value==row.record.cells[\"ID from ISBN\"].value[0]),\"Ebook Central::\"+toString(round(row.record.cells[\"ID from ISBN\"].value[0])),\"different from first\"))"
+        }
+      ]
+
+
+
+
+
+
+
+
     {
         "op": "core/column-addition",
         "description": "Create column ``Temp INDX`` with the value of both INDX Ebook Central number columns if they're the same, the value of the INDX Ebook Central column with an ID if one has an ID and one is null, or `ERROR: different values` if both have differnt IDs",
@@ -715,3 +1065,163 @@
         "columnName": "INDX Ebook Central"
     }
 ]
+
+
+
+
+
+
+
+
+   
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ISBN`` with the ISBN values for the BIB from the UXU01 project for the records where ``Record Number`` isn't an Ebook Central ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"UXU01_Cleanup\",\"BIB Number\")[0].cells[\"ISBN Value\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "ISBN",
+        "columnInsertIndex": 4
+    }
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Divide values in column ``ISBN`` into new rows at each `}|{`",
+        "columnName": "ISBN",
+        "keyColumnName": "Record Number",
+        "mode": "separator",
+        "separator": "}|{",
+        "regex": false
+    },
+    {
+        "op": "core/column-split",
+        "description": "For the records where ``Record Number`` isn't an Ebook Central ID, split column ``ISBN`` at `]|[`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "]|[",
+        "regex": false,
+        "maxColumns": 0
+    }
+]
+
+{
+    "op": "core/text-transform",
+    "description": "Null values in column ``Ebook Central ID`` that are the same as that row's value in ``INDX Ebook Central``",
+    "engineConfig": {
+        "facets": [],
+        "mode": "record-based"
+    },
+    "columnName": "Ebook Central ID",
+    "expression": "grel:if(value==cells[\"INDX Ebook Central\"].value,null,value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+}
+
+{
+    "op": "core/fill-down",
+    "description": "In records with blank cells in ``HOL Number``, fill down cells in column ``HOL Number``",
+    "engineConfig": {
+        "facets": [
+            {
+                "type": "list",
+                "name": "HOL Number",
+                "expression": "isBlank(value)",
+                "columnName": "HOL Number",
+                "invert": false,
+                "omitBlank": false,
+                "omitError": false,
+                "selection": [
+                    {
+                        "v": {
+                            "v": true,
+                            "l": "true"
+                        }
+                    }
+                ],
+                "selectBlank": false,
+                "selectError": false
+            }
+        ],
+        "mode": "record-based"
+    },
+    "columnName": "HOL Number"
+}
+{
+    "op": "core/fill-down",
+    "description": "In records with blank cells in ``BIB Number``, fill down cells in column ``BIB Number``",
+    "engineConfig": {
+        "facets": [
+            {
+                "type": "list",
+                "name": "HOL Number",
+                "expression": "isBlank(value)",
+                "columnName": "HOL Number",
+                "invert": false,
+                "omitBlank": false,
+                "omitError": false,
+                "selection": [
+                    {
+                        "v": {
+                            "v": true,
+                            "l": "true"
+                        }
+                    }
+                ],
+                "selectBlank": false,
+                "selectError": false
+            }
+        ],
+        "mode": "record-based"
+    },
+    "columnName": "BIB Number"
+},

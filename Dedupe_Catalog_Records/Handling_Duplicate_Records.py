@@ -13462,6 +13462,7 @@ messagebox.showinfo(title="Instructions", message="Create a filter for blanks on
     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
   }
 ]"""
+#ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project--the pivot happens in the following JSON
 os.startfile('Organize_UXU01_Output_pt7--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="In record view, create a filter for blanks on \"Record Number 1\" and set it to false. Create a text filter on both \"Record Number 1\" and \"Record Number 2\".")
 messagebox.showinfo(title="Instructions", message="Selct \"false\" on the blanks filter for \"Record Number 1\". For the records that match, determine which propriatary ID matches the title and change all values in \"Record Number\" with the propriatary ID to that number.")
@@ -20043,7 +20044,6 @@ messagebox.showinfo(title="Instructions", message="Create custom filter on \"Rec
     "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4033722\""
   }
 ]"""
-#ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project
 
 #Subsection: Organize UXU60 Output
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU60 info into OpenRefine with column widths 10, 5, 3.")
