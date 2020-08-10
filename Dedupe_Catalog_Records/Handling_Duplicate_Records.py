@@ -20063,7 +20063,8 @@ os.startfile('Extract_URLs.json')
 #Subsection: Match Duplicate BIB Records
 messagebox.showinfo(title="Instructions", message="This JSON continues using the UXU60 OpenRefine project.")
 messagebox.showwarning(title="Cell Cross Project Columns", message="The JSON currently has ID columns for the Ebook Central BIB project hard-coded into it.")
-messagebox.showwarning(title="Fill Down", message="The JSON fills down columns, so it needs to know how many TKR columns were created; it currently has four hard coded in.")
+messagebox.showwarning(title="Fill Down", message="The JSON fills down all the columns, so it needs to know what columns it has.")
+messagebox.showwarning(title="Fill Up and Down Ticklers", message="The JSON fills up and down then blanks down the TKR columns as well, so in addition to needing to know how many to do, a loop needs to be created.")
 #ToDo: Get list of columns to pull from UXU01 OpenRefine project and create loop to load them into this project with the last column being the first JSON object so all the object can use the same column insert index
 os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Set text filter on \"Replacement Character in Title\" to true and edit the titles as needed to match the 245 fields in the BIBs of origin.")
@@ -20349,6 +20350,8 @@ messagebox.showinfo(title="Instructions", message="Set text filter on \"Replacem
     "description": "Mass edit cells in column Title"
   },
 ]"""
+messagebox.showinfo(title="Instructions", message="Set filter for blanks on \"Record Number\" to true and crteate text filter on \"TKRs\" and \"Record Number\". For each value in the text filter on \"TKRs\", use filtering by \"Record Number\" to remove the records were all the rows have a tickler for another platform.")
+#ToDo: PERFORM ABOVE, SAVE AS JSON, REMOVE COLUMNS NO LONGER NEEDED, LOOK AT Select_HOL_to_Keep JSON TO DETERMINE WHAT ELSE NEEDS TO BE DONE BEFORE MOVING TO THOSE
 os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Create custom text filteron column \"INDX Ebook Central\" with \"toString(startsWith(value,\"*\"))\" and set to true. For all titles in the matching records, manually determine the appropriate ID and change the value in \"INDX Ebook Central\" to that ID.")
 """[

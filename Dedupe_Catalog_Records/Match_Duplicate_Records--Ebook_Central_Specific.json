@@ -521,4 +521,335 @@
         },
         "columnName": "Record Number"
     }
+    {
+        "op": "core/column-move",
+        "description": "Move column ``HOL Number`` to beginning",
+        "columnName": "HOL Number",
+        "index": 0
+    },
+    {
+        "op": "core/transpose-columns-into-rows",
+        "description": "Pivot tickler columns into two columns--``Column`` containing the column names and ``Value`` containing the ticklers",
+        "startColumnName": "FSU Tickler",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": false,
+        "separator": null,
+        "keyColumnName": "Column",
+        "valueColumnName": "Value"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``TKRs`` by copying the tickler values",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Value",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "TKRs",
+        "columnInsertIndex": 9
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Pivot`` to keep records together during the pivot",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "HOL Number",
+        "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
+        "onError": "set-to-blank",
+        "newColumnName": "Pivot",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/key-value-columnize",
+        "description": "Pivot table to create columns for values in ``Column`` containing the values in ``Value``",
+        "keyColumnName": "Column",
+        "valueColumnName": "Value",
+        "noteColumnName": ""
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Pivot``",
+        "columnName": "Pivot"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down cells in column ``TKR 2``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "TKR 2",
+        "expression": "grel:row.record.cells[\"TKR 2\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``TKR 2``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "TKR 2"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down cells in column ``TKR 3``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "TKR 3",
+        "expression": "grel:row.record.cells[\"TKR 3\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``TKR 3``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "TKR 3"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down cells in column ``TKR 4``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "TKR 4",
+        "expression": "grel:row.record.cells[\"TKR 4\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``TKR 4``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "TKR 4"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For ticklers that begin with `(FTaSU)` and end with a date in ISO format, retain the identifying aspect of the tickler, otherwise, null the value",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "TKRs",
+        "expression": "grel:match(value,/\\(FTaSU\\)(FS-)?(.*)\\d{8}/)[1]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "newColumnName": "All Others Blank",
+        "columnInsertIndex": 1,
+        "baseColumnName": "HOL Number",
+        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where the value of ``All Others Blank`` is `true`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "All Others Blank",
+                    "expression": "value",
+                    "columnName": "All Others Blank",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``All Others Blank``",
+        "columnName": "All Others Blank"
+    }
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``TKRs``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "TKRs"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Join all values in column ``TKRs`` for a record in the first row of that record divided by pipes",
+        "columnName": "TKRs",
+        "keyColumnName": "HOL Number",
+        "separator": "|"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with unique, non-Ebook Central IDs in ``Record Number``, no Ebook Central URL, and a tickler for another platform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "TKRs",
+                    "expression": "value",
+                    "columnName": "TKRs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "OxfordHB-Religion",
+                                "l": "OxfordHB-Religion"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": " FSUOECD Subscription ",
+                                "l": " FSUOECD Subscription "
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "EBSCO",
+                                "l": "EBSCO"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "WileyOnline",
+                                "l": "WileyOnline"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "JSTOR FLVCPurchase ",
+                                "l": "JSTOR FLVCPurchase "
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Oxford Quick Reference",
+                                "l": "Oxford Quick Reference"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "SageResearchMethods",
+                                "l": "SageResearchMethods"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "knowledgeunlatched",
+                                "l": "knowledgeunlatched"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Oxford Reference Premium",
+                                "l": "Oxford Reference Premium"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "SpringerPalgrave",
+                                "l": "SpringerPalgrave"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "CredoReference",
+                                "l": "CredoReference"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:endsWith(value,\"#\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/column-move",
+        "description": "Move column ``Record Number`` to beginning",
+        "columnName": "Record Number",
+        "index": 0
+    }
 ]
