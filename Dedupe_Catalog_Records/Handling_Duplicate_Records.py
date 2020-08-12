@@ -20067,6 +20067,54 @@ messagebox.showwarning(title="Fill Down", message="The JSON fills down all the c
 messagebox.showwarning(title="Fill Up and Down Ticklers", message="The JSON fills up and down then blanks down the TKR columns as well, so in addition to needing to know how many to do, a loop needs to be created.")
 #ToDo: Get list of columns to pull from UXU01 OpenRefine project and create loop to load them into this project with the last column being the first JSON object so all the object can use the same column insert index
 os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Set text filter on \"Ebook Central IDs\" to false and create a text filter for \"HOL Number\". For all records that match, select the HOL numbers, change the view to rows, clear the filter on \"Ebook Central IDs\", and change the value of \"Record Number\" to match the URL with \"\"Ebook Central::\"+match(cells[\"Ebook Central BIB URLs\"].value,/https:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/fsu\\/detail\\.action\\?docID=(\\d*)/)[0])\". Confirm that the record in question doesn't have replacement characters in any of the titles or that all of the titles have TKRs for other platforms; if they do, make the appropriate changes or removals now.")
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "HOL Number",
+          "expression": "value",
+          "columnName": "HOL Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "110102929",
+                "l": "110102929"
+              }
+            },
+            {
+              "v": {
+                "v": "108930129",
+                "l": "108930129"
+              }
+            },
+            {
+              "v": {
+                "v": "110016991",
+                "l": "110016991"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::\"+match(cells[\"Ebook Central BIB URLs\"].value,/https:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/fsu\\/detail\\.action\\?docID=(\\d*)/)[0])",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+match(cells[\"Ebook Central BIB URLs\"].value,/https:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/fsu\\/detail\\.action\\?docID=(\\d*)/)[0])"
+  }
+]"""
 messagebox.showinfo(title="Instructions", message="Set text filter on \"Replacement Character in Title\" to true and edit the titles as needed to match the 245 fields in the BIBs of origin.")
 """[
   {
@@ -20351,6 +20399,372 @@ messagebox.showinfo(title="Instructions", message="Set text filter on \"Replacem
   },
 ]"""
 messagebox.showinfo(title="Instructions", message="Set filter for blanks on \"Record Number\" to true and crteate text filter on \"TKRs\" and \"Record Number\". For each value in the text filter on \"TKRs\", use filtering by \"Record Number\" to remove the records were all the rows have a tickler for another platform.")
+"""[
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "TKRs",
+          "expression": "value",
+          "columnName": "TKRs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CredoReference",
+                "l": "CredoReference"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "4947",
+                "l": "4947"
+              }
+            },
+            {
+              "v": {
+                "v": "8184",
+                "l": "8184"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "TKRs",
+          "expression": "value",
+          "columnName": "TKRs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Oxford Quick Reference",
+                "l": "Oxford Quick Reference"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "TKRs",
+          "expression": "value",
+          "columnName": "TKRs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Oxford Reference Premium",
+                "l": "Oxford Reference Premium"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "TKRs",
+          "expression": "value",
+          "columnName": "TKRs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "SageResearchMethods",
+                "l": "SageResearchMethods"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "67",
+                "l": "67"
+              }
+            },
+            {
+              "v": {
+                "v": "8102",
+                "l": "8102"
+              }
+            },
+            {
+              "v": {
+                "v": "4650",
+                "l": "4650"
+              }
+            },
+            {
+              "v": {
+                "v": "382",
+                "l": "382"
+              }
+            },
+            {
+              "v": {
+                "v": "690",
+                "l": "690"
+              }
+            },
+            {
+              "v": {
+                "v": "692",
+                "l": "692"
+              }
+            },
+            {
+              "v": {
+                "v": "1866",
+                "l": "1866"
+              }
+            },
+            {
+              "v": {
+                "v": "693",
+                "l": "693"
+              }
+            },
+            {
+              "v": {
+                "v": "276",
+                "l": "276"
+              }
+            },
+            {
+              "v": {
+                "v": "157",
+                "l": "157"
+              }
+            },
+            {
+              "v": {
+                "v": "466",
+                "l": "466"
+              }
+            },
+            {
+              "v": {
+                "v": "104",
+                "l": "104"
+              }
+            },
+            {
+              "v": {
+                "v": "654",
+                "l": "654"
+              }
+            },
+            {
+              "v": {
+                "v": "567",
+                "l": "567"
+              }
+            },
+            {
+              "v": {
+                "v": "2189",
+                "l": "2189"
+              }
+            },
+            {
+              "v": {
+                "v": "338",
+                "l": "338"
+              }
+            },
+            {
+              "v": {
+                "v": "724",
+                "l": "724"
+              }
+            },
+            {
+              "v": {
+                "v": "725",
+                "l": "725"
+              }
+            },
+            {
+              "v": {
+                "v": "2707",
+                "l": "2707"
+              }
+            },
+            {
+              "v": {
+                "v": "803",
+                "l": "803"
+              }
+            },
+            {
+              "v": {
+                "v": "4207",
+                "l": "4207"
+              }
+            },
+            {
+              "v": {
+                "v": "11402",
+                "l": "11402"
+              }
+            },
+            {
+              "v": {
+                "v": "4649",
+                "l": "4649"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  }
+]"""
 #ToDo: PERFORM ABOVE, SAVE AS JSON, REMOVE COLUMNS NO LONGER NEEDED, LOOK AT Select_HOL_to_Keep JSON TO DETERMINE WHAT ELSE NEEDS TO BE DONE BEFORE MOVING TO THOSE
 os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Create custom text filteron column \"INDX Ebook Central\" with \"toString(startsWith(value,\"*\"))\" and set to true. For all titles in the matching records, manually determine the appropriate ID and change the value in \"INDX Ebook Central\" to that ID.")

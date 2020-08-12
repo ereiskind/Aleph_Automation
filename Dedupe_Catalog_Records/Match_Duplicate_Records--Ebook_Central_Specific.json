@@ -852,4 +852,43 @@
         "columnName": "Record Number",
         "index": 0
     }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Ebook Central ID`` with ID from Ebook Central URLs",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Ebook Central BIB URLs",
+        "expression": "grel:match(value,/https:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/fsu\\/detail\\.action\\?docID=(\\d*)/)[0])",
+        "onError": "set-to-blank",
+        "newColumnName": "Ebook Central ID",
+        "columnInsertIndex": 7
+    },
+    {
+        "op": "core/text-transform",
+        "description": "If the value of ``Ebook Central ID`` matches for all rows in a record, fill up and down ``Ebook Central ID``, otherwise, convert the mismatch to `ERROR`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central ID",
+        "expression": "grel:if(or(row.record.cells[\"Ebook Central ID\"].value[0]==value,isNull(value)),row.record.cells[\"Ebook Central ID\"].value[0],\"ERROR\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For the records with Ebook Central IDs in ``Record Number``, change the value of ``Ebook Central ID`` to a Boolean indicating if the IDs in ``Record Number`` and ``Ebook Central ID`` match",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central ID",
+        "expression": "grel:if(and(contains(cells[\"Record Number\"].value,\"Ebook Central\")==true,isNotNull(value)),substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2)==value,null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
 ]
