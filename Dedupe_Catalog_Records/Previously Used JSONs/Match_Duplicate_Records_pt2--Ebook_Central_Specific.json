@@ -195,12 +195,6 @@
 
 
 
-[
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Replacement Character in Title``",
-        "columnName": "Replacement Character in Title"
-    }
     {
         "op": "core/text-transform",
         "description": "For the records where ``Record Number`` isn't an Ebook Central ID, make value of ``ISBN 2`` the same ISBN as is in ``ISBN 1``",
