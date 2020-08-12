@@ -20,11 +20,12 @@ messagebox.showinfo(title="Instructions", message="Go to Services > General > Ma
 
 #Section: Create TKR File
 #Subsection: Get Data for TKRs
-# run print-03 to get CAT## (?) LKR##, 852##
+messagebox.showinfo(title="Instructions", message="Go to Services > Retrieve Catalog Records > print-03. Put the name of the output file from manage-70 in \"Input File\", type a file name with no capital letters or spaces ending with a .txt file extension in \"Output File\", add \"CAT##\", \"LKR##\", \"852##\". in the first \"Field + Indicator\" boxes, confirm that \"Format\" is set to Aleph Sequential, and finally change \"Library\" to \"UXU60\". When Batch Log says the job is complete, download the file.)
 
 #Subsection: Manipulate Data in OpenRefine
-#Upload data to OpenRefine
-# Get TKR base
+messagebox.showinfo(title="Instructions", message="Load file into OpenRefine with column widths 10, 5, 3.")
+#ToDo: create pop-up that asks for the beginning part of the TKR, then insert that string into the JSON below
+os.startfile('Create_TKR_File.json')
 #for each HOL, isolate earliest cataloger date
 # for each HOL, create line <BIB or HOL as 9 digits> TKR   L $$a<tickler>
 
