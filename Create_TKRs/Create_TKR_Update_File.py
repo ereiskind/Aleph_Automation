@@ -1,6 +1,7 @@
 # Process for creating TKRs for HOL attached to a list of BIB records
 
 from tkinter import messagebox
+import os
 
 #Section: Get the HOLs
 # Eventually, this will be replaced with the script Create_Uploadable_List.py
@@ -20,14 +21,15 @@ messagebox.showinfo(title="Instructions", message="Go to Services > General > Ma
 
 #Section: Create TKR File
 #Subsection: Get Data for TKRs
-messagebox.showinfo(title="Instructions", message="Go to Services > Retrieve Catalog Records > print-03. Put the name of the output file from manage-70 in \"Input File\", type a file name with no capital letters or spaces ending with a .txt file extension in \"Output File\", add \"CAT##\", \"LKR##\", \"852##\". in the first \"Field + Indicator\" boxes, confirm that \"Format\" is set to Aleph Sequential, and finally change \"Library\" to \"UXU60\". When Batch Log says the job is complete, download the file.)
+messagebox.showinfo(title="Instructions", message="Go to Services > Retrieve Catalog Records > print-03. Put the name of the output file from manage-70 in \"Input File\", type a file name with no capital letters or spaces ending with a .txt file extension in \"Output File\", add \"CAT##\", \"852##\". in the first \"Field + Indicator\" boxes, confirm that \"Format\" is set to Aleph Sequential, and finally change \"Library\" to \"UXU60\". When Batch Log says the job is complete, download the file.)
 
 #Subsection: Manipulate Data in OpenRefine
 messagebox.showinfo(title="Instructions", message="Load file into OpenRefine with column widths 10, 5, 3.")
 #ToDo: create pop-up that asks for the beginning part of the TKR, then insert that string into the JSON below
+#Alert: OSO TKR is hard-coded into the JSON currently
+#Alert: JSON works only for HOL with one or two CAT fields--https://github.com/sparkica/refine-stats may be the key to more
 os.startfile('Create_TKR_File.json')
-#for each HOL, isolate earliest cataloger date
-# for each HOL, create line <BIB or HOL as 9 digits> TKR   L $$a<tickler>
+messagebox.showinfo(title="Instructions", message="Download the OpenRefine project, remove the first row, and save the spreadsheet as a .txt file.")
 
 
 #Section: Upload TKR File

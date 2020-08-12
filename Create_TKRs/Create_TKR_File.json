@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 [
     {
         "op": "core/column-removal",
@@ -58,229 +49,14 @@
         "newColumnName": "Values"
     },
     {
-        "op": "core/column-addition",
-        "description": "Create column ``Total`` combining the values of ``HOL Number``, ``Fields``, and ``Values`` with double pipes as seperators",
-        "engineConfig": {
-          "facets": [],
-          "mode": "record-based"
-        },
-        "baseColumnName": "Fields",
-        "expression": "join ([coalesce(cells['Fields'].value,''),coalesce(cells['Values'].value,'')],'||')",
-        "onError": "keep-original",
-        "newColumnName": "Total",
-        "columnInsertIndex": 1
-      }
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Fields``",
-        "columnName": "Fields"
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Values``",
-        "columnName": "Values"
-    },
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``HOL Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "HOL Number"
-    }
-    {
-        "op": "core/multivalued-cell-join",
-        "description": "Combine all values in ``Total`` in each record in the first row seperated by triple pipes",
-        "columnName": "Total",
-        "keyColumnName": "HOL Number",
-        "separator": "|||"
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``BIB Number`` with value of LKR$b subfield",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "Total",
-        "expression": "grel:substring(find(value,/UXU01\\$\\$b\\d+\\|\\|\\|/)[0],8,-3)",
-        "onError": "set-to-blank",
-        "newColumnName": "BIB Number",
-        "columnInsertIndex": 0
-    }
-    {
-        "op": "core/row-reorder",
-        "description": "Reorder rows based on ``BIB Number``",
-        "mode": "record-based",
-        "sorting": {
-            "criteria": [
-                {
-                    "valueType": "string",
-                    "column": "BIB Number",
-                    "blankPosition": 2,
-                    "errorPosition": 1,
-                    "reverse": false,
-                    "caseSensitive": false
-                }
-            ]
-        }
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Number of HOL`` with a value of the number of HOL record lines the BIB has",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:facetCount(value,\"value\",\"BIB Number\")",
-        "onError": "set-to-blank",
-        "newColumnName": "Number of HOL",
-        "columnInsertIndex": 1
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Add number of HOL in curly braces to end of ``BIB Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "BIB Number",
-        "expression": "grel:value+\"{\"+cells[\"Number of HOL\"].value+\"}\"",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Number of HOL``",
-        "columnName": "Number of HOL"
-    },
-    {
         "op": "core/multivalued-cell-split",
-        "description": "Split ``Total`` into new rows at triple pipes",
-        "columnName": "Total",
-        "keyColumnName": "BIB Number",
-        "mode": "separator",
-        "separator": "|||",
-        "regex": false
-    },
-    {
-        "op": "core/column-move",
-        "description": "Move column ``HOL Number`` to beginning",
-        "columnName": "HOL Number",
-        "index": 0
-    },
-    {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``BIB Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "BIB Number"
-    }
-    {
-        "op": "core/column-split",
-        "description": "Split column ``Total`` at double pipes",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Total",
-        "guessCellType": false,
-        "removeOriginalColumn": true,
-        "mode": "separator",
-        "separator": "||",
-        "regex": false,
-        "maxColumns": 0
-    },
-    {
-        "op": "core/column-rename",
-        "description": "Rename column ``Total 1`` to ``Fields``",
-        "oldColumnName": "Total 1",
-        "newColumnName": "Fields"
-    },
-    {
-        "op": "core/column-rename",
-        "description": "Rename column ``Total 2`` to ``Values``",
-        "oldColumnName": "Total 2",
-        "newColumnName": "Values"
-    },
-    {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``HOL Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "HOL Number"
-    }
-    {
-        "op": "core/row-removal",
-        "description": "Remove rows with LKRs",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Fields",
-                    "expression": "value",
-                    "columnName": "Fields",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "LKR",
-                                "l": "LKR"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        }
-    },
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``HOL Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "HOL Number"
-    }
-    {
-        "description": "Organize MARC subfields",
-        "op": "core/column-split",
-        "description": "Split subfields in ``Values`` into their own columns",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
+        "description": "Split values in column ``Values`` into new rows at each `$$`",
         "columnName": "Values",
-        "guessCellType": true,
-        "removeOriginalColumn": true,
+        "keyColumnName": "HOL Number",
         "mode": "separator",
         "separator": "$$",
-        "regex": false,
-        "maxColumns": 0
-    },
-    {
-        "op": "core/transpose-columns-into-rows",
-        "description": "Transpose values of columns created by split of ``Values`` into one new column ``Values``",
-        "startColumnName": "Values 1",
-        "columnCount": -1,
-        "ignoreBlankCells": true,
-        "fillDown": false,
-        "combinedColumnName": "Values",
-        "prependColumnName": false,
-        "separator": ":"
-    }
+        "regex": false
+      }
     {
         "op": "core/fill-down",
         "description": "Fill down cells in column ``Fields``",
@@ -290,15 +66,6 @@
         },
         "columnName": "Fields"
     }
-    {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``BIB Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "BIB Number"
-    },
     {
         "op": "core/fill-down",
         "description": "Fill down cells in column ``HOL Number``",
@@ -366,6 +133,40 @@
         "repeatCount": 10
     }
     {
+        "op": "core/row-removal",
+        "description": "Remove rows for subfields other than 852$b and CAT$c",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "value",
+                    "columnName": "Fields",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "CAT$c",
+                                "l": "CAT$c"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "852$b",
+                                "l": "852$b"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``HOL Number``",
         "engineConfig": {
@@ -375,54 +176,116 @@
         "columnName": "HOL Number"
     }
     {
-        "op": "core/row-star",
-        "description": "Star rows in records with 825$a values for FSU (containing `FTaSU`)",
+        "op": "core/column-addition",
+        "description": "Create column ``Pivot`` to keep records together during the pivot",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "HOL Number",
+        "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
+        "onError": "set-to-blank",
+        "newColumnName": "Pivot",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/key-value-columnize",
+        "description": "Pivot table to create columns for values in ``Fields`` containing the values in ``Values``",
+        "keyColumnName": "Fields",
+        "valueColumnName": "Values",
+        "noteColumnName": ""
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Pivot``",
+        "columnName": "Pivot"
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove records for HOL from sublibraries other than FSUER",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Fields",
+                    "name": "852$b",
                     "expression": "value",
-                    "columnName": "Fields",
-                    "invert": false,
+                    "columnName": "852$b",
+                    "invert": true,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": "852$a",
-                                "l": "852$a"
+                                "v": "FSUER",
+                                "l": "FSUER"
                             }
                         }
                     ],
                     "selectBlank": false,
                     "selectError": false
-                },
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values for a record in column ``CAT$c`` in the first row of the record divided by pipes",
+        "columnName": "CAT$c",
+        "keyColumnName": "HOL Number",
+        "separator": "|"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``852$b``",
+        "columnName": "852$b"
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``CAT$c`` at pipes, turning the values into numbers",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "CAT$c",
+        "guessCellType": true,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "|",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/transpose-columns-into-rows",
+        "description": "Pivot all of the values from ``CAT$c`` into a single new column named ``Dates``",
+        "combinedColumnName": "Dates",
+        "startColumnName": "CAT$c 1",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": false,
+        "prependColumnName": false,
+        "separator": ":",
+        "keyColumnName": null,
+        "valueColumnName": null
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For HOL with two CAT fields, change the value of ``Dates`` to the smaller/earlier value",
+        "engineConfig": {
+            "facets": [
                 {
                     "type": "list",
-                    "name": "Values",
-                    "expression": "value",
-                    "columnName": "Values",
+                    "name": "Dates",
+                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+                    "columnName": "Dates",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": "FTaSU",
-                                "l": "FTaSU"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FTaSU-M",
-                                "l": "FTaSU-M"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "FTaSU-L",
-                                "l": "FTaSU-L"
+                                "v": "2",
+                                "l": "2"
                             }
                         }
                     ],
@@ -432,32 +295,17 @@
             ],
             "mode": "record-based"
         },
-        "starred": true
+        "columnName": "Dates",
+        "expression": "grel:min(row.record.cells[\"Dates\"].value[0],row.record.cells[\"Dates\"].value[1])",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     }
     {
         "op": "core/row-removal",
-        "description": "Remove rows in non-FSU HOL that don't have the HOL number",
+        "description": "Remove rows with no value in ``HOL Number``",
         "engineConfig": {
             "facets": [
-                {
-                    "type": "list",
-                    "name": "Starred Rows",
-                    "expression": "row.starred",
-                    "columnName": "",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
                 {
                     "type": "list",
                     "name": "HOL Number",
@@ -480,368 +328,23 @@
             ],
             "mode": "row-based"
         }
-    },
+    }
     {
         "op": "core/text-transform",
-        "description": "For records with no FSU HOL, null the values in ``Fields``",
+        "description": "Change value in column ``Dates`` to include HOL and TKR base formatted for use in Manage-18 ",
         "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Starred Rows",
-                    "expression": "row.starred",
-                    "columnName": "",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
+            "facets": [],
             "mode": "row-based"
         },
-        "columnName": "Fields",
-        "expression": "null",
+        "columnName": "Dates",
+        "expression": "grel:cells[\"HOL Number\"].value+\" TKR   L $$a(FTaSU)FS-OxfordScholarshipOnline\"+value.floor().toString()",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
-    },
-    {
-        "op": "core/text-transform",
-        "description": "For records with no FSU HOL, null the values in ``Values``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Starred Rows",
-                    "expression": "row.starred",
-                    "columnName": "",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Values",
-        "expression": "null",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/row-star",
-        "description": "Unstar all rows",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "starred": false
-    }
-    {
-        "description": "Add sublibrary to records",
-        "op": "core/column-addition",
-        "description": "Create column ``HOL Sublibrary`` with value of ``Values`` in row where ``Fields`` is `852$b`",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "Values",
-        "expression": "grel:if(cells.Fields.value==\"852$b\",value,null)",
-        "onError": "set-to-blank",
-        "newColumnName": "HOL Sublibrary",
-        "columnInsertIndex": 2
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Fill up and down cells in column ``HOL Sublibrary``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "HOL Sublibrary",
-        "expression": "grel:row.record.cells[\"HOL Sublibrary\"].value[0]",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``HOL Sublibrary``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "HOL Sublibrary"
-    }
-    {
-        "description": "Mark suppressed records",
-        "op": "core/column-addition",
-        "description": "Create column ``Suppressed`` by filling up and down records with a STA field with value `TRUE`",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Fields",
-                    "expression": "value",
-                    "columnName": "Fields",
-                    "invert": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "STA$a",
-                                "l": "STA$a"
-                            }
-                        }
-                    ],
-                    "selectNumber": false,
-                    "selectDateTime": false,
-                    "selectBoolean": false,
-                    "omitBlank": false,
-                    "selectBlank": false,
-                    "omitError": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "newColumnName": "Suppressed",
-        "columnInsertIndex": 3,
-        "baseColumnName": "HOL Number",
-        "expression": "grel:\"TRUE\"",
-        "onError": "set-to-blank"
-    },
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``Suppressed``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Suppressed"
-    }
-    {
-        "description": "Clean and organize TKRs",
-        "op": "core/column-addition",
-        "description": "Create column ``TKR$a`` with values from ``Values`` in rows where ``Fields`` value is `TKR$a`",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "newColumnName": "TKR$a",
-        "columnInsertIndex": 4,
-        "baseColumnName": "Fields",
-        "expression": "grel:if(value==\"TKR$a\",cells[\"Values\"].value,null)",
-        "onError": "set-to-blank"
-    }
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Fields``",
-        "columnName": "Fields"
     },
     {
         "op": "core/column-removal",
-        "description": "Remove column ``Values``",
-        "columnName": "Values"
+        "description": "Remove column ``HOL Number``",
+        "columnName": "HOL Number"
     }
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``BIB Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "BIB Number"
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "newColumnName": "All Others Blank",
-        "columnInsertIndex": 1,
-        "baseColumnName": "HOL Number",
-        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
-        "onError": "set-to-blank"
-    },
-    {
-        "op": "core/row-removal",
-        "description": "Remove rows where the value of ``All Others Blank`` is `true`",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "All Others Blank",
-                    "expression": "value",
-                    "columnName": "All Others Blank",
-                    "invert": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "true",
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectNumber": false,
-                    "selectDateTime": false,
-                    "selectBoolean": false,
-                    "omitBlank": false,
-                    "selectBlank": false,
-                    "omitError": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        }
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``All Others Blank``",
-        "columnName": "All Others Blank"
-    },
-    {
-        "op": "core/column-split",
-        "description": "Split column ``BIB Number`` at opening curly braacket",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "BIB Number",
-        "guessCellType": false,
-        "removeOriginalColumn": true,
-        "mode": "separator",
-        "separator": "{",
-        "regex": false,
-        "maxColumns": 0
-    },
-    {
-        "op": "core/column-rename",
-        "description": "Rename column ``BIB Number 1`` to ``BIB Number``",
-        "oldColumnName": "BIB Number 1",
-        "newColumnName": "BIB Number"
-    },
-    {
-        "op": "core/column-rename",
-        "description": "Rename column ``BIB Number 2`` to ``BIB Number of HOLs``",
-        "oldColumnName": "BIB Number 2",
-        "newColumnName": "BIB Number of HOLs"
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Remove end curly bracket from values in ``BIB Number of HOLs``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "BIB Number of HOLs",
-        "expression": "grel:substring(value,0,-1)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``FSU Tickler`` by filling up and down values from ``TKR$a``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "newColumnName": "FSU Tickler",
-        "columnInsertIndex": 5,
-        "baseColumnName": "TKR$a",
-        "expression": "grel:row.record.cells[\"TKR$a\"].value[0]",
-        "onError": "set-to-blank"
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Change value of cells in ``TKR$a`` to null if ``FSU Tickler`` has the same value for that row",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "TKR$a",
-        "expression": "grel:if(value==cells[\"FSU Tickler\"].value,null,value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``FSU Tickler``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "FSU Tickler"
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``All Others Blank`` indicating if every other cell in the row is blank",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "newColumnName": "All Others Blank",
-        "columnInsertIndex": 1,
-        "baseColumnName": "HOL Number",
-        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
-        "onError": "set-to-blank"
-    },
-    {
-        "op": "core/row-removal",
-        "description": "Remove rows where the value of ``All Others Blank`` is `true`",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "All Others Blank",
-                    "expression": "value",
-                    "columnName": "All Others Blank",
-                    "invert": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "true",
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectNumber": false,
-                    "selectDateTime": false,
-                    "selectBoolean": false,
-                    "omitBlank": false,
-                    "selectBlank": false,
-                    "omitError": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        }
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``All Others Blank``",
-        "columnName": "All Others Blank"
-    }
-  ]
+]
