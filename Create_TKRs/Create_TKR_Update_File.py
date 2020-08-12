@@ -1,22 +1,21 @@
 # Process for creating TKRs for HOL attached to a list of BIB records
 
+from tkinter import messagebox
+
 #Section: Get the HOLs
 # Eventually, this will be replaced with the script Create_Uploadable_List.py
 #Subsection: Create Text File
-# # Get list of BIBs formatted as nine digits plus "UXU01"
-# Save above to txt file named "fser" plus something ending with "b" no longer than 10 letters
-# remove file extension
+messagebox.showinfo(title="Instructions", message="Copy the list of BIBs into an Excel spreadsheet, then use the formula \"=(TEXT([cell w/ SYS],\"000000000\") & \"UXU01\")\" to convert them to the proper format. Save the spreadsheet as a .txt file with a name starting \"fser\" containing no more than 10 characters with a \"b\" at or near the end. Remove the file extension from the newly created file.")
 
 #Subsection: Upload BIBs
-# Ask which server to go to
+messagebox.showinfo(title="Instructions", message="Go to https://susopac.falsc.org/cgi-bin/afv for production, long in with Aleph credentials, and upload the newly created file to ???.")
+messagebox.showwarning(title="Problem with Upload", message="Unable to get upload accepted as valid file--further investigation needed.")
 ## https://susopac.falsc.org/cgi-bin/afv for production
 ## https://susopac.test.falsc.org/cgi-bin/afv for test
 ## https://susopac.rept.falsc.org/cgi-bin/afv for report
-# Log in with Aleph credentials
-# For uploader, choose file created above
 
 #Subsection: Run Manage-70
-# With the file name, run manage-70 bib to hol
+messagebox.showinfo(title="Instructions", message="Go to Services > General > Manage-70. Put the name of the newly created file in \"Input File\", the same name with a \"h\" in place of the \"b\" in \"Output File\", select \"BIB-TO-HOL\" for \"Convert Type\", and \"UXU01\" in both \"Convert Library\" and \"Library\".")
 
 
 #Section: Create TKR File
