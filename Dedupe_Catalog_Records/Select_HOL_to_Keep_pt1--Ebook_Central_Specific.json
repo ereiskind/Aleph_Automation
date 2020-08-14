@@ -1,26 +1,50 @@
 [
     {
-        "op": "core/text-transform",
-        "description": "If ``Ebook Central BIB URLs`` is an Ebook Central URL, make sure that the value in ``INDX Ebook Central`` matches the ID at the end of the URL",
+        "op": "core/column-removal",
+        "description": "Remove column ``Ebook Central ID``",
+        "columnName": "Ebook Central ID"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Replacement Character in Title``",
+        "columnName": "Replacement Character in Title"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``TKRs``",
+        "columnName": "TKRs"
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Record Number``",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
-        "columnName": "INDX Ebook Central",
-        "expression": "grel:if(contains(cells[\"Ebook Central BIB URLs\"].value,\"ebookcentral\"),if(substring(cells[\"Ebook Central BIB URLs\"].value,lastIndexOf(cells[\"Ebook Central BIB URLs\"].value,\"=\")+1)==value[0],value,substring(cells[\"Ebook Central BIB URLs\"].value,lastIndexOf(cells[\"Ebook Central BIB URLs\"].value,\"=\")+1)),value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
+        "columnName": "Record Number"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``HOL-BIB`` combining BIB and HOL numbers",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "HOL Number",
+        "expression": "grel:value+\"-\"+cells[\"BIB Number\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "HOL-BIB",
+        "columnInsertIndex": 2
     },
     {
         "op": "core/row-reorder",
-        "description": "Reorder rows based on ``INDX Ebook Central``",
+        "description": "Reorder rows based on ``HOL-BIB``",
         "mode": "record-based",
         "sorting": {
             "criteria": [
                 {
                     "valueType": "string",
-                    "column": "INDX Ebook Central",
+                    "column": "HOL-BIB",
                     "blankPosition": 2,
                     "errorPosition": 1,
                     "reverse": false,
@@ -28,43 +52,169 @@
                 }
             ]
         }
-    }
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``INDX Ebook Central``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "INDX Ebook Central"
     },
     {
-        "op": "core/column-reorder",
-        "description": "Reorder columns to put ``INDX Ebook Central`` at beginning and remove unneeded columns",
-        "columnNames": [
-            "INDX Ebook Central",
-            "HOL Number",
-            "BIB Number",
-            "BIB Number of HOLs",
-            "HOL Sublibrary",
-            "Suppressed",
-            "Ebook Central BIB URLs",
-            "Title",
-            "FSU Tickler",
-            "TKR 2",
-            "TKR 3",
-            "TKR 4"
-        ]
+        "op": "core/column-move",
+        "description": "Move column ``HOL-BIB`` to beginning",
+        "columnName": "HOL-BIB",
+        "index": 0
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``HOL-BIB``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "HOL-BIB"
     }
     {
-        "op": "core/column-rename",
-        "description": "Rename column ``INDX Ebook Central`` to ``Ebook Central ID``",
-        "oldColumnName": "INDX Ebook Central",
-        "newColumnName": "Ebook Central ID"
+        "op": "core/text-transform",
+        "description": "For records consisting of multiple rows for the same HOL, null all unique non-Ebook Central IDs not in the first row of ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL-BIB",
+                    "expression": "facetCount(value, 'value', 'HOL-BIB') > 1",
+                    "columnName": "HOL-BIB",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isNotNull(cells[\"HOL-BIB\"].value),value,if(endsWith(value,\"#\"),null,value))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records consisting of multiple rows for the same HOL, if there are other values remaining in ``Record Number``, add them to the first row of the record, seperating values with pipes, while removing any unique record numbers form the first row of the record if there's another value to take its place",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL-BIB",
+                    "expression": "facetCount(value, 'value', 'HOL-BIB') > 1",
+                    "columnName": "HOL-BIB",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(length(row.record.cells[\"Record Number\"].value)>1,if(endsWith(row.record.cells[\"Record Number\"].value[0],\"#\"),join(slice(uniques(row.record.cells[\"Record Number\"].value),1),\"|\"),join(uniques(row.record.cells[\"Record Number\"].value),\"|\")),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     },
     {
         "op": "core/row-removal",
-        "description": "Remove records with no FSUER HOL and no BIBs with URLs for FSU",
+        "description": "Remove duplicate HOL rows that no longer have values in ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL-BIB",
+                    "expression": "facetCount(value, 'value', 'HOL-BIB') > 1",
+                    "columnName": "HOL-BIB",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``HOL-BIB``",
+        "columnName": "HOL-BIB"
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``Record Number``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Record Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Record Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove records with no FSUER HOL or FSU Ebook Central URL",
         "engineConfig": {
             "facets": [
                 {
@@ -109,6 +259,373 @@
             "mode": "record-based"
         }
     }
+    {
+        "op": "core/text-transform",
+        "description": "Change unique, non-Ebook Central ID values in ``Record Number`` to `HOL <HOL Number> without ID`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:endsWith(value,\"#\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:\"HOL \"+cells[\"HOL Number\"].value+\" without ID\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Duplication`` with values in all but the first row of each record indicating if the row's BIB and sublibrary match that of the first row in the record",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Record Number",
+        "expression": "grel:if(isNotNull(value),null,if(row.record.cells[\"BIB Number\"].value[0]==cells[\"BIB Number\"].value,if(row.record.cells[\"HOL Sublibrary\"].value[0]==cells[\"HOL Sublibrary\"].value,\"Same BIB, Same Sublibrary\",\"Same BIB, Different Sublibrary\"),if(row.record.cells[\"HOL Sublibrary\"].value[0]==cells[\"HOL Sublibrary\"].value,\"Different BIB, Same Sublibrary\",\"Different BIB, Same Sublibrary\")))",
+        "onError": "set-to-blank",
+        "newColumnName": "Duplication",
+        "columnInsertIndex": 3
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records with exactly two rows, fill up and down the value of ``Duplication``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "2",
+                                "l": "2"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Duplication",
+        "expression": "grel:row.record.cells[\"Duplication\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records with exactly three rows, if the value of ``Duplication`` in the second and thir rows are the same, fill up and down the value of ``Duplication``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "3",
+                                "l": "3"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Duplication",
+        "expression": "grel:if(row.record.cells[\"Duplication\"].value[0]==row.record.cells[\"Duplication\"].value[1],row.record.cells[\"Duplication\"].value[0],value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For multi-line records with non-Ebook Central IDs in ``Record Number`` where the BIBs are the same but the sublibraries are different, change the value of ``Record Number`` to `Different Sublibraries for BIB <BIB Number>`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"::\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "value",
+                    "columnName": "Duplication",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Same BIB, Different Sublibrary",
+                                "l": "Same BIB, Different Sublibrary"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "isBlank(value)",
+                    "columnName": "Duplication",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isNotNull(value),\"Different sublibraries for BIB \"+cells[\"BIB Number\"].value,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "op": "core/text-transform",
+        "description": "Change value of ``INDX Ebook Central`` to `HOL <HOL Number> Without ID` or `Multiple HOL Without ID` if those accurately describe the record, to `*HOLs Matched in Order to IDs` followed by a pipe-seperated list of IDs for records with multiple HOLS and IDs, or to `*HOL ISBNs Matched to IDs` followed by a pipe-seperated list of IDs for records with one HOL but multiple IDs",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "INDX Ebook Central",
+                    "expression": "grel:toString(endsWith(value,\"*\"))",
+                    "columnName": "INDX Ebook Central",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "INDX Ebook Central",
+        "expression": "grel:if(row.record.toRowIndex-row.record.fromRowIndex>1,if(row.record.cells[\"INDX Ebook Central\"].value[0]==\"null*\",\"Multiple HOL (\"+toString(row.record.index)+\") Without ID\",\"*HOLs Matched in Order to IDs \"+substring(row.record.cells[\"INDX Ebook Central\"].value[0],0,-1)+\"|\"+row.record.cells[\"Temp INDX\"].value[0]),if(value==\"null*\",\"HOL \"+cells[\"HOL Number\"].value+\" Without ID\",\"*HOL ISBNs Matched to IDs \"+substring(row.record.cells[\"INDX Ebook Central\"].value[0],0,-1)+\"|\"+row.record.cells[\"Temp INDX\"].value[0]))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      {
+        "op": "core/column-addition",
+        "description": "Create column ``Keep HOL?`` with a value indicating if the BIB for that row has an ACQ record",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:if(isError(cell.cross(\"Cross Reference xlsx\",\"BIB with ACQ\")[0].cells[\"BIB Number\"].value),\"No ACQ for BIB\",\"BIB has ACQ\")",
+        "onError": "set-to-blank",
+        "newColumnName": "Keep HOL?",
+        "columnInsertIndex": 1
+    }
+
+
+
+
+
+
+
+
+
+
+
     {
         "op": "core/fill-down",
         "description": "For records with HOL in sublibraries other than FSUER, fill down cells in column ``Ebook Central ID``",
