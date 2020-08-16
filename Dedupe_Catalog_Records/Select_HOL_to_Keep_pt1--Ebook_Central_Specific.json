@@ -261,6 +261,202 @@
     }
     {
         "op": "core/text-transform",
+        "description": "Add `???` to the front of URLs when the HOL's sublibrary is a FSU Libraries physical location",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSRS1",
+                                "l": "FSRS1"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSCCL",
+                                "l": "FSCCL"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSINF",
+                                "l": "FSINF"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRIN",
+                                "l": "FSRIN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRS2",
+                                "l": "FSRS2"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRS3",
+                                "l": "FSRS3"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRS4",
+                                "l": "FSRS4"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSSDC",
+                                "l": "FSSDC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSTKY",
+                                "l": "FSTKY"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUAD",
+                                "l": "FSUAD"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUDC",
+                                "l": "FSUDC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUDG",
+                                "l": "FSUDG"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUEN",
+                                "l": "FSUEN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUFL",
+                                "l": "FSUFL"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULC",
+                                "l": "FSULC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUHP",
+                                "l": "FSUHP"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULN",
+                                "l": "FSULN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUMC",
+                                "l": "FSUMC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPA",
+                                "l": "FSUPA"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPC",
+                                "l": "FSUPC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSWES",
+                                "l": "FSWES"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPL",
+                                "l": "FSUPL"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUSC",
+                                "l": "FSUSC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUSP",
+                                "l": "FSUSP"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUND",
+                                "l": "FSUND"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Ebook Central BIB URLs",
+        "expression": "grel:\"???\"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
         "description": "Change unique, non-Ebook Central ID values in ``Record Number`` to `HOL <HOL Number> without ID`",
         "engineConfig": {
             "facets": [
