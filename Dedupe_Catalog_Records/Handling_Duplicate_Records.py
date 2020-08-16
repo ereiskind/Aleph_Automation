@@ -20769,6 +20769,10 @@ messagebox.showinfo(title="Instructions", message="Set filter for blanks on \"Re
 #Subsection: Determine Which HOL Records to Keep
 messagebox.showinfo(title="Instructions", message="Create spreadsheet \"Cross-Reference.xlsx\" with columns \"BIB with ACQ\" listing the BIBs with ACQ records attached and \"Ebook Central Owned\" with the Ebook Central IDs of the titles owned on that platform. The BIBs be nine-digit text strings, the IDs should be formatted as text.")
 messagebox.showwarning(title="Deduping HOLs", message="HOLs with multiple non-unique record numbers have them combined in \"Record Number\" divided by pipes. This situation didn't acutally occur with these titles; there may be a better way to handle it.")
+os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Create custom filter on \"Record Number\" with \"toString(row.record.toRowIndex-row.record.fromRowIndex)\". Select each value greater than three and, for records where the values of \"Duplication\" are all the same, fill up and down those values.")
+messagebox.showinfo(title="Instructions", message="Create blanks filters on both \"Record Number\" and \"Duplication\" and set them to true. Change the values in \"Duplication\" for these records, using \"Multiple\" when some, but not all, of the HOL in a record have the same BIB or sublibrary.")
+messagebox.showwarning(title="Changing \"Record Number\"", message="A method for updating \"Record Number\" for those records changed in the previous step needs to be developed. With Ebook Central, all of the records requiring changes had Ebook Central IDs.")
 # "Record Number" formats
 ## Ebook Central::<Ebook Central ID> = title matched to an Ebook Central ID
 ## HOL <HOL Number> without ID = HOL is only one for that title
@@ -20780,32 +20784,6 @@ messagebox.showwarning(title="Deduping HOLs", message="HOLs with multiple non-un
 
 
 
-
-
-
-
-
-
-
-
-
-
-#These were previously before Select_HOL_to_Keep_Pt1--don't tknow if they'll still be needed
-messagebox.showwarning(title="Ebook Central and TKRs", message="The second step in this JSON is for reordering columns--that makes it specific to Ebook Central in the column names and the number of TKR columns.")
-messagebox.showwarning(title="FSU Sublibraries", message="HOL in sublibraries other than FSUER are removed in the JSON below. This requires selecting all sublibraries other than FSUER.")
-messagebox.showwarning(title="Exclusion via TKR", message="The TKRs not matching Ebook Central used to remove records with no Ebook Central HOL are hard coded into the JSON.")
-#***
-os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
-
-#ToDo: Instructuions to investigate "Duplication" and "Record Number" filter = true as they had inconsistant info regarding BIB and sublibrary matching within the record
-#ToDo: Create custom filter with toString(row.record.toRowIndex-row.record.fromRowIndex) on "Record Number" to make changes to records that have more than three HOL in them
-
-# Record Number formats
-## Ebook Central::<Ebook Central ID> = title matched to an Ebook Central ID
-## HOL <HOL Number> without ID = HOL is only one for that title
-## Different Sublibraries for BIB <BIB Number> = HOLs found are for different sublibraries but belong to the same BIB record
-## ?? same BIB, same sublibrary (theoretically, shouldn't be possible)
-## ?? different BIB, different sublibrary
 
 os.startfile('Select_HOL_to_Keep_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Set a blank filter on \"Title Check 1\" to false, then download the results to Excel. If the titles can be confirmed as matches, delete from the spreadsheet. Consider titles that have no edition info and titles that are first editions as matches.")
