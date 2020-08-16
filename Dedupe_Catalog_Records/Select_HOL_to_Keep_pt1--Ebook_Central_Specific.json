@@ -509,7 +509,7 @@
     }
     {
         "op": "core/column-addition",
-        "description": "Create column ``Duplication`` with values in all but the first row of each record indicating if the row's BIB and sublibrary match that of the first row in the record",
+        "description": "Create column ``Duplication`` with values in all but the first row of each multi-row record indicating if the row's BIB and sublibrary match that of the first row in the record",
         "engineConfig": {
             "facets": [
                 {
@@ -535,7 +535,7 @@
             "mode": "record-based"
         },
         "baseColumnName": "Record Number",
-        "expression": "grel:if(isNotNull(value),null,if(row.record.cells[\"BIB Number\"].value[0]==cells[\"BIB Number\"].value,if(row.record.cells[\"HOL Sublibrary\"].value[0]==cells[\"HOL Sublibrary\"].value,\"Same BIB, Same Sublibrary\",\"Same BIB, Different Sublibrary\"),if(row.record.cells[\"HOL Sublibrary\"].value[0]==cells[\"HOL Sublibrary\"].value,\"Different BIB, Same Sublibrary\",\"Different BIB, Same Sublibrary\")))",
+        "expression": "grel:if(isNotNull(value),null,if(row.record.cells[\"BIB Number\"].value[0]==cells[\"BIB Number\"].value,if(row.record.cells[\"HOL Sublibrary\"].value[0]==cells[\"HOL Sublibrary\"].value,\"Same BIB, Same Sublibrary\",\"Same BIB, Different Sublibrary\"),if(row.record.cells[\"HOL Sublibrary\"].value[0]==cells[\"HOL Sublibrary\"].value,\"Different BIB, Same Sublibrary\",\"Different BIB, Different Sublibrary\")))",
         "onError": "set-to-blank",
         "newColumnName": "Duplication",
         "columnInsertIndex": 3
@@ -646,9 +646,40 @@
     },
     {
         "op": "core/text-transform",
-        "description": "For multi-line records with non-Ebook Central IDs in ``Record Number`` where the BIBs are the same but the sublibraries are different, change the value of ``Record Number`` to `Different Sublibraries for BIB <BIB Number>`",
+        "description": "For multi-line records with non-Ebook Central IDs in ``Record Number`` where the BIBs and the sublibraries are the same, change the value of ``Record Number`` to `Duplicate <sublibrary code> Sublibrary for BIB <BIB number>`",
         "engineConfig": {
             "facets": [
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "value",
+                    "columnName": "Duplication",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Same BIB, Different Sublibrary",
+                                "l": "Same BIB, Different Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Different BIB, Different Sublibrary",
+                                "l": "Different BIB, Different Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Different BIB, Same Sublibrary",
+                                "l": "Different BIB, Same Sublibrary"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
                 {
                     "type": "list",
                     "name": "Record Number",
@@ -686,13 +717,27 @@
                     ],
                     "selectBlank": false,
                     "selectError": false
-                },
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isNotNull(value),\"Duplicate \"+cells[\"HOL Sublibrary\"].value+\" sublibrary for BIB \"+cells[\"BIB Number\"].value,null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For multi-line records with non-Ebook Central IDs in ``Record Number`` where the sublibraries are the same but the BIBs are different, change the value of ``Record Number`` to `BIBs <list of BIB numbers> Match`",
+        "engineConfig": {
+            "facets": [
                 {
                     "type": "list",
                     "name": "Duplication",
                     "expression": "value",
                     "columnName": "Duplication",
-                    "invert": false,
+                    "invert": true,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
@@ -701,6 +746,18 @@
                                 "v": "Same BIB, Different Sublibrary",
                                 "l": "Same BIB, Different Sublibrary"
                             }
+                        },
+                        {
+                            "v": {
+                                "v": "Different BIB, Different Sublibrary",
+                                "l": "Different BIB, Different Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Same BIB, Same Sublibrary",
+                                "l": "Same BIB, Same Sublibrary"
+                            }
                         }
                     ],
                     "selectBlank": false,
@@ -708,10 +765,10 @@
                 },
                 {
                     "type": "list",
-                    "name": "Duplication",
+                    "name": "Record Number",
                     "expression": "isBlank(value)",
-                    "columnName": "Duplication",
-                    "invert": true,
+                    "columnName": "Record Number",
+                    "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
@@ -719,6 +776,108 @@
                             "v": {
                                 "v": true,
                                 "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"::\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isNotNull(value),\"BIBs \"+join(row.record.cells[\"BIB Number\"].value,\", \")+\" Match\",null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For multi-line records with non-Ebook Central IDs in ``Record Number`` where the BIBs are the same but the sublibraries are different, change the value of ``Record Number`` to `Different Sublibraries for BIB <BIB Number>`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "value",
+                    "columnName": "Duplication",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Different BIB, Different Sublibrary",
+                                "l": "Different BIB, Different Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Different BIB, Same Sublibrary",
+                                "l": "Different BIB, Same Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Same BIB, Same Sublibrary",
+                                "l": "Same BIB, Same Sublibrary"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"::\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
                             }
                         }
                     ],
@@ -734,6 +893,95 @@
         "repeat": false,
         "repeatCount": 10
     }
+    {
+        "op": "core/text-transform",
+        "description": "For multi-line records with non-Ebook Central IDs in ``Record Number`` where the BIBs and the sublibraries are different, change the value of ``Record Number`` to `BIBs <list of BIB numbers> Match with Different Sublibraries`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "value",
+                    "columnName": "Duplication",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Same BIB, Different Sublibrary",
+                                "l": "Same BIB, Different Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Different BIB, Same Sublibrary",
+                                "l": "Different BIB, Same Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Same BIB, Same Sublibrary",
+                                "l": "Same BIB, Same Sublibrary"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"::\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isNotNull(value),\"BIBs \"+join(row.record.cells[\"BIB Number\"].value,\", \")+\" Match with Different Sublibraries\",null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+
+
+
+
+
+
 
 
 
@@ -1032,157 +1280,3 @@
         },
         "columnName": "Ebook Central ID"
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Title Check`` with value of ``Title`` in titlecase, with spaces trimmed, hyphense replaces with spaces, and ending periods removed",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Ebook Central ID",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central ID",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "baseColumnName": "Title",
-        "expression": "grel:if(substring(value,-1)==\".\",toTitlecase(trim(replace(substring(value,0,-1),\"-\",\" \"))),toTitlecase(trim(replace(value,\"-\",\" \"))))",
-        "onError": "set-to-blank",
-        "newColumnName": "Title Check",
-        "columnInsertIndex": 8
-    }
-    {
-        "op": "core/column-split",
-        "description": "For the records where the values in ``Title Check`` don't all match, split column ``Title Check`` at the parentheticals used for edition or volume",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Ebook Central ID",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central ID",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title Check",
-                    "expression": "grel:toString(row.record.cells[\"Title Check\"].value[0]==value)",
-                    "columnName": "Title Check",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "Title Check",
-        "guessCellType": false,
-        "removeOriginalColumn": true,
-        "mode": "separator",
-        "separator": "\\((ed|vol)=",
-        "regex": true,
-        "maxColumns": 0
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Remove periods, commas, hyphens, and ampersands, trim, and make titlecase values in ``Title Check 1``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Title Check 1",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title Check 1",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "Title Check 1",
-        "expression": "grel:toTitlecase(trim(value.replace(\".\",\"\").replace(\",\",\"\").replace(\"&\",\"And\").replace(\"-\",\"\")))",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-]

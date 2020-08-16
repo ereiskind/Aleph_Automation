@@ -20769,7 +20769,27 @@ messagebox.showinfo(title="Instructions", message="Set filter for blanks on \"Re
 #Subsection: Determine Which HOL Records to Keep
 messagebox.showinfo(title="Instructions", message="Create spreadsheet \"Cross-Reference.xlsx\" with columns \"BIB with ACQ\" listing the BIBs with ACQ records attached and \"Ebook Central Owned\" with the Ebook Central IDs of the titles owned on that platform. The BIBs be nine-digit text strings, the IDs should be formatted as text.")
 messagebox.showwarning(title="Deduping HOLs", message="HOLs with multiple non-unique record numbers have them combined in \"Record Number\" divided by pipes. This situation didn't acutally occur with these titles; there may be a better way to handle it.")
-messagebox.showwarning(title="Duplication Message Exclusivity", message="The records with inconsistant information in \"Duplication\" already had Ebook Central IDs and were thus filtered out from having their arbitrary numerical values in \"Record Number\" replaced. This pattern may not hold in later situations, so the JSONS may need to be changed to reflect inverses of the value in \"Duplication\" being targeted.")
+# "Record Number" formats
+## Ebook Central::<Ebook Central ID> = title matched to an Ebook Central ID
+## HOL <HOL Number> without ID = HOL is only one for that title
+## Duplicate <sublibrary code> Sublibrary for BIB <BIB number> = multiple HOLs for same sublibrary on same BIB record found (thoretically, shouldn't be possible) {Same BIB, Same Sublibrary}
+## BIBs <list of BIB numbers> Match = HOLs for the same sublibrary found on multiple BIB records {Different BIB, Same Sublibrary}
+## Different Sublibraries for BIB <BIB Number> = HOLs found on same BIB record but for different sublibraries {Same BIB, Different Sublibrary}
+## BIBs <list of BIB numbers> Match with Different Sublibraries = HOLs for different sublibraries found on different BIB records {Different BIB, Different Sublibrary}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #These were previously before Select_HOL_to_Keep_Pt1--don't tknow if they'll still be needed
 messagebox.showwarning(title="Ebook Central and TKRs", message="The second step in this JSON is for reordering columns--that makes it specific to Ebook Central in the column names and the number of TKR columns.")
 messagebox.showwarning(title="FSU Sublibraries", message="HOL in sublibraries other than FSUER are removed in the JSON below. This requires selecting all sublibraries other than FSUER.")
