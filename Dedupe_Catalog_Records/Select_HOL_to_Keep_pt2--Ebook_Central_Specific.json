@@ -1,41 +1,126 @@
-[
+
+
+
+
+
+
+
+
+
+      {
+        "op": "core/column-addition",
+        "description": "Create column ``Keep HOL?`` with a value indicating if the BIB for that row has an ACQ record",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:if(isError(cell.cross(\"Cross Reference xlsx\",\"BIB with ACQ\")[0].cells[\"BIB Number\"].value),\"No ACQ for BIB\",\"BIB has ACQ\")",
+        "onError": "set-to-blank",
+        "newColumnName": "Keep HOL?",
+        "columnInsertIndex": 1
+    }
+
+
+
+
+
+
+
+
+
+
+
     {
-        "op": "core/text-transform",
-        "description": "Null all blank cells in column ``Title Check 2``",
+        "op": "core/fill-down",
+        "description": "For records with HOL in sublibraries other than FSUER, fill down cells in column ``Ebook Central ID``",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Title Check 1",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title Check 1",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": "FSRS1",
+                                "l": "FSRS1"
                             }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title Check 2",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title Check 2",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
+                        },
                         {
                             "v": {
-                                "v": true,
-                                "l": "true"
+                                "v": "FSUDC",
+                                "l": "FSUDC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRS4",
+                                "l": "FSRS4"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUDG",
+                                "l": "FSUDG"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULN",
+                                "l": "FSULN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUEN",
+                                "l": "FSUEN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSOAR",
+                                "l": "FSOAR"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSLAW",
+                                "l": "FSLAW"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPA",
+                                "l": "FSUPA"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUSC",
+                                "l": "FSUSC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPC",
+                                "l": "FSUPC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULC",
+                                "l": "FSULC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSMUS",
+                                "l": "FSMUS"
                             }
                         }
                     ],
@@ -43,227 +128,127 @@
                     "selectError": false
                 }
             ],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central ID"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows for HOL in sublibraries other than FSUER",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSRS1",
+                                "l": "FSRS1"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUDC",
+                                "l": "FSUDC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRS4",
+                                "l": "FSRS4"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUDG",
+                                "l": "FSUDG"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULN",
+                                "l": "FSULN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUEN",
+                                "l": "FSUEN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSOAR",
+                                "l": "FSOAR"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSLAW",
+                                "l": "FSLAW"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPA",
+                                "l": "FSUPA"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUSC",
+                                "l": "FSUSC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPC",
+                                "l": "FSUPC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULC",
+                                "l": "FSULC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSMUS",
+                                "l": "FSMUS"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Ebook Central ID``",
+        "engineConfig": {
+            "facets": [],
             "mode": "row-based"
         },
-        "columnName": "Title Check 2",
-        "expression": "null",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Title Check 3``",
-        "columnName": "Title Check 3"
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Null values in column ``Title Check 1`` for records where all values in both ``Title Check 1`` and ``Title Check 2`` match",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Title Check 1",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title Check 1",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title Check 1",
-                    "expression": "grel:toString(row.record.cells[\"Title Check 1\"].value[0]==value)",
-                    "columnName": "Title Check 1",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title Check 2",
-                    "expression": "grel:toString(row.record.cells[\"Title Check 2\"].value[0]==value)",
-                    "columnName": "Title Check 2",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": true
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "Title Check 1",
-        "expression": "null",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
+        "columnName": "Ebook Central ID"
     }
-    {
-        "op": "core/text-transform",
-        "description": "For records where all the values in ``Title Check 1`` match, change null values in column ``Title Check 2`` to `null`",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Title Check 1",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title Check 1",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title Check 1",
-                    "expression": "grel:toString(row.record.cells[\"Title Check 1\"].value[0]==value)",
-                    "columnName": "Title Check 1",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "Title Check 2",
-        "expression": "grel:if(isNull(value),\"null\",value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/multivalued-cell-join",
-        "description": "For records where all the values in ``Title Check 1`` match, combine all the values in column ``Title Check 2`` in the first row of the column seperated by pipes",
-        "columnName": "Title Check 2",
-        "keyColumnName": "Ebook Central ID",
-        "separator": "|"
-    },
-    {
-        "op": "core/text-transform",
-        "description": "For records where all the values in ``Title Check 1`` match and all the values in ``Title Check 2`` were either null or `ed 1`, null the value in ``Title Check 1``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Title Check 1",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title Check 1",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title Check 1",
-                    "expression": "grel:toString(row.record.cells[\"Title Check 1\"].value[0]==value)",
-                    "columnName": "Title Check 1",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "false",
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title Check 2",
-                    "expression": "grel:toString(or(value==\"null|ed 1\",value==\"ed 1|null\"))",
-                    "columnName": "Title Check 2",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "true",
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "Title Check 1",
-        "expression": "null",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/multivalued-cell-split",
-        "description": "For records where all the values in ``Title Check 1`` match, split values in first row of column ``Title Check 2`` at pipes into seperate rows",
-        "columnName": "Title Check 2",
-        "keyColumnName": "Ebook Central ID",
-        "mode": "separator",
-        "separator": "|",
-        "regex": false
-    }
-]
+
+
+
+
+
+
+
+
+
+
+
