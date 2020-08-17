@@ -20979,6 +20979,103 @@ messagebox.showinfo(title="Instructions", message="Create blanks filters on both
   }
 ]"""
 messagebox.showwarning(title="Changing \"Record Number\"", message="A method for updating \"Record Number\" for those records changed in the previous step needs to be developed. With Ebook Central, all of the records requiring changes had Ebook Central IDs.")
+messagebox.showinfo(title="Instructions", message="Remove the blanks filter on \"Duplication\". Create text filter on \"HOL Sublibrary\" and select all values but \"FSUER\", then invert. Use \"Transform...\" to change the value of the matching records to \"Only FSUER HOL\".")
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "HOL Sublibrary",
+          "expression": "value",
+          "columnName": "HOL Sublibrary",
+          "invert": true,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "FSOAR",
+                "l": "FSOAR"
+              }
+            },
+            {
+              "v": {
+                "v": "FSLAW",
+                "l": "FSLAW"
+              }
+            },
+            {
+              "v": {
+                "v": "FSUDC",
+                "l": "FSUDC"
+              }
+            },
+            {
+              "v": {
+                "v": "FSUPA",
+                "l": "FSUPA"
+              }
+            },
+            {
+              "v": {
+                "v": "FSUSC",
+                "l": "FSUSC"
+              }
+            },
+            {
+              "v": {
+                "v": "FSUPC",
+                "l": "FSUPC"
+              }
+            },
+            {
+              "v": {
+                "v": "FSULN",
+                "l": "FSULN"
+              }
+            },
+            {
+              "v": {
+                "v": "FSULC",
+                "l": "FSULC"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "FSUER HOL",
+    "expression": "grel:\"Only FSUER HOL\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column FSUER HOL using expression grel:\"Only FSUER HOL\""
+  }
+]"""
 # "Record Number" formats
 ## Ebook Central::<Ebook Central ID> = title matched to an Ebook Central ID
 ## HOL <HOL Number> without ID = HOL is only one for that title

@@ -976,4 +976,56 @@
         "repeat": false,
         "repeatCount": 10
     }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``FSUER HOL`` containing `Has FSUER HOL` in multi-row records where at least one HOL is in FSUER",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSUER",
+                                "l": "FSUER"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "HOL Sublibrary",
+        "expression": "grel:\"Has FSUER HOL\"",
+        "onError": "set-to-blank",
+        "newColumnName": "FSUER HOL",
+        "columnInsertIndex": 6
+    }
 ]
