@@ -560,21 +560,32 @@
         "repeatCount": 10
     }
 
+    
 
 
 
 
+   
 
 
 
 
+Record dimentions
+    Number HOL:
+        2
+        3
+        4+
+    BIB Source:
+        Same
+        Different
+    Has ACQ:
+        Y
+        N
+    HOL sources:
+        All FSUER
+        Not
 
-
-
-
-
-
-
-
-
-
+2 FSUER HOL, seperate BIBS, only one has ACQ
+3 FSUER HOL, seperate BIBs, only one has ACQ
+2 FSUER HOL, seperate BIBs, neither has ACQ but one is possibly loaded for URL
+2  HOL, differnt sublibraries, seperate BIBs, neither has ACQ
