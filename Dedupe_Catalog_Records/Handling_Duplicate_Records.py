@@ -21352,22 +21352,664 @@ messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BI
   }
 ]"""
 os.startfile('Select_HOL_to_Keep_pt2--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Keep HOL?\" to true. Filter \"FSUER HOL\" to blanks. In this case, we had access to none of those titles on the Ebook Central platform as perpetual access entitlements, so the records were removed.")
+"""[
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "FSUER HOL",
+          "expression": "value",
+          "columnName": "FSUER HOL",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [],
+          "selectBlank": true,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  }
+]"""
+messagebox.showinfo(title="Instructions", message="Keep blanks filters on \"Keep HOL?\" to true. Filter \"Duplication\" to \"Same BIB, Different Sublibrary\" and investigate. In this case, we had access to none of those titles on the Ebook Central platform as perpetual access entitlements, so the records were removed.")
+"""[
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Duplication",
+          "expression": "value",
+          "columnName": "Duplication",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Same BIB, Different Sublibrary",
+                "l": "Same BIB, Different Sublibrary"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  }
+]"""
+messagebox.showinfo(title="Instructions", message="Keep blanks filters on \"Keep HOL?\" to true. Evaluate the remaining matching records, determining which HOLs in a record should be kept and changing the value of \"Keep HOL?\" as appropriate For records representing titles that aren't perpetual access entitlements in Ebook Central, remove them.")
+# "Keep HOL?" Formats
+## Only HOL for record = TRUE: Only HOL for ID <Ebook Central ID> | TRUE: Only HOL for Title [HOL <HOL number>]
+## FSUER HOL with ACQ = TRUE: FSUER HOL with ACQ for <Ebook Central ID | "Title">
+## FSUER HOL without ACQ to be kept = TRUE: FSUER HOL for <Ebook Central ID | "Title">
+## FSUER HOL without ACQ not being kept = FALSE: FSUER HOL without ACQ for <Ebook Central ID | "Title">
+## FSUER HOL believed to have been loaded for URL = FALSE: Probably Loaded for URL for <Ebook Central ID | "Title">
+## FSUER HOL in record with other HOL/BIBs believed to have been loaded for URL = TRUE: Other FSUER HOL for <Ebook Central ID | "Title"> Probably Loaded for URL
+## Other sublibrary HOL with ACQ = N/A: Other Sublibrary with ACQ HOL for <Ebook Central ID | "Title">
+## Other sublibrary HOL without ACQ = N/A: Other Sublibrary HOL for <Ebook Central ID | "Title">
+## FSUER HOL with ACQ for non-Ebook Central BIB = N/A: Non-Ebook Central Holding with ACQ for <Ebook Central ID | "Title">
+## FSUER HOL without ACQ for non-Ebook Central BIB = N/A: Non-Ebook Central Holding for <Ebook Central ID | "Title">
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::807421",
+                "l": "Ebook Central::807421"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Keep HOL?",
+    "expression": "grel:if(cells[\"HOL Number\"].value==\"078299741\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Keep HOL? using expression grel:if(cells[\"HOL Number\"].value==\"078299741\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::775000",
+                "l": "Ebook Central::775000"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "ACQ Test",
+          "expression": "grel:contains(value,\"BIB has ACQ\")",
+          "columnName": "ACQ Test",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Keep HOL?",
+    "expression": "grel:if(cells[\"HOL Number\"].value==\"078298792\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Keep HOL? using expression grel:if(cells[\"HOL Number\"].value==\"078298792\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::775061",
+                "l": "Ebook Central::775061"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "ACQ Test",
+          "expression": "grel:contains(value,\"BIB has ACQ\")",
+          "columnName": "ACQ Test",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Keep HOL?",
+    "expression": "grel:if(cells[\"HOL Number\"].value==\"078298975\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Keep HOL? using expression grel:if(cells[\"HOL Number\"].value==\"078298975\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::775143",
+                "l": "Ebook Central::775143"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "ACQ Test",
+          "expression": "grel:contains(value,\"BIB has ACQ\")",
+          "columnName": "ACQ Test",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Keep HOL?",
+    "expression": "grel:if(cells[\"HOL Number\"].value==\"078298825\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Keep HOL? using expression grel:if(cells[\"HOL Number\"].value==\"078298825\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::803163",
+                "l": "Ebook Central::803163"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "ACQ Test",
+          "expression": "grel:contains(value,\"BIB has ACQ\")",
+          "columnName": "ACQ Test",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Keep HOL?",
+    "expression": "grel:if(cells[\"HOL Number\"].value==\"078299611\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Keep HOL? using expression grel:if(cells[\"HOL Number\"].value==\"078299611\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::807218",
+                "l": "Ebook Central::807218"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "ACQ Test",
+          "expression": "grel:contains(value,\"BIB has ACQ\")",
+          "columnName": "ACQ Test",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Keep HOL?",
+    "expression": "grel:if(cells[\"HOL Number\"].value==\"078305768\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Keep HOL? using expression grel:if(cells[\"HOL Number\"].value==\"078305768\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::833386",
+                "l": "Ebook Central::833386"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "ACQ Test",
+          "expression": "grel:contains(value,\"BIB has ACQ\")",
+          "columnName": "ACQ Test",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Keep HOL?",
+    "expression": "grel:if(cells[\"HOL Number\"].value==\"078399656\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Keep HOL? using expression grel:if(cells[\"HOL Number\"].value==\"078399656\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::3413974",
+                "l": "Ebook Central::3413974"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Keep HOL?",
+    "expression": "grel:if(cells[\"HOL Number\"].value==\"100637045\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),if(cells[\"HOL Number\"].value==\"109803232\",\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"N/A: Other Sublibrary with ACQ HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Keep HOL? using expression grel:if(cells[\"HOL Number\"].value==\"100637045\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),if(cells[\"HOL Number\"].value==\"109803232\",\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"N/A: Other Sublibrary with ACQ HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")))"
+  }
+]"""
 
-
-
-
-
-messagebox.showinfo(title="Instructions", message="Set a blank filter on \"Title Check 1\" to false, then download the results to Excel. If the titles can be confirmed as matches, delete from the spreadsheet. Consider titles that have no edition info and titles that are first editions as matches.")
-messagebox.showinfo(title="Instructions", message="Upload that Excel worksheet to OpenRefine as \"Title Mismatches\".")
-messagebox.showwarning(title="Evlauating in Excel", message="The evaluating is done in Excel to avoid editing individual cells, which isn't captured by the extract functionality. When this title matching gets moved to the more appropriate place earlier in the process, it probably won't be needed.")
-os.startfile('Select_HOL_to_Keep_pt3--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="On column \"Keep HOL?\" create custom facet \"toString(or(startsWith(value,\"TRUE\"),startsWith(value,\"FALSE\")))\".")
-messagebox.showinfo(title="Instructions", message="On column \"HOL Test\" create custom facet \"toString(and(contains(value,\"No ACQ for BIB\"),contains(value,\"BIB has ACQ\")))\".")
-# Multiple HOL where all have ACQ
-
-#ToDo: Make INDX forst column
-#ToDo: Do checks on which row in each record to keep
-#ToDo: Final format--Records by Ebook Central ID with BIB and HOL combinations
+# Ebook Central::1727922 has two seperate ACQ records placed on the same day--investigation required
 
 
 #Section: Create Update Files For Records to Remain
