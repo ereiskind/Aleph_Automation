@@ -21083,6 +21083,274 @@ messagebox.showinfo(title="Instructions", message="Remove the blanks filter on \
 ## BIBs <list of BIB numbers> Match = HOLs for the same sublibrary found on multiple BIB records {Different BIB, Same Sublibrary}
 ## Different Sublibraries for BIB <BIB Number> = HOLs found on same BIB record but for different sublibraries {Same BIB, Different Sublibrary}
 ## BIBs <list of BIB numbers> Match with Different Sublibraries = HOLs for different sublibraries found on different BIB records {Different BIB, Different Sublibrary}
+messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BIB records were found to have multiple HOL from the same sublibrary attached. At this point, I removed those HOL that were no longer in UXU60.")
+"""[
+  {
+    "op": "core/fill-down",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "FSUER HOL",
+          "expression": "value",
+          "columnName": "FSUER HOL",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Only FSUER HOL",
+                "l": "Only FSUER HOL"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Duplication",
+          "expression": "value",
+          "columnName": "Duplication",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Same BIB, Same Sublibrary",
+                "l": "Same BIB, Same Sublibrary"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "description": "Fill down cells in column Record Number"
+  },
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "FSUER HOL",
+          "expression": "value",
+          "columnName": "FSUER HOL",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Only FSUER HOL",
+                "l": "Only FSUER HOL"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Duplication",
+          "expression": "value",
+          "columnName": "Duplication",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Same BIB, Same Sublibrary",
+                "l": "Same BIB, Same Sublibrary"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "HOL Number",
+          "expression": "value",
+          "columnName": "HOL Number",
+          "invert": true,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "110963622",
+                "l": "110963622"
+              }
+            },
+            {
+              "v": {
+                "v": "110962989",
+                "l": "110962989"
+              }
+            },
+            {
+              "v": {
+                "v": "110962835",
+                "l": "110962835"
+              }
+            },
+            {
+              "v": {
+                "v": "108380908",
+                "l": "108380908"
+              }
+            },
+            {
+              "v": {
+                "v": "105905887",
+                "l": "105905887"
+              }
+            },
+            {
+              "v": {
+                "v": "110965288",
+                "l": "110965288"
+              }
+            },
+            {
+              "v": {
+                "v": "110962994",
+                "l": "110962994"
+              }
+            },
+            {
+              "v": {
+                "v": "110963861",
+                "l": "110963861"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "FSUER HOL",
+          "expression": "value",
+          "columnName": "FSUER HOL",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Only FSUER HOL",
+                "l": "Only FSUER HOL"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "isBlank(value)",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Duplication",
+          "expression": "value",
+          "columnName": "Duplication",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Same BIB, Same Sublibrary",
+                "l": "Same BIB, Same Sublibrary"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Duplication",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Duplication using expression null"
+  }
+]"""
 os.startfile('Select_HOL_to_Keep_pt2--Ebook_Central_Specific.json')
 
 
