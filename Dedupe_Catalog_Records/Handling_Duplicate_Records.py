@@ -20046,7 +20046,7 @@ messagebox.showinfo(title="Instructions", message="Create custom filter on \"Rec
 ]"""
 
 #Subsection: Organize UXU60 Output
-messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU60 info into OpenRefine with column widths 10, 5, 3.")
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU60 info into OpenRefine with column widths 10, 5, 3. Name the project \"UXU60_Cleanup\".")
 os.startfile('Organize_HOL_for_Duplicate_BIB.json')
 TKR_Loop(1,5)
 messagebox.showwarning(title="Removing Non-FSU HOLs", message="Export results now for complete HOL info--next JSON will remove non-FSU HOLs.")
@@ -22452,15 +22452,29 @@ messagebox.showinfo(title="Instructions", message="Keep blanks filters on \"Keep
 # Ebook Central::1727922 has two seperate ACQ records placed on the same day
 # Ebook Central::3570368 has two seperate ACQ ordered within a month of each other
 # Ebook Central::371984 purchased on two platforms later migrated to Ebook Central
+#ToDo: Remove columns ACQ Test, Duplication--actually will be done is JSON starting in section below
 
 
 #Section: Create Update Files For Records to Remain
+#Subsection: Identify Perpetual Access Entitlements
+#ToDo: Create columns in UXU60_Cleanup with title stripped of increasing level of detail like from title matching and filled down column with "Record Number" values
+#ToDo: Entitlements list with Ebook Central IDs, Titles uploaded to OpenRefine as project named "Entitlements"
+#ToDo: Match records in UXU60_Cleanup with Ebook Central IDs to Ebook Central IDs Entitlements project, retaining the Record Number fo the matching value in UXU60_Cleanup
+#ToDo: For records in Entitlements not matched with an ID, match with a title, saving the Record Number of the matching title in Entitlements once found
+#ToDo: Once all items in Entitlements have been matched, transfer the Record Number of the matches back to UXU60_Cleanup--thses are the perpetual access entitlements--along with the Ebook Central ID for those items matched by title
+
 #Subsection: If New 856$u Needed, Supply It
+#ToDo: Determine if value of "Ebook Central BIB URLs" for HOL where "Keep HOL?" starts "TRUE" matches Ebook Central regex
+#ToDo: For HOL not matching above, create new column with Ebook Central URLs
+#ToDo: Add to new column so full contents match line needed in file for manage-18
 
 #Subsection: If TKR Needed, Supply It
+#See TKR section of repo
 
 
 #Section: Remove Unneeded Records
-#Subsection: If Other HOLs Attached to BIB, Delete FSUER HOL
-
 #Subsection: If FSUER HOL is Only HOL, Delete HOL and BIB
+#ToDo: Delete HOL with "Keep HOL?" starting with "FALSE: Probably Loaded for URL for"
+
+#Subsection: If Other HOLs Attached to BIB, Suppress FSUER HOL
+#ToDo: All remaining HOL with "Keep HOL?" values starting with "FALSE"
