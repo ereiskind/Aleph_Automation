@@ -22457,7 +22457,9 @@ messagebox.showinfo(title="Instructions", message="Keep blanks filters on \"Keep
 #Section: Create Update Files For Records to Remain
 #Subsection: Identify Perpetual Access Entitlements
 os.startfile('Identify_Perpetual_Access_Entitlements_pt1--Ebook_Central_Specific.json')
-#ToDo: Entitlements list with Ebook Central IDs, Titles uploaded to OpenRefine as project named "Entitlements"
+messagebox.showinfo(title="Instructions", message="Generate a list of the propriatrary IDs and titles for all perpetual access entitlements where the IDs are in the column \"ID\" and the titles are in the column \"Title\". Save as a CSV named \"Entitlements\" and upload to OpenRefine.")
+messagebox.showinfo(title="Instructions", message="Apply the following JSON in the \"Entitlements csv\" project.")
+os.startfile('Identify_Perpetual_Access_Entitlements_pt2--Ebook_Central_Specific.json')
 #ToDo: Match records in UXU60_Cleanup with Ebook Central IDs to Ebook Central IDs Entitlements project, retaining the Record Number fo the matching value in UXU60_Cleanup
 #ToDo: For records in Entitlements not matched with an ID, match with a title, saving the Record Number of the matching title in Entitlements once found
 #ToDo: Once all items in Entitlements have been matched, transfer the Record Number of the matches back to UXU60_Cleanup--thses are the perpetual access entitlements--along with the Ebook Central ID for those items matched by title
