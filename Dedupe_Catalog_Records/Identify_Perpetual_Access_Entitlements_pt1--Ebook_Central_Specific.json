@@ -1,9 +1,84 @@
-
-
-
-
-
-
-
-#ToDo: Remove columns ACQ Test, Duplication--actually will be done is JSON starting in section below
-#ToDo: Create columns in UXU60_Cleanup with title stripped of increasing level of detail like from title matching and filled down column with "Record Number" values
+[
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ACQ Test``",
+        "columnName": "ACQ Test"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Duplication``",
+        "columnName": "Duplication"
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Has ACQ?``",
+        "columnName": "Has ACQ?"
+    }
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Title`` at the parentheticals used for edition or volume",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title",
+        "guessCellType": false,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": "\\((ed|vol)=",
+        "regex": true,
+        "maxColumns": 0
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Remove smart quotes and encoding mistakes then trim whitespace from values in column ``Title 1``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 1",
+        "expression": "value.replace(/[‘’‚‛‹›‚]/,\"\\'\").replace(/[“”«»„]/,\"\\\"\").reinterpret(\"utf-8\").trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Change value of ``Title 2`` to value of ``Title 1`` in titlecase, with spaces trimmed, hyphens replaced with spaces, and ending periods removed",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 2",
+        "expression": "grel:if(substring(cells[\"Title 1\"].value,-1)==\".\",toTitlecase(trim(replace(substring(cells[\"Title 1\"].value,0,-1),\"-\",\" \"))),toTitlecase(trim(replace(cells[\"Title 1\"].value,\"-\",\" \"))))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Change value of ``Title 3`` to value of ``Title 2`` without periods, commas, and ampersands",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 3",
+        "expression": "grel:trim(cells[\"Title 2\"].value.replace(\".\",\"\").replace(\",\",\"\").replace(\"&\",\"And\"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Record Number Copy`` by filling up and down value of column ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Record Number",
+        "expression": "grel:row.record.cells[\"Record Number\"].value[0]",
+        "onError": "set-to-blank",
+        "newColumnName": "Record Number Copy",
+        "columnInsertIndex": 10
+    }
+]

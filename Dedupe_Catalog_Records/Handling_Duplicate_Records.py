@@ -22452,13 +22452,11 @@ messagebox.showinfo(title="Instructions", message="Keep blanks filters on \"Keep
 # Ebook Central::1727922 has two seperate ACQ records placed on the same day
 # Ebook Central::3570368 has two seperate ACQ ordered within a month of each other
 # Ebook Central::371984 purchased on two platforms later migrated to Ebook Central
-#ToDo: Remove columns ACQ Test, Duplication--actually will be done is JSON starting in section below
 
 
 #Section: Create Update Files For Records to Remain
 #Subsection: Identify Perpetual Access Entitlements
 os.startfile('Identify_Perpetual_Access_Entitlements_pt1--Ebook_Central_Specific.json')
-#ToDo: Create columns in UXU60_Cleanup with title stripped of increasing level of detail like from title matching and filled down column with "Record Number" values
 #ToDo: Entitlements list with Ebook Central IDs, Titles uploaded to OpenRefine as project named "Entitlements"
 #ToDo: Match records in UXU60_Cleanup with Ebook Central IDs to Ebook Central IDs Entitlements project, retaining the Record Number fo the matching value in UXU60_Cleanup
 #ToDo: For records in Entitlements not matched with an ID, match with a title, saving the Record Number of the matching title in Entitlements once found
