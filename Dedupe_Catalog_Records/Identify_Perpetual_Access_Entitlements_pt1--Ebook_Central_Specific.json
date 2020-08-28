@@ -69,6 +69,105 @@
         "repeatCount": 10
     }
     {
+        "op": "core/column-split",
+        "description": "Split column ``Title 1`` at first colon",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 1",
+        "guessCellType": true,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": ":",
+        "regex": false,
+        "maxColumns": 2
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Title 1 2``",
+        "columnName": "Title 1 2"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Trim leading and trailing whitespace from values in column ``Title 1 1``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 1 1",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Title 2`` at first colon",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 2",
+        "guessCellType": true,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": ":",
+        "regex": false,
+        "maxColumns": 2
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Title 2 2``",
+        "columnName": "Title 2 2"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Trim leading and trailing whitespace from values in column ``Title 2 1``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 2 1",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Title 3`` at first colon",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 3",
+        "guessCellType": true,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": ":",
+        "regex": false,
+        "maxColumns": 2
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Title 3 2``",
+        "columnName": "Title 3 2"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Trim leading and trailing whitespace from values in column ``Title 3 1``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 3 1",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
         "op": "core/column-addition",
         "description": "Create column ``Record Number Copy`` by filling up and down value of column ``Record Number``",
         "engineConfig": {
