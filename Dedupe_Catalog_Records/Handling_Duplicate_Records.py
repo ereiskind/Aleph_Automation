@@ -22762,6 +22762,11 @@ os.startfile('Identify_Perpetual_Access_Entitlements_pt2--Ebook_Central_Specific
 #ToDo: For records in Entitlements not matched with an ID, match with a title, saving the Record Number of the matching title in Entitlements once found
 #ToDo: Once all items in Entitlements have been matched, transfer the Record Number of the matches back to UXU60_Cleanup--thses are the perpetual access entitlements--along with the Ebook Central ID for those items matched by title
 
+#Subsection: Determine Records that Need to be Unsuppressed
+#ToDo: transfer for above for entitlements
+#todo: filter down to records for entitlements only
+#Todo: determine if record selected to keep has "true" in suppressed column, and flag HOL if so--probably change column value to "Needs to be unsuppressed"
+
 #Subsection: If New 856$u Needed, Supply It
 #ToDo: Determine if value of "Ebook Central BIB URLs" for HOL where "Keep HOL?" starts "TRUE" matches Ebook Central regex
 #ToDo: For HOL not matching above, create new column with Ebook Central URLs
