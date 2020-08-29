@@ -676,19 +676,6 @@
             ]
         }
     },
-
-
-
-
-
-
-
-
-
-
-
-
- 
     {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``BIB Number``",
@@ -699,10 +686,23 @@
         "columnName": "BIB Number"
     },
     {
+        "op": "core/text-transform",
+        "description": "For rows with a value in ``856$3``, add it to the end of ``Values``, seperating the values with `]|[`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:if(isNull(cells[\"856$3\"].value),value,value+\"]|[\"+cells[\"856$3\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
         "op": "core/multivalued-cell-join",
-        "description": "Combine all values in column ``Values`` in a record in the first row of that record seperated by pipes",
+        "description": "Combine all values in column ``Values`` in a record in the first row of that record seperated by `}|{`",
         "columnName": "Values",
         "keyColumnName": "BIB Number",
-        "separator": "|"
+        "separator": "}|{"
     }
 ]

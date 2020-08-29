@@ -138,13 +138,28 @@
     }
     {
         "op": "core/multivalued-cell-split",
-        "description": "Split values in column ``BIB URL`` into rows at pipes",
+        "description": "Split values in column ``BIB URL`` into rows at `}|{`",
         "columnName": "BIB URL",
         "keyColumnName": "HOL Number",
         "mode": "separator",
-        "separator": "|",
+        "separator": "}|{",
         "regex": false
     },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``BIB URL`` at `]|[`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB URL",
+        "guessCellType": true,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "]|[",
+        "regex": false,
+        "maxColumns": 0
+    }
     {
         "op": "core/column-addition",
         "description": "Create empty column ``Ebook Central BIB URLs``",
@@ -152,7 +167,7 @@
             "facets": [],
             "mode": "record-based"
         },
-        "baseColumnName": "BIB URL",
+        "baseColumnName": "BIB URL 1",
         "expression": "grel:null",
         "onError": "set-to-blank",
         "newColumnName": "Ebook Central BIB URLs",
@@ -160,13 +175,105 @@
     },
     {
         "op": "core/text-transform",
-        "description": "Copy Ebook Central URLs from ``BIB URL`` into ``Ebook Central BIB URLs``",
+        "description": "Null URLs in column ``BIB URL 1`` for non-full text access of platforms migrated to Ebook Central",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB URL 2",
+                    "expression": "value",
+                    "columnName": "BIB URL 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "ebrary preview only",
+                                "l": "ebrary preview only"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "MyiLibrary, Table of contents",
+                                "l": "MyiLibrary, Table of contents"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "BIB URL 1",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For all rows where the URLs 856$3 indicated the title was part of the ProQuest SciTech collection, change column ``Ebook Central BIB URLs`` to `SciTech Collection`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB URL 2",
+                    "expression": "value",
+                    "columnName": "BIB URL 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Ebook Central Science & Technology",
+                                "l": "Ebook Central Science & Technology"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
         },
         "columnName": "Ebook Central BIB URLs",
-        "expression": "grel:find(cells[\"BIB URL\"].value,/https?:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/[\\w-]*\\/detail\\.action\\?docID=\\d+/)[0]",
+        "expression": "grel:\"SciTech Collection\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Copy Ebook Central URLs from ``BIB URL`` into ``Ebook Central BIB URLs``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Ebook Central BIB URLs",
+        "expression": "grel:find(cells[\"BIB URL 1\"].value,/https?:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/[\\w-]*\\/detail\\.action\\?docID=\\d+/)[0]",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
@@ -175,11 +282,31 @@
         "op": "core/text-transform",
         "description": "Copy MyiLibrary URLs from ``BIB URL`` into ``Ebook Central BIB URLs``",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
         },
         "columnName": "Ebook Central BIB URLs",
-        "expression": "grel:find(cells[\"BIB URL\"].value,/https?:\\/\\/(lib|www)\\.myilibrary\\.com\\/?(detail\\.asp)?\\?(id|ID)=\\d+/)[0]",
+        "expression": "grel:find(cells[\"BIB URL 1\"].value,/https?:\\/\\/(lib|www)\\.myilibrary\\.com\\/?(detail\\.asp)?\\?(id|ID)=\\d+/)[0]",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
@@ -188,11 +315,31 @@
         "op": "core/text-transform",
         "description": "Copy Ebrary URLs with `=` from ``BIB URL`` into ``Ebook Central BIB URLs``",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
         },
         "columnName": "Ebook Central BIB URLs",
-        "expression": "grel:find(cells[\"BIB URL\"].value,/https?:\\/\\/site\\.ebrary\\.com\\/.*(id|ID)=\\d+/)[0]",
+        "expression": "grel:find(cells[\"BIB URL 1\"].value,/https?:\\/\\/site\\.ebrary\\.com\\/.*(id|ID)=\\d+/)[0]",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
@@ -201,11 +348,31 @@
         "op": "core/text-transform",
         "description": "Copy Ebrary URLs without `=` from ``BIB URL`` into ``Ebook Central BIB URLs``",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
         },
         "columnName": "Ebook Central BIB URLs",
-        "expression": "grel:find(cells[\"BIB URL\"].value,/https?:\\/\\/site\\.ebrary\\.com\\/id\\/\\d+/)[0]",
+        "expression": "grel:find(cells[\"BIB URL 1\"].value,/https?:\\/\\/site\\.ebrary\\.com\\/id\\/\\d+/)[0]",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
@@ -214,11 +381,31 @@
         "op": "core/text-transform",
         "description": "Copy Ebook Library URLs from ``BIB URL`` into ``Ebook Central BIB URLs``",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
         },
         "columnName": "Ebook Central BIB URLs",
-        "expression": "grel:find(cells[\"BIB URL\"].value,/https?:\\/\\/(www.)?\\w*\\.eblib\\.com\\/[\\w\\/.?=&]*=\\w+/)[0]",
+        "expression": "grel:find(cells[\"BIB URL 1\"].value,/https?:\\/\\/(www.)?\\w*\\.eblib\\.com\\/[\\w\\/.?=&]*=\\w+/)[0]",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
@@ -232,8 +419,13 @@
     },
     {
         "op": "core/column-removal",
-        "description": "Remove column ``BIB URL``",
-        "columnName": "BIB URL"
+        "description": "Remove column ``BIB URL 1``",
+        "columnName": "BIB URL 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``BIB URL 2``",
+        "columnName": "BIB URL 2"
     },
     {
         "op": "core/column-addition",
