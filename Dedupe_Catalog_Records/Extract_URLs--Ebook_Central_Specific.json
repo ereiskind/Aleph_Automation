@@ -1,0 +1,708 @@
+[
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Column 3``",
+        "columnName": "Column 3"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 1`` to ``BIB Number``",
+        "oldColumnName": "Column 1",
+        "newColumnName": "BIB Number"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Trim whitespace from cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove indicators and extra spaces from cells in column ``Column 2``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Column 2",
+        "expression": "grel:substring(value,0,3)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 2`` to ``Fields``",
+        "oldColumnName": "Column 2",
+        "newColumnName": "Fields"
+    }
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 4`` to ``Values``",
+        "oldColumnName": "Column 4",
+        "newColumnName": "Values"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows for fields other than 856",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "value",
+                    "columnName": "Fields",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "856",
+                                "l": "856"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with an 856$5 subfield value other than `FTaSU`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:toString(contains(value,\"$$5FTaSU\"))",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "false",
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:toString(contains(value,\"$$5\"))",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove 856 fields for LC catalog enhancement links",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "value",
+                    "columnName": "Fields",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "856",
+                                "l": "856"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:isError(find(value,/http.*loc\\.gov\\/catdir.*/)[0])",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Numbering`` combining the values of ``BIB Number`` and ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:value+\"-\"+cells.Fields.value",
+        "onError": "set-to-blank",
+        "newColumnName": "Numbering",
+        "columnInsertIndex": 0
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Keep Number`` with the number of times the value in ``Numbering`` appears",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "newColumnName": "Keep Number",
+        "columnInsertIndex": 1,
+        "baseColumnName": "Numbering",
+        "expression": "grel:facetCount(value,\"value\",\"Numbering\")",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Numbering``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Numbering"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Number`` with the row number for the value in ``Numbering``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Number",
+        "columnInsertIndex": 1,
+        "baseColumnName": "Numbering",
+        "expression": "grel:toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Turn values in ``Keep Number`` to text",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Keep Number",
+        "expression": "value.toString()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For fields repeated in a record, add row number to value of ``Fields``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Number",
+                    "expression": "value",
+                    "columnName": "Keep Number",
+                    "invert": true,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "1",
+                                "l": "1"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:\"Field #\"+cells[\"Number\"].value+\" \"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Numbering``",
+        "columnName": "Numbering"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Number``",
+        "columnName": "Number"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Keep Number``",
+        "columnName": "Keep Number"
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Divide values in column ``Values`` into new rows at each `$$`",
+        "columnName": "Values",
+        "keyColumnName": "BIB Number",
+        "mode": "separator",
+        "separator": "$$",
+        "regex": false
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Fields"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add subfield delimiter and code to value in ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:value+\"$\"+substring(cells[\"Values\"].value[0],0,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove subfield code from ``Values``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:substring(value,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``No Field Number`` with the field and subfield code for the row’s value",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "No Field Number",
+        "columnInsertIndex": 2,
+        "baseColumnName": "Fields",
+        "expression": "grel:substring(value,-5)",
+        "onError": "set-to-blank"
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``856$3`` with value of ``Values`` in row where ``No Field Number`` value is `856$3`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Values",
+        "expression": "grel:if(cells[\"No Field Number\"].value==\"856$3\",value,null)",
+        "onError": "set-to-blank",
+        "newColumnName": "856$3",
+        "columnInsertIndex": 2
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down values in column ``856$3``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "856$3",
+        "expression": "grel:row.record.cells[\"856$3\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows for subfields other than 856$u",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "No Field Number",
+                    "expression": "value",
+                    "columnName": "No Field Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "856$u",
+                                "l": "856$u"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``No Field Number``",
+        "columnName": "No Field Number"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Revert all URL escape characters to their actual values",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:unescape(value,\"url\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Values`` into new columns at each point matching `http://` or `https://`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "guessCellType": false,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": "https?:\\/\\/",
+        "regex": true,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null blank cells in column ``Values 1``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values 1",
+        "expression": "grel:if(isBlank(value),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/transpose-columns-into-rows",
+        "description": "Pivot columns created by splitting ``Values`` into a single column named ``Segments`` while filling down all other columns",
+        "combinedColumnName": "Segments",
+        "startColumnName": "Values 1",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": true,
+        "prependColumnName": false,
+        "separator": ":",
+        "keyColumnName": null,
+        "valueColumnName": null
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where ``Segments`` has proxy headers containing `login?url=`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Segments",
+                    "expression": "grel:toString(contains(value,\"login?url=\"))",
+                    "columnName": "Segments",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Dedupe`` combining values of ``BIB Number`` and ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:value+\"-\"+cells.Fields.value",
+        "onError": "set-to-blank",
+        "newColumnName": "Dedupe",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where ``Dedupe`` is a duplicate value and ``Segments`` contains `shibb` or `openathens`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Segments",
+                    "expression": "grel:toString(or(contains(value,\"shibb\"),contains(value,\"openathens\")))",
+                    "columnName": "Segments",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Dedupe",
+                    "expression": "facetCount(value, 'value', 'Dedupe') > 1",
+                    "columnName": "Dedupe",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Dedupe``",
+        "columnName": "Dedupe"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add BIB number to beginning of ``Segments``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Segments",
+        "expression": "grel:cells[\"BIB Number\"].value+\"-\"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``Segments``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Segments",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Segments``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Segments"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with no value in ``Segments``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Segments",
+                    "expression": "isBlank(value)",
+                    "columnName": "Segments",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Segments``",
+        "columnName": "Segments"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Order`` Combining BIB number and value of any field number in ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:if(contains(cells.Fields.value,\"#\"),value+\"-\"+substring(cells.Fields.value,indexOf(cells.Fields.value,\"#\")+1,lastIndexOf(cells.Fields.value,\" \")),value)",
+        "onError": "set-to-blank",
+        "newColumnName": "Order",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``Order``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Order",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in column ``Values`` in a record in the first row of that record seperated by pipes",
+        "columnName": "Values",
+        "keyColumnName": "BIB Number",
+        "separator": "|"
+    }
+]

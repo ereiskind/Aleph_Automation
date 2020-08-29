@@ -20056,7 +20056,8 @@ os.startfile('Finish_Organizing_HOLs.json')
 
 #Subsection: Get List of FSU URLs
 messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU01 info into OpenRefine with column widths 10, 6, 2 as a project named \"URLs\".")
-os.startfile('Extract_URLs.json')
+messagebox.showwarning(title="Identifying SciTech URLs", message="The Ebook Central specific JSON has steps to identify the URLs with 856$3 indicating that the records are for SciTech titles.")
+os.startfile('Extract_URLs--Ebook_Central_Specific.json')
 
 
 #Section: Determine Which Records to Keep
