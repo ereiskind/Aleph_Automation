@@ -21084,6 +21084,7 @@ messagebox.showinfo(title="Instructions", message="Remove the blanks filter on \
 ## BIBs <list of BIB numbers> Match = HOLs for the same sublibrary found on multiple BIB records {Different BIB, Same Sublibrary}
 ## Different Sublibraries for BIB <BIB Number> = HOLs found on same BIB record but for different sublibraries {Same BIB, Different Sublibrary}
 ## BIBs <list of BIB numbers> Match with Different Sublibraries = HOLs for different sublibraries found on different BIB records {Different BIB, Different Sublibrary}
+os.startfile('Select_HOL_to_Keep_pt2--Ebook_Central_Specific.json')
 messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BIB records were found to have multiple HOL from the same sublibrary attached. At this point, I removed those HOL that were no longer in UXU60.")
 """[
   {
@@ -21352,7 +21353,6 @@ messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BI
     "description": "Text transform on cells in column Duplication using expression null"
   }
 ]"""
-os.startfile('Select_HOL_to_Keep_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Keep HOL?\" to true. Filter \"FSUER HOL\" to blanks. In this case, we had access to none of those titles on the Ebook Central platform as perpetual access entitlements, so the records were removed.")
 """[
   {
