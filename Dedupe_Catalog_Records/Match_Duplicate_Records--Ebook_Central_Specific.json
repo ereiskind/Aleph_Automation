@@ -411,9 +411,49 @@
         "repeatCount": 10
     }
     {
+        "op": "core/column-addition",
+        "description": "Create column ``Other BIB URL Info`` with the domain of any URLs not moved to the ``Ebook Central BIB URLs`` column, or the phrases `Two domains, but first isn't the proxy` or `More than two domains` if they describe the situation, with the value of any 856$3 added to the end wrapped in double brackets",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "BIB URL 1",
+        "expression": "grel:if(isNull(value),null,if(isNull(cells[\"BIB URL 2\"].value),if(length(find(value,/https?:\\/\\/(\\w|\\.|-)*\\/?/))==1,find(value,/https?:\\/\\/(\\w|\\.|-)*\\/?/)[0],if(length(find(value,/https?:\\/\\/(\\w|\\.|-)*\\/?/))==2,if(inArray(slice(find(value,/https?:\\/\\/(\\w|\\.|-)*\\/?/),0,1),\"https://login.proxy.lib.fsu.edu/\"),find(value,/https?:\\/\\/(\\w|\\.|-)*\\/?/)[1],\"two domains, but first isn't the proxy\"),\"More than two domains\")),if(length(find(value,/https?:\\/\\/(\\w|\\.|-)*\\/?/))==1,find(value,/https?:\\/\\/(\\w|\\.|-)*\\/?/)[0]+\"[[\"+cells[\"BIB URL 2\"].value+\"]]\",if(length(find(value,/https?:\\/\\/(\\w|\\.|-)*\\/?/))==2,if(inArray(slice(find(value,/https?:\\/\\/(\\w|\\.|-)*\\/?/),0,1),\"https://login.proxy.lib.fsu.edu/\"),find(value,/https?:\\/\\/(\\w|\\.|-)*\\/?/)[1]+\"[[\"+cells[\"BIB URL 2\"].value+\"]]\",\"two domains, but first isn't the proxy\"+\"[[\"+cells[\"BIB URL 2\"].value+\"]]\"),\"More than two domains\"+\"[[\"+cells[\"BIB URL 2\"].value+\"]]\"))))",
+        "onError": "set-to-blank",
+        "newColumnName": "Other BIB URL Info",
+        "columnInsertIndex": 6
+    }
+    {
         "op": "core/multivalued-cell-join",
         "description": "Combine values in column ``Ebook Central BIB URLs`` for a record in the first row of the record seperated by pipes",
         "columnName": "Ebook Central BIB URLs",
+        "keyColumnName": "HOL Number",
+        "separator": "|"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine values in column ``Other BIB URL Info`` for a record in the first row of the record seperated by pipes",
+        "columnName": "Other BIB URL Info",
         "keyColumnName": "HOL Number",
         "separator": "|"
     },
@@ -529,6 +569,15 @@
             "mode": "record-based"
         },
         "columnName": "Ebook Central BIB URLs"
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Other BIB URL Info``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Other BIB URL Info"
     },
     {
         "op": "core/fill-down",

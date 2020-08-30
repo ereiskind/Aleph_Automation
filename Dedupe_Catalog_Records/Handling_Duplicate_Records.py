@@ -21093,28 +21093,9 @@ messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BI
       "facets": [
         {
           "type": "list",
-          "name": "FSUER HOL",
-          "expression": "value",
-          "columnName": "FSUER HOL",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "Only FSUER HOL",
-                "l": "Only FSUER HOL"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Keep HOL?",
-          "expression": "isBlank(value)",
-          "columnName": "Keep HOL?",
+          "name": "HOL Number",
+          "expression": "grel:or(value==\"110963622\",value==\"110962989\",value==\"110962835\",value==\"108380908\",value==\"105905887\",value==\"110965288\",value==\"110962994\",value==\"110963861\")",
+          "columnName": "HOL Number",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
@@ -21123,25 +21104,6 @@ messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BI
               "v": {
                 "v": true,
                 "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Duplication",
-          "expression": "value",
-          "columnName": "Duplication",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "Same BIB, Same Sublibrary",
-                "l": "Same BIB, Same Sublibrary"
               }
             }
           ],
@@ -21160,28 +21122,9 @@ messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BI
       "facets": [
         {
           "type": "list",
-          "name": "FSUER HOL",
-          "expression": "value",
-          "columnName": "FSUER HOL",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "Only FSUER HOL",
-                "l": "Only FSUER HOL"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Keep HOL?",
-          "expression": "isBlank(value)",
-          "columnName": "Keep HOL?",
+          "name": "HOL Number",
+          "expression": "grel:or(value==\"110963622\",value==\"110962989\",value==\"110962835\",value==\"108380908\",value==\"105905887\",value==\"110965288\",value==\"110962994\",value==\"110963861\")",
+          "columnName": "HOL Number",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
@@ -21190,86 +21133,6 @@ messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BI
               "v": {
                 "v": true,
                 "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Duplication",
-          "expression": "value",
-          "columnName": "Duplication",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "Same BIB, Same Sublibrary",
-                "l": "Same BIB, Same Sublibrary"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "HOL Number",
-          "expression": "value",
-          "columnName": "HOL Number",
-          "invert": true,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "110963622",
-                "l": "110963622"
-              }
-            },
-            {
-              "v": {
-                "v": "110962989",
-                "l": "110962989"
-              }
-            },
-            {
-              "v": {
-                "v": "110962835",
-                "l": "110962835"
-              }
-            },
-            {
-              "v": {
-                "v": "108380908",
-                "l": "108380908"
-              }
-            },
-            {
-              "v": {
-                "v": "105905887",
-                "l": "105905887"
-              }
-            },
-            {
-              "v": {
-                "v": "110965288",
-                "l": "110965288"
-              }
-            },
-            {
-              "v": {
-                "v": "110962994",
-                "l": "110962994"
-              }
-            },
-            {
-              "v": {
-                "v": "110963861",
-                "l": "110963861"
               }
             }
           ],
@@ -21287,46 +21150,8 @@ messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BI
       "facets": [
         {
           "type": "list",
-          "name": "FSUER HOL",
-          "expression": "value",
-          "columnName": "FSUER HOL",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "Only FSUER HOL",
-                "l": "Only FSUER HOL"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Keep HOL?",
-          "expression": "isBlank(value)",
-          "columnName": "Keep HOL?",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": true,
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
           "name": "Duplication",
-          "expression": "value",
+          "expression": "isBlank(value)",
           "columnName": "Duplication",
           "invert": false,
           "omitBlank": false,
@@ -21334,8 +21159,72 @@ messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BI
           "selection": [
             {
               "v": {
-                "v": "Same BIB, Same Sublibrary",
-                "l": "Same BIB, Same Sublibrary"
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "1",
+                "l": "1"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Keep HOL?",
+    "expression": "grel:if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"TRUE: FSUER HOL with ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Keep HOL? using expression grel:if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"TRUE: FSUER HOL with ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Duplication",
+          "expression": "value",
+          "columnName": "Duplication",
+          "invert": true,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [],
+          "selectBlank": true,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "1",
+                "l": "1"
               }
             }
           ],

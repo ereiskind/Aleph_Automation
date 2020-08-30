@@ -778,79 +778,8 @@
         "repeatCount": 10
     }
     {
-        "op": "core/column-addition",
-        "description": "Create column ``URL`` with the FSU URLs for FSUER HOLs with no retained Ebook Central URL in records with no value in ``Keep HOL?``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Keep HOL?",
-                    "expression": "isBlank(value)",
-                    "columnName": "Keep HOL?",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "HOL Sublibrary",
-                    "expression": "value",
-                    "columnName": "HOL Sublibrary",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "FSUER",
-                                "l": "FSUER"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Ebook Central BIB URLs",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central BIB URLs",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:cell.cross(\"URLs\",\"BIB Number\")[0].cells.Values.value",
-        "onError": "set-to-blank",
-        "newColumnName": "URL",
-        "columnInsertIndex": 6
-    },
-    {
         "op": "core/text-transform",
-        "description": "For rows where ``URL`` has a value, change value of ``Keep HOL?`` to `Non-Ebook Central URL`",
+        "description": "For rows with FSUER HOLs and non-Ebook Central URLs for FSU in ``Other BIB URL Info``, change the value of ``Keep HOL?`` to `Non-Ebook Central URL`",
         "engineConfig": {
             "facets": [
                 {
@@ -858,6 +787,44 @@
                     "name": "Keep HOL?",
                     "expression": "isBlank(value)",
                     "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number Copy",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number Copy",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
@@ -885,25 +852,6 @@
                             "v": {
                                 "v": "FSUER",
                                 "l": "FSUER"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Ebook Central BIB URLs",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central BIB URLs",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
                             }
                         }
                     ],
@@ -914,15 +862,10 @@
             "mode": "row-based"
         },
         "columnName": "Keep HOL?",
-        "expression": "grel:if(isNotNull(cells[\"URL\"].value),\"Non-Ebook Central URL\",value)",
+        "expression": "grel:if(isNotNull(cells[\"Other BIB URL Info\"].value),\"Non-Ebook Central URL\",value)",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``URL``",
-        "columnName": "URL"
     }
     {
         "op": "core/text-transform",
