@@ -20067,7 +20067,281 @@ messagebox.showwarning(title="Cell Cross Project Columns", message="The JSON cur
 messagebox.showwarning(title="Fill Down", message="The JSON fills down all the columns, so it needs to know what columns it has.")
 messagebox.showwarning(title="Fill Up and Down Ticklers", message="The JSON fills up and down then blanks down the TKR columns as well, so in addition to needing to know how many to do, a loop needs to be created.")
 #ToDo: Get list of columns to pull from UXU01 OpenRefine project and create loop to load them into this project with the last column being the first JSON object so all the object can use the same column insert index
-os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
+os.startfile('Match_Duplicate_Records_pt1--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Set text filter on \"Ebook Central BIB URLs\" and look for \"*Two domains, but first isn't the proxy\" and \"More than two domains\". Change those values to the approppriate domains.")
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number Copy",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Ebook Central BIB URLs",
+          "expression": "grel:startsWith(value,\"*\")",
+          "columnName": "Ebook Central BIB URLs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Ebook Central BIB URLs",
+          "expression": "value",
+          "columnName": "Ebook Central BIB URLs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "*Two domains, but first isn't the proxy",
+                "l": "*Two domains, but first isn't the proxy"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Ebook Central BIB URLs",
+    "expression": "grel:if(cells[\"BIB URL 1\"].value==\"https://login.lacollegelibrary.idm.oclc.org/login?url=http://search.ebscohost.com/login.aspx?direct=true&scope=site&db=nlebk&AN=123394\",\"*http://search.ebscohost.com/\",if(cells[\"BIB URL 1\"].value==\"http://ezproxy.lib.usf.edu/login?url=http://www.netLibrary.com/urlapi.asp?action=summary&v=1&bookid=74610\",\"*http://www.netLibrary.com/\",if(cells[\"BIB URL 1\"].value==\"http://ezproxy.lib.uwf.edu/login?url=http://www.netLibrary.com/urlapi.asp?action=summary&v=1&bookid=47793\",\"*http://www.netLibrary.com/\",if(cells[\"BIB URL 1\"].value==\"http://er.llcc.edu:2048/login?url=http://search.ebscohost.com/login.aspx?direct=true&scope=site&db=nlebk&AN=66836\",\"*http://search.ebscohost.com/\",if(cells[\"BIB URL 1\"].value==\"http://www.myilibrary.com/browse/open.asp?id=175247&entityid=https://shib.york.ac.uk/shibboleth\",\"*http://www.myilibrary.com/browse/open.asp?id=175247\",if(cells[\"BIB URL 1\"].value==\"https://login.lacollegelibrary.idm.oclc.org/login?url=http://search.ebscohost.com/login.aspx?direct=true&scope=site&db=nlebk&AN=142313\",\"*http://search.ebscohost.com/\",if(cells[\"BIB URL 1\"].value==\"https://login.gbcprx01.georgebrown.ca/login?url=http://search.ebscohost.com/login.aspx?direct=true&scope=site&db=e000xna&AN=121341\",\"*http://search.ebscohost.com/\",if(cells[\"BIB URL 1\"].value==\"https://login.ezproxy.net.ucf.edu/login?auth=shibb&url=http://sk.sagepub.com/reference/the-sage-handbook-of-regression-analysis-and-causal-inference\",\"*http://sk.sagepub.com/\",if(cells[\"BIB URL 1\"].value==\"http://belhaven.idm.oclc.org/login?url=http://search.ebscohost.com/login.aspx?direct=true&scope=site&db=nlebk&db=nlabk&AN=282516\",\"*http://search.ebscohost.com/\",value)))))))))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central BIB URLs using expression grel:if(cells[\"BIB URL 1\"].value==\"https://login.lacollegelibrary.idm.oclc.org/login?url=http://search.ebscohost.com/login.aspx?direct=true&scope=site&db=nlebk&AN=123394\",\"http://search.ebscohost.com/\",if(cells[\"BIB URL 1\"].value==\"http://ezproxy.lib.usf.edu/login?url=http://www.netLibrary.com/urlapi.asp?action=summary&v=1&bookid=74610\",\"http://www.netLibrary.com/\",if(cells[\"BIB URL 1\"].value==\"http://ezproxy.lib.uwf.edu/login?url=http://www.netLibrary.com/urlapi.asp?action=summary&v=1&bookid=47793\",\"http://www.netLibrary.com/\",if(cells[\"BIB URL 1\"].value==\"http://er.llcc.edu:2048/login?url=http://search.ebscohost.com/login.aspx?direct=true&scope=site&db=nlebk&AN=66836\",\"http://search.ebscohost.com/\",if(cells[\"BIB URL 1\"].value==\"http://www.myilibrary.com/browse/open.asp?id=175247&entityid=https://shib.york.ac.uk/shibboleth\",\"http://www.myilibrary.com/browse/open.asp?id=175247\",if(cells[\"BIB URL 1\"].value==\"https://login.lacollegelibrary.idm.oclc.org/login?url=http://search.ebscohost.com/login.aspx?direct=true&scope=site&db=nlebk&AN=142313\",\"http://search.ebscohost.com/\",if(cells[\"BIB URL 1\"].value==\"https://login.gbcprx01.georgebrown.ca/login?url=http://search.ebscohost.com/login.aspx?direct=true&scope=site&db=e000xna&AN=121341\",\"http://search.ebscohost.com/\",if(cells[\"BIB URL 1\"].value==\"https://login.ezproxy.net.ucf.edu/login?auth=shibb&url=http://sk.sagepub.com/reference/the-sage-handbook-of-regression-analysis-and-causal-inference\",\"http://sk.sagepub.com/\",if(cells[\"BIB URL 1\"].value==\"http://belhaven.idm.oclc.org/login?url=http://search.ebscohost.com/login.aspx?direct=true&scope=site&db=nlebk&db=nlabk&AN=282516\",\"http://search.ebscohost.com/\",value)))))))))"
+  }
+]"""
+messagebox.showinfo(title="Instructions", message="Set text filter on \"BIB URL 2\" and select the 856$3 values that should be moved to \"UXU60_Cleanup\". Add them to the end of the value of \"Ebook Central BIB URLs\" enclosed in double square brackets.")
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number Copy",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB URL 2",
+          "expression": "value",
+          "columnName": "BIB URL 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ScienceDirect",
+                "l": "ScienceDirect"
+              }
+            },
+            {
+              "v": {
+                "v": "IEEE Xplore",
+                "l": "IEEE Xplore"
+              }
+            },
+            {
+              "v": {
+                "v": "Oxford Scholarship Online",
+                "l": "Oxford Scholarship Online"
+              }
+            },
+            {
+              "v": {
+                "v": "Google",
+                "l": "Google"
+              }
+            },
+            {
+              "v": {
+                "v": "ACLS Humanities E-Book",
+                "l": "ACLS Humanities E-Book"
+              }
+            },
+            {
+              "v": {
+                "v": "Credo",
+                "l": "Credo"
+              }
+            },
+            {
+              "v": {
+                "v": "Palgrave Connect",
+                "l": "Palgrave Connect"
+              }
+            },
+            {
+              "v": {
+                "v": "Safari Books Online",
+                "l": "Safari Books Online"
+              }
+            },
+            {
+              "v": {
+                "v": "SpringerLink",
+                "l": "SpringerLink"
+              }
+            },
+            {
+              "v": {
+                "v": "Knowledge Unlatched",
+                "l": "Knowledge Unlatched"
+              }
+            },
+            {
+              "v": {
+                "v": "HathiTrust Digital Library, Full view",
+                "l": "HathiTrust Digital Library, Full view"
+              }
+            },
+            {
+              "v": {
+                "v": "Wiley Online Library",
+                "l": "Wiley Online Library"
+              }
+            },
+            {
+              "v": {
+                "v": "EBSCOhost eBook Collection",
+                "l": "EBSCOhost eBook Collection"
+              }
+            },
+            {
+              "v": {
+                "v": "OverDrive",
+                "l": "OverDrive"
+              }
+            },
+            {
+              "v": {
+                "v": "Morgan & Claypool",
+                "l": "Morgan & Claypool"
+              }
+            },
+            {
+              "v": {
+                "v": "HathiTrust Digital Library, Limited view (search only)",
+                "l": "HathiTrust Digital Library, Limited view (search only)"
+              }
+            },
+            {
+              "v": {
+                "v": "R2 Digital Library",
+                "l": "R2 Digital Library"
+              }
+            },
+            {
+              "v": {
+                "v": "Oxford Handbooks Online",
+                "l": "Oxford Handbooks Online"
+              }
+            },
+            {
+              "v": {
+                "v": "EBSCOhost",
+                "l": "EBSCOhost"
+              }
+            },
+            {
+              "v": {
+                "v": "SAGE research methods",
+                "l": "SAGE research methods"
+              }
+            },
+            {
+              "v": {
+                "v": "ABC-Clio",
+                "l": "ABC-Clio"
+              }
+            },
+            {
+              "v": {
+                "v": "Dawsonera",
+                "l": "Dawsonera"
+              }
+            },
+            {
+              "v": {
+                "v": "Alexander Street Press",
+                "l": "Alexander Street Press"
+              }
+            },
+            {
+              "v": {
+                "v": "NetLibrary",
+                "l": "NetLibrary"
+              }
+            },
+            {
+              "v": {
+                "v": "JSTOR",
+                "l": "JSTOR"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Ebook Central BIB URLs",
+    "expression": "grel:value+\"[[\"+cells[\"BIB URL 2\"].value+\"]]\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Ebook Central BIB URLs using expression grel:value+\"[[\"+cells[\"BIB URL 2\"].value+\"]]\""
+  }
+]"""
+os.startfile('Match_Duplicate_Records_pt2--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Set text filter on \"Ebook Central IDs\" to false and create a text filter for \"HOL Number\". For all records that match, select the HOL numbers, change the view to rows, clear the filter on \"Ebook Central IDs\", and change the value of \"Record Number\" to match the URL with \"\"Ebook Central::\"+match(cells[\"Ebook Central BIB URLs\"].value,/https:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/fsu\\/detail\\.action\\?docID=(\\d*)/)[0])\". Confirm that the record in question doesn't have replacement characters in any of the titles or that all of the titles have TKRs for other platforms; if they do, make the appropriate changes or removals now.")
 """[
   {

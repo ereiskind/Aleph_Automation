@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< HEAD:Dedupe_Catalog_Records/Match_Duplicate_Records--Ebook_Central_Specific.json
         "op": "core/column-addition",
         "description": "Create column ``BIB URL`` containing the URL for that row's BIB number from the OpenRefine project named `URL`",
         "engineConfig": {
@@ -444,6 +445,8 @@
         "columnInsertIndex": 6
     }
     {
+=======
+>>>>>>> 780c4bb057312ea6dfd3243d734f22ea518c8462:Dedupe_Catalog_Records/Match_Duplicate_Records_pt2--Ebook_Central_Specific.json
         "op": "core/multivalued-cell-join",
         "description": "Combine values in column ``Ebook Central BIB URLs`` for a record in the first row of the record seperated by pipes",
         "columnName": "Ebook Central BIB URLs",
