@@ -20770,6 +20770,7 @@ messagebox.showinfo(title="Instructions", message="Set filter for blanks on \"Re
 #Subsection: Determine Which HOL Records to Keep
 messagebox.showinfo(title="Instructions", message="Create spreadsheet \"Cross-Reference.xlsx\" with columns \"BIB with ACQ\" listing the BIBs with ACQ records attached and \"Ebook Central Owned\" with the Ebook Central IDs of the titles owned on that platform. The BIBs be nine-digit text strings, the IDs should be formatted as text.")
 messagebox.showwarning(title="Deduping HOLs", message="HOLs with multiple non-unique record numbers have them combined in \"Record Number\" divided by pipes. This situation didn't acutally occur with these titles; there may be a better way to handle it.")
+# For records with 3+ rows, is rerunning "Duplication" against second row as way to see if all but first row match a viable idea?  
 os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Create custom filter on \"Record Number\" with \"toString(row.record.toRowIndex-row.record.fromRowIndex)\". Select each value greater than three and, for records where the values of \"Duplication\" are all the same, fill up and down those values.")
 messagebox.showinfo(title="Instructions", message="Create blanks filters on both \"Record Number\" and \"Duplication\" and set them to true. Change the values in \"Duplication\" for these records, using \"Multiple\" when some, but not all, of the HOL in a record have the same BIB or sublibrary.")
@@ -22652,9 +22653,10 @@ os.startfile('Identify_Perpetual_Access_Entitlements_pt2--Ebook_Central_Specific
 
 #Subsection: Determine Records that Need to be Unsuppressed
 messagebox.showinfo(title="Instructions", message="Switch back to \"UXU60_Cleanup\" for the next JSON.")
+messagebox.showwarning(title="Steps to remove records with blank \"Record Number Copy\" values which have multiple rows because of multiple HOL attached to the same BIB not included as no such records existed in the data.")
+messagebox.showwarning(title="No steps to revise \"Record Number\" values to include newly matched Ebook Central IDs as all pereptual access entitlements already has the IDs identified.")
 os.startfile('Determine_HOL_to_Unsuppress--Ebook_Central_Specific.json')
-#ToDo: transfer for above for entitlements
-#todo: filter down to records for entitlements only
+#ToDo: Manually check over the records with blank "Record Number Check" values not automatically removed
 #Todo: determine if record selected to keep has "true" in suppressed column, and flag HOL if so--probably change column value to "Needs to be unsuppressed"
 
 #Subsection: If New 856$u Needed, Supply It
