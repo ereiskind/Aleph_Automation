@@ -116,6 +116,129 @@
         "columnName": "Title 0"
     }
     {
+        "op": "core/text-transform",
+        "description": "In rows with no value in ``Match``, replace ISBD colons in ``Title`` with standard colons",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Match",
+                    "expression": "isBlank(value)",
+                    "columnName": "Match",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Title",
+        "expression": "grel:replace(value,\" : \",\": \")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Title 0`` with the value of ``Record Number Copy`` for the row that contains the exact same value in ``UXU60_Cleanup``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Match",
+                    "expression": "isBlank(value)",
+                    "columnName": "Match",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Title",
+        "expression": "grel:cell.cross(\"UXU60_Cleanup\",\"Title\")[0].cells[\"Record Number Copy\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Title 0",
+        "columnInsertIndex": 3
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Update blank cells in column ``Match`` to the value in ``Title 0``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Match",
+                    "expression": "isBlank(value)",
+                    "columnName": "Match",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Title 0",
+                    "expression": "isBlank(value)",
+                    "columnName": "Title 0",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Match",
+        "expression": "grel:cells[\"Title 0\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Title 0``",
+        "columnName": "Title 0"
+    }
+    {
         "op": "core/column-split",
         "description": "For rows with no value in ``Match``, split column ``Title`` at the first colon",
         "engineConfig": {

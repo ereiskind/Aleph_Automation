@@ -22649,7 +22649,6 @@ os.startfile('Identify_Perpetual_Access_Entitlements_pt1--Ebook_Central_Specific
 messagebox.showinfo(title="Instructions", message="Generate a list of the propriatrary IDs and titles for all perpetual access entitlements where the IDs are in the column \"ID\" and the titles are in the column \"Title\". Save as a CSV named \"Entitlements\" and upload to OpenRefine.")
 messagebox.showinfo(title="Instructions", message="Apply the following JSON in the \"Entitlements csv\" project.")
 os.startfile('Identify_Perpetual_Access_Entitlements_pt2--Ebook_Central_Specific.json')
-#ToDo: Once all items in Entitlements have been matched, transfer the Record Number of the matches back to UXU60_Cleanup--thses are the perpetual access entitlements--along with the Ebook Central ID for those items matched by title
 
 #Subsection: Determine Records that Need to be Unsuppressed
 messagebox.showinfo(title="Instructions", message="Switch back to \"UXU60_Cleanup\" for the next JSON.")
