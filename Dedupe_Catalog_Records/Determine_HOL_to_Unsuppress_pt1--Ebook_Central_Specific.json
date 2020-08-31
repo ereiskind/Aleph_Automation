@@ -193,4 +193,231 @@
             "mode": "record-based"
         }
     }
+    {
+        "op": "core/row-removal",
+        "description": "Remove records containing a single non-FSUER HOL where the title isn't a perpetual access entitlement",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number Copy",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number Copy",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSUER",
+                                "l": "FSUER"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Removal`` with values in records with multiple HOL where at least one isn't in FSUER where the title isn't a perpetual access entitlement with the value `SciTech` if the FSUER HOL's BIB has a SciTech 856$3, `Other URL` if the FSUER HOL's BIB has a 856 for a non-Ebook Central platform, and `Other Sublibrary` if the HOL is in another sublibrary",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number Copy",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number Copy",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSUER HOL",
+                    "expression": "value",
+                    "columnName": "FSUER HOL",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Has FSUER HOL",
+                                "l": "Has FSUER HOL"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "HOL Sublibrary",
+        "expression": "grel:if(value==\"FSUER\",if(cells[\"Ebook Central BIB URLs\"].value==\"SciTech Collection\",\"SciTech\",if(and(isNotNull(cells[\"Other BIB URL Info\"].value),isNull(cells[\"Ebook Central BIB URLs\"].value)),\"Other URL\",null)),\"Other Sublibrary\")",
+        "onError": "set-to-blank",
+        "newColumnName": "Removal",
+        "columnInsertIndex": 6
+    }
+    {
+        "op": "core/row-removal",
+        "description": "Remove records with multiple HOL where at least one isn't in FSUER where the title isn't a perpetual access entitlement where all the HOL are either in sublibraries other than FSUER or attached to BIBs that aren't for Ebook Central perpetual access entitlements",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number Copy",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number Copy",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSUER HOL",
+                    "expression": "value",
+                    "columnName": "FSUER HOL",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Has FSUER HOL",
+                                "l": "Has FSUER HOL"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Removal",
+                    "expression": "isBlank(value)",
+                    "columnName": "Removal",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Removal``",
+        "columnName": "Removal"
+    }
 ]

@@ -22656,6 +22656,290 @@ messagebox.showinfo(title="Instructions", message="Switch back to \"UXU60_Cleanu
 messagebox.showwarning(title="Steps to remove records with blank \"Record Number Copy\" values which have multiple rows because of multiple HOL attached to the same BIB not included as no such records existed in the data.")
 messagebox.showwarning(title="No steps to revise \"Record Number\" values to include newly matched Ebook Central IDs as all pereptual access entitlements already has the IDs identified.")
 os.startfile('Determine_HOL_to_Unsuppress_pt1--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record Number Copy\" to true. Remove records for titles not owned on Ebook Central.")
+"""[
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number Copy",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "TKR 2",
+          "expression": "isBlank(value)",
+          "columnName": "TKR 2",
+          "invert": true,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Ebook Central BIB URLs",
+          "expression": "isBlank(value)",
+          "columnName": "Ebook Central BIB URLs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "FSU Tickler",
+          "expression": "value",
+          "columnName": "FSU Tickler",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(FTaSU)FS-Oxford Quick Reference20131021",
+                "l": "(FTaSU)FS-Oxford Quick Reference20131021"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)FS-Oxford Reference Premium20151023",
+                "l": "(FTaSU)FS-Oxford Reference Premium20151023"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)CredoReference20161212",
+                "l": "(FTaSU)CredoReference20161212"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)FS-Oxford Quick Reference20140325",
+                "l": "(FTaSU)FS-Oxford Quick Reference20140325"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)DramaOnline20170104",
+                "l": "(FTaSU)DramaOnline20170104"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)FS-SageResearchMethods20150216",
+                "l": "(FTaSU)FS-SageResearchMethods20150216"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)FS-Oxford Quick Reference20150108",
+                "l": "(FTaSU)FS-Oxford Quick Reference20150108"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)SpringerPalgrave20170314",
+                "l": "(FTaSU)SpringerPalgrave20170314"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::144666",
+                "l": "Ebook Central::144666"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::157018",
+                "l": "Ebook Central::157018"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::143915",
+                "l": "Ebook Central::143915"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number Copy",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "TKR 2",
+          "expression": "isBlank(value)",
+          "columnName": "TKR 2",
+          "invert": true,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Ebook Central BIB URLs",
+          "expression": "isBlank(value)",
+          "columnName": "Ebook Central BIB URLs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "FSU Tickler",
+          "expression": "value",
+          "columnName": "FSU Tickler",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(FTaSU)ProQuestEbookCentral20190212",
+                "l": "(FTaSU)ProQuestEbookCentral20190212"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  }
+]"""
 #ToDo: Manually check over the records with blank "Record Number Check" values not automatically removed
 os.startfile('Determine_HOL_to_Unsuppress_pt2--Ebook_Central_Specific.json')
 #Todo: determine if record selected to keep has "true" in suppressed column, and flag HOL if so--probably change column value to "Needs to be unsuppressed"
