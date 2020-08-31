@@ -117,6 +117,72 @@
     }
     {
         "op": "core/text-transform",
+        "description": "In rows with no values in ``Match``, replace characters with diacritics",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Match",
+                    "expression": "isBlank(value)",
+                    "columnName": "Match",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Title",
+        "expression": "jython:import sys\nsys.path.append(r'C:\\jython2.7.2\\Lib\\site-packages')\nfrom unidecode import unidecode\nreturn unidecode(value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "In rows with no values in ``Match``, replace pairs of initials seperated by a space with pairs of initials not seperated by a space",
+        "engineConfig": {
+          "facets": [
+            {
+              "type": "list",
+              "name": "Match",
+              "expression": "isBlank(value)",
+              "columnName": "Match",
+              "invert": false,
+              "omitBlank": false,
+              "omitError": false,
+              "selection": [
+                {
+                  "v": {
+                    "v": true,
+                    "l": "true"
+                  }
+                }
+              ],
+              "selectBlank": false,
+              "selectError": false
+            }
+          ],
+          "mode": "row-based"
+        },
+        "columnName": "Title",
+        "expression": "grel:replace(value,/\\w\\. \\w\\./,replace(find(value,/\\w\\. \\w\\./)[0],\" \",\"\"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+      }
+    {
+        "op": "core/text-transform",
         "description": "In rows with no value in ``Match``, replace ISBD colons in ``Title`` with standard colons",
         "engineConfig": {
             "facets": [
@@ -352,7 +418,7 @@
     }
     {
         "op": "core/column-addition",
-        "description": "Create column ``Title 2`` by changing value of value of ``Title 1`` to titlecase, with spaces trimmed, hyphens replaced with spaces, and ending periods removed",
+        "description": "Create column ``Title 2`` by changing value of value of ``Title 1`` to titlecase, with spaces trimmed, hyphens replaced with spaces, and backslashes (/) and ending periods removed",
         "engineConfig": {
             "facets": [
                 {
@@ -378,14 +444,14 @@
             "mode": "row-based"
         },
         "baseColumnName": "Title 1",
-        "expression": "grel:if(substring(cells[\"Title 1\"].value,-1)==\".\",toTitlecase(trim(replace(substring(cells[\"Title 1\"].value,0,-1),\"-\",\" \"))),toTitlecase(trim(replace(cells[\"Title 1\"].value,\"-\",\" \"))))",
+        "expression": "grel:if(substring(cells[\"Title 1\"].value,-1)==\".\",trim(substring(cells[\"Title 1\"].value,0,-1).replace(\"-\",\" \").replace(\"/\",\"\").toTitlecase()),trim(cells[\"Title 1\"].value.replace(\"-\",\" \").replace(\"/\",\"\").toTitlecase()))",
         "onError": "set-to-blank",
         "newColumnName": "Title 2",
         "columnInsertIndex": 5
-    }
+    },
     {
         "op": "core/column-addition",
-        "description": "Create column ``Title Only 2`` by changing value of value of ``Title Only 1`` to titlecase, with spaces trimmed, hyphens replaced with spaces, and ending periods removed",
+        "description": "Create column ``Title Only 2`` by changing value of value of ``Title Only 1`` to titlecase, with spaces trimmed, hyphens replaced with spaces, and backslashes (/) and ending periods removed",
         "engineConfig": {
             "facets": [
                 {
@@ -411,11 +477,22 @@
             "mode": "row-based"
         },
         "baseColumnName": "Title Only 1",
-        "expression": "grel:if(substring(cells[\"Title Only 1\"].value,-1)==\".\",toTitlecase(trim(replace(substring(cells[\"Title Only 1\"].value,0,-1),\"-\",\" \"))),toTitlecase(trim(replace(cells[\"Title Only 1\"].value,\"-\",\" \"))))",
+        "expression": "grel:if(substring(cells[\"Title Only 1\"].value,-1)==\".\",trim(substring(cells[\"Title Only 1\"].value,0,-1).replace(\"-\",\" \").replace(\"/\",\"\").toTitlecase()),trim(cells[\"Title Only 1\"].value.replace(\"-\",\" \").replace(\"/\",\"\").toTitlecase()))",
         "onError": "set-to-blank",
         "newColumnName": "Title Only 2",
         "columnInsertIndex": 6
     }
+
+
+
+
+
+
+
+
+
+
+
     {
         "op": "core/column-addition",
         "description": "Create column ``Title 3`` based on value of ``Title 2`` without periods, commas, and ampersands",
