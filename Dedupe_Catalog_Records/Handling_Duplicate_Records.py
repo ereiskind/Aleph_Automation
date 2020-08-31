@@ -22657,6 +22657,7 @@ messagebox.showwarning(title="Steps to remove records with blank \"Record Number
 messagebox.showwarning(title="No steps to revise \"Record Number\" values to include newly matched Ebook Central IDs as all pereptual access entitlements already has the IDs identified.")
 os.startfile('Determine_HOL_to_Unsuppress_pt1--Ebook_Central_Specific.json')
 #ToDo: Manually check over the records with blank "Record Number Check" values not automatically removed
+os.startfile('Determine_HOL_to_Unsuppress_pt2--Ebook_Central_Specific.json')
 #Todo: determine if record selected to keep has "true" in suppressed column, and flag HOL if so--probably change column value to "Needs to be unsuppressed"
 
 #Subsection: If New 856$u Needed, Supply It
