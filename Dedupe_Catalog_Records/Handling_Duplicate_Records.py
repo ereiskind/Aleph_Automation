@@ -20769,6 +20769,7 @@ messagebox.showinfo(title="Instructions", message="Set filter for blanks on \"Re
 
 #Subsection: Determine Which HOL Records to Keep
 messagebox.showinfo(title="Instructions", message="Create spreadsheet \"Cross-Reference.xlsx\" with columns \"BIB with ACQ\" listing the BIBs with ACQ records attached and \"Ebook Central Owned\" with the Ebook Central IDs of the titles owned on that platform. The BIBs be nine-digit text strings, the IDs should be formatted as text.")
+#Alert: This should be replaced with file "BIB Checked for ACQ" which contains a list of the BIBs checked for ACQs and a Boolean indicating if the BIB has an ACQ; this list has also been updated to reflect moved ACQ records
 messagebox.showwarning(title="Deduping HOLs", message="HOLs with multiple non-unique record numbers have them combined in \"Record Number\" divided by pipes. This situation didn't acutally occur with these titles; there may be a better way to handle it.")
 # For records with 3+ rows, is rerunning "Duplication" against second row as way to see if all but first row match a viable idea?  
 os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
@@ -22649,11 +22650,12 @@ os.startfile('Identify_Perpetual_Access_Entitlements_pt1--Ebook_Central_Specific
 messagebox.showinfo(title="Instructions", message="Generate a list of the propriatrary IDs and titles for all perpetual access entitlements where the IDs are in the column \"ID\" and the titles are in the column \"Title\". Save as a CSV named \"Entitlements\" and upload to OpenRefine.")
 messagebox.showinfo(title="Instructions", message="Apply the following JSON in the \"Entitlements csv\" project.")
 os.startfile('Identify_Perpetual_Access_Entitlements_pt2--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Compare titles that still don't have a value in \"Match\" with a list of perpetual access entitlements and determine what other matches exist. Switch back to \"UXU60_Cleanup\" and change the value of \"Record Number\" for each manually matched title to include the Ebook Central ID.")
 
 #Subsection: Determine Records that Need to be Unsuppressed
 messagebox.showinfo(title="Instructions", message="Switch back to \"UXU60_Cleanup\" for the next JSON.")
-messagebox.showwarning(title="Steps to remove records with blank \"Record Number Copy\" values which have multiple rows because of multiple HOL attached to the same BIB not included as no such records existed in the data.")
-messagebox.showwarning(title="No steps to revise \"Record Number\" values to include newly matched Ebook Central IDs as all pereptual access entitlements already has the IDs identified.")
+messagebox.showwarning(title="Non-Perpetual Access Titles with Multiple HOL", message="Steps to remove records with blank \"Record Number Copy\" values which have multiple rows because of multiple HOL attached to the same BIB not included as no such records existed in the data.")
+messagebox.showwarning(title="No New Ebook Central ID Matches", message="No steps to revise \"Record Number\" values to include newly matched Ebook Central IDs as all pereptual access entitlements already has the IDs identified.")
 os.startfile('Determine_HOL_to_Unsuppress_pt1--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record Number Copy\" to true. Remove records for titles not owned on Ebook Central.")
 """[
