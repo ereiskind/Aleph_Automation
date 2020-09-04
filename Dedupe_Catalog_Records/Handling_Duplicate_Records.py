@@ -23344,6 +23344,25 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
       "facets": [
         {
           "type": "list",
+          "name": "Record Number Copy",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
           "name": "Record Number",
           "expression": "value",
           "columnName": "Record Number",
@@ -23353,8 +23372,104 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
           "selection": [
             {
               "v": {
+                "v": "Ebook Central::864877",
+                "l": "Ebook Central::864877"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::5568659",
+                "l": "Ebook Central::5568659"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::3061842",
+                "l": "Ebook Central::3061842"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::908989",
+                "l": "Ebook Central::908989"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::203818",
+                "l": "Ebook Central::203818"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::4813409",
+                "l": "Ebook Central::4813409"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::4353619",
+                "l": "Ebook Central::4353619"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::3377935",
+                "l": "Ebook Central::3377935"
+              }
+            },
+            {
+              "v": {
                 "v": "Ebook Central::144666",
                 "l": "Ebook Central::144666"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::4866498",
+                "l": "Ebook Central::4866498"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::5208444",
+                "l": "Ebook Central::5208444"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::1638619",
+                "l": "Ebook Central::1638619"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::990471",
+                "l": "Ebook Central::990471"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::143915",
+                "l": "Ebook Central::143915"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::1121224",
+                "l": "Ebook Central::1121224"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::3571668",
+                "l": "Ebook Central::3571668"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::817847",
+                "l": "Ebook Central::817847"
               }
             },
             {
@@ -23365,14 +23480,59 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
             },
             {
               "v": {
-                "v": "Ebook Central::143915",
-                "l": "Ebook Central::143915"
+                "v": "Ebook Central::1935748",
+                "l": "Ebook Central::1935748"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::4557224",
+                "l": "Ebook Central::4557224"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::4415653",
+                "l": "Ebook Central::4415653"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::294757",
+                "l": "Ebook Central::294757"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::203669",
+                "l": "Ebook Central::203669"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::253684",
+                "l": "Ebook Central::253684"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::6147813",
+                "l": "Ebook Central::6147813"
               }
             }
           ],
           "selectBlank": false,
           "selectError": false
-        },
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
         {
           "type": "list",
           "name": "Record Number Copy",
@@ -23395,7 +23555,7 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
         {
           "type": "list",
           "name": "Record Number",
-          "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
+          "expression": "value",
           "columnName": "Record Number",
           "invert": false,
           "omitBlank": false,
@@ -23403,65 +23563,8 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
           "selection": [
             {
               "v": {
-                "v": false,
-                "l": "false"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "TKR 2",
-          "expression": "isBlank(value)",
-          "columnName": "TKR 2",
-          "invert": true,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": false,
-                "l": "false"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Ebook Central BIB URLs",
-          "expression": "isBlank(value)",
-          "columnName": "Ebook Central BIB URLs",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": true,
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "FSU Tickler",
-          "expression": "value",
-          "columnName": "FSU Tickler",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "(FTaSU)ProQuestEbookCentral20190212",
-                "l": "(FTaSU)ProQuestEbookCentral20190212"
+                "v": "HOL 077685056 without ID",
+                "l": "HOL 077685056 without ID"
               }
             }
           ],
@@ -23471,10 +23574,87 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
       ],
       "mode": "record-based"
     },
-    "description": "Remove rows"
+    "columnName": "Keep HOL?",
+    "expression": "grel:\"TRUE: Only HOL for ID 4656802\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Keep HOL? using expression grel:\"TRUE: Only HOL for ID 4656802\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "HOL 077685056 without ID",
+                "l": "HOL 077685056 without ID"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:\"4656802\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:\"4656802\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "HOL 077685056 without ID",
+                "l": "HOL 077685056 without ID"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::\"+cells[\"Record Number Copy\"].value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+cells[\"Record Number Copy\"].value"
   }
 ]"""
 #ToDo: Manually check over the records with blank "Record Number Check" values not automatically removed
+# Owned Ebook Central ID
+  # 1666575
+  # 1768917
+  # 4441715
+  # 4731363
+  # 4938606
 os.startfile('Determine_HOL_to_Unsuppress_pt2--Ebook_Central_Specific.json')
 #Todo: determine if record selected to keep has "true" in suppressed column, and flag HOL if so--probably change column value to "Needs to be unsuppressed"
 
