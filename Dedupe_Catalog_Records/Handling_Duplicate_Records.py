@@ -22650,10 +22650,544 @@ os.startfile('Identify_Perpetual_Access_Entitlements_pt1--Ebook_Central_Specific
 messagebox.showinfo(title="Instructions", message="Generate a list of the propriatrary IDs and titles for all perpetual access entitlements where the IDs are in the column \"ID\" and the titles are in the column \"Title\". Save as a CSV named \"Entitlements\" and upload to OpenRefine.")
 messagebox.showinfo(title="Instructions", message="Apply the following JSON in the \"Entitlements csv\" project.")
 os.startfile('Identify_Perpetual_Access_Entitlements_pt2--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Compare titles that still don't have a value in \"Match\" with a list of perpetual access entitlements and determine what other matches exist. Switch back to \"UXU60_Cleanup\" and change the value of \"Record Number\" for each manually matched title to include the Ebook Central ID.")
+messagebox.showinfo(title="Instructions", message="Compare titles that still don't have a value in \"Match\" with a list of perpetual access entitlements and determine what other matches exist. Switch back to \"UXU60_Cleanup\" and change the value of \"Record Number Copy\" for each manually matched title to the Ebook Central ID as a number.")
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103466744 without ID\",toNumber(4397417),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103466744 without ID\",toNumber(4397417),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 102925045 without ID\",toNumber(4000882),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 102925045 without ID\",toNumber(4000882),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 102834448 without ID\",toNumber(3421587),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 102834448 without ID\",toNumber(3421587),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103222852 without ID\",toNumber(4054135),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103222852 without ID\",toNumber(4054135),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103487017 without ID\",toNumber(4083293),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103487017 without ID\",toNumber(4083293),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103164015 without ID\",toNumber(4091394),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103164015 without ID\",toNumber(4091394),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104159088 without ID\",toNumber(4504330),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104159088 without ID\",toNumber(4504330),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104159089 without ID\",toNumber(4007440),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104159089 without ID\",toNumber(4007440),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103222894 without ID\",toNumber(4007484),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103222894 without ID\",toNumber(4007484),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104159068 without ID\",toNumber(4054857),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104159068 without ID\",toNumber(4054857),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 102991852 without ID\",toNumber(3421506),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 102991852 without ID\",toNumber(3421506),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103189528 without ID\",toNumber(4218258),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103189528 without ID\",toNumber(4218258),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104171499 without ID\",toNumber(4332395),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104171499 without ID\",toNumber(4332395),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 102983628 without ID\",toNumber(4000626),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 102983628 without ID\",toNumber(4000626),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103164020 without ID\",toNumber(4179718),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103164020 without ID\",toNumber(4179718),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103486992 without ID\",toNumber(4082151),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103486992 without ID\",toNumber(4082151),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104917681 without ID\",toNumber(4003800),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104917681 without ID\",toNumber(4003800),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104174471 without ID\",toNumber(4533281),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104174471 without ID\",toNumber(4533281),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103483773 without ID\",toNumber(4009369),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103483773 without ID\",toNumber(4009369),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104212041 without ID\",toNumber(3421492),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104212041 without ID\",toNumber(3421492),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104174473 without ID\",toNumber(4340019),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104174473 without ID\",toNumber(4340019),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103222842 without ID\",toNumber(3301299),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103222842 without ID\",toNumber(3301299),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103184452 without ID\",toNumber(3138607),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103184452 without ID\",toNumber(3138607),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104159111 without ID\",toNumber(4007475),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104159111 without ID\",toNumber(4007475),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103486999 without ID\",toNumber(4008976),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103486999 without ID\",toNumber(4008976),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103487000 without ID\",toNumber(4186126),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103487000 without ID\",toNumber(4186126),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104159112 without ID\",toNumber(4107602),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104159112 without ID\",toNumber(4107602),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103483794 without ID\",toNumber(4218953),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103483794 without ID\",toNumber(4218953),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 105491819 without ID\",toNumber(3408980),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 105491819 without ID\",toNumber(3408980),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103164022 without ID\",toNumber(4082316),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103164022 without ID\",toNumber(4082316),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 102991860 without ID\",toNumber(4093129),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 102991860 without ID\",toNumber(4093129),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103014616 without ID\",toNumber(3305799),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103014616 without ID\",toNumber(3305799),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103014618 without ID\",toNumber(3305813),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103014618 without ID\",toNumber(3305813),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 102758832 without ID\",toNumber(3569837),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 102758832 without ID\",toNumber(3569837),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103014620 without ID\",toNumber(3294736),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103014620 without ID\",toNumber(3294736),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103419322 without ID\",toNumber(3290371),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103419322 without ID\",toNumber(3290371),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103228944 without ID\",toNumber(4386857),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103228944 without ID\",toNumber(4386857),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104159130 without ID\",toNumber(4306187),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104159130 without ID\",toNumber(4306187),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103014633 without ID\",toNumber(4000355),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103014633 without ID\",toNumber(4000355),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 103536290 without ID\",toNumber(3399583),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 103536290 without ID\",toNumber(3399583),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 105461651 without ID\",toNumber(3297902),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 105461651 without ID\",toNumber(3297902),value)"
+  }
+]"""
 
 #Subsection: Determine Records that Need to be Unsuppressed
-messagebox.showinfo(title="Instructions", message="Switch back to \"UXU60_Cleanup\" for the next JSON.")
 messagebox.showwarning(title="Non-Perpetual Access Titles with Multiple HOL", message="Steps to remove records with blank \"Record Number Copy\" values which have multiple rows because of multiple HOL attached to the same BIB not included as no such records existed in the data.")
 messagebox.showwarning(title="No New Ebook Central ID Matches", message="No steps to revise \"Record Number\" values to include newly matched Ebook Central IDs as all pereptual access entitlements already has the IDs identified.")
 os.startfile('Determine_HOL_to_Unsuppress_pt1--Ebook_Central_Specific.json')
