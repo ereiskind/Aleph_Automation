@@ -23189,7 +23189,6 @@ messagebox.showinfo(title="Instructions", message="Compare titles that still don
 
 #Subsection: Determine Records that Need to be Unsuppressed
 messagebox.showwarning(title="Non-Perpetual Access Titles with Multiple HOL", message="Steps to remove records with blank \"Record Number Copy\" values which have multiple rows because of multiple HOL attached to the same BIB not included as no such records existed in the data.")
-messagebox.showwarning(title="No New Ebook Central ID Matches", message="No steps to revise \"Record Number\" values to include newly matched Ebook Central IDs as all pereptual access entitlements already has the IDs identified.")
 os.startfile('Determine_HOL_to_Unsuppress_pt1--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record Number Copy\" to true. Remove records for titles not owned on Ebook Central.")
 """[

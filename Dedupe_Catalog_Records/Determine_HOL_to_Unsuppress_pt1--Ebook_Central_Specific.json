@@ -31,14 +31,176 @@
     }
     {
         "op": "core/text-transform",
-        "description": "Change values in column ``Record Number Copy`` to the Ebook Central ID for the record if matched or to null if not matched",
+        "description": "For the titles not manually matched, change values in column ``Record Number Copy`` to the Ebook Central ID for the record if matched or to null if not matched",
         "engineConfig": {
-            "facets": [],
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number Copy",
+                    "expression": "grel:isNumeric(value)",
+                    "columnName": "Record Number Copy",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
             "mode": "record-based"
         },
         "columnName": "Record Number Copy",
         "expression": "grel:cell.cross(\"Entitlements csv\",\"Match\")[0].cells.ID.value",
         "onError": "set-to-blank",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records with a single HOL where the Ebook Central ID was just identified, update the value of ``Keep HOL?`` to include the Ebook Central ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number Copy",
+                    "expression": "grel:isNumeric(value)",
+                    "columnName": "Record Number Copy",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"::\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:\"TRUE: Only HOL for ID \"+cells[\"Record Number Copy\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records with a single HOL where the Ebook Central ID was just identified, update the value of ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number Copy",
+                    "expression": "grel:isNumeric(value)",
+                    "columnName": "Record Number Copy",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"::\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:\"Ebook Central::\"+cells[\"Record Number Copy\"].value",
+        "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
     }
@@ -328,7 +490,7 @@
         "expression": "grel:if(value==\"FSUER\",if(cells[\"Ebook Central BIB URLs\"].value==\"SciTech Collection\",\"SciTech\",if(and(isNotNull(cells[\"Other BIB URL Info\"].value),isNull(cells[\"Ebook Central BIB URLs\"].value)),\"Other URL\",null)),\"Other Sublibrary\")",
         "onError": "set-to-blank",
         "newColumnName": "Removal",
-        "columnInsertIndex": 6
+        "columnInsertIndex": 5
     }
     {
         "op": "core/row-removal",

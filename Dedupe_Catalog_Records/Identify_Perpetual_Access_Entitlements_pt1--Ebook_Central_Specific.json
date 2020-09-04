@@ -10,11 +10,6 @@
         "columnName": "Duplication"
     }
     {
-        "op": "core/column-removal",
-        "description": "Remove column ``Has ACQ?``",
-        "columnName": "Has ACQ?"
-    }
-    {
         "op": "core/column-split",
         "description": "Split column ``Title`` at the parentheticals used for edition or volume",
         "engineConfig": {
