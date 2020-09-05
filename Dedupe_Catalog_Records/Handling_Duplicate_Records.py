@@ -22650,7 +22650,180 @@ os.startfile('Identify_Perpetual_Access_Entitlements_pt1--Ebook_Central_Specific
 messagebox.showinfo(title="Instructions", message="Generate a list of the propriatrary IDs and titles for all perpetual access entitlements where the IDs are in the column \"ID\" and the titles are in the column \"Title\". Save as a CSV named \"Entitlements\" and upload to OpenRefine.")
 messagebox.showinfo(title="Instructions", message="Apply the following JSON in the \"Entitlements csv\" project.")
 os.startfile('Identify_Perpetual_Access_Entitlements_pt2--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Compare titles that still don't have a value in \"Match\" with a list of perpetual access entitlements and determine what other matches exist. Switch back to \"UXU60_Cleanup\" and change the value of \"Record Number Copy\" for each manually matched title to the Ebook Central ID as a number.")
+
+#Subsection: Determine Records that Need to be Unsuppressed
+messagebox.showinfo(title="Instructions", message="Switch back to the \"UXU60_Cleanup\" project.")
+messagebox.showwarning(title="Non-Perpetual Access Titles with Multiple HOL", message="Steps to remove records with blank \"Record Number Copy\" values which have multiple rows because of multiple HOL attached to the same BIB not included as no such records existed in the data.")
+os.startfile('Determine_HOL_to_Unsuppress_pt1--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Set custom text filter \"isNumeric(value)\" on \"Record Number Copy\" to false. Remove single-HOL records with TKRs for other platforms.")
+"""[
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number Copy",
+          "expression": "grel:isNumeric(value)",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Ebook Central BIB URLs",
+          "expression": "isBlank(value)",
+          "columnName": "Ebook Central BIB URLs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "TKR 2",
+          "expression": "isBlank(value)",
+          "columnName": "TKR 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "FSU Tickler",
+          "expression": "value",
+          "columnName": "FSU Tickler",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(FTaSU)FS-Oxford Reference Premium20151023",
+                "l": "(FTaSU)FS-Oxford Reference Premium20151023"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)FS-Oxford Quick Reference20150108",
+                "l": "(FTaSU)FS-Oxford Quick Reference20150108"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)FS-Oxford Quick Reference20140325",
+                "l": "(FTaSU)FS-Oxford Quick Reference20140325"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)FS-Oxford Quick Reference20131021",
+                "l": "(FTaSU)FS-Oxford Quick Reference20131021"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)FS-SageResearchMethods20150216",
+                "l": "(FTaSU)FS-SageResearchMethods20150216"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)SpringerPalgrave20170314",
+                "l": "(FTaSU)SpringerPalgrave20170314"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)CredoReference20161212",
+                "l": "(FTaSU)CredoReference20161212"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)FS-GVRL20150413",
+                "l": "(FTaSU)FS-GVRL20150413"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)DramaOnline20170104",
+                "l": "(FTaSU)DramaOnline20170104"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)EBSCO20160923",
+                "l": "(FTaSU)EBSCO20160923"
+              }
+            },
+            {
+              "v": {
+                "v": "(FTaSU)EBSCO20160922",
+                "l": "(FTaSU)EBSCO20160922"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  }
+]"""
+messagebox.showinfo(title="Instructions", message="Compare the titles with no value in \"Match\" in \"Entitlement csv\" and the titles with no value in \"Record Number Copy\" in \"UXU60_cleanup\" to see what manual matches can be found that way. For matches found that way, change the value of \"Record Number Copy\" to the Ebook Central ID as a number.")
+#Alert: Other matches to perpetual access entitlement Ebook Central IDs are being added here as well
 """[
   {
     "op": "core/text-transform",
@@ -23184,13 +23357,48 @@ messagebox.showinfo(title="Instructions", message="Compare titles that still don
     "repeat": false,
     "repeatCount": 10,
     "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 105461651 without ID\",toNumber(3297902),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104605241 without ID\",toNumber(3316164),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104605241 without ID\",toNumber(3316164),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 104168814 without ID\",toNumber(4217757),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 104168814 without ID\",toNumber(4217757),value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+       "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:if(value==\"HOL 077685056 without ID\",toNumber(4656802),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 077685056 without ID\",toNumber(4656802),value)"
   }
 ]"""
-
-#Subsection: Determine Records that Need to be Unsuppressed
-messagebox.showwarning(title="Non-Perpetual Access Titles with Multiple HOL", message="Steps to remove records with blank \"Record Number Copy\" values which have multiple rows because of multiple HOL attached to the same BIB not included as no such records existed in the data.")
-os.startfile('Determine_HOL_to_Unsuppress_pt1--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record Number Copy\" to true. Remove records for titles not owned on Ebook Central.")
+messagebox.showinfo(title="Instructions", message="Use the URLs in \"Ebook Central BIB URLs\" to remove titles we no longer have access to from the project.")
 """[
   {
     "op": "core/row-removal",
@@ -23199,27 +23407,8 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
         {
           "type": "list",
           "name": "Record Number Copy",
-          "expression": "isBlank(value)",
+          "expression": "grel:isNumeric(value)",
           "columnName": "Record Number Copy",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": true,
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
-          "columnName": "Record Number",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
@@ -23228,133 +23417,6 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
               "v": {
                 "v": false,
                 "l": "false"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "TKR 2",
-          "expression": "isBlank(value)",
-          "columnName": "TKR 2",
-          "invert": true,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": false,
-                "l": "false"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "Ebook Central BIB URLs",
-          "expression": "isBlank(value)",
-          "columnName": "Ebook Central BIB URLs",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": true,
-                "l": "true"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "list",
-          "name": "FSU Tickler",
-          "expression": "value",
-          "columnName": "FSU Tickler",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "(FTaSU)FS-Oxford Quick Reference20131021",
-                "l": "(FTaSU)FS-Oxford Quick Reference20131021"
-              }
-            },
-            {
-              "v": {
-                "v": "(FTaSU)FS-Oxford Reference Premium20151023",
-                "l": "(FTaSU)FS-Oxford Reference Premium20151023"
-              }
-            },
-            {
-              "v": {
-                "v": "(FTaSU)CredoReference20161212",
-                "l": "(FTaSU)CredoReference20161212"
-              }
-            },
-            {
-              "v": {
-                "v": "(FTaSU)FS-Oxford Quick Reference20140325",
-                "l": "(FTaSU)FS-Oxford Quick Reference20140325"
-              }
-            },
-            {
-              "v": {
-                "v": "(FTaSU)DramaOnline20170104",
-                "l": "(FTaSU)DramaOnline20170104"
-              }
-            },
-            {
-              "v": {
-                "v": "(FTaSU)FS-SageResearchMethods20150216",
-                "l": "(FTaSU)FS-SageResearchMethods20150216"
-              }
-            },
-            {
-              "v": {
-                "v": "(FTaSU)FS-Oxford Quick Reference20150108",
-                "l": "(FTaSU)FS-Oxford Quick Reference20150108"
-              }
-            },
-            {
-              "v": {
-                "v": "(FTaSU)SpringerPalgrave20170314",
-                "l": "(FTaSU)SpringerPalgrave20170314"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "description": "Remove rows"
-  },
-  {
-    "op": "core/row-removal",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number Copy",
-          "expression": "isBlank(value)",
-          "columnName": "Record Number Copy",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": true,
-                "l": "true"
               }
             }
           ],
@@ -23530,13 +23592,13 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
     "description": "Remove rows"
   },
   {
-    "op": "core/text-transform",
+    "op": "core/row-removal",
     "engineConfig": {
       "facets": [
         {
           "type": "list",
           "name": "Record Number Copy",
-          "expression": "isBlank(value)",
+          "expression": "grel:isNumeric(value)",
           "columnName": "Record Number Copy",
           "invert": false,
           "omitBlank": false,
@@ -23544,8 +23606,8 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
           "selection": [
             {
               "v": {
-                "v": true,
-                "l": "true"
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -23563,8 +23625,135 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
           "selection": [
             {
               "v": {
-                "v": "HOL 077685056 without ID",
-                "l": "HOL 077685056 without ID"
+                "v": "BIBs 021843274, 032802627 Match",
+                "l": "BIBs 021843274, 032802627 Match"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302595 without ID",
+                "l": "HOL 078302595 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302588 without ID",
+                "l": "HOL 078302588 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302592 without ID",
+                "l": "HOL 078302592 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302578 without ID",
+                "l": "HOL 078302578 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 077072085 without ID",
+                "l": "HOL 077072085 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302596 without ID",
+                "l": "HOL 078302596 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302597 without ID",
+                "l": "HOL 078302597 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 077178230 without ID",
+                "l": "HOL 077178230 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302593 without ID",
+                "l": "HOL 078302593 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302587 without ID",
+                "l": "HOL 078302587 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302601 without ID",
+                "l": "HOL 078302601 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302600 without ID",
+                "l": "HOL 078302600 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 076979262 without ID",
+                "l": "HOL 076979262 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302580 without ID",
+                "l": "HOL 078302580 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302590 without ID",
+                "l": "HOL 078302590 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302591 without ID",
+                "l": "HOL 078302591 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302589 without ID",
+                "l": "HOL 078302589 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078302581 without ID",
+                "l": "HOL 078302581 without ID"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Ebook Central BIB URLs",
+          "expression": "isBlank(value)",
+          "columnName": "Ebook Central BIB URLs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
               }
             }
           ],
@@ -23574,17 +23763,31 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
       ],
       "mode": "record-based"
     },
-    "columnName": "Keep HOL?",
-    "expression": "grel:\"TRUE: Only HOL for ID 4656802\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Keep HOL? using expression grel:\"TRUE: Only HOL for ID 4656802\""
+    "description": "Remove rows"
   },
   {
-    "op": "core/text-transform",
+    "op": "core/row-removal",
     "engineConfig": {
       "facets": [
+        {
+          "type": "list",
+          "name": "Record Number Copy",
+          "expression": "grel:isNumeric(value)",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
         {
           "type": "list",
           "name": "Record Number",
@@ -23596,8 +23799,8 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
           "selection": [
             {
               "v": {
-                "v": "HOL 077685056 without ID",
-                "l": "HOL 077685056 without ID"
+                "v": "BIBs 021843274, 032802627 Match",
+                "l": "BIBs 021843274, 032802627 Match"
               }
             }
           ],
@@ -23607,54 +23810,32 @@ messagebox.showinfo(title="Instructions", message="Set blanks filter on \"Record
       ],
       "mode": "record-based"
     },
-    "columnName": "Record Number Copy",
-    "expression": "grel:\"4656802\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number Copy using expression grel:\"4656802\""
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "Record Number",
-          "expression": "value",
-          "columnName": "Record Number",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "HOL 077685056 without ID",
-                "l": "HOL 077685056 without ID"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "Record Number",
-    "expression": "grel:\"Ebook Central::\"+cells[\"Record Number Copy\"].value",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::\"+cells[\"Record Number Copy\"].value"
+    "description": "Remove rows"
   }
 ]"""
-#ToDo: Manually check over the records with blank "Record Number Check" values not automatically removed
-# Owned Ebook Central ID
-  # 1666575
-  # 1768917
-  # 4441715
-  # 4731363
-  # 4938606
+
+
+# Privacy Alerts
+  # HOL 103222944 without ID
+  # HOL 103222942 without ID
+
+# Found on LibCentral without other IDs
+  # HOL 078310273 without ID = 6301246
+  # HOL 078310413 without ID = 6298842
+  # HOL 078310443 without ID = 6302355
+  # HOL 078310266 without ID = 6286342
+  # HOL 078310256 without ID = 6295252
+  # HOL 078310248 without ID = 6301696
+  # HOL 078310244 without ID = 6284652
+  # HOL 078310231 without ID = 6296709
+  # HOL 078310212 without ID = 6301336
+  # HOL 078302756 without ID = 6281766
+  # HOL 078302582 without ID = 6285174
+  # HOL 078302579 without ID = 6287931
+  # HOL 078302577 without ID = 6297305
+  # HOL 078302576 without ID = 6298931
+
+
 os.startfile('Determine_HOL_to_Unsuppress_pt2--Ebook_Central_Specific.json')
 #Todo: determine if record selected to keep has "true" in suppressed column, and flag HOL if so--probably change column value to "Needs to be unsuppressed"
 

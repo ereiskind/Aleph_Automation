@@ -31,179 +31,30 @@
     }
     {
         "op": "core/text-transform",
-        "description": "For the titles not manually matched, change values in column ``Record Number Copy`` to the Ebook Central ID for the record if matched or to null if not matched",
+        "description": "Change values in column ``Record Number Copy`` to the Ebook Central ID for the record if able to be matched",
         "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Record Number Copy",
-                    "expression": "grel:isNumeric(value)",
-                    "columnName": "Record Number Copy",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
+            "facets": [],
             "mode": "record-based"
         },
         "columnName": "Record Number Copy",
         "expression": "grel:cell.cross(\"Entitlements csv\",\"Match\")[0].cells.ID.value",
-        "onError": "set-to-blank",
+        "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
     }
     {
         "op": "core/text-transform",
-        "description": "For records with a single HOL where the Ebook Central ID was just identified, update the value of ``Keep HOL?`` to include the Ebook Central ID",
+        "description": "Change Ebook Central ID values in column ``Record Number Copy`` to number format",
         "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Record Number Copy",
-                    "expression": "grel:isNumeric(value)",
-                    "columnName": "Record Number Copy",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Record Number",
-                    "expression": "grel:contains(value,\"::\")",
-                    "columnName": "Record Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Record Number",
-                    "expression": "isBlank(value)",
-                    "columnName": "Record Number",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
+            "facets": [],
             "mode": "record-based"
         },
-        "columnName": "Keep HOL?",
-        "expression": "grel:\"TRUE: Only HOL for ID \"+cells[\"Record Number Copy\"].value",
+        "columnName": "Record Number Copy",
+        "expression": "value.toNumber()",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
     },
-    {
-        "op": "core/text-transform",
-        "description": "For records with a single HOL where the Ebook Central ID was just identified, update the value of ``Record Number``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Record Number Copy",
-                    "expression": "grel:isNumeric(value)",
-                    "columnName": "Record Number Copy",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Record Number",
-                    "expression": "grel:contains(value,\"::\")",
-                    "columnName": "Record Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Record Number",
-                    "expression": "isBlank(value)",
-                    "columnName": "Record Number",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "Record Number",
-        "expression": "grel:\"Ebook Central::\"+cells[\"Record Number Copy\"].value",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
     {
         "op": "core/row-removal",
         "description": "Remove records containing a single HOL where the title isn't a perpetual access entitlement and the BIB's Ebook Central URL is labeled as for the SciTech collection",
@@ -212,7 +63,7 @@
                 {
                     "type": "list",
                     "name": "Record Number Copy",
-                    "expression": "isBlank(value)",
+                    "expression": "grel:isNumeric(value)",
                     "columnName": "Record Number Copy",
                     "invert": false,
                     "omitBlank": false,
@@ -220,8 +71,8 @@
                     "selection": [
                         {
                             "v": {
-                                "v": true,
-                                "l": "true"
+                                "v": false,
+                                "l": "false"
                             }
                         }
                     ],
@@ -269,12 +120,69 @@
             ],
             "mode": "record-based"
         }
-    },
+    }
     {
         "op": "core/row-removal",
-        "description": "Remove records containing a single HOL where the title isn't a perpetual access entitlement and the BIB's URL(s) aren't for Ebook Central",
+        "description": "Remove records with a single non-suppressed FSUER HOL where the URL is for a non-Ebook Central platform",
         "engineConfig": {
             "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number Copy",
+                    "expression": "grel:isNumeric(value)",
+                    "columnName": "Record Number Copy",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "1",
+                                "l": "1"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Suppressed",
+                    "expression": "isBlank(value)",
+                    "columnName": "Suppressed",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
                 {
                     "type": "list",
                     "name": "Ebook Central BIB URLs",
@@ -296,36 +204,17 @@
                 },
                 {
                     "type": "list",
-                    "name": "Record Number Copy",
-                    "expression": "isBlank(value)",
-                    "columnName": "Record Number Copy",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Record Number",
-                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
-                    "columnName": "Record Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "1",
-                                "l": "1"
+                                "v": "FSUER",
+                                "l": "FSUER"
                             }
                         }
                     ],
@@ -354,232 +243,5 @@
             ],
             "mode": "record-based"
         }
-    }
-    {
-        "op": "core/row-removal",
-        "description": "Remove records containing a single non-FSUER HOL where the title isn't a perpetual access entitlement",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Record Number Copy",
-                    "expression": "isBlank(value)",
-                    "columnName": "Record Number Copy",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Record Number",
-                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
-                    "columnName": "Record Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "HOL Sublibrary",
-                    "expression": "value",
-                    "columnName": "HOL Sublibrary",
-                    "invert": true,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "FSUER",
-                                "l": "FSUER"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        }
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Removal`` with values in records with multiple HOL where at least one isn't in FSUER where the title isn't a perpetual access entitlement with the value `SciTech` if the FSUER HOL's BIB has a SciTech 856$3, `Other URL` if the FSUER HOL's BIB has a 856 for a non-Ebook Central platform, and `Other Sublibrary` if the HOL is in another sublibrary",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Record Number Copy",
-                    "expression": "isBlank(value)",
-                    "columnName": "Record Number Copy",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Record Number",
-                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
-                    "columnName": "Record Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "FSUER HOL",
-                    "expression": "value",
-                    "columnName": "FSUER HOL",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "Has FSUER HOL",
-                                "l": "Has FSUER HOL"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "baseColumnName": "HOL Sublibrary",
-        "expression": "grel:if(value==\"FSUER\",if(cells[\"Ebook Central BIB URLs\"].value==\"SciTech Collection\",\"SciTech\",if(and(isNotNull(cells[\"Other BIB URL Info\"].value),isNull(cells[\"Ebook Central BIB URLs\"].value)),\"Other URL\",null)),\"Other Sublibrary\")",
-        "onError": "set-to-blank",
-        "newColumnName": "Removal",
-        "columnInsertIndex": 5
-    }
-    {
-        "op": "core/row-removal",
-        "description": "Remove records with multiple HOL where at least one isn't in FSUER where the title isn't a perpetual access entitlement where all the HOL are either in sublibraries other than FSUER or attached to BIBs that aren't for Ebook Central perpetual access entitlements",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Record Number Copy",
-                    "expression": "isBlank(value)",
-                    "columnName": "Record Number Copy",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Record Number",
-                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
-                    "columnName": "Record Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "FSUER HOL",
-                    "expression": "value",
-                    "columnName": "FSUER HOL",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "Has FSUER HOL",
-                                "l": "Has FSUER HOL"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Removal",
-                    "expression": "isBlank(value)",
-                    "columnName": "Removal",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        }
-    }
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Removal``",
-        "columnName": "Removal"
     }
 ]
