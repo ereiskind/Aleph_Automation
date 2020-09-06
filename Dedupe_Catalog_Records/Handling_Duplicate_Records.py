@@ -23813,7 +23813,89 @@ messagebox.showinfo(title="Instructions", message="Use the URLs in \"Ebook Centr
     "description": "Remove rows"
   }
 ]"""
-
+messagebox.showinfo(title="Instructions", message="Use LibCentral to confirm that none of the remaining records with multiple HOL are perpetual access entitlements, then remove them.")
+"""[
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number Copy",
+          "expression": "grel:isNumeric(value)",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::413356",
+                "l": "Ebook Central::413356"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::224643",
+                "l": "Ebook Central::224643"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::214288",
+                "l": "Ebook Central::214288"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::191308",
+                "l": "Ebook Central::191308"
+              }
+            },
+            {
+              "v": {
+                "v": "BIBs 022688409, 020857739 Match with Different Sublibraries",
+                "l": "BIBs 022688409, 020857739 Match with Different Sublibraries"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::227613",
+                "l": "Ebook Central::227613"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  }
+]"""
+#ToDo: Check remaining titles with Ebook Central IDs against SciTech title lsit (sent to email)
+#ToDo: Look at non-Ebook Central ID FSUER HOL in LibCentral
+#ToDo: Assess what non-FSUER HOL remain and if manual check for if FSUER HOL is needed is a good idea
 
 # Privacy Alerts
   # HOL 103222944 without ID
