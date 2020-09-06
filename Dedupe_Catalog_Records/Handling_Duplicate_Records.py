@@ -23397,6 +23397,82 @@ messagebox.showinfo(title="Instructions", message="Compare the titles with no va
     "repeatCount": 10,
     "description": "Text transform on cells in column Record Number Copy using expression grel:if(value==\"HOL 077685056 without ID\",toNumber(4656802),value)"
   }
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number Copy",
+          "expression": "grel:isNumeric(value)",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::1666575",
+                "l": "Ebook Central::1666575"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::4441715",
+                "l": "Ebook Central::4441715"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::4938606",
+                "l": "Ebook Central::4938606"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::1768917",
+                "l": "Ebook Central::1768917"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::4731363",
+                "l": "Ebook Central::4731363"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number Copy",
+    "expression": "grel:toNumber(substring(value,indexOf(value,\"::\")+2))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number Copy using expression grel:toNumber(substring(value,indexOf(value,\"::\")+2))"
+  }
 ]"""
 messagebox.showinfo(title="Instructions", message="Use the URLs in \"Ebook Central BIB URLs\" to remove titles we no longer have access to from the project.")
 """[
@@ -23893,15 +23969,65 @@ messagebox.showinfo(title="Instructions", message="Use LibCentral to confirm tha
     "description": "Remove rows"
   }
 ]"""
-#ToDo: Check remaining titles with Ebook Central IDs against SciTech title lsit (sent to email)
-#ToDo: Look at non-Ebook Central ID FSUER HOL in LibCentral
+messagebox.showinfo(title="Instructions", message="Use LibCentral to confirm that none of the remaining records with Ebook Central IDs are perpetual access entitlements, then remove them.")
+"""[
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number Copy",
+          "expression": "grel:isNumeric(value)",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number Copy",
+          "expression": "grel:contains(value,\"::\")",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  }
+]"""
+
+#ToDo: Look at non-Ebook Central ID FSUER HOL in LibCentral--search by title and compare to the other propriatary IDs
 #ToDo: Assess what non-FSUER HOL remain and if manual check for if FSUER HOL is needed is a good idea
 
 # Privacy Alerts
   # HOL 103222944 without ID
   # HOL 103222942 without ID
 
-# Found on LibCentral without other IDs
+# Found on LibCentral by searching for title without other IDs to confirm that match is correct
   # HOL 078310273 without ID = 6301246
   # HOL 078310413 without ID = 6298842
   # HOL 078310443 without ID = 6302355
