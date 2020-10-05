@@ -40,25 +40,26 @@ def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized
 
 #Section: Determine What BIBs Have ACQ Records
 #Subsection: Collect all possible BIB numbers for the platform/collection in question
+# WAU:KW in author= ProQuest AND WNS:KW in staff note= GOBI AND WSB:Sublibrary= FSUER {1087}
+# WSB:Sublibrary= FSUER AND WUR:KW in URL= ebookcentral proquest com lib fsu AND WUR:KW in URL= FTaSU {10153}
+# WSB:Sublibrary= FSUER AND WUR:KW in URL= myilibrary AND WUR:KW in URL= FTaSU {467}
+# WSB:Sublibrary= FSUER AND WUR:KW in URL= ebrary AND WUR:KW in URL= FTaSU {705}
+# WSB:Sublibrary= FSUER AND WUR:KW in URL= eblib AND WUR:KW in URL= FTaSU {489}
+# All of the above: FSEREBCB1 {11501}
 
-#Subsection: Send those BIBs to cataloging to have them check which ones have ACQ records attached
 
+#Section: Collect BIB Information
+#Subsection: Pull Info from Aleph
+messagebox.showinfo(title="Instructions", message="For list of BIBs, use print-03 to generate Aleph sequential file with 856##, 035##, 599##, 020##, 776##, 245##, 250## fields and indicators.")
+messagebox.showinfo(title="Instructions", message="For list of BIBs, use manage-70 to get list of HOLs.")
+messagebox.showinfo(title="Instructions", message="For list of HOLs, use print-03 to get Aleph sequential file with TKR##, LKR##, STA##, 852## fields and indicators.")
 
-# #Section: Collect BIB Information
-# #Subsection: Pull Info from Aleph
-# messagebox.showinfo(title="Instructions", message="For list of BIBs, use print-03 to generate Alpeh sequential file with 856##, 035##, 599##, 020##, 776##, 245##, 250## fields and indicators.")
-# messagebox.showinfo(title="Instructions", message="For list of BIBs, use manage-70 to get list of HOLs.")
-# messagebox.showinfo(title="Instructions", message="For list of HOLs, use print-03 to get Alpeh sequential file with TKR##, LKR##, STA##, 852## fields and indicators.")
-# messagebox.showwarning(title="Ebook Central", message="Following instructions are very specific to Ebook Central.")
-# messagebox.showinfo(title="Instructions", message="Download the OpenRefine project into Excel. Dedupe \"ISBN 1\" and copy into LibCentral's title match feature. Save the ISBN and ID columns from the title match output as \"ISBNs and eBook Central IDs.xlsx\". Upload the worksheet into OpenRefine, removing the file extension from the project name.")
-
-# #Subsection: Organize UXU01 Output
-# messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU01 info into OpenRefine with column widths 10, 6, 2. Name the project \"UXU01_Cleanup\".")
-# messagebox.showwarning(title="Creating Title", message="The step to create the title column won't work unless there's a 245$a, 245$b, 245$n, and 250$a column. There's a column reorder in the JSON that calls for all four columns.")
-# messagebox.showwarning(title="Ebook Central", message="The following JSON is for Ebook Central--the domain search regexes are hard coded. On a related note, any URLs from those domains not fitting the regexes are excluded.")
-# messagebox.showwarning(title="Credo", message="Credo IDs that are only letters don't get transfered to the \"001 ID\" column.")
-# messagebox.showwarning(title="JSTOR", message="Pulling a DOI from a JSTOR URL seems to involve all rows in that record having \"DOI\" appear in the \"URL Domain\" column.")
-# os.startfile('Organize_UXU01_Output_pt1--Ebook_Central_Specific.json')
+#Subsection: Organize UXU01 Output
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU01 info into OpenRefine with column widths 10, 6, 2. Name the project \"UXU01_Cleanup\".")
+messagebox.showwarning(title="Creating Title", message="The step to create the title column won't work unless there's a 245$a, 245$b, 245$n, and 250$a column. There's a column reorder in the JSON that calls for all four columns.")
+messagebox.showwarning(title="Credo", message="Credo IDs that are only letters don't get transferred to the \"001 ID\" column.")
+messagebox.showwarning(title="JSTOR", message="Pulling a DOI from a JSTOR URL seems to involve all rows in that record having \"DOI\" appear in the \"URL Domain\" column.")
+os.startfile('Organize_UXU01_Output_pt1--Ebook_Central_Specific.json')
 # # The folowing is for a title where the volume info isn't in the BIB records
 # """[
 #   {
