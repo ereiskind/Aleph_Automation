@@ -1,0 +1,1316 @@
+[
+    {
+        "op": "core/row-removal",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Length",
+                    "expression": "value",
+                    "columnName": "ISBN Length",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "12",
+                                "l": "12"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "3",
+                                "l": "3"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "9",
+                                "l": "9"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "description": "Remove rows"
+    }
+    {
+        "op": "core/mass-edit",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Type",
+        "expression": "value",
+        "edits": [
+            {
+                "from": [
+                    "(e-book)",
+                    "(ebook) :",
+                    "(ebook)",
+                    "(eBook)",
+                    "ebook",
+                    "(E-book)",
+                    "(Ebook)",
+                    "(e-book",
+                    "E-book",
+                    "Ebook",
+                    "e-book",
+                    "(e-Book)",
+                    "(e.book)",
+                    "(ebook )",
+                    "(ebook}",
+                    "(ebk.)",
+                    "(ebk)",
+                    "(e-bk.)",
+                    "ebk",
+                    "(e-bk)",
+                    "(electronic bk.)",
+                    "electronic bk.",
+                    "(electronic bk.) :",
+                    "(electronic bk)",
+                    "ebook version :",
+                    "Ebook version",
+                    "Ebook version :",
+                    "ebook version",
+                    "(e-ISBN)",
+                    "(eISBN)",
+                    "e-ISBN",
+                    "Online version:",
+                    "Online version :",
+                    "Online version",
+                    "(uelectronic book)",
+                    "uelectronic book",
+                    "(master e-book)",
+                    "(Master e-book)",
+                    "(consumer e-edition)",
+                    "consumer e-edition",
+                    "(eb)",
+                    "(EB)",
+                    "electronic book",
+                    "(electronic book)",
+                    "Electronic version:",
+                    "electronic version",
+                    "(electronic)",
+                    "electronic",
+                    "electronic publication",
+                    "(electronic publication)",
+                    "(institutional ebook)",
+                    "(ebook ;;Institutional)",
+                    "020$a",
+                    "(e)",
+                    "(e book)",
+                    "e-bbok",
+                    "(ebook edition)",
+                    "(e-book ISBN)",
+                    "(electronic format)",
+                    "[electronic resource]",
+                    "(HTML ebook) :",
+                    "(ebook ;;Individual)",
+                    "(e-ISB)",
+                    "(elecronic bk.)",
+                    "(Online Component)",
+                    "(non-library e-book)",
+                    "(ekb)",
+                    "(online resource) :",
+                    "(electronic copy)",
+                    "(ed. electrÃ³nica)",
+                    "EBook version:",
+                    "(electronic bk. ;;oBook)",
+                    "(electronic bk. : oBook)",
+                    "electronic book bk",
+                    "electronic book;electronic book",
+                    "electronic book%",
+                    "(Electronic)",
+                    "consumer electronic book",
+                    "Electronic version",
+                    "institutional electronic book",
+                    "(nook book)",
+                    "(online)",
+                    "(online component)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "eISBN"
+            },
+            {
+                "from": [
+                    "(epub)",
+                    "(ePub)",
+                    "(EPUB)",
+                    "epub",
+                    "ePub",
+                    "(ePUB)",
+                    "(Epub)",
+                    "(e-pub)",
+                    "EPUB",
+                    "(E-PUB)",
+                    "(e-PUB)",
+                    "(epub.)",
+                    "(ePub ebook)",
+                    "(ePub ebook) :",
+                    "(ebook epub)",
+                    "ePub ebook",
+                    "(e-book (epub))",
+                    "(ePub eBook)",
+                    "(electronic bk. : EPUB)",
+                    "(electronic bk. : ePub)",
+                    "(electronic bk. : epub)",
+                    "(ebk - ePUB)",
+                    "(ebk. : ePUB)",
+                    "(ebk. - ePUB)",
+                    "EPUB eISBN",
+                    "(e-ISBN; ePUB)",
+                    "EPUB eISBN",
+                    "electronic book;EPUB",
+                    "(e-book: ePub)",
+                    "(electronic bk. ;;EPUB)",
+                    "Epub"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "EPUB eISBN"
+            },
+            {
+                "from": [
+                    "(pbk. : alk. paper)",
+                    "(pbk : alk. paper)",
+                    "(pbk. ;;alk. paper)",
+                    "(pbk. alk. paper)",
+                    "(pbk. :;alk. paper)",
+                    "(pbk alk. paper)",
+                    "(pbk. : al;k. paper)",
+                    "(pbk.: alk. paper)",
+                    "(pbk. : alk paper)",
+                    "(pbk. alk paper)",
+                    "(pbk.)",
+                    "(pbk.) :",
+                    "(pbk)",
+                    "pbk.",
+                    "(PBK.)",
+                    "(pb : alk. paper)",
+                    "(PB : alk. paper)",
+                    "(pb ;;alk. paper)",
+                    "(pb alk. paper)",
+                    "(paperback : alk. paper)",
+                    "(paperback :alk. paper)",
+                    "(paperback ;;alk. paper)",
+                    "(paperback)",
+                    "paperback",
+                    "(Paperback)",
+                    "(pb)",
+                    "(pb.)",
+                    "(PB)",
+                    "(pbk. edition : alk. paper)",
+                    "(pbk. edition alk. paper)",
+                    "paperback;alkaline paper",
+                    "(paperback;alkaline paper)",
+                    "(paperback;acid-free paper)",
+                    "paperback;acid-free paper",
+                    "(pbk. : acid free paper)",
+                    "(pbk. : acid free paper))",
+                    "(pbk. : acid-free paper)",
+                    "(pbk. ;;acid-free paper)",
+                    "(pbk. acid-free paper)",
+                    "(softcover : alk. paper)",
+                    "(soft cover : alk. paper)",
+                    "(trade pbk.)",
+                    "(series pbk.)",
+                    "(papeback)",
+                    "(alk. : paperback)",
+                    "paperback;lk. paper",
+                    "paperbackback",
+                    "(pbk. : alkaline paper)",
+                    "(pbk. : alk.paper)",
+                    "(pbk. ed. : alk. paper)",
+                    "(softback : alk. paper)",
+                    "(pbk. format : alk. paper)",
+                    "(paperback : acid-free paper)",
+                    "(pbk. : age-resistant paper)",
+                    "(pbk-ISBN)",
+                    "(paperback : alkaline paper)",
+                    "(paperback ;;alkaline paper)",
+                    "paperback ;;alkaline paper",
+                    "(paperback. : alkaline paper)",
+                    "(paperback alkaline paper)",
+                    "(paperback: alkaline paper)",
+                    "(softcover)",
+                    "(softback ;;alk. paper)",
+                    "s/c"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "PB ISBN"
+            },
+            {
+                "from": [
+                    "(PDF ebook)",
+                    "(PDF ebook) :",
+                    "(ebook pdf)",
+                    "(e-book ;;PDF)",
+                    "(ebook (pdf))",
+                    "(e-book : PDF)",
+                    "(ebook PDF)",
+                    "(pdf)",
+                    "(PDF)",
+                    "pdf",
+                    "(pdf.)",
+                    "( pdf)",
+                    "(ePDF)",
+                    "(epdf)",
+                    "(e-PDF)",
+                    "(ebk - PDF)",
+                    "(ebk. : PDF)",
+                    "(ebk. - PDF)",
+                    "(web PDF)",
+                    "(web pdf)",
+                    "(electronic bk. : Adobe Reader)",
+                    "(electronic bk. ;;Adobe Reader)",
+                    "(electronic bk. : PDF)",
+                    "(electronic bk. : pdf)",
+                    "(Adobe PDF)",
+                    "Adobe PDF",
+                    "(WebPDF)",
+                    "(webPDF)",
+                    "(epdfs)",
+                    "(updf)",
+                    "(webready PDF)",
+                    "(eBook-PDF)",
+                    "(epdfs)",
+                    "(updf)",
+                    "(pdf : alk. paper)",
+                    "(ebook pdf : alk. paper)",
+                    "(electronic bk.;Adobe Reader)",
+                    "Adobe electronic book",
+                    "(e-book: PDF)",
+                    "(AdobePDF)",
+                    "( Adobe PDF)",
+                    "adobe;electronic book",
+                    "(electronic bk. : Adobe Digital Editions)",
+                    "(Adobe electronic book)",
+                    "(adobe ebook)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "PDF eISBN"
+            },
+            {
+                "from": [
+                    "(hardcover : alk. paper)",
+                    "(hardcover alk. paper)",
+                    "(hardcover ;;alk. paper)",
+                    "(hardcover : alk. paper) :",
+                    "hardcover : alk. paper",
+                    "(hardcover: alk. paper)",
+                    "(Hardcover : alk. paper)",
+                    "(hc : alk. paper)",
+                    "(hc. : alk. paper)",
+                    "(HC : alk. paper)",
+                    "(hc ;;alk. paper)",
+                    "(hc. alk. paper)",
+                    "(hc: alk. paper)",
+                    "(hc : alk. paper) :",
+                    "(hbk. : alk. paper)",
+                    "(hbk : alk. paper)",
+                    "(hbk. alk. paper)",
+                    "(hbk alk. paper)",
+                    "(hbk. ;;alk. paper)",
+                    "(hbk.: alk. paper)",
+                    "(hbk.)",
+                    "(hbk)",
+                    "(hbk.) :",
+                    "(hbk. )",
+                    "(Hbk.)",
+                    "hbk.",
+                    "(hardback : alk. paper)",
+                    "(hardback alk. paper)",
+                    "(hardback ;;alk. paper)",
+                    "(hardback :;alk. paper)",
+                    "(hardcover : alkaline paper)",
+                    "hardcover ;;alkaline paper",
+                    "(hardcover ;;alkaline paper)",
+                    "hardcover; alkaline paper",
+                    "(hb : alk. paper)",
+                    "(HB : alk. paper)",
+                    "(hb ;;alk. paper)",
+                    "hb : alk. paper",
+                    "(hardcover : acid-free paper)",
+                    "(hardcover ;;acid-free paper)",
+                    "hardcover ;;acid-free paper",
+                    "(hc.)",
+                    "(hc)",
+                    "(HC)",
+                    "(hardback : acid-free paper)",
+                    "(hardback :acid-free paper)",
+                    "(hardback acid-free paper)",
+                    "(hardcover)",
+                    "hardcover",
+                    "(Hardcover)",
+                    "hardcover;alkaline paper",
+                    "(hardcover;alkaline paper)",
+                    "(hardback : alkaline paper)",
+                    "(hardback ;;alkaline paper)",
+                    "(hb)",
+                    "(HB)",
+                    "hardcover;acid-free paper",
+                    "(hardcover;acid-free paper)",
+                    "(hbk. : acid-free paper)",
+                    "(hbk : acid-free paper)",
+                    "(hardback)",
+                    "hardback",
+                    "(Hardback)",
+                    "(hard cover : alk. paper)",
+                    "(hardccover : alk. paper)",
+                    "(hardback); Print version:",
+                    "(hardback : print ed.)",
+                    "(hard back : alk. paper)",
+                    "hardback;alkaline paper",
+                    "(hardbound : alk. paper)",
+                    "(hardbound)",
+                    "(hard)",
+                    "(hard cover)",
+                    "(harcover)",
+                    "(hard : alk)",
+                    "(hard copy)",
+                    "qhardcover",
+                    "(hardover)",
+                    "dqhardback",
+                    "(hard : alk. paper)",
+                    "(hc : acid-free paper)",
+                    "(hard cover : acid-free paper)",
+                    "(hardcopy : acid-free paper)",
+                    "(hard cover)",
+                    "(harcover)",
+                    "(hd.bd.)",
+                    "(hdbk.)",
+                    "(hard cover)",
+                    "(hard copy)",
+                    "hardback;acid-free paper",
+                    "(hard cover; sewn : alk. paper)",
+                    "(hbk. : alkaline paper)",
+                    "(hdbk. : alk. paper)",
+                    "(hardcover ;;print)",
+                    "(pbk.); (hardback)",
+                    "(hardback ;;acid free)",
+                    "h/c"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "HB ISBN"
+            },
+            {
+                "from": [
+                    "(alk. paper)",
+                    "(paper : alk. paper)",
+                    "(paper alk. paper)",
+                    "( alk. paper)",
+                    "(Paper : alk. paper)",
+                    "(alk. paper) :",
+                    "(cloth)",
+                    "(Cloth)",
+                    "cloth",
+                    "(cloth) :",
+                    "(cloth.)",
+                    "Cloth",
+                    "(cloth : alk. paper)",
+                    "(cloth ;;alk. paper)",
+                    "(cloth alk. paper)",
+                    "(cloth :;alk. paper)",
+                    "cloth : alk. paper",
+                    "(Cloth : alk. paper)",
+                    "(print : alk. paper)",
+                    "(print : acid-free paper)",
+                    "(print-ISBN)",
+                    "(print0",
+                    "Print versio:",
+                    "(print ed.)",
+                    "(print-ISBN)",
+                    "(print0",
+                    "Print versio:",
+                    "(cl : alk. paper)",
+                    "(cl. : alk. paper)",
+                    "(cl ;;alk. paper)",
+                    "(cl alk. paper)",
+                    "(cl. ;;alk. paper)",
+                    "(cloth : alkaline paper)",
+                    "(cloth ;;alkaline paper)",
+                    "cloth : alkaline paper",
+                    "(cloth alkaline paper)",
+                    "Print version:",
+                    "Print version",
+                    "Print version :",
+                    "Print Version:",
+                    "(paper)",
+                    "(Paper)",
+                    "(paper) :",
+                    "Paper",
+                    "(acid-free paper)",
+                    "(paper : acid-free paper)",
+                    "(paper acid-free paper)",
+                    "alkaline paper",
+                    "(alkaline paper)",
+                    "(cloth : acid-free paper)",
+                    "(cloth acid-free paper)",
+                    "(bound)",
+                    "bound",
+                    "(print)",
+                    "print",
+                    "(cloth edition : alk. paper)",
+                    "(cloth edition alk. paper)",
+                    "(hard copy : alk. paper)",
+                    "(hardcopy : alk. paper)",
+                    "print;alkaline paper",
+                    "(print ;;alkaline paper)",
+                    "020$z",
+                    "776$z",
+                    "Print verion:",
+                    "Print verison:",
+                    "(paperbound : alk. paper)",
+                    "(paper binding : alk. paper)",
+                    "(paperwork)",
+                    "(paper/ws)",
+                    "(spiral bound)",
+                    "(softbound)",
+                    "Printed edition:",
+                    "Print versio:",
+                    "(Trade Paper)",
+                    "(acid free paper)",
+                    "(clothbound : alk. paper)",
+                    "(Netherlands : alk. paper)",
+                    "(ppr : alk. paper)",
+                    "(cloth ed. : alk. paper)",
+                    "(cloth : alkalihe paper)",
+                    "(special sale ed. : alk. paper)",
+                    "(standard ed. : alk. paper)",
+                    "(alk. : cloth)",
+                    "(binder)",
+                    "(U.S. : alk. paper)",
+                    "cloth;alk. paper",
+                    "hardcover;alkaline paper;paperback",
+                    "(cl.)",
+                    "(cloth); Print version:",
+                    "(book : alk. paper)",
+                    "Print version.",
+                    "Print versin:",
+                    "hard copy;alkaline paper",
+                    "hardcopy;alkaline paper"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ISBN"
+            },
+            {
+                "from": [
+                    "(mobi)",
+                    "(Mobi)",
+                    "mobi",
+                    "( mobi)",
+                    "(MOBI)",
+                    "Mobi eISBN",
+                    "(eMobil)",
+                    "(mobi/.prc)",
+                    "(eMobi ebook) :",
+                    "(mobipocket)",
+                    "( mobipocket)",
+                    "(MobiPocket)",
+                    "(eMobi)",
+                    "(emobi)",
+                    "(Mobipocket ebook)",
+                    "(Mobipocket ebook) :",
+                    "electronic book;Mobipocket",
+                    "(electronic book ;;Mobipocket)",
+                    "Mobi eISBN",
+                    "(mobi/.prc)",
+                    "Mobi eISBN",
+                    "electronic publication, mobi & electronic book",
+                    "(electronic bk. : Mobipocket)",
+                    "electronic book ;;Mobipocket",
+                    "(electronic bk. ;;Mobipocket)",
+                    "(e-book: Mobi)",
+                    "(electronic bk. : Mobipocket Reader)",
+                    "(mobiPocket)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "Mobi eISBN"
+            },
+            {
+                "from": [
+                    "(Kindle)",
+                    "(kindle)",
+                    "kindle",
+                    "(Kindle ebook) :",
+                    "(Kindle ebook)",
+                    "(kindle eBook)",
+                    "kindle edition",
+                    "(Amazon ebook)",
+                    "Kindle"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "Kindle eISBN"
+            },
+            {
+                "from": [
+                    "(Mobipocket/Kindle)",
+                    "(mobipocket/kindle)",
+                    "(Mobi/Kindle)",
+                    "(Kindle/mobipocket)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "Mobi/Kindle eISBN"
+            },
+            {
+                "from": [
+                    "(set : alk. paper)",
+                    "((set) : alk. paper)",
+                    "(Set : alk. paper)",
+                    "(set ;;alk. paper)",
+                    "(set : acid-free paper)",
+                    "(set ;;acid-free paper)",
+                    "set;alkaline paper",
+                    "set ;;alkaline paper",
+                    "(case : alk. paper)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ISBN [set]"
+            },
+            {
+                "from": [
+                    "(hardcover ; set)",
+                    "(set : hardcover)",
+                    "set : hardcover : alk. paper",
+                    "(set : hardcover : alk. paper)",
+                    "(set hardcopy : alk. paper)",
+                    "(set : hardcopy : alk. paper)",
+                    "(hbk. : set)",
+                    "hbk. : set",
+                    "(2 vol. set : hardcover : alk. paper)",
+                    "(hbk. : 6 vol. set)",
+                    "(hb: set : alk. paper)",
+                    "(Set hbk: alk. paper)",
+                    "(set : hardback)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "HB ISBN [set]"
+            },
+            {
+                "from": [
+                    "(pbk. ; set)",
+                    "(set pbk.)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "PB ISBN [set]"
+            },
+            {
+                "from": [
+                    "(electronic book;set)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "eISBN [set]"
+            },
+            {
+                "from": [
+                    "(set)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "CHECK [set]"
+            },
+            {
+                "from": [
+                    "(v. 1 : alk. paper)",
+                    "v. 1 : alk. paper",
+                    "(v. 1. : alk. paper)",
+                    "(vol. 1 : alk. paper)",
+                    "((vol 1) : alk. paper)",
+                    "volume 1;alkaline paper",
+                    "(v. 1 : acid-free paper)",
+                    "(v. 1 : cloth : alk. paper)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ISBN [vol. 1]"
+            },
+            {
+                "from": [
+                    "(pbk. : v. 1)",
+                    "(v. 1 : pbk.)",
+                    "(v. 1 pbk.)",
+                    "volume 1;paperback",
+                    "(volume I paperback)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "PB ISBN [vol. 1]"
+            },
+            {
+                "from": [
+                    "(vol. 1)",
+                    "vol. 1",
+                    "(vol. l)",
+                    "(v. 1)",
+                    "(v.1)",
+                    "(volume 1)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "CHECK [vol. 1]"
+            },
+            {
+                "from": [
+                    "(hardcover ;;v. 1 ;;acid-free paper)",
+                    "(vol. 1 : hardcover : alk. paper)",
+                    "(vol. 1;hardcover)",
+                    "(v. 1 : hardcover)",
+                    "(v. 1 ;;hardcover ;;alk. paper)",
+                    "(v. 1 : hbk)",
+                    "(v. 1 hardcopy : alk. paper)",
+                    "(hb: vol. 1: alk. paper)",
+                    "(HB : v. 1)",
+                    "volume 1;hardcover"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "HB ISBN [vol. 1]"
+            },
+            {
+                "from": [
+                    "(v. 1 ebook)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "eISBN [vol. 1]"
+            },
+            {
+                "from": [
+                    "(v. 2 : alk. paper)",
+                    "v. 2 : alk. paper",
+                    "(v. 2. : alk. paper)",
+                    "(vol. 2 : alk. paper)",
+                    "((vol 2) : alk. paper)",
+                    "(v. 2 hardcopy : alk. paper)",
+                    "volume 2;alkaline paper"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ISBN [vol. 2]"
+            },
+            {
+                "from": [
+                    "(pbk. : v. 2)",
+                    "(v. 2 pbk.)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "PB ISBN [vol. 2]"
+            },
+            {
+                "from": [
+                    "(vol. 2)",
+                    "vol. 2",
+                    "(v. 2)",
+                    "(v.2)",
+                    "(volume 2)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "CHECK [vol. 2]"
+            },
+            {
+                "from": [
+                    "(v. 2 : hardcover)",
+                    "(v. 2 ;;hardcover ;;alk. paper)",
+                    "(vol. 2;hardcover)",
+                    "(vol. 2 : hardcover : alk. paper)",
+                    "(v. 2 : acid-free paper)",
+                    "(HB : v. 2)",
+                    "(hb: vol. 2: alk. paper)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "HB ISBN [vol. 2]"
+            }
+            {
+                "from": [
+                    "(v. 2 ebook)",
+                    "(electronic bk. : v. 2)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "eISBN [vol. 2]"
+            }
+            {
+                "from": [
+                    "((vol 3) : alk. paper)",
+                    "(vol. 3 : alk. paper)",
+                    "(v. 3 : acid-free paper)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ISBN [vol. 3]"
+            },
+            {
+                "from": [
+                    "(vol. 3 : hardcover : alk. paper)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "HB ISBN [vol. 3]"
+            }
+            {
+                "from": [
+                    "(v. 3)",
+                    "(vol. 3)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "CHECK [vol. 3]"
+            }
+            {
+                "from": [
+                    "(v. 4 ;;hardback)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "HB ISBN [vol. 4]"
+            }
+            {
+                "from": [
+                    "(v. 4)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "CHECK [vol. 4]"
+            }
+            {
+                "from": [
+                    "(v. 5)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "CHECK [vol. 5]"
+            }
+            {
+                "from": [
+                    "(v. 6)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "CHECK [vol. 6]"
+            },
+            {
+                "from": [
+                    "(ebook : alk. paper)",
+                    "(e-book : alk. paper)",
+                    ":",
+                    "(electronic : alk. paper)",
+                    "q",
+                    "(epub : alk. paper)",
+                    "(ebook epub : alk. paper)",
+                    "(eb : alk. paper)",
+                    "(electronic : alk. paper)",
+                    "(obk : alk. paper)",
+                    "(Master)",
+                    "(United States)",
+                    "(US)",
+                    "(book)",
+                    "(oBook)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "CHECK"
+            },
+            {
+                "from": [
+                    "(paper/cd-rom)",
+                    "(cloth/cd-rom)",
+                    "(paper/cd-rom : acid free paper)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ISBN + CD"
+            },
+            {
+                "from": [
+                    "(paper/dvd)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ISBN + DVD"
+            }
+            {
+                "from": [
+                    "(paper/website)",
+                    "(cloth/website)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ISBN + eISBN"
+            }
+            {
+                "from": [
+                    "(pbk./website)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "PB ISBN + eISBN"
+            }
+            {
+                "from": [
+                    "(CD-ROM)",
+                    "(CD)",
+                    "(computer optical disc) :"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "CD"
+            }
+            {
+                "from": [
+                    "(CD-ROM pack)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "CD [set]"
+            }
+        ],
+        "description": "Mass edit cells in column ISBN Type"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Type",
+                    "expression": "grel:toString(contains(value,\"CHECK\"))",
+                    "columnName": "ISBN Type",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Subfield",
+                    "expression": "value",
+                    "columnName": "ISBN Subfield",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "020$a",
+                                "l": "020$a"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Type",
+        "expression": "grel:replace(value,\"CHECK\",\"eISBN\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ISBN Type using expression grel:replace(value,\"CHECK\",\"eISBN\")"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Subfield",
+                    "expression": "value",
+                    "columnName": "ISBN Subfield",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "776$z",
+                                "l": "776$z"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "020$z",
+                                "l": "020$z"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Type",
+                    "expression": "grel:toString(contains(value,\"CHECK\"))",
+                    "columnName": "ISBN Type",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Type",
+        "expression": "grel:replace(value,\"CHECK\",\"ISBN\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ISBN Type using expression grel:replace(value,\"CHECK\",\"ISBN\")"
+    }
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Type",
+                    "expression": "value",
+                    "columnName": "ISBN Type",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "cased",
+                                "l": "cased"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "(casebound)",
+                                "l": "(casebound)"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "(cased)",
+                                "l": "(cased)"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "(series cased)",
+                                "l": "(series cased)"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Subfield",
+                    "expression": "value",
+                    "columnName": "ISBN Subfield",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "020$z",
+                                "l": "020$z"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Type",
+        "expression": "grel:\"ISBN [set]\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ISBN Type using expression grel:\"ISBN [set]\""
+    },
+    {
+        "op": "core/mass-edit",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ISBN Type",
+        "expression": "value",
+        "edits": [
+            {
+                "from": [
+                    "Print version.",
+                    "Print version:|Print version",
+                    "Print version: McKinney, Wes.",
+                    "Print version:Beaulieu, Elise M.",
+                    "Print version:|Selvin, Al."
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ISBN"
+            },
+            {
+                "from": [
+                    "(MyiLibrary)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "MyiLibrary eISBN"
+            },
+            {
+                "from": [
+                    "(NetLibrary e-ISBN)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "NetLibrary eISBN"
+            },
+            {
+                "from": [
+                    "(Proquest Ebook Central)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "Ebook Central eISBN"
+            },
+            {
+                "from": [
+                    "(Springer e-ISBN)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "Springer eISBN"
+            },
+            {
+                "from": [
+                    "(VitalBook ebook)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "VitalBook eISBN"
+            }
+          {
+                "from": [
+                    "(hardcover 23 x 15,5 : alk. paper)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "HB ISBN"
+            }
+          {
+                "from": [
+                    "(McGraw-Hill e-ISBN)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "McGraw-Hill eISBN"
+            }
+          {
+                "from": [
+                    "printed case ;;alkaline paper"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ISBN"
+            }
+          {
+                "from": [
+                    "(v. 10 ;;alk. paper)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ISBN [vol. 10]"
+            }
+          {
+                "from": [
+                    "(St Martin's Press)",
+                    "(St. Martin's Press)",
+                    "(St. Martin's)",
+                    "(St. Martins)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "St. Martin's CHECK"
+            }
+          {
+                "from": [
+                    "(Institutum Historicum Societatis Iesu)",
+                    "Also issued in print:",
+                    "(variant on dustjacket)",
+                    "(mobi, ePUB)",
+                    "(jacketed ;;alk. paper)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "CHECK"
+            }
+          {
+                "from": [
+                    "(Macmillan Press)",
+                    "(Macmillan)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "Macmillan CHECK"
+            }
+          {
+                "from": [
+                    "(McGraw-Hill)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "McGraw-Hill CHECK"
+            }
+        ],
+        "description": "Mass edit cells in column ISBN Type"
+    }
+      {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Type",
+                    "expression": "grel:toString(contains(value,\"CHECK\"))",
+                    "columnName": "ISBN Type",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Subfield",
+                    "expression": "value",
+                    "columnName": "ISBN Subfield",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "020$a",
+                                "l": "020$a"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Type",
+        "expression": "grel:replace(value,\"CHECK\",\"eISBN\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ISBN Type using expression grel:replace(value,\"CHECK\",\"eISBN\")"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ISBN Subfield",
+                    "expression": "value",
+                    "columnName": "ISBN Subfield",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "776$z",
+                                "l": "776$z"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "020$z",
+                                "l": "020$z"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ISBN Type",
+                    "expression": "grel:toString(contains(value,\"CHECK\"))",
+                    "columnName": "ISBN Type",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ISBN Type",
+        "expression": "grel:replace(value,\"CHECK\",\"ISBN\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ISBN Type using expression grel:replace(value,\"CHECK\",\"ISBN\")"
+    }
+]
