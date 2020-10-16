@@ -208,19 +208,6 @@
         "repeatCount": 10
     }
     {
-        "op": "core/text-transform",
-        "description": "Append `-long` to all `YBP` values in column ``001 ID Source`` corresponding to ``001 ID`` values that are at least 10 digits long and begin with `999`",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "001 ID Source",
-        "expression": "grel:if(and(length(cells[\"001 ID\"].value)>=10,startsWith(cells[\"001 ID\"].value,\"999\")),\"YBP-long\",value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
         "op": "core/column-removal",
         "description": "Remove column ``Unofficial 001 ID Source``",
         "columnName": "Unofficial 001 ID Source"
