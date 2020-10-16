@@ -40,12 +40,12 @@ def TKR_Loop(ColumnNumber, ColumnPosition): #Both arguments should be initalized
 
 #Section: Determine What BIBs Have ACQ Records
 #Subsection: Collect all possible BIB numbers for the platform/collection in question
-# WAU:KW in author= ProQuest AND WNS:KW in staff note= GOBI AND WSB:Sublibrary= FSUER {1087}
-# WSB:Sublibrary= FSUER AND WUR:KW in URL= ebookcentral proquest com lib fsu AND WUR:KW in URL= FTaSU {10153}
+# WAU:KW in author= ProQuest AND WNS:KW in staff note= GOBI AND WSB:Sublibrary= FSUER {1106}
+# WSB:Sublibrary= FSUER AND WUR:KW in URL= ebookcentral proquest com lib fsu AND WUR:KW in URL= FTaSU {5964}
 # WSB:Sublibrary= FSUER AND WUR:KW in URL= myilibrary AND WUR:KW in URL= FTaSU {467}
-# WSB:Sublibrary= FSUER AND WUR:KW in URL= ebrary AND WUR:KW in URL= FTaSU {705}
-# WSB:Sublibrary= FSUER AND WUR:KW in URL= eblib AND WUR:KW in URL= FTaSU {489}
-# All of the above: FSEREBCB1 {11501}
+# WSB:Sublibrary= FSUER AND WUR:KW in URL= ebrary AND WUR:KW in URL= FTaSU {693}
+# WSB:Sublibrary= FSUER AND WUR:KW in URL= eblib AND WUR:KW in URL= FTaSU {486}
+# All of the above: FSEREBCB5 {7310}
 
 
 #Section: Collect BIB Information
