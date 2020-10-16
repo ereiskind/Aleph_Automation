@@ -144,12 +144,14 @@ os.startfile('Organize_UXU01_Output_pt1--Ebook_Central_Specific.json')
     "description": "Mass edit cells in column Title"
   }
 ]"""
+
 messagebox.showinfo(title="Instructions", message="Perform clustering on column \"URL Domain\" to change domain names into the platforms they represent.") # See Ebook_Central_Custom_Faceting_pt1.json
 messagebox.showwarning(title="Regex Only URLs", message="The only URLs pulled out for their IDs are the ones that match the regexes.")
 messagebox.showinfo(title="Instructions", message="Use text facets to change the values in \"001 ID Source\" and \"Unofficial 001 ID Source\" into the names of the platforms/sources they represent.") # See Ebook_Central_Custom_Faceting_pt1.json
 messagebox.showwarning(title="Custom Faceting", message="All values in \"Unofficial 001 ID Source\" were handled in that JSON.")
 messagebox.showwarning(title="Custom Faceting: YBP", message="YBP IDs or unlabeled 035 values that are 11 digits long have been relabeled \"Gobi\".")
 os.startfile('Organize_UXU01_Output_pt2--Ebook_Central_Specific.json')
+
 messagebox.showwarning(title="MyiLibrary", message="The following JSON Specifically contains a step for seperating the MyiLibrary ID source identifiers for the IDs from URLs and 035/599 fields.")
 os.startfile('Organize_UXU01_Output_pt3--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Investigate ISBNs with lengths other than 10 or 13, then clean up \"ISBN Types\" via clustering.") # See Ebook_Central_Custom_Faceting_pt2.json
