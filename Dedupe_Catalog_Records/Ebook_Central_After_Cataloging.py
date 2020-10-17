@@ -160,7 +160,8 @@ messagebox.showwarning(title="Duplicate Dedupe Column Blank Down", message="The 
 messagebox.showwarning(title="Ebook Central", message="Non-Ebook Central ID sources that didn't have duplicate IDs have their columns removed in this JSON.")
 os.startfile('Organize_UXU01_Output_pt4--Ebook_Central_Specific.json')
 #Alert: This seems to not include BIBs that don't have FSU 856 fields--is this a problem?
-messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp Title 2\".")
+messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp Title 2\".") # See Ebook_Central_Custom_Faceting_pt3.json
+messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp Title 3\".") # See Ebook_Central_Custom_Faceting_pt3.json
 
 # os.startfile('Organize_UXU01_Output_pt5--Ebook_Central_Specific.json')
 # messagebox.showinfo(title="Instructions", message="Create a filter for blanks on \"Inexact Title Record Number\" and set it to true. If the titles in the record don't match, change the values in \"Inexact Title Record Number\" with \"toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)\".")
