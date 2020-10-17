@@ -1021,4 +1021,82 @@
         "repeat": false,
         "repeatCount": 10
     }
+    {
+        "op": "core/text-transform",
+        "description": "Use regex to change values in ``Temp Title 2`` containing format `volume #` to consistent format",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title 2",
+        "expression": "grel:if(length(find(value, /volume \\d+/))>0,\"vol \"+find(value, /\\d+/)[0],value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Use regex to change values in ``Temp Title 2`` containing format `vol. #` to consistent format",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title 2",
+        "expression": "grel:if(length(find(value, /vol\\.? \\d+/))>0,\"vol \"+find(value, /\\d+/)[0],value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Use regex to change values in ``Temp Title 3`` containing format `volume #` to consistent format",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title 3",
+        "expression": "grel:if(length(find(value, /volume \\d+/))>0,\"vol \"+find(value, /\\d+/)[0],value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Use regex to change values in ``Temp Title 3`` containing format `vol. #` to consistent format",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title 3",
+        "expression": "grel:if(length(find(value, /vol\\.? \\d+/))>0,\"vol \"+find(value, /\\d+/)[0],value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+      {
+        "op": "core/text-transform",
+        "description": "Use regex to change values in ``Temp Title 2`` containing format `# Ed.` or `# Edition` to consistent format",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title 2",
+        "expression": "grel:if(length(find(value, /\\d+(\\w{2})? (E|e)d(ition)?\\.?\\W$/))>0,find(value, /\\d+/)[0]+\" ed\",value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Use regex to change values in ``Temp Title 3`` containing format `# Ed.` or `# Edition` to consistent format",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Temp Title 3",
+        "expression": "grel:if(length(find(value, /\\d+(\\w{2})? (E|e)d(ition)?\\.?\\W$/))>0,find(value, /\\d+/)[0]+\" ed\",value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
 ]
