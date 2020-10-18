@@ -13463,6 +13463,7 @@ messagebox.showinfo(title="Instructions", message="Create a filter for blanks on
   }
 ]"""
 #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project--the pivot happens in the following JSON
+messagebox.showwarning(title="Removal of Second Ebook Central ID", message="If any of the records featured in the manual matching doone after this JSON had two Ebook Central IDs, the last two steps of the JSON will get rid of them. This shouldn't be an issue..")
 os.startfile('Organize_UXU01_Output_pt7--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="In record view, create a filter for blanks on \"Record Number 1\" and set it to false. Create a text filter on both \"Record Number 1\" and \"Record Number 2\".")
 messagebox.showinfo(title="Instructions", message="Selct \"false\" on the blanks filter for \"Record Number 1\". For the records that match, determine which propriatary ID matches the title and change all values in \"Record Number\" with the propriatary ID to that number.")

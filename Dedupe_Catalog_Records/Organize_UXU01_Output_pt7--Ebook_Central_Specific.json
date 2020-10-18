@@ -959,5 +959,104 @@
         "op": "core/column-removal",
         "description": "Remove column ``ID Mismatch``",
         "columnName": "ID Mismatch"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "In records where some values of ``Record Number 1`` are not null, if an Ebook Central ID is in ``Record Number``, make that ID the beginning of the value of ``Record Number`` for all the rows in the record, ending the ID with a tilde (`~`)",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(contains(join(row.record.cells[\"Record Number\"].value,\"~\"),\"::\"),substring(join(row.record.cells[\"Record Number\"].value,\"~\"),indexOf(join(row.record.cells[\"Record Number\"].value,\"~\"),\"::\")+2),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "In records where some values of ``Record Number 1`` are not null, for the records where one of the rows had an Ebook Central ID in ``Record Number```, give all the rows in the record the ID with the formatting matching other Ebook Central IDs in ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(contains(value,\"~\"),\"Ebook Central::\"+substring(value,0,indexOf(value,\"~\")),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null all values in ``Ebook Central`` in rows that were updated to have Ebook Central IDs in ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Ebook Central",
+        "expression": "grel:if(contains(cells[\"Record Number\"].value,\"::\"),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     }
 ]
