@@ -74,7 +74,8 @@
                     "1. Auflage.)",
                     "1std.)",
                     "1st Ed. 2017.)",
-                    "1st Ed ; Foreword By Vicki L. Ruiz.)"
+                    "1st Ed ; Foreword By Vicki L. Ruiz.)",
+                    "frst Edition.)"
                 ],
                 "fromBlank": false,
                 "fromError": false,
@@ -101,7 +102,8 @@
                     "2nd. Ed.)",
                     "[2nd Ed.].)",
                     "2nd Ed. 2018.)",
-                    "2nd Ed., Pbk. Ed.)"
+                    "2nd Ed., Pbk. Ed.)",
+                    "second Print Edition.)"
                 ],
                 "fromBlank": false,
                 "fromError": false,
@@ -136,7 +138,9 @@
                     "third Edition /)",
                     "3e [ed.] /)",
                     "third Edition, 2015.)",
-                    "3rd Ed., Oxford Pbk Ed. /)"
+                    "3rd Ed., Oxford Pbk Ed. /)",
+                    "third Edition)",
+                    "3rd Ed. ; Thirtieth Anniversary Ed. With A New Introduction.)"
                 ],
                 "fromBlank": false,
                 "fromError": false,
@@ -230,7 +234,8 @@
                     "seventh Edition.)",
                     "seventh Edition /)",
                     "7th Ed. /)",
-                    "7th U.S. Ed.)"
+                    "7th U.S. Ed.)",
+                    "seventh Ediion.)"
                 ],
                 "fromBlank": false,
                 "fromError": false,
@@ -309,6 +314,14 @@
             },
             {
                 "from": [
+                    "2019, Twenty Sixth Edition.)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "ed 26"
+            },
+            {
+                "from": [
                     "fifty First Edition.)"
                 ],
                 "fromBlank": false,
@@ -351,7 +364,8 @@
                     "first Report)",
                     "part A) ",
                     "part I,)",
-                    "report 1)"
+                    "report 1)",
+                    "volume I,) "
                 ],
                 "fromBlank": false,
                 "fromError": false,
@@ -499,6 +513,14 @@
         "edits": [
             {
                 "from": [
+                    "tenth Anniversary Edition.)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "10 ann ed"
+            },
+            {
+                "from": [
                     "rev. And Expanded 10th Anniversary Ed. /)",
                     "rev. Ed., [10th Anniversary Ed.])",
                     "revised And Expanded 10th Anniversary Ed.)"
@@ -510,7 +532,8 @@
             {
                 "from": [
                     "twenty Fifth Anniversary Edition.)",
-                    "25th Anniversary Ed.)"
+                    "25th Anniversary Ed.)",
+                    "25th Anniverary Ed.)"
                 ],
                 "fromBlank": false,
                 "fromError": false,
@@ -527,6 +550,14 @@
             },
             {
                 "from": [
+                    "94th Annual Ed.)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "94 ann ed"
+            },
+            {
+                "from": [
                     "bicentennial Ed.)"
                 ],
                 "fromBlank": false,
@@ -536,7 +567,8 @@
             {
                 "from": [
                     "centenary Ed.)",
-                    "centenary Edition.)"
+                    "centenary Edition.)",
+                    "centenary ed"
                 ],
                 "fromBlank": false,
                 "fromError": false,
@@ -647,6 +679,14 @@
                 "fromBlank": false,
                 "fromError": false,
                 "to": "vol 2016"
+            },
+            {
+                "from": [
+                    "2020 April Edition.)"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "vol 20206"
             },
             {
                 "from": [
@@ -989,7 +1029,73 @@
                                 "v": "first Scribner Trade Paperback Edition.)",
                                 "l": "first Scribner Trade Paperback Edition.)"
                             }
-                        }
+                        },
+                        {
+                            "v": {
+                              "v": "simon & Schuster Trade Pbk. Ed.)",
+                              "l": "simon & Schuster Trade Pbk. Ed.)"
+                            }
+                          },
+                          {
+                            "v": {
+                              "v": "first Avid Reader Press Hardcover Edition.)",
+                              "l": "first Avid Reader Press Hardcover Edition.)"
+                            }
+                          },
+                          {
+                            "v": {
+                              "v": "1st Touchstone Trade Paperback Ed.)",
+                              "l": "1st Touchstone Trade Paperback Ed.)"
+                            }
+                          },
+                          {
+                            "v": {
+                              "v": "first Adams Media Hardcover Edition.)",
+                              "l": "first Adams Media Hardcover Edition.)"
+                            }
+                          },
+                          {
+                            "v": {
+                              "v": "first One Signal Publishers/atria Books Hardcover Edition.)",
+                              "l": "first One Signal Publishers/atria Books Hardcover Edition.)"
+                            }
+                          },
+                          {
+                            "v": {
+                              "v": "reader's Edition.)",
+                              "l": "reader's Edition.)"
+                            }
+                          },
+                          {
+                            "v": {
+                              "v": "wiley Classics Library Ed.)",
+                              "l": "wiley Classics Library Ed.)"
+                            }
+                          },
+                          {
+                            "v": {
+                              "v": "1st Simon & Schuster Hardcover Ed.)",
+                              "l": "1st Simon & Schuster Hardcover Ed.)"
+                            }
+                          },
+                          {
+                            "v": {
+                              "v": "1st Midland Book Ed.)",
+                              "l": "1st Midland Book Ed.)"
+                            }
+                          },
+                          {
+                            "v": {
+                              "v": "1st Ballantine Books Hardcover Ed.)",
+                              "l": "1st Ballantine Books Hardcover Ed.)"
+                            }
+                          },
+                          {
+                            "v": {
+                              "v": "first Simon & Schuster Trade Paperback Edition.)",
+                              "l": "first Simon & Schuster Trade Paperback Edition.)"
+                            }
+                          }
                     ],
                     "selectBlank": false,
                     "selectError": false
@@ -1004,838 +1110,3 @@
         "repeatCount": 10,
         "description": "Text transform on cells in column Temp Title 2 using expression null"
     }
-{
-        "op": "core/mass-edit",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Temp Title 3",
-        "expression": "value",
-        "edits": [
-            {
-                "from": [
-                    "[new Ed.].)",
-                    "new Ed.)",
-                    "[new Ed.] /)",
-                    "[new Ed.])",
-                    "[new] Ed.)",
-                    "rev. And Updated Ed.)",
-                    "[rev. And Updated Ed.])",
-                    "[rev. And Updated Ed.].)",
-                    "revised And Expanded Second Edition.)",
-                    "second Edition, Revised And Expanded.)",
-                    "rev. And Expanded Ed.)",
-                    "rev. And Expanded Ed. /)",
-                    "rev. Ed.)",
-                    "rev. Ed. /)",
-                    "updated And Expanded Edition.)",
-                    "updated And Expanded [edition].)",
-                    "revised And Updated [edition].)",
-                    "revised And Updated Edition.)",
-                    "revised Edition.)",
-                    "revised Edition /)",
-                    "updated Ed.)",
-                    "[updated Ed.].)",
-                    "expanded Ed.)",
-                    "extended And Revised Edition.)",
-                    "extended Edition.)",
-                    "fully Rev. And Expanded Ed.)",
-                    "new Ed., Rev. And Expanded.)",
-                    "new Edition.)",
-                    "new Paperback Edition.)",
-                    "new Rev. Ed.)",
-                    "rev. And Updated)",
-                    "rev. Ed. Upd. With A New Preface.)",
-                    "rev. Ed. With A New Preface.)",
-                    "rev. English Ed.)",
-                    "rev.)",
-                    "revised And Expanded Edition.)",
-                    "updated Ed. With A New Preface /)",
-                    "updated Edition.)",
-                    "abridged And Updated Ed.)",
-                    "[update].)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed rev"
-            },
-            {
-                "from": [
-                    "[1st Ed.].)",
-                    "1st [ed.].)",
-                    "1st. Ed.)",
-                    "1st [edition].)",
-                    "1st Edition)",
-                    "1st Edition.)",
-                    "first Edition.)",
-                    "first Edition)",
-                    "first [edition].)",
-                    "1 [edition].)",
-                    "1 Edition.)",
-                    "ed 1",
-                    "1. Ed.)",
-                    "fisrt Edition.)",
-                    "1. Auflage.)",
-                    "1std.)",
-                    "1st Ed. 2017.)",
-                    "1st Ed ; Foreword By Vicki L. Ruiz.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 1"
-            },
-            {
-                "from": [
-                    "1st Rev. Ed.)",
-                    "1st Ed., Rev.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 1 rev"
-            },
-            {
-                "from": [
-                    "second Edition.)",
-                    "second Edition /)",
-                    "second Edition)",
-                    "[second Edition])",
-                    "second Edition. /)",
-                    "2nd Ed.)",
-                    "2nd Ed. /)",
-                    "2nd. Ed.)",
-                    "[2nd Ed.].)",
-                    "2nd Ed. 2018.)",
-                    "2nd Ed., Pbk. Ed.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 2"
-            },
-            {
-                "from": [
-                    "2nd Ed., Rev.)",
-                    "2nd Rev. Ed.)",
-                    "2nd Ed. Rev.)",
-                    "rev. 2nd Ed.)",
-                    "2nd Ed., Rev. And Expanded.)",
-                    "2nd Ed., Rev. And Expanded /)",
-                    "2nd Ed., Rev. And Expanded)",
-                    "fully Revised 2nd Ed.)",
-                    "2nd Ed., Updated And Expanded.)",
-                    "2nd Ed., New Ed.)",
-                    "2nd Ed., Rev. And Updated.)",
-                    "second Edition, Completely Revised And Updated.)",
-                    "second Edition, Corrected 7th Printing)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 2 rev"
-            },
-            {
-                "from": [
-                    "3rd Ed.)",
-                    "3rd Ed. /)",
-                    "[3rd Ed.].)",
-                    "third Edition.)",
-                    "third Edition /)",
-                    "3e [ed.] /)",
-                    "third Edition, 2015.)",
-                    "3rd Ed., Oxford Pbk Ed. /)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 3"
-            },
-            {
-                "from": [
-                    "3rd Ed., Rev. And Updated.)",
-                    "rev. And Updated 3rd Ed.)",
-                    "rev. & Updated 3rd Ed.)",
-                    "completely Rev. And Updated, 3rd Ed.)",
-                    "3rd Ed., Rev. And Expanded.)",
-                    "3rd Ed. Rev.)",
-                    "3rd Ed. Rev. And Updated Work.)",
-                    "3rd Ed., Completely Updated.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 3 rev"
-            },
-            {
-                "from": [
-                    "fourth Edition.)",
-                    "fourth Edition /)",
-                    "fourth Edition)",
-                    "4th Ed. /)",
-                    "4th Ed. [kindle Ed.])"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 4"
-            },
-            {
-                "from": [
-                    "rev. 4th Ed.)",
-                    "4th Ed., Rev. And Expanded.)",
-                    "all New 4th Ed.)",
-                    "fourth Edition, Dsm 5 Chapter Update.)",
-                    "fourth Edition, 2012 2013 Update.)",
-                    "4th Ed., 2012 2013 Update.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 4 rev"
-            },
-            {
-                "from": [
-                    "5th Ed.)",
-                    "5th Ed. /)",
-                    "[5th] Ed.)",
-                    "fifth Edition.)",
-                    "fifth Edition /)",
-                    "fifth Editon.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 5"
-            },
-            {
-                "from": [
-                    "5th Ed. Rev.)",
-                    "5th Ed., Rev.)",
-                    "all New 5th Ed.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 5 rev"
-            },
-            {
-                "from": [
-                    "sixth Edition.)",
-                    "sixth Edition /)",
-                    "6th Ed.)",
-                    "6th Ed. /)",
-                    "sixth Edition, 2016.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 6"
-            },
-            {
-                "from": [
-                    "6th Ed., [rev. And Expanded].)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 6 rev"
-            },
-            {
-                "from": [
-                    "seventh Edition.)",
-                    "seventh Edition /)",
-                    "7th Ed. /)",
-                    "7th U.S. Ed.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 7"
-            },
-            {
-                "from": [
-                    "7th Rev. Ed.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 7 rev"
-            },
-            {
-                "from": [
-                    "eighth Edition.)",
-                    "eighth Edition /)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 8"
-            },
-            {
-                "from": [
-                    "ninth Edition.)",
-                    "ninth Edition /)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 9"
-            },
-            {
-                "from": [
-                    "tenth Edition.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 10"
-            },
-            {
-                "from": [
-                    "11th Ed. /)",
-                    "11th Ed.)",
-                    "11th Ed., A New And Enlarged Ed. / By Sarah Corbin Robert [and Others].)",
-                    "eleventh Edition.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 11"
-            },
-            {
-                "from": [
-                    "12th Ed.)",
-                    "12th Ed. /)",
-                    "[12th Ed.].)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 12"
-            },
-            {
-                "from": [
-                    "twenty First Edition.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 21"
-            },
-            {
-                "from": [
-                    "24th Edition.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 24"
-            },
-            {
-                "from": [
-                    "fifty First Edition.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 51"
-            },
-            {
-                "from": [
-                    "fifty Second Edition.)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "ed 52"
-            }
-        ],
-        "description": "Mass edit cells in column Temp Title 3"
-    },
-    {
-        "op": "core/mass-edit",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Temp Title 3",
-        "expression": "value",
-        "edits": [
-            {
-                "from": [
-                    "volume 1,)",
-                    "volume 1,) ",
-                    "volume 1 /)",
-                    "volume 1 :)",
-                    "[volume 1]) ",
-                    "volume 1 /) ",
-                    "volume I,)",
-                    "volume I)",
-                    "volume I) ",
-                    "vol. 1,)",
-                    "volume One,)",
-                    "first Report)",
-                    "part A) ",
-                    "part I,)",
-                    "report 1)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 1"
-            },
-            {
-                "from": [
-                    "volume 2,)",
-                    "volume 2 /)",
-                    "volume 2)",
-                    "volume 2,) ",
-                    "volume 2 :)",
-                    "volume 2) ",
-                    "part 2 /)",
-                    "part 2,)",
-                    "vol. 2 /)",
-                    "vol. 2,)",
-                    "volume Two,)",
-                    "volume Two /)",
-                    "part B",
-                    "phase Ii Report /)",
-                    "part B) ",
-                    "part B,) "
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 2"
-            },
-            {
-                "from": [
-                    "volume 3)",
-                    "volume 3,) ",
-                    "volume 3 /)",
-                    "volume 3,)",
-                    "vol. 3)",
-                    "volume Three /) ",
-                    "part 3,)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 3"
-            },
-            {
-                "from": [
-                    "volume 4)",
-                    "volume 4,)",
-                    "vol. Iv)",
-                    "volume Four,)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 4"
-            },
-            {
-                "from": [
-                    "volume 5)",
-                    "volume 5,)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 5"
-            },
-            {
-                "from": [
-                    "volume 6)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 6"
-            },
-            {
-                "from": [
-                    "volume Vii,)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 7"
-            },
-            {
-                "from": [
-                    "volume Eight ,)",
-                    "band Viii, Vierundzwanaigster Gesang,)",
-                    "band Viii,)",
-                    "band Viii, Faszikel 2,)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 8"
-            },
-            {
-                "from": [
-                    "volume Nine /)",
-                    "volume Nine,)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 9"
-            },
-            {
-                "from": [
-                    "band 16,)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 16"
-            },
-            {
-                "from": [
-                    "volume Xx /)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 20"
-            },
-            {
-                "from": [
-                    "number 34 /)"
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 34"
-            },
-            {
-                "from": [
-                    "volume Ii /)",
-                    "volume Ii,)",
-                    "volume Ii)",
-                    "volume Ii,) "
-                ],
-                "fromBlank": false,
-                "fromError": false,
-                "to": "vol 51"
-            }
-        ],
-        "description": "Mass edit cells in column Temp Title 3"
-    },
-    {
-        "op": "core/text-transform",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Temp Title 3",
-                    "expression": "value",
-                    "columnName": "Temp Title 3",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "1st Mariner Books Ed.)",
-                                "l": "1st Mariner Books Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "pbk. Ed.)",
-                                "l": "pbk. Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "textkritische Ausg.)",
-                                "l": "textkritische Ausg.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "[enhanced Credo Edition])",
-                                "l": "[enhanced Credo Edition])"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "[enhanced Credo Edition].)",
-                                "l": "[enhanced Credo Edition].)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "english Ed.)",
-                                "l": "english Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "[english Ed.].)",
-                                "l": "[english Ed.].)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first U.S. Edition.)",
-                                "l": "first U.S. Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first Us Edition.)",
-                                "l": "first Us Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "[pbk. Ed., 1998])",
-                                "l": "[pbk. Ed., 1998])"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "[pbk. Ed., 1998].)",
-                                "l": "[pbk. Ed., 1998].)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "[pbk. Ed., 1997])",
-                                "l": "[pbk. Ed., 1997])"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "standard Text Ed.)",
-                                "l": "standard Text Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first Texas A&m University Press Edition.)",
-                                "l": "first Texas A&m University Press Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "1st Houghton Mifflin Pbk. Ed.)",
-                                "l": "1st Houghton Mifflin Pbk. Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "comprehensive Ed.)",
-                                "l": "comprehensive Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "samuel French Acting Edition.)",
-                                "l": "samuel French Acting Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "english Language Edition.)",
-                                "l": "english Language Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "1st Electronic Reading Ed.)",
-                                "l": "1st Electronic Reading Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first Wings Press Edition.)",
-                                "l": "first Wings Press Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "1st Pbk. Ed.)",
-                                "l": "1st Pbk. Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first Harvard University Press Edition.)",
-                                "l": "first Harvard University Press Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "1st Da Capo Press Ed.)",
-                                "l": "1st Da Capo Press Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "desktop Ed.)",
-                                "l": "desktop Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "oxford University Press Pbk.)",
-                                "l": "oxford University Press Pbk.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "annotated Ed.)",
-                                "l": "annotated Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "critical Edition.)",
-                                "l": "critical Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "english Language Ed.)",
-                                "l": "english Language Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "taylor & Francis E Library Ed.)",
-                                "l": "taylor & Francis E Library Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "paperback Edition.)",
-                                "l": "paperback Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first U.S. Edition.)",
-                                "l": "first U.S. Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "concise Pbk. Ed.)",
-                                "l": "concise Pbk. Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "digital Ed.)",
-                                "l": "digital Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "american Ed.)",
-                                "l": "american Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "1st English Ed.)",
-                                "l": "1st English Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first Mariner Books Edition.)",
-                                "l": "first Mariner Books Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "1st Paperback Ed.)",
-                                "l": "1st Paperback Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first Tcg Edition.)",
-                                "l": "first Tcg Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "annotated Script Edition.)",
-                                "l": "annotated Script Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "online Only Edition.)",
-                                "l": "online Only Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "1a. Ed. Virtual.)",
-                                "l": "1a. Ed. Virtual.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "dover Ed.)",
-                                "l": "dover Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first American Edition.)",
-                                "l": "first American Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "del Rey Trade Pbk. Ed.)",
-                                "l": "del Rey Trade Pbk. Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "dover Edition.)",
-                                "l": "dover Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "english Edition.)",
-                                "l": "english Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first Simon & Schuster Hardcover Edition.)",
-                                "l": "first Simon & Schuster Hardcover Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "1st Counterpoint Pbk. Ed.)",
-                                "l": "1st Counterpoint Pbk. Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first Scribner Hardcover Edition.)",
-                                "l": "first Scribner Hardcover Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "1st Da Capo Press Pbk. Ed.)",
-                                "l": "1st Da Capo Press Pbk. Ed.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "digital First Edition.)",
-                                "l": "digital First Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "english Edition.)",
-                                "l": "english Edition.)"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "first Scribner Trade Paperback Edition.)",
-                                "l": "first Scribner Trade Paperback Edition.)"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Temp Title 3",
-        "expression": "null",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10,
-        "description": "Text transform on cells in column Temp Title 3 using expression null"
-    }
-]
