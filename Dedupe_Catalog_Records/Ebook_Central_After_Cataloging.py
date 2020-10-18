@@ -166,1206 +166,201 @@ messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp 
 os.startfile('Organize_UXU01_Output_pt5--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="Create a filter for blanks on \"Inexact Title Record Number\" and set it to true. If the titles in the record don't match, change the values in \"Inexact Title Record Number\" with \"toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)\".") # Few enough titles remained after the filter that they could be examined together, and none were matches.
 
-# os.startfile('Organize_UXU01_Output_pt6--Ebook_Central_Specific.json')
-# messagebox.showinfo(title="Instructions", message="Create a filter for blanks on \"No Subtitle Record Number\" and set it to true. If the titles in the record don't match, change the values in \"No Subtitle Record Number\" with \"toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)\".")
-# """[
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "10917",
-#                 "l": "10917"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "1356",
-#                 "l": "1356"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "1890",
-#                 "l": "1890"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "1951",
-#                 "l": "1951"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "2217",
-#                 "l": "2217"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "234",
-#                 "l": "234"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "249",
-#                 "l": "249"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "2511",
-#                 "l": "2511"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "278",
-#                 "l": "278"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "3191",
-#                 "l": "3191"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "3287",
-#                 "l": "3287"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "4281",
-#                 "l": "4281"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "4498",
-#                 "l": "4498"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "4616",
-#                 "l": "4616"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "4731",
-#                 "l": "4731"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "4767",
-#                 "l": "4767"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "5896",
-#                 "l": "5896"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "6267",
-#                 "l": "6267"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "6945",
-#                 "l": "6945"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "7750",
-#                 "l": "7750"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "8747",
-#                 "l": "8747"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "9390",
-#                 "l": "9390"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "No Subtitle Record Number",
-#           "expression": "value",
-#           "columnName": "No Subtitle Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "9395",
-#                 "l": "9395"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "No Subtitle Record Number",
-#     "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
-#   }
-# ]"""
+os.startfile('Organize_UXU01_Output_pt6--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Create a filter for blanks on \"No Subtitle Record Number\" and set it to true. If the titles in the record don't match, change the values in \"No Subtitle Record Number\" with \"toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)\".") # Single JSON step--see below
+"""[
+      {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "No Subtitle Record Number",
+          "expression": "isBlank(value)",
+          "columnName": "No Subtitle Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "035861419",
+                "l": "035861419"
+              }
+            },
+            {
+              "v": {
+                "v": "020661587",
+                "l": "020661587"
+              }
+            },
+            {
+              "v": {
+                "v": "034153576",
+                "l": "034153576"
+              }
+            },
+            {
+              "v": {
+                "v": "033330708",
+                "l": "033330708"
+              }
+            },
+            {
+              "v": {
+                "v": "028765055",
+                "l": "028765055"
+              }
+            },
+            {
+              "v": {
+                "v": "036768093",
+                "l": "036768093"
+              }
+            },
+            {
+              "v": {
+                "v": "022512571",
+                "l": "022512571"
+              }
+            },
+            {
+              "v": {
+                "v": "020691205",
+                "l": "020691205"
+              }
+            },
+            {
+              "v": {
+                "v": "022512751",
+                "l": "022512751"
+              }
+            },
+            {
+              "v": {
+                "v": "020692062",
+                "l": "020692062"
+              }
+            },
+            {
+              "v": {
+                "v": "036695441",
+                "l": "036695441"
+              }
+            },
+            {
+              "v": {
+                "v": "021179888",
+                "l": "021179888"
+              }
+            },
+            {
+              "v": {
+                "v": "030972673",
+                "l": "030972673"
+              }
+            },
+            {
+              "v": {
+                "v": "037551959",
+                "l": "037551959"
+              }
+            },
+            {
+              "v": {
+                "v": "032257080",
+                "l": "032257080"
+              }
+            },
+            {
+              "v": {
+                "v": "021111529",
+                "l": "021111529"
+              }
+            },
+            {
+              "v": {
+                "v": "035918051",
+                "l": "035918051"
+              }
+            },
+            {
+              "v": {
+                "v": "022492949",
+                "l": "022492949"
+              }
+            },
+            {
+              "v": {
+                "v": "020480642",
+                "l": "020480642"
+              }
+            },
+            {
+              "v": {
+                "v": "034195179",
+                "l": "034195179"
+              }
+            },
+            {
+              "v": {
+                "v": "036695222",
+                "l": "036695222"
+              }
+            },
+            {
+              "v": {
+                "v": "020168608",
+                "l": "020168608"
+              }
+            },
+            {
+              "v": {
+                "v": "028533388",
+                "l": "028533388"
+              }
+            },
+            {
+              "v": {
+                "v": "028730023",
+                "l": "028730023"
+              }
+            }                                
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "No Subtitle Record Number",
+    "expression": "grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column No Subtitle Record Number using expression grel:toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)"
+  }
+]"""
+
 # #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project--the pivot happens in the following JSON
 # os.startfile('Organize_UXU01_Output_pt7--Ebook_Central_Specific.json')
 # messagebox.showinfo(title="Instructions", message="In record view, create a filter for blanks on \"Record Number 1\" and set it to false. Create a text filter on both \"Record Number 1\" and \"Record Number 2\".")
