@@ -367,76 +367,76 @@ messagebox.showinfo(title="Instructions", message="In record view, create a filt
 os.startfile('Organize_UXU01_Output_pt8--Ebook_Central_Specific.json')
 # messagebox.showinfo(title="Instructions", message="Create text filter on \"ISBN Values 1\" and select each string of IDs individually. Determine which Ebook Central ID is the best match for that BIB, then change \"Record Number\" to \"Ebook Central::\" plus that ID.") -- The only value in "ISBN Values 1" was "No ID found"
 
-# os.startfile('Organize_UXU01_Output_pt9--Ebook_Central_Specific.json')
-# messagebox.showinfo(title="Instructions", message="Create custom filter on \"Record Number\" with the expression \"and(contains(value,\"|\"),contains(value,\"::\"))\". For the BIBs that are true, determine which Ebook Central ID to keep.") # Just two JSON steps--see below
-# """[
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "BIB Number",
-#           "expression": "value",
-#           "columnName": "BIB Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "034026703",
-#                 "l": "034026703"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "Record Number",
-#     "expression": "grel:\"Ebook Central::4033723\"",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4033723\""
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "BIB Number",
-#           "expression": "value",
-#           "columnName": "BIB Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "034636879",
-#                 "l": "034636879"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "Record Number",
-#     "expression": "grel:\"Ebook Central::4033722\"",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4033722\""
-#   }
-# ]"""
+os.startfile('Organize_UXU01_Output_pt9--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Create custom filter on \"Record Number\" with the expression \"and(contains(value,\"|\"),contains(value,\"::\"))\". For the BIBs that are true, determine which Ebook Central ID to keep.") # Just two JSON steps--see below
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "034026703",
+                "l": "034026703"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::4033723\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4033723\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "BIB Number",
+          "expression": "value",
+          "columnName": "BIB Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "034636879",
+                "l": "034636879"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "expression": "grel:\"Ebook Central::4033722\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4033722\""
+  }
+]"""
 
 # #Subsection: Organize UXU60 Output
 # messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU60 info into OpenRefine with column widths 10, 5, 3. Name the project \"UXU60_Cleanup\".")
