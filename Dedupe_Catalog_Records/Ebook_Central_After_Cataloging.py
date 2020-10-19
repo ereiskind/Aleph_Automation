@@ -364,8 +364,11 @@ messagebox.showinfo(title="Instructions", message="Create a filter for blanks on
 os.startfile('Organize_UXU01_Output_pt7--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="In record view, create a filter for blanks on \"Record Number 1\" and set it to false. Create a text filter on \"Record Number 2\". Select each number in the \"Record Number 2\" text filter on at a time. Determine which BIBs have a given proprietary ID, change the value of \"Record Number\" to that ID by filtering on \"BIB Number\", then remove the BIB filter and null \"Ebook Central\" and then null \"Record Number 2\".") # See Ebook_Central_Custom_Faceting_pt4.json
 
+os.startfile('Organize_UXU01_Output_pt8--Ebook_Central_Specific.json')
+# messagebox.showinfo(title="Instructions", message="Create text filter on \"ISBN Values 1\" and select each string of IDs individually. Determine which Ebook Central ID is the best match for that BIB, then change \"Record Number\" to \"Ebook Central::\" plus that ID.") -- The only value in "ISBN Values 1" was "No ID found"
+
 # os.startfile('Organize_UXU01_Output_pt9--Ebook_Central_Specific.json')
-# messagebox.showinfo(title="Instructions", message="Create custom filter on \"Record Number\" with the expression \"and(contains(value,\"|\"),contains(value,\"::\"))\". For the BIBs that are true, determine which Ebook Central ID to keep.")
+# messagebox.showinfo(title="Instructions", message="Create custom filter on \"Record Number\" with the expression \"and(contains(value,\"|\"),contains(value,\"::\"))\". For the BIBs that are true, determine which Ebook Central ID to keep.") # Just two JSON steps--see below
 # """[
 #   {
 #     "op": "core/text-transform",
@@ -373,25 +376,6 @@ messagebox.showinfo(title="Instructions", message="In record view, create a filt
 #       "facets": [
 #         {
 #           "type": "list",
-#           "name": "Record Number",
-#           "expression": "grel:and(contains(value,\"|\"),contains(value,\"::\"))",
-#           "columnName": "Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
 #           "name": "BIB Number",
 #           "expression": "value",
 #           "columnName": "BIB Number",
@@ -401,8 +385,8 @@ messagebox.showinfo(title="Instructions", message="In record view, create a filt
 #           "selection": [
 #             {
 #               "v": {
-#                 "v": "031147384",
-#                 "l": "031147384"
+#                 "v": "034026703",
+#                 "l": "034026703"
 #               }
 #             }
 #           ],
@@ -413,87 +397,16 @@ messagebox.showinfo(title="Instructions", message="In record view, create a filt
 #       "mode": "record-based"
 #     },
 #     "columnName": "Record Number",
-#     "expression": "grel:\"Ebook Central::4953675\"",
+#     "expression": "grel:\"Ebook Central::4033723\"",
 #     "onError": "keep-original",
 #     "repeat": false,
 #     "repeatCount": 10,
-#     "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4953675\""
+#     "description": "Text transform on cells in column Record Number using expression grel:\"Ebook Central::4033723\""
 #   },
 #   {
 #     "op": "core/text-transform",
 #     "engineConfig": {
 #       "facets": [
-#         {
-#           "type": "list",
-#           "name": "Record Number",
-#           "expression": "grel:and(contains(value,\"|\"),contains(value,\"::\"))",
-#           "columnName": "Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "BIB Number",
-#           "expression": "value",
-#           "columnName": "BIB Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "032986539",
-#                 "l": "032986539"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "Record Number",
-#     "expression": "grel:\"Credo\"",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column Record Number using expression grel:\"Credo\""
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "Record Number",
-#           "expression": "grel:and(contains(value,\"|\"),contains(value,\"::\"))",
-#           "columnName": "Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
 #         {
 #           "type": "list",
 #           "name": "BIB Number",
