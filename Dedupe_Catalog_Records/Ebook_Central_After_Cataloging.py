@@ -515,9 +515,8 @@ messagebox.showinfo(title="Instructions", message="Remove the blanks filter on \
 os.startfile('Select_HOL_to_Keep_pt2--EC_After_Cataloging.json')
 messagebox.showinfo(title="Instructions", message="Create text filter on \"ACQ Test\" and switch to row mode. Check The remaining BIBs to see if an ACQ is attached, and change to value of \"ACQ Test\" accordingly.")
 
-
-# 
-# os.startfile('Select_HOL_to_Keep_pt2--Ebook_Central_Specific.json')
+os.startfile('Select_HOL_to_Keep_pt3--EC_After_Cataloging.json')
+ 
 # messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BIB records were found to have multiple HOL from the same sublibrary attached. At this point, I removed those HOL that were no longer in UXU60.")
 # """[
 #   {
