@@ -361,7 +361,6 @@ messagebox.showinfo(title="Instructions", message="Create a filter for blanks on
   }
 ]"""
 
-# #ToDo: Get list of columns that will need to be moved over to UXU60 OpenRefine project--the pivot happens in the following JSON
 os.startfile('Organize_UXU01_Output_pt7--Ebook_Central_Specific.json')
 messagebox.showinfo(title="Instructions", message="In record view, create a filter for blanks on \"Record Number 1\" and set it to false. Create a text filter on \"Record Number 2\". Select each number in the \"Record Number 2\" text filter on at a time. Determine which BIBs have a given proprietary ID, change the value of \"Record Number\" to that ID by filtering on \"BIB Number\", then remove the BIB filter and null \"Ebook Central\" and then null \"Record Number 2\".") # See Ebook_Central_Custom_Faceting_pt4.json
 
