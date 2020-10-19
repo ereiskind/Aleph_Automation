@@ -438,14 +438,14 @@ messagebox.showinfo(title="Instructions", message="Create custom filter on \"Rec
   }
 ]"""
 
-# #Subsection: Organize UXU60 Output
-# messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU60 info into OpenRefine with column widths 10, 5, 3. Name the project \"UXU60_Cleanup\".")
-# os.startfile('Organize_HOL_for_Duplicate_BIB.json')
-# TKR_Loop(1,5)
-# messagebox.showwarning(title="Removing Non-FSU HOLs", message="Export results now for complete HOL info--next JSON will remove non-FSU HOLs.")
-# os.startfile('Finish_Organizing_HOLs.json')
-# # UXU01 records without matching HOL are records that have no FSU HOL
-# # UXU60 records without matching BIB are records where FSU BIB isn't for an Ebook Central record
+#Subsection: Organize UXU60 Output
+messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU60 info into OpenRefine with column widths 10, 5, 3. Name the project \"UXU60_Cleanup\".")
+os.startfile('Organize_HOL_for_Duplicate_BIB.json')
+TKR_Loop(1,5)
+messagebox.showwarning(title="Removing Non-FSU HOLs", message="Export results now for complete HOL info--next JSON will remove non-FSU HOLs.")
+os.startfile('Finish_Organizing_HOLs.json')
+# UXU01 records without matching HOL are records that have no FSU HOL
+# UXU60 records without matching BIB are records where FSU BIB isn't for an Ebook Central record
 
 # #Subsection: Get List of FSU URLs
 # messagebox.showinfo(title="Instructions", message="Load Aleph Sequential file with UXU01 info into OpenRefine with column widths 10, 6, 2 as a project named \"URLs\".")
