@@ -1,0 +1,115 @@
+[
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Keep HOL?`` with values for the records containing only one HOL--for the records with Ebook Central IDs, `TRUE: Only HOL for ID <Ebook Central ID>`; for the records without, `TRUE: Only HOL for Title [HOL <HOL number>]`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Record Number",
+        "expression": "grel:\"TRUE: Only HOL for \"+if(contains(value,\"::\"),\"ID \"+substring(value,indexOf(value,\"::\")+2),\"Title [HOL \"+split(value,\" \")[1]+\"]\")",
+        "onError": "set-to-blank",
+        "newColumnName": "Keep HOL?",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Has ACQ?`` with a value indicating if the BIB for that row has an ACQ record",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:cell.cross(\"Cross-Reference\",\"BIB Checked for ACQ\")[0].cells[\"BIB has ACQ\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "Has ACQ?",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/mass-edit",
+        "description": "Change values in column ``Has ACQ?`` to match existing JSONs",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Has ACQ?",
+        "expression": "value",
+        "edits": [
+            {
+                "from": [
+                    "false"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "No ACQ for BIB"
+            },
+            {
+                "from": [
+                    "true"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "BIB has ACQ"
+            },
+            {
+                "from": [],
+                "fromBlank": true,
+                "fromError": false,
+                "to": "BIB Not Checked for ACQ"
+            }
+        ]
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``ACQ Test`` by taking info from ``Has ACQ?`` from records with multiple rows and updating the terms used",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Has ACQ?",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "ACQ Test",
+        "columnInsertIndex": 3
+    }
+]

@@ -512,6 +512,8 @@ messagebox.showinfo(title="Instructions", message="Remove the blanks filter on \
   }
 ]"""
 
+os.startfile('Select_HOL_to_Keep_pt2--EC_After_Cataloging.json')
+messagebox.showinfo(title="Instructions", message="Create text filter on \"ACQ Test\" and switch to row mode. Check The remaining BIBs to see if an ACQ is attached, and change to value of \"ACQ Test\" accordingly.")
 
 
 # 
