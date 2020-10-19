@@ -1,0 +1,1284 @@
+[
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Ebook Central ID``",
+        "columnName": "Ebook Central ID"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Replacement Character in Title``",
+        "columnName": "Replacement Character in Title"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``TKRs``",
+        "columnName": "TKRs"
+    }
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``HOL-BIB`` combining BIB and HOL numbers",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "HOL Number",
+        "expression": "grel:value+\"-\"+cells[\"BIB Number\"].value",
+        "onError": "set-to-blank",
+        "newColumnName": "HOL-BIB",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``HOL-BIB``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "HOL-BIB",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/column-move",
+        "description": "Move column ``HOL-BIB`` to beginning",
+        "columnName": "HOL-BIB",
+        "index": 0
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``HOL-BIB``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "HOL-BIB"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For records consisting of multiple rows for the same HOL, null all unique non-Ebook Central IDs not in the first row of ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL-BIB",
+                    "expression": "facetCount(value, 'value', 'HOL-BIB') > 1",
+                    "columnName": "HOL-BIB",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isNotNull(cells[\"HOL-BIB\"].value),value,if(endsWith(value,\"#\"),null,value))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records consisting of multiple rows for the same HOL, if there are other values remaining in ``Record Number``, add them to the first row of the record, seperating values with pipes, while removing any unique record numbers form the first row of the record if there's another value to take its place",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL-BIB",
+                    "expression": "facetCount(value, 'value', 'HOL-BIB') > 1",
+                    "columnName": "HOL-BIB",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(length(row.record.cells[\"Record Number\"].value)>1,if(endsWith(row.record.cells[\"Record Number\"].value[0],\"#\"),join(slice(uniques(row.record.cells[\"Record Number\"].value),1),\"|\"),join(uniques(row.record.cells[\"Record Number\"].value),\"|\")),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove duplicate HOL rows that no longer have values in ``Record Number``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL-BIB",
+                    "expression": "facetCount(value, 'value', 'HOL-BIB') > 1",
+                    "columnName": "HOL-BIB",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``HOL-BIB``",
+        "columnName": "HOL-BIB"
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``Record Number``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Record Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Record Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove records with neither a FSUER HOL nor a FSU Ebook Central URL",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSUER",
+                                "l": "FSUER"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        }
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add `???` to the front of Ebook Central URLs when the HOL's sublibrary is a FSU Libraries physical location",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSRS1",
+                                "l": "FSRS1"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSCCL",
+                                "l": "FSCCL"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSINF",
+                                "l": "FSINF"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRIN",
+                                "l": "FSRIN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRS2",
+                                "l": "FSRS2"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRS3",
+                                "l": "FSRS3"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRS4",
+                                "l": "FSRS4"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSSDC",
+                                "l": "FSSDC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSTKY",
+                                "l": "FSTKY"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUAD",
+                                "l": "FSUAD"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUDC",
+                                "l": "FSUDC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUDG",
+                                "l": "FSUDG"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUEN",
+                                "l": "FSUEN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUFL",
+                                "l": "FSUFL"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULC",
+                                "l": "FSULC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUHP",
+                                "l": "FSUHP"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULN",
+                                "l": "FSULN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUMC",
+                                "l": "FSUMC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPA",
+                                "l": "FSUPA"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPC",
+                                "l": "FSUPC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSWES",
+                                "l": "FSWES"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPL",
+                                "l": "FSUPL"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUSC",
+                                "l": "FSUSC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUSP",
+                                "l": "FSUSP"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUND",
+                                "l": "FSUND"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Ebook Central BIB URLs",
+        "expression": "grel:\"???\"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Add `???` to the front of non-Ebook Central URLs when the HOL's sublibrary is a FSU Libraries physical location",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSRS1",
+                                "l": "FSRS1"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSCCL",
+                                "l": "FSCCL"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSINF",
+                                "l": "FSINF"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRIN",
+                                "l": "FSRIN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRS2",
+                                "l": "FSRS2"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRS3",
+                                "l": "FSRS3"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSRS4",
+                                "l": "FSRS4"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSSDC",
+                                "l": "FSSDC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSTKY",
+                                "l": "FSTKY"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUAD",
+                                "l": "FSUAD"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUDC",
+                                "l": "FSUDC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUDG",
+                                "l": "FSUDG"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUEN",
+                                "l": "FSUEN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUFL",
+                                "l": "FSUFL"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULC",
+                                "l": "FSULC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUHP",
+                                "l": "FSUHP"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSULN",
+                                "l": "FSULN"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUMC",
+                                "l": "FSUMC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPA",
+                                "l": "FSUPA"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPC",
+                                "l": "FSUPC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSWES",
+                                "l": "FSWES"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUPL",
+                                "l": "FSUPL"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUSC",
+                                "l": "FSUSC"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUSP",
+                                "l": "FSUSP"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FSUND",
+                                "l": "FSUND"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Other BIB URL Info",
+                    "expression": "isBlank(value)",
+                    "columnName": "Other BIB URL Info",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Other BIB URL Info",
+        "expression": "grel:\"???\"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "Change unique, non-Ebook Central ID values in ``Record Number`` to `HOL <HOL Number> without ID`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:endsWith(value,\"#\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:\"HOL \"+cells[\"HOL Number\"].value+\" without ID\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Duplication`` with values in all but the first row of each multi-row record indicating if the row's BIB and sublibrary match that of the first row in the record",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Record Number",
+        "expression": "grel:if(isNotNull(value),null,if(row.record.cells[\"BIB Number\"].value[0]==cells[\"BIB Number\"].value,if(row.record.cells[\"HOL Sublibrary\"].value[0]==cells[\"HOL Sublibrary\"].value,\"Same BIB, Same Sublibrary\",\"Same BIB, Different Sublibrary\"),if(row.record.cells[\"HOL Sublibrary\"].value[0]==cells[\"HOL Sublibrary\"].value,\"Different BIB, Same Sublibrary\",\"Different BIB, Different Sublibrary\")))",
+        "onError": "set-to-blank",
+        "newColumnName": "Duplication",
+        "columnInsertIndex": 3
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records with exactly two rows, fill up and down the value of ``Duplication``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "2",
+                                "l": "2"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Duplication",
+        "expression": "grel:row.record.cells[\"Duplication\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Dupen`` with values in all but the second row of each record with three or more rows indicating if the row's BIB and sublibrary match that of the second row in the record",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>2",
+                    "columnName": "Duplication",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Duplication",
+        "expression": "grel:if(row.index-row.record.fromRowIndex==1,null,if(row.record.cells[\"BIB Number\"].value[1]==cells[\"BIB Number\"].value,if(row.record.cells[\"HOL Sublibrary\"].value[1]==cells[\"HOL Sublibrary\"].value,\"Same BIB, Same Sublibrary\",\"Same BIB, Different Sublibrary\"),if(row.record.cells[\"HOL Sublibrary\"].value[1]==cells[\"HOL Sublibrary\"].value,\"Different BIB, Same Sublibrary\",\"Different BIB, Different Sublibrary\")))",
+        "onError": "set-to-blank",
+        "newColumnName": "Dupe",
+        "columnInsertIndex": 4
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Combine the values of ``Dupe`` into ``Duplication`` by filling empty cells in the latter with the value from the former and comparing the values when both are present",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>2",
+                    "columnName": "Duplication",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Duplication",
+        "expression": "grel:if(isNull(value),cells[\"Dupe\"].value,if(isNull(cells[\"Dupe\"].value),value,if(value==cells[\"Dupe\"].value,value,\"ERROR\")))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column Dupe",
+        "columnName": "Dupe"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For multi-line records with non-Ebook Central IDs in ``Record Number`` where the BIBs and the sublibraries are the same, change the value of ``Record Number`` to `Duplicate <sublibrary code> Sublibrary for BIB <BIB number>`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "value",
+                    "columnName": "Duplication",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Same BIB, Different Sublibrary",
+                                "l": "Same BIB, Different Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Different BIB, Different Sublibrary",
+                                "l": "Different BIB, Different Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Different BIB, Same Sublibrary",
+                                "l": "Different BIB, Same Sublibrary"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"::\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isNotNull(value),\"Duplicate \"+cells[\"HOL Sublibrary\"].value+\" sublibrary for BIB \"+cells[\"BIB Number\"].value,null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For multi-line records with non-Ebook Central IDs in ``Record Number`` where the sublibraries are the same but the BIBs are different, change the value of ``Record Number`` to `BIBs <list of BIB numbers> Match`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "value",
+                    "columnName": "Duplication",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Same BIB, Different Sublibrary",
+                                "l": "Same BIB, Different Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Different BIB, Different Sublibrary",
+                                "l": "Different BIB, Different Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Same BIB, Same Sublibrary",
+                                "l": "Same BIB, Same Sublibrary"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"::\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isNotNull(value),\"BIBs \"+join(row.record.cells[\"BIB Number\"].value,\", \")+\" Match\",null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For multi-line records with non-Ebook Central IDs in ``Record Number`` where the BIBs are the same but the sublibraries are different, change the value of ``Record Number`` to `Different Sublibraries for BIB <BIB Number>`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "value",
+                    "columnName": "Duplication",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Different BIB, Different Sublibrary",
+                                "l": "Different BIB, Different Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Different BIB, Same Sublibrary",
+                                "l": "Different BIB, Same Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Same BIB, Same Sublibrary",
+                                "l": "Same BIB, Same Sublibrary"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"::\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isNotNull(value),\"Different sublibraries for BIB \"+cells[\"BIB Number\"].value,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For multi-line records with non-Ebook Central IDs in ``Record Number`` where the BIBs and the sublibraries are different, change the value of ``Record Number`` to `BIBs <list of BIB numbers> Match with Different Sublibraries`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "value",
+                    "columnName": "Duplication",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Same BIB, Different Sublibrary",
+                                "l": "Same BIB, Different Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Different BIB, Same Sublibrary",
+                                "l": "Different BIB, Same Sublibrary"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "Same BIB, Same Sublibrary",
+                                "l": "Same BIB, Same Sublibrary"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:contains(value,\"::\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:if(isNotNull(value),\"BIBs \"+join(row.record.cells[\"BIB Number\"].value,\", \")+\" Match with Different Sublibraries\",null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``FSUER HOL`` containing `Has FSUER HOL` in multi-row records where at least one HOL is in FSUER",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "HOL Sublibrary",
+                    "expression": "value",
+                    "columnName": "HOL Sublibrary",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FSUER",
+                                "l": "FSUER"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "HOL Sublibrary",
+        "expression": "grel:\"Has FSUER HOL\"",
+        "onError": "set-to-blank",
+        "newColumnName": "FSUER HOL",
+        "columnInsertIndex": 6
+    }
+]

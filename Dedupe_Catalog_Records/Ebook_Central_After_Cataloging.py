@@ -464,325 +464,57 @@ os.startfile('Match_Duplicate_Records--Ebook_Central_Specific.json')
 # messagebox.showinfo(title="Instructions", message="Set text filter on \"Replacement Character in Title\" to true and edit the titles as needed to match the 245 fields in the BIBs of origin.") -- No replacement characters in any titles
 # messagebox.showinfo(title="Instructions", message="Set filter for blanks on \"Record Number\" to true and create text filter on \"TKRs\" and \"Record Number\". For each value in the text filter on \"TKRs\", use filtering by \"Record Number\" to remove the records were all the rows have a tickler for another platform.") -- No records met this criteria
 
-# #Subsection: Determine Which HOL Records to Keep
-# messagebox.showinfo(title="Instructions", message="Create spreadsheet \"Cross-Reference.xlsx\" with columns \"BIB with ACQ\" listing the BIBs with ACQ records attached and \"Ebook Central Owned\" with the Ebook Central IDs of the titles owned on that platform. The BIBs be nine-digit text strings, the IDs should be formatted as text.")
-# #Alert: This should be replaced with file "BIB Checked for ACQ" which contains a list of the BIBs checked for ACQs and a Boolean indicating if the BIB has an ACQ; this list has also been updated to reflect moved ACQ records
-# messagebox.showwarning(title="Deduping HOLs", message="HOLs with multiple non-unique record numbers have them combined in \"Record Number\" divided by pipes. This situation didn't acutally occur with these titles; there may be a better way to handle it.")
-# # For records with 3+ rows, is rerunning "Duplication" against second row as way to see if all but first row match a viable idea?  
-# os.startfile('Select_HOL_to_Keep_pt1--Ebook_Central_Specific.json')
-# messagebox.showinfo(title="Instructions", message="Create custom filter on \"Record Number\" with \"toString(row.record.toRowIndex-row.record.fromRowIndex)\". Select each value greater than three and, for records where the values of \"Duplication\" are all the same, fill up and down those values.")
-# messagebox.showinfo(title="Instructions", message="Create blanks filters on both \"Record Number\" and \"Duplication\" and set them to true. Change the values in \"Duplication\" for these records, using \"Multiple\" when some, but not all, of the HOL in a record have the same BIB or sublibrary.")
-# """[
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "Duplication",
-#           "expression": "value",
-#           "columnName": "Duplication",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [],
-#           "selectBlank": true,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "Record Number",
-#           "expression": "value",
-#           "columnName": "Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "Ebook Central::438603",
-#                 "l": "Ebook Central::438603"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "Ebook Central::1168042",
-#                 "l": "Ebook Central::1168042"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "Ebook Central::647437",
-#                 "l": "Ebook Central::647437"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "Duplication",
-#     "expression": "grel:\"Different BIB, Multiple Sublibrary\"",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column Duplication using expression grel:\"Different BIB, Multiple Sublibrary\""
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "Duplication",
-#           "expression": "value",
-#           "columnName": "Duplication",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [],
-#           "selectBlank": true,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "Record Number",
-#           "expression": "value",
-#           "columnName": "Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "Ebook Central::224643",
-#                 "l": "Ebook Central::224643"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "Duplication",
-#     "expression": "grel:\"Multiple BIB, Different Sublibrary\"",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column Duplication using expression grel:\"Multiple BIB, Different Sublibrary\""
-#   },
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "Duplication",
-#           "expression": "value",
-#           "columnName": "Duplication",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [],
-#           "selectBlank": true,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "Record Number",
-#           "expression": "value",
-#           "columnName": "Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "Ebook Central::180253",
-#                 "l": "Ebook Central::180253"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "Duplication",
-#     "expression": "grel:\"Multiple BIB, Same Sublibrary\"",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column Duplication using expression grel:\"Multiple BIB, Same Sublibrary\""
-#   }
-# ]"""
-# messagebox.showwarning(title="Changing \"Record Number\"", message="A method for updating \"Record Number\" for those records changed in the previous step needs to be developed. With Ebook Central, all of the records requiring changes had Ebook Central IDs.")
-# messagebox.showinfo(title="Instructions", message="Remove the blanks filter on \"Duplication\". Create text filter on \"HOL Sublibrary\" and select all values but \"FSUER\", then invert. Use \"Transform...\" to change the value of the matching records to \"Only FSUER HOL\".")
-# """[
-#   {
-#     "op": "core/text-transform",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "Record Number",
-#           "expression": "isBlank(value)",
-#           "columnName": "Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "HOL Sublibrary",
-#           "expression": "value",
-#           "columnName": "HOL Sublibrary",
-#           "invert": true,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "FSOAR",
-#                 "l": "FSOAR"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "FSLAW",
-#                 "l": "FSLAW"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "FSUDC",
-#                 "l": "FSUDC"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "FSUPA",
-#                 "l": "FSUPA"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "FSUSC",
-#                 "l": "FSUSC"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "FSUPC",
-#                 "l": "FSUPC"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "FSULN",
-#                 "l": "FSULN"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "FSULC",
-#                 "l": "FSULC"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "columnName": "FSUER HOL",
-#     "expression": "grel:\"Only FSUER HOL\"",
-#     "onError": "keep-original",
-#     "repeat": false,
-#     "repeatCount": 10,
-#     "description": "Text transform on cells in column FSUER HOL using expression grel:\"Only FSUER HOL\""
-#   }
-# ]"""
-# # "Record Number" formats
-# ## Ebook Central::<Ebook Central ID> = title matched to an Ebook Central ID
-# ## HOL <HOL Number> without ID = HOL is only one for that title
-# ## Duplicate <sublibrary code> Sublibrary for BIB <BIB number> = multiple HOLs for same sublibrary on same BIB record found (thoretically, shouldn't be possible) {Same BIB, Same Sublibrary}
-# ## BIBs <list of BIB numbers> Match = HOLs for the same sublibrary found on multiple BIB records {Different BIB, Same Sublibrary}
-# ## Different Sublibraries for BIB <BIB Number> = HOLs found on same BIB record but for different sublibraries {Same BIB, Different Sublibrary}
-# ## BIBs <list of BIB numbers> Match with Different Sublibraries = HOLs for different sublibraries found on different BIB records {Different BIB, Different Sublibrary}
+#Subsection: Determine Which HOL Records to Keep
+messagebox.showinfo(title="Instructions", message="Create spreadsheet \"Cross-Reference.xlsx\" with columns \"BIB Checked for ACQ\", listing all the BIBs cataloging checked for an attached ACQ record formatted as text, and \"BIB has ACQ\", containing a boolean indicating if the adjacent BIB is attached to a FSU ACQ record. Load into OpenRefine as \"Cross-Reference\".")
+messagebox.showwarning(title="3+ HOL Sublibrary/BIB Mismatch Not Handled", message="The JSON doesn't handle the situation where the comparison of the BIB and sublibraries of the first and second row in a record to the subsequent rows leads to different results to those later rows.")
+os.startfile('Select_HOL_to_Keep_pt1--EC_After_Cataloging.json')
+# "Record Number" formats
+    # Ebook Central::<Ebook Central ID> = title matched to an Ebook Central ID
+    # HOL <HOL Number> without ID = HOL is only one for that title
+    # Duplicate <sublibrary code> Sublibrary for BIB <BIB number> = multiple HOLs for same sublibrary on same BIB record found (theoretically, shouldn't be possible) {Same BIB, Same Sublibrary}
+    # BIBs <list of BIB numbers> Match = HOLs for the same sublibrary found on multiple BIB records {Different BIB, Same Sublibrary}
+    # Different Sublibraries for BIB <BIB Number> = HOLs found on same BIB record but for different sublibraries {Same BIB, Different Sublibrary}
+    # BIBs <list of BIB numbers> Match with Different Sublibraries = HOLs for different sublibraries found on different BIB records {Different BIB, Different Sublibrary}
+messagebox.showinfo(title="Instructions", message="Remove the blanks filter on \"Duplication\". Create text filter on \"HOL Sublibrary\" and select all values but \"FSUER\", then invert. Use \"Transform...\" to change the value of the matching records to \"Only FSUER HOL\".") # Single JSON step--see below
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "HOL Sublibrary",
+          "expression": "value",
+          "columnName": "HOL Sublibrary",
+          "invert": true,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "FSUPC",
+                "l": "FSUPC"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "FSUER HOL",
+    "expression": "grel:\"Only FSUER HOL\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column FSUER HOL using expression grel:\"Only FSUER HOL\""
+  }
+]"""
+
+
+
+# 
 # os.startfile('Select_HOL_to_Keep_pt2--Ebook_Central_Specific.json')
 # messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BIB records were found to have multiple HOL from the same sublibrary attached. At this point, I removed those HOL that were no longer in UXU60.")
 # """[
