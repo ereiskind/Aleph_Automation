@@ -1,1232 +1,611 @@
-
-
-
-
-
-
-
-{
-    "op": "core/multivalued-cell-join",
-    "description": "Combine all values in a record in column ``ACQ Test`` in the first row of the record divided by pipes",
-    "columnName": "ACQ Test",
-    "keyColumnName": "Record Number",
-    "separator": "|"
-},
-{
-    "op": "core/text-transform",
-    "description": "For records with two FSUER HOL from seperate BIBs, one with an ACQ and the other without, change the values in  ``Keep HOL?`` to `TRUE: FSUER HOL with ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't known or `FALSE: FSUER HOL without ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't know depending on if the BIB for the HOL in question has an ACQ",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "isBlank(value)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
+[
+    {
+        "op": "core/text-transform",
+        "description": "For BIBs with URLs for platforms other than Ebook Central and no value in ``Keep HOL?`` where all the records for that title are in FSUER, change the values in  ``Keep HOL?`` to `N/A: Non-Ebook Central Holding with ACQ for` or `N/A: Non-Ebook Central Holding for` depending on if the BIB has an ACQ attached followed by the Ebook Central ID or `Title` if the ID isn't know",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "FSUER HOL",
+                    "expression": "value",
+                    "columnName": "FSUER HOL",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Only FSUER HOL",
+                                "l": "Only FSUER HOL"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "ACQ Test",
-                "expression": "grel:and(contains(value,\"BIB has ACQ\"),contains(value,\"No ACQ for BIB\"))",
-                "columnName": "ACQ Test",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Other BIB URL Info",
+                    "expression": "isBlank(value)",
+                    "columnName": "Other BIB URL Info",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Duplication",
-                "expression": "grel:contains(value,\"Same BIB\")",
-                "columnName": "Duplication",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": false,
-                            "l": "false"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "isBlank(value)",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "2",
-                            "l": "2"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "isBlank(value)",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "FSUER HOL",
-                "expression": "value",
-                "columnName": "FSUER HOL",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "Only FSUER HOL",
-                            "l": "Only FSUER HOL"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "record-based"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:if(cells[\"ACQ Test\"].value==\"BIB has ACQ\",\"N/A: Non-Ebook Central Holding with ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"N/A: Non-Ebook Central Holding for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     },
-    "columnName": "Keep HOL?",
-    "expression": "grel:if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"TRUE: FSUER HOL with ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),if(cells[\"Has ACQ?\"].value==\"No ACQ for BIB\",\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"ERROR\"))",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{
-    "op": "core/text-transform",
-    "description": "For records with three or more FSUER HOL not all from the same BIB, only one of which has an ACQ, change the values in  ``Keep HOL?`` to `TRUE: FSUER HOL with ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't known or `FALSE: FSUER HOL without ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't know depending on if the BIB for the HOL in question has an ACQ",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "isBlank(value)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "ACQ Test",
-                "expression": "grel:or(contains(value,\"No ACQ for BIB|No ACQ for BIB\"),value==\"No ACQ for BIB|BIB has ACQ|No ACQ for BIB\")",
-                "columnName": "ACQ Test",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Duplication",
-                "expression": "grel:contains(value,\"Same BIB\")",
-                "columnName": "Duplication",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": false,
-                            "l": "false"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>2",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "FSUER HOL",
-                "expression": "value",
-                "columnName": "FSUER HOL",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "Only FSUER HOL",
-                            "l": "Only FSUER HOL"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "record-based"
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in a record in column ``ACQ Test`` in the first row of the record divided by pipes",
+        "columnName": "ACQ Test",
+        "keyColumnName": "Record Number",
+        "separator": "|"
     },
-    "columnName": "Keep HOL?",
-    "expression": "grel:if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"TRUE: FSUER HOL with ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),if(cells[\"Has ACQ?\"].value==\"No ACQ for BIB\",\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"ERROR\"))",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-}
-{
-    "op": "core/text-transform",
-    "description": "For HOL with no value in ``Keep HOL?`` which are the only HOL for a BIB with no ACQ and have an Ebook Central TKR with a load data from the 2010s or 2020, change the value of ``Keep HOL?`` to `Potentially loaded for URL`",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "isBlank(value)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
+    {
+        "op": "core/text-transform",
+        "description": "For records with two FSUER HOL from seperate BIBs, one with an ACQ and the other without, change the values in  ``Keep HOL?`` to `TRUE: FSUER HOL with ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't known or `FALSE: FSUER HOL without ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't know depending on if the BIB for the HOL in question has an ACQ",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "FSUER HOL",
-                "expression": "value",
-                "columnName": "FSUER HOL",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "Only FSUER HOL",
-                            "l": "Only FSUER HOL"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "grel:and(contains(value,\"BIB has ACQ\"),contains(value,\"No ACQ for BIB\"))",
+                    "columnName": "ACQ Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Keep HOL?",
-                "expression": "isBlank(value)",
-                "columnName": "Keep HOL?",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "grel:contains(value,\"Same BIB\")",
+                    "columnName": "Duplication",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Has ACQ?",
-                "expression": "value",
-                "columnName": "Has ACQ?",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "No ACQ for BIB",
-                            "l": "No ACQ for BIB"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "2",
+                                "l": "2"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "BIB Number of HOLs",
-                "expression": "value",
-                "columnName": "BIB Number of HOLs",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "1",
-                            "l": "1"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSUER HOL",
+                    "expression": "value",
+                    "columnName": "FSUER HOL",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Only FSUER HOL",
+                                "l": "Only FSUER HOL"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "FSU Tickler",
-                "expression": "grel:isBlank(find(value,/\\(FTaSU\\)ProQuestEbookCentral20[1|2]/)[0])",
-                "columnName": "FSU Tickler",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": false,
-                            "l": "false"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "isBlank(value)",
+                    "columnName": "Keep HOL?",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "row-based"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"TRUE: FSUER HOL with ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),if(cells[\"Has ACQ?\"].value==\"No ACQ for BIB\",\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"ERROR\"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     },
-    "columnName": "Keep HOL?",
-    "expression": "grel:\"Potentially loaded for URL\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-}
-{
-    "op": "core/text-transform",
-    "description": "For records with two FSUER HOL from seperate BIBs, neither with an ACQ, where one has been identified as potentially loaded for the URL, change the values in  ``Keep HOL?`` to `FALSE: Probably Loaded for URL for`  followed by the Ebook Central ID or `Title` if the ID isn't known for the HOL identified as such and `TRUE: Other FSUER HOL for <title> Probably Loaded for URL` where `<title>` is the Ebook Central ID or `Title` if the ID isn't known for the other HOL in the record depending on if the current value of ``Keep HOL?`` indicates that the HOL was loaded for the URL",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "isBlank(value)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
+    {
+        "op": "core/text-transform",
+        "description": "For records with three FSUER HOL not all from the same BIB, only one of which has an ACQ, change the values in  ``Keep HOL?`` to `TRUE: FSUER HOL with ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't known or `FALSE: FSUER HOL without ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't known depending on if the BIB for the HOL in question has an ACQ",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "ACQ Test",
-                "expression": "grel:contains(value,\"No ACQ for BIB\")",
-                "columnName": "ACQ Test",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "grel:or(and(contains(value,\"BIB has ACQ\"),contains(value,\"No ACQ for BIB|No ACQ for BIB\")),value==\"No ACQ for BIB|BIB has ACQ|No ACQ for BIB\")",
+                    "columnName": "ACQ Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Duplication",
-                "expression": "grel:contains(value,\"Same BIB\")",
-                "columnName": "Duplication",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": false,
-                            "l": "false"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "grel:contains(value,\"Same BIB\")",
+                    "columnName": "Duplication",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "2",
-                            "l": "2"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "3",
+                                "l": "3"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "FSUER HOL",
-                "expression": "value",
-                "columnName": "FSUER HOL",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "Only FSUER HOL",
-                            "l": "Only FSUER HOL"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSUER HOL",
+                    "expression": "value",
+                    "columnName": "FSUER HOL",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Only FSUER HOL",
+                                "l": "Only FSUER HOL"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Keep HOL?",
-                "expression": "grel:value==\"Potentially loaded for URL\"",
-                "columnName": "Keep HOL?",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "isBlank(value)",
+                    "columnName": "Keep HOL?",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "record-based"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"TRUE: FSUER HOL with ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),if(cells[\"Has ACQ?\"].value==\"No ACQ for BIB\",\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"ERROR\"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     },
-    "columnName": "Keep HOL?",
-    "expression": "grel:if(isNull(value),\"TRUE: Other FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")+\" Probably Loaded for URL\",\"FALSE: Probably Loaded for URL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-}
-{
-    "op": "core/text-transform",
-    "description": "For records with two HOL from seperate sublibraries and BIBs, neither with an ACQ, change the values in  ``Keep HOL?`` to `N/A: Other Sublibrary HOL for`  followed by the Ebook Central ID or `Title` if the ID isn't known for the non-FSUER HOL and `TRUE: FSUER HOL for` followed by the Ebook Central ID or `Title` if the ID isn't known for the FSUER HOL in the record depending on the value of ``HOL Sublibrary``",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "isBlank(value)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
+    {
+        "op": "core/text-transform",
+        "description": "For HOL with no value in ``Keep HOL?`` which is the only HOL for a BIB with no ACQ and includes an Ebook Central TKR with a load data from the 2010s or 2020, change the value of ``Keep HOL?`` to `FALSE: Probably Loaded for URL for` followed by the Ebook Central ID or `Title` if the ID isn't known",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "ACQ Test",
-                "expression": "grel:contains(value,\"BIB has ACQ\")",
-                "columnName": "ACQ Test",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": false,
-                            "l": "false"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSUER HOL",
+                    "expression": "value",
+                    "columnName": "FSUER HOL",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Only FSUER HOL",
+                                "l": "Only FSUER HOL"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Duplication",
-                "expression": "grel:contains(value,\"Same BIB\")",
-                "columnName": "Duplication",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": false,
-                            "l": "false"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "isBlank(value)",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "2",
-                            "l": "2"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Has ACQ?",
+                    "expression": "value",
+                    "columnName": "Has ACQ?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No ACQ for BIB",
+                                "l": "No ACQ for BIB"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "FSUER HOL",
-                "expression": "value",
-                "columnName": "FSUER HOL",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "Has FSUER HOL",
-                            "l": "Has FSUER HOL"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "BIB Number of HOLs",
+                    "expression": "value",
+                    "columnName": "BIB Number of HOLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "1",
+                                "l": "1"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "record-based"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSU Tickler",
+                    "expression": "grel:isBlank(find(value,/\\(FTaSU\\)ProQuestEbookCentral20[1|2]/)[0])",
+                    "columnName": "FSU Tickler",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:\"FALSE: Probably Loaded for URL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     },
-    "columnName": "Keep HOL?",
-    "expression": "grel:if(cells[\"HOL Sublibrary\"].value==\"FSUER\",\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"N/A: Other Sublibrary HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-}
-{
-    "op": "core/text-transform",
-    "description": "For records with two HOL from seperate sublibraries and BIBs, one of which has an ACQ, change the values in ``Keep HOL?`` to `TRUE: FSUER HOL with ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary is FSUER and the BIB has an ACQ, `TRUE: FSUER HOL for` followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary is FSUER but the BIB doesn't have an ACQ, `N/A: Other Sublibrary with ACQ HOL for`  followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary isn't FSUER but the BIB has an ACQ, or `N/A: Other Sublibrary HOL for`  followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary isn't FSUER and the BIB doesn't have an ACQ",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "isBlank(value)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
+    {
+        "op": "core/text-transform",
+        "description": "For records with two FSUER HOL from separate BIBs, neither with an ACQ, where one has been identified as either belonging to another platform or having been loaded for the URL, change the values in ``Keep HOL?`` to `TRUE: Other FSUER HOL for <ID> Probably Loaded for URL` if the other BIB was loaded for the URL or `TRUE: FSUER HOL for <ID>` if the other BIB is for another platform where `<ID>` is the Ebook Central ID or `Title` if the ID isn't known",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "ACQ Test",
-                "expression": "grel:contains(value,\"BIB has ACQ\")",
-                "columnName": "ACQ Test",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "2",
+                                "l": "2"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Duplication",
-                "expression": "grel:contains(value,\"Same BIB\")",
-                "columnName": "Duplication",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": false,
-                            "l": "false"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "grel:contains(value,\"BIB has ACQ\")",
+                    "columnName": "ACQ Test",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "2",
-                            "l": "2"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Duplication",
+                    "expression": "grel:contains(value,\"Different BIB\")",
+                    "columnName": "Duplication",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "FSUER HOL",
-                "expression": "value",
-                "columnName": "FSUER HOL",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "Has FSUER HOL",
-                            "l": "Has FSUER HOL"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSUER HOL",
+                    "expression": "value",
+                    "columnName": "FSUER HOL",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Only FSUER HOL",
+                                "l": "Only FSUER HOL"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "record-based"
-    },
-    "columnName": "Keep HOL?",
-    "expression": "grel:if(cells[\"HOL Sublibrary\"].value==\"FSUER\",if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"TRUE: FSUER HOL with ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")),if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"N/A: Other Sublibrary with ACQ HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"N/A: Other Sublibrary HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")))",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-}
-{
-    "op": "core/text-transform",
-    "description": "For rows with FSUER HOLs and non-Ebook Central URLs for FSU in ``Other BIB URL Info``, change the value of ``Keep HOL?`` to `Non-Ebook Central URL`",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "Keep HOL?",
-                "expression": "isBlank(value)",
-                "columnName": "Keep HOL?",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "isBlank(value)",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
                         }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Ebook Central BIB URLs",
-                "expression": "isBlank(value)",
-                "columnName": "Ebook Central BIB URLs",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Record Number Copy",
-                "expression": "isBlank(value)",
-                "columnName": "Record Number Copy",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "HOL Sublibrary",
-                "expression": "value",
-                "columnName": "HOL Sublibrary",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "FSUER",
-                            "l": "FSUER"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "row-based"
-    },
-    "columnName": "Keep HOL?",
-    "expression": "grel:if(isNotNull(cells[\"Other BIB URL Info\"].value),\"Non-Ebook Central URL\",value)",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-}
-{
-    "op": "core/text-transform",
-    "description": "For records with two FSUER HOL, where one has an Ebook Central URL and the other has a non-Ebook Central URL, change the values in  ``Keep HOL?`` to `TRUE: FSUER HOL with ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't known if the URL is for Ebook Central and the BIB has an ACQ, `TRUE: FSUER HOL for` followed by the Ebook Central ID or `Title` if the ID isn't known if the URL is for Ebook Central and the BIB doesn't have an ACQ, `N/A: Non-Ebook Central Holding with ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't known if the URL isn't for Ebook Central and the BIB has an ACQ, or `N/A: Non-Ebook Central Holding for` followed by the Ebook Central ID or `Title` if the ID isn't known if the URL isn't for Ebook Central and the BIB doesn't have an ACQ",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "FSUER HOL",
-                "expression": "value",
-                "columnName": "FSUER HOL",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "Only FSUER HOL",
-                            "l": "Only FSUER HOL"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Keep HOL?",
-                "expression": "isBlank(value)",
-                "columnName": "Keep HOL?",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "2",
-                            "l": "2"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Keep HOL?",
-                "expression": "grel:value==\"Non-Ebook Central URL\"",
-                "columnName": "Keep HOL?",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Ebook Central BIB URLs",
-                "expression": "isBlank(value)",
-                "columnName": "Ebook Central BIB URLs",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": false,
-                            "l": "false"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "record-based"
-    },
-    "columnName": "Keep HOL?",
-    "expression": "grel:if(isNotNull(cells[\"Ebook Central BIB URLs\"].value),if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"TRUE: FSUER HOL with ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")),if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"N/A: Non-Ebook Central Holding with ACQ HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"N/A: Non-Ebook Central Holding HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")))",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-}
-{
-    "op": "core/column-addition",
-    "description": "For records with three HOL from seperate sublibraries and BIBs, where at least one sublibrary is FSUER, create column ``Test`` combining the values of ``Has ACQ?`` and ``HOL Sublibrary`` with a pipe between",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "FSUER HOL",
-                "expression": "value",
-                "columnName": "FSUER HOL",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "Has FSUER HOL",
-                            "l": "Has FSUER HOL"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Keep HOL?",
-                "expression": "isBlank(value)",
-                "columnName": "Keep HOL?",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "3",
-                            "l": "3"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Duplication",
-                "expression": "grel:contains(value,\"Same BIB\")",
-                "columnName": "Duplication",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": false,
-                            "l": "false"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "record-based"
-    },
-    "baseColumnName": "Has ACQ?",
-    "expression": "grel:value+\"|\"+cells[\"HOL Sublibrary\"].value",
-    "onError": "set-to-blank",
-    "newColumnName": "Test",
-    "columnInsertIndex": 3
-},
-{
-    "op": "core/multivalued-cell-join",
-    "description": "Combine all values for a record in column ``Test`` in the first row of that record divided by `][`",
-    "columnName": "Test",
-    "keyColumnName": "Record Number",
-    "separator": "]["
-}
-{
-    "op": "core/text-transform",
-    "description": "For records with three HOL from seperate sublibraries and BIBs, where exactly one HOL is FSUER with an ACQ, change the values in  ``Keep HOL?`` to `TRUE: FSUER HOL with ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary is FSUER and the BIB has an ACQ, `FALSE: FSUER HOL without ACQ for`followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary is FSUER and the BIB doesn't have an ACQ, `N/A: Other Sublibrary with ACQ HOL for`  followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary isn't FSUER but the BIB has an ACQ, or `N/A: Other Sublibrary HOL for`  followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary isn't FSUER and the BIB doesn't have an ACQ",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "FSUER HOL",
-                "expression": "value",
-                "columnName": "FSUER HOL",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "Has FSUER HOL",
-                            "l": "Has FSUER HOL"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Keep HOL?",
-                "expression": "isBlank(value)",
-                "columnName": "Keep HOL?",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "3",
-                            "l": "3"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Duplication",
-                "expression": "grel:contains(value,\"Same BIB\")",
-                "columnName": "Duplication",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": false,
-                            "l": "false"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Test",
-                "expression": "grel:and(indexOf(value,\"BIB has ACQ|FSUER\")==lastIndexOf(value,\"BIB has ACQ|FSUER\"),contains(value,\"BIB has ACQ|FSUER\"))",
-                "columnName": "Test",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "record-based"
-    },
-    "columnName": "Keep HOL?",
-    "expression": "grel:if(cells[\"HOL Sublibrary\"].value==\"FSUER\",if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"TRUE: FSUER HOL with ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"FALSE: FSUER HOL without ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")),if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"N/A: Other Sublibrary with ACQ HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"N/A: Other Sublibrary HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"))))",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-}
-{
-    "op": "core/text-transform",
-    "description": "For records with three HOL where exactly one HOL is from FSUER, change the values in  ``Keep HOL?`` to `TRUE: FSUER HOL with ACQ for` followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary is FSUER and the BIB has an ACQ, `TRUE: FSUER HOL for` followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary is FSUER and the BIB doesn't have an ACQ, `N/A: Other Sublibrary with ACQ HOL for`  followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary isn't FSUER but the BIB has an ACQ, or `N/A: Other Sublibrary HOL for`  followed by the Ebook Central ID or `Title` if the ID isn't known if the sublibrary isn't FSUER and the BIB doesn't have an ACQ",
-    "engineConfig": {
-        "facets": [
-            {
-                "type": "list",
-                "name": "Keep HOL?",
-                "expression": "isBlank(value)",
-                "columnName": "Keep HOL?",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "FSUER HOL",
-                "expression": "value",
-                "columnName": "FSUER HOL",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "Has FSUER HOL",
-                            "l": "Has FSUER HOL"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Record Number",
-                "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
-                "columnName": "Record Number",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": "3",
-                            "l": "3"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            },
-            {
-                "type": "list",
-                "name": "Test",
-                "expression": "grel:indexOf(value,\"FSUER\")==lastIndexOf(value,\"FSUER\")",
-                "columnName": "Test",
-                "invert": false,
-                "omitBlank": false,
-                "omitError": false,
-                "selection": [
-                    {
-                        "v": {
-                            "v": true,
-                            "l": "true"
-                        }
-                    }
-                ],
-                "selectBlank": false,
-                "selectError": false
-            }
-        ],
-        "mode": "record-based"
-    },
-    "columnName": "Keep HOL?",
-    "expression": "grel:if(cells[\"HOL Sublibrary\"].value==\"FSUER\",if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"TRUE: FSUER HOL with ACQ for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")),if(cells[\"Has ACQ?\"].value==\"BIB has ACQ\",\"N/A: Other Sublibrary with ACQ HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"N/A: Other Sublibrary HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")))",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10
-},
-{
-    "op": "core/column-removal",
-    "description": "Remove column Test",
-    "columnName": "Test"
-}
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:if(isNull(value),if(startsWith(row.record.cells[\"Keep HOL?\"].value[0],\"FALSE: Probably Loaded for URL for\"),\"TRUE: Other FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\")+\" Probably Loaded for URL\",if(startsWith(row.record.cells[\"Keep HOL?\"].value[0],\"N/A: Non-Ebook Central Holding\"),\"TRUE: FSUER HOL for \"+if(contains(row.record.cells[\"Record Number\"].value[0],\"::\"),\"ID \"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2),\"Title\"),\"ERROR\")),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
 ]

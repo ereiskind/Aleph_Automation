@@ -516,6 +516,20 @@ os.startfile('Select_HOL_to_Keep_pt2--EC_After_Cataloging.json')
 messagebox.showinfo(title="Instructions", message="Create text filter on \"ACQ Test\" and switch to row mode. Filter for \"BIB Not Checked for ACQ\", and check those BIBs to see if an ACQ is attached, and change to value of \"ACQ Test\" accordingly.") # See Ebook_Central_Custom_Faceting_pt5.json
 
 os.startfile('Select_HOL_to_Keep_pt3--EC_After_Cataloging.json')
+# "Keep HOL?" Formats
+    # HOLs being kept
+        # Only HOL for record = TRUE: Only HOL for ID <Ebook Central ID> | TRUE: Only HOL for Title [HOL <HOL number>]
+        # FSUER HOL with ACQ = TRUE: FSUER HOL with ACQ for <Ebook Central ID | "Title">
+        # FSUER HOL without ACQ = TRUE: FSUER HOL for <Ebook Central ID | "Title">
+        # FSUER HOL in record with other HOL/BIBs believed to have been loaded for URL = TRUE: Other FSUER HOL for <Ebook Central ID | "Title"> Probably Loaded for URL
+    # HOLs to remove
+        # FSUER HOL with ACQ for non-Ebook Central BIB = N/A: Non-Ebook Central Holding with ACQ for <Ebook Central ID | "Title">
+        # FSUER HOL without ACQ for non-Ebook Central BIB = N/A: Non-Ebook Central Holding for <Ebook Central ID | "Title">
+        # FSUER HOL without ACQ = FALSE: FSUER HOL without ACQ for <Ebook Central ID | "Title">
+        # FSUER HOL believed to have been loaded for URL = FALSE: Probably Loaded for URL for <Ebook Central ID | "Title">
+        # Other sublibrary HOL on same BIB = N/A: Other Sublibrary HOL on FSUER BIB for <Ebook Central ID | "Title">
+        # FSUER HOL with ACQ = FALSE: FSUER HOL with ACQ for <Ebook Central ID | "Title">
+messagebox.showinfo(title="Instructions", message="Create blanks filter on \"Keep HOL?\" and set to true. For the records that remain, adjust the values of \"Keep HOL?\" using the above formats as appropriate.") # See Ebook_Central_Custom_Faceting_pt6.json
  
 # messagebox.showwarning(title="Removing HOL No Longer in UXU60", message="Some BIB records were found to have multiple HOL from the same sublibrary attached. At this point, I removed those HOL that were no longer in UXU60.")
 # """[
