@@ -1,0 +1,470 @@
+[
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "value",
+                    "columnName": "ACQ Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "BIB Not Checked for ACQ",
+                                "l": "BIB Not Checked for ACQ"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "value",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "032330957",
+                                "l": "032330957"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ACQ Test",
+        "expression": "grel:\"No ACQ for BIB\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ACQ Test using expression grel:\"No ACQ for BIB\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "value",
+                    "columnName": "ACQ Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "BIB Not Checked for ACQ",
+                                "l": "BIB Not Checked for ACQ"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "value",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "021748605",
+                                "l": "021748605"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ACQ Test",
+        "expression": "grel:\"No ACQ for BIB\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ACQ Test using expression grel:\"No ACQ for BIB\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "value",
+                    "columnName": "ACQ Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "BIB Not Checked for ACQ",
+                                "l": "BIB Not Checked for ACQ"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "value",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "025411560",
+                                "l": "025411560"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ACQ Test",
+        "expression": "grel:\"No ACQ for BIB\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ACQ Test using expression grel:\"No ACQ for BIB\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "value",
+                    "columnName": "ACQ Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "BIB Not Checked for ACQ",
+                                "l": "BIB Not Checked for ACQ"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "value",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "030703509",
+                                "l": "030703509"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ACQ Test",
+        "expression": "grel:\"No ACQ for BIB\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ACQ Test using expression grel:\"No ACQ for BIB\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "value",
+                    "columnName": "ACQ Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "BIB Not Checked for ACQ",
+                                "l": "BIB Not Checked for ACQ"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "value",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "032330812",
+                                "l": "032330812"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ACQ Test",
+        "expression": "grel:\"No ACQ for BIB\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ACQ Test using expression grel:\"No ACQ for BIB\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "value",
+                    "columnName": "ACQ Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "BIB Not Checked for ACQ",
+                                "l": "BIB Not Checked for ACQ"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "value",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "032338371",
+                                "l": "032338371"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ACQ Test",
+        "expression": "grel:\"No ACQ for BIB\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ACQ Test using expression grel:\"No ACQ for BIB\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "value",
+                    "columnName": "ACQ Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "BIB Not Checked for ACQ",
+                                "l": "BIB Not Checked for ACQ"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "value",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "032910696",
+                                "l": "032910696"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ACQ Test",
+        "expression": "grel:\"No ACQ for BIB\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ACQ Test using expression grel:\"No ACQ for BIB\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "value",
+                    "columnName": "ACQ Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "BIB Not Checked for ACQ",
+                                "l": "BIB Not Checked for ACQ"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "value",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "035147392",
+                                "l": "035147392"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ACQ Test",
+        "expression": "grel:\"No ACQ for BIB\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ACQ Test using expression grel:\"No ACQ for BIB\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ACQ Test",
+                    "expression": "value",
+                    "columnName": "ACQ Test",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "BIB Not Checked for ACQ",
+                                "l": "BIB Not Checked for ACQ"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "BIB Number",
+                    "expression": "value",
+                    "columnName": "BIB Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "035884293",
+                                "l": "035884293"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "ACQ Test",
+        "expression": "grel:\"No ACQ for BIB\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column ACQ Test using expression grel:\"No ACQ for BIB\""
+    }
+]

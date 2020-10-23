@@ -513,7 +513,7 @@ messagebox.showinfo(title="Instructions", message="Remove the blanks filter on \
 ]"""
 
 os.startfile('Select_HOL_to_Keep_pt2--EC_After_Cataloging.json')
-messagebox.showinfo(title="Instructions", message="Create text filter on \"ACQ Test\" and switch to row mode. Check The remaining BIBs to see if an ACQ is attached, and change to value of \"ACQ Test\" accordingly.")
+messagebox.showinfo(title="Instructions", message="Create text filter on \"ACQ Test\" and switch to row mode. Filter for \"BIB Not Checked for ACQ\", and check those BIBs to see if an ACQ is attached, and change to value of \"ACQ Test\" accordingly.") # See Ebook_Central_Custom_Faceting_pt5.json
 
 os.startfile('Select_HOL_to_Keep_pt3--EC_After_Cataloging.json')
  
