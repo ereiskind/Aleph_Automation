@@ -532,12 +532,12 @@ os.startfile('Select_HOL_to_Keep_pt3--EC_After_Cataloging.json')
 messagebox.showinfo(title="Instructions", message="Create blanks filter on \"Keep HOL?\" and set to true. For the records that remain, adjust the values of \"Keep HOL?\" using the above formats as appropriate.") # See Ebook_Central_Custom_Faceting_pt6.json
 
 
-# #Section: Create Update Files For Records to Remain
-# #Subsection: Identify Perpetual Access Entitlements
-# os.startfile('Identify_Perpetual_Access_Entitlements_pt1--Ebook_Central_Specific.json')
-# messagebox.showinfo(title="Instructions", message="Generate a list of the propriatrary IDs and titles for all perpetual access entitlements where the IDs are in the column \"ID\" and the titles are in the column \"Title\". Save as a CSV named \"Entitlements\" and upload to OpenRefine.")
-# messagebox.showinfo(title="Instructions", message="Apply the following JSON in the \"Entitlements csv\" project.")
-# os.startfile('Identify_Perpetual_Access_Entitlements_pt2--Ebook_Central_Specific.json')
+#Section: Create Update Files For Records to Remain
+#Subsection: Identify Perpetual Access Entitlements
+os.startfile('Identify_Perpetual_Access_Entitlements_pt1--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Export a list of the Ebook Central perpetual access entitlements from LibCentral and combine it with a list of the non-FSU-owned perpetual access entitlements created via title match. Save as a CSV named \"Entitlements\" and upload to OpenRefine.")
+messagebox.showinfo(title="Instructions", message="Apply the following JSON in the \"Entitlements csv\" project.")
+os.startfile('Identify_Perpetual_Access_Entitlements_pt2--Ebook_Central_Specific.json')
 
 # #Subsection: Determine Records that Need to be Unsuppressed
 # messagebox.showinfo(title="Instructions", message="Switch back to the \"UXU60_Cleanup\" project.")
