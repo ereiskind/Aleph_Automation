@@ -1,537 +1,76 @@
 [
     {
-        "op": "core/column-reorder",
-        "description": "Remove columns not needed for matching",
-        "columnNames": [
-            "Document ID",
-            "ebrary ID",
-            "MiL ID",
-            "Title"
-        ]
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Match`` by appending `Ebook Central::` to the front of ``ID``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "baseColumnName": "Document ID",
-        "expression": "grel:\"Ebook Central::\"+value",
-        "onError": "set-to-blank",
-        "newColumnName": "Match",
-        "columnInsertIndex": 1
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Remove from column ``Match`` the values that aren't also found in ``Record Number Copy`` in the project ``UXU60_Cleanup``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Match",
-        "expression": "grel:cell.cross(\"UXU60_Cleanup\",\"Record Number Copy\")[0].cells[\"Record Number Copy\"].value",
-        "onError": "set-to-blank",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Ebrary Match`` with the value of ``Record Number Copy`` from the row that has this row's ``ebrary ID`` value in the ``Ebrary`` column of ``UXU60_Cleanup``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "ebrary ID",
-        "expression": "grel:cell.cross(\"UXU60_Cleanup\",\"Ebrary\")[0].cells[\"Record Number Copy\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "Ebrary Match",
-        "columnInsertIndex": 2
-    },
-    {
-        "op": "core/text-transform",
-        "description": "For rows with no value in ``Match`` but a value in ``Ebrary Match``, copy the value from the latter column to the former",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Ebrary Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebrary Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Match",
-        "expression": "grel:cells[\"Ebrary Match\"].value",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
+        "op": "core/column-removal",
+        "description": "Remove column ``ACQ Test``",
+        "columnName": "ACQ Test"
     },
     {
         "op": "core/column-removal",
-        "description": "Remove column ``Ebrary Match``",
-        "columnName": "Ebrary Match"
+        "description": "Remove column ``Duplication``",
+        "columnName": "Duplication"
     },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``ebrary ID``",
-        "columnName": "ebrary ID"
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``MyiLibrary Match`` with the value of ``Record Number Copy`` from the row that has this row's ``MiL ID`` value in the ``MyiLibrary`` column of ``UXU60_Cleanup``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "MiL ID",
-        "expression": "grel:cell.cross(\"UXU60_Cleanup\",\"MyiLibrary\")[0].cells[\"Record Number Copy\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "MyiLibrary Match",
-        "columnInsertIndex": 2
-    },
-    {
-        "op": "core/text-transform",
-        "description": "For rows with no value in ``Match`` but a value in ``MyiLibrary Match``, copy the value from the latter column to the former",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "MyiLibrary Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "MyiLibrary Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Match",
-        "expression": "grel:cells[\"MyiLibrary Match\"].value",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``MyiLibrary Match``",
-        "columnName": "MyiLibrary Match"
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``MiL ID``",
-        "columnName": "MiL ID"
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Title 0`` with the value of ``Record Number Copy`` for the row that contains the exact same value in ``UXU60_Cleanup``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "Title",
-        "expression": "grel:cell.cross(\"UXU60_Cleanup\",\"Title\")[0].cells[\"Record Number Copy\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "Title 0",
-        "columnInsertIndex": 2
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Update blank cells in column ``Match`` to the value in ``Title 0``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title 0",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title 0",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Match",
-        "expression": "grel:cells[\"Title 0\"].value",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Title 0``",
-        "columnName": "Title 0"
-    }
-    {
-        "op": "core/text-transform",
-        "description": "In rows with no values in ``Match``, replace characters with diacritics",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Title",
-        "expression": "jython:import sys\nsys.path.append(r'C:\\jython2.7.2\\Lib\\site-packages')\nfrom unidecode import unidecode\nreturn unidecode(value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "In rows with no values in ``Match``, replace pairs of initials seperated by a space with pairs of initials not seperated by a space",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Title",
-        "expression": "grel:replace(value,/\\w\\. \\w\\./,replace(find(value,/\\w\\. \\w\\./)[0],\" \",\"\"))",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "In rows with no value in ``Match``, replace ISBD colons in ``Title`` with standard colons",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Title",
-        "expression": "grel:replace(value,\" : \",\": \")",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Title 0`` with the value of ``Record Number Copy`` for the row that contains the exact same value in ``UXU60_Cleanup``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "Title",
-        "expression": "grel:cell.cross(\"UXU60_Cleanup\",\"Title\")[0].cells[\"Record Number Copy\"].value",
-        "onError": "set-to-blank",
-        "newColumnName": "Title 0",
-        "columnInsertIndex": 3
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Update blank cells in column ``Match`` to the value in ``Title 0``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title 0",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title 0",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Match",
-        "expression": "grel:cells[\"Title 0\"].value",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Title 0``",
-        "columnName": "Title 0"
-    }
     {
         "op": "core/column-split",
-        "description": "For rows with no value in ``Match``, split column ``Title`` at the first colon",
+        "description": "Split column ``Title`` at the parenthetical used for edition or volume",
         "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
+            "facets": [],
+            "mode": "record-based"
         },
         "columnName": "Title",
+        "guessCellType": false,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": "\\((ed|vol)=",
+        "regex": true,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove smart quotes and encoding mistakes then trim whitespace from values in column ``Title 1``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 1",
+        "expression": "value.replace(/[‘’‚‛‹›‚]/,\"\\'\").replace(/[“”«»„]/,\"\\\"\").reinterpret(\"utf-8\").trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change value of ``Title 2`` to value of ``Title 1`` in titlecase, with spaces trimmed, hyphens replaced with spaces, and ending periods removed",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 2",
+        "expression": "grel:if(substring(cells[\"Title 1\"].value,-1)==\".\",toTitlecase(trim(replace(substring(cells[\"Title 1\"].value,0,-1),\"-\",\" \"))),toTitlecase(trim(replace(cells[\"Title 1\"].value,\"-\",\" \"))))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change value of ``Title 3`` to value of ``Title 2`` without periods, commas, and ampersands",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 3",
+        "expression": "grel:trim(cells[\"Title 2\"].value.replace(\".\",\"\").replace(\",\",\"\").replace(\"&\",\"And\"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Title 1`` at first colon",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 1",
         "guessCellType": true,
         "removeOriginalColumn": false,
         "mode": "separator",
@@ -541,615 +80,144 @@
     },
     {
         "op": "core/column-removal",
-        "description": "Remove column ``Title 2``",
-        "columnName": "Title 2"
+        "description": "Remove column ``Title 1 2``",
+        "columnName": "Title 1 2"
     },
-    {
-        "op": "core/column-rename",
-        "description": "Rename column ``Title 1`` to ``Title Only``",
-        "oldColumnName": "Title 1",
-        "newColumnName": "Title Only"
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Title 1`` by removing smart quotes and encoding mistakes then trimming whitespace from values in column ``Title``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "Title",
-        "expression": "grel:value.replace(/[‘’‚‛‹›‚]/,\"\\'\").replace(/[“”«»„]/,\"\\\"\").reinterpret(\"utf-8\").trim()",
-        "onError": "set-to-blank",
-        "newColumnName": "Title 1",
-        "columnInsertIndex": 3
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Title Only 1`` by removing smart quotes and encoding mistakes then trimming whitespace from values in column ``Title Only``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "Title Only",
-        "expression": "grel:value.replace(/[‘’‚‛‹›‚]/,\"\\'\").replace(/[“”«»„]/,\"\\\"\").reinterpret(\"utf-8\").trim()",
-        "onError": "set-to-blank",
-        "newColumnName": "Title Only 1",
-        "columnInsertIndex": 4
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Title 2`` by changing value of value of ``Title 1`` to titlecase, with spaces trimmed, hyphens replaced with spaces, and backslashes (/) and ending periods removed",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "Title 1",
-        "expression": "grel:if(substring(cells[\"Title 1\"].value,-1)==\".\",trim(substring(cells[\"Title 1\"].value,0,-1).replace(\"-\",\" \").replace(\"/\",\"\").toTitlecase()),trim(cells[\"Title 1\"].value.replace(\"-\",\" \").replace(\"/\",\"\").toTitlecase()))",
-        "onError": "set-to-blank",
-        "newColumnName": "Title 2",
-        "columnInsertIndex": 5
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Title Only 2`` by changing value of value of ``Title Only 1`` to titlecase, with spaces trimmed, hyphens replaced with spaces, and backslashes (/) and ending periods removed",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "Title Only 1",
-        "expression": "grel:if(substring(cells[\"Title Only 1\"].value,-1)==\".\",trim(substring(cells[\"Title Only 1\"].value,0,-1).replace(\"-\",\" \").replace(\"/\",\"\").toTitlecase()),trim(cells[\"Title Only 1\"].value.replace(\"-\",\" \").replace(\"/\",\"\").toTitlecase()))",
-        "onError": "set-to-blank",
-        "newColumnName": "Title Only 2",
-        "columnInsertIndex": 6
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Title 3`` based on value of ``Title 2`` without periods, commas, and ampersands",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "Title 2",
-        "expression": "grel:trim(cells[\"Title 2\"].value.replace(\".\",\"\").replace(\",\",\"\").replace(\"&\",\"And\"))",
-        "onError": "set-to-blank",
-        "newColumnName": "Title 3",
-        "columnInsertIndex": 7
-    }
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``Title Only 3`` based on value of ``Title Only 2`` without periods, commas, and ampersands",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "Title Only 2",
-        "expression": "grel:trim(cells[\"Title Only 2\"].value.replace(\".\",\"\").replace(\",\",\"\").replace(\"&\",\"And\"))",
-        "onError": "set-to-blank",
-        "newColumnName": "Title Only 3",
-        "columnInsertIndex": 8
-    }
     {
         "op": "core/text-transform",
-        "description": "Change ``Title 1`` values to the value in ``Record Number`` for the Aleph records where that value is either the complete title or the title without the subtitle",
+        "description": "Trim leading and trailing whitespace from values in column ``Title 1 1``",
         "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
+            "facets": [],
+            "mode": "record-based"
         },
-        "columnName": "Title 1",
-        "expression": "grel:if(isError(cell.cross(\"UXU60_Cleanup\",\"Title 1\")[0].cells[\"Record Number Copy\"].value),cell.cross(\"UXU60_Cleanup\",\"Title 1 1\")[0].cells[\"Record Number Copy\"].value,cell.cross(\"UXU60_Cleanup\",\"Title 1\")[0].cells[\"Record Number Copy\"].value)",
-        "onError": "set-to-blank",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "If the value in ``Title 1`` isn't an Ebook Central ID mismatch, update blank cells in column ``Match`` to the value in ``Title 1``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title 1",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title 1",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Match",
-        "expression": "grel:if(contains(cells[\"Title 1\"].value,\"::\"),value,cells[\"Title 1\"].value)",
+        "columnName": "Title 1 1",
+        "expression": "value.trim()",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Change values in column ``Title Only 1`` to the value in ``Record Number`` for the Aleph records matching that title",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Title Only 1",
-        "expression": "grel:cell.cross(\"UXU60_Cleanup\",\"Title 1\")[0].cells[\"Record Number Copy\"].value",
-        "onError": "set-to-blank",
-        "repeat": false,
-        "repeatCount": 10
     },
     {
-        "op": "core/text-transform",
-        "description": "If the value in ``Title Only 1`` isn't an Ebook Central ID mismatch, update blank cells in column ``Match`` to the value in ``Title Only 1``",
+        "op": "core/column-split",
+        "description": "Split column ``Title 2`` at first colon",
         "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title Only 1",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title Only 1",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Match",
-        "expression": "grel:if(contains(cells[\"Title Only 1\"].value,\"::\"),value,cells[\"Title Only 1\"].value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Change ``Title 2`` values to the value in ``Record Number`` for the Aleph records where that value is either the complete title or the title without the subtitle",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
+            "facets": [],
+            "mode": "record-based"
         },
         "columnName": "Title 2",
-        "expression": "grel:if(isError(cell.cross(\"UXU60_Cleanup\",\"Title 2\")[0].cells[\"Record Number Copy\"].value),cell.cross(\"UXU60_Cleanup\",\"Title 2 1\")[0].cells[\"Record Number Copy\"].value,cell.cross(\"UXU60_Cleanup\",\"Title 2\")[0].cells[\"Record Number Copy\"].value)",
-        "onError": "set-to-blank",
-        "repeat": false,
-        "repeatCount": 10
-    }
+        "guessCellType": true,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": ":",
+        "regex": false,
+        "maxColumns": 2
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Title 2 2``",
+        "columnName": "Title 2 2"
+    },
     {
         "op": "core/text-transform",
-        "description": "If the value in ``Title 2`` isn't an Ebook Central ID mismatch, update blank cells in column ``Match`` to the value in ``Title 2``",
+        "description": "Trim leading and trailing whitespace from values in column ``Title 2 1``",
         "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title 2",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title 2",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
+            "facets": [],
+            "mode": "record-based"
         },
-        "columnName": "Match",
-        "expression": "grel:if(contains(cells[\"Title 2\"].value,\"::\"),value,cells[\"Title 2\"].value)",
+        "columnName": "Title 2 1",
+        "expression": "value.trim()",
         "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Change values in column ``Title Only 2`` to the value in ``Record Number`` for the Aleph records matching that title",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Title Only 2",
-        "expression": "grel:cell.cross(\"UXU60_Cleanup\",\"Title 2\")[0].cells[\"Record Number Copy\"].value",
-        "onError": "set-to-blank",
         "repeat": false,
         "repeatCount": 10
     },
     {
-        "op": "core/text-transform",
-        "description": "If the value in ``Title Only 2`` isn't an Ebook Central ID mismatch, update blank cells in column ``Match`` to the value in ``Title Only 2``",
+        "op": "core/column-split",
+        "description": "Split column ``Title 3`` at first colon",
         "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title Only 2",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title Only 2",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Match",
-        "expression": "grel:if(contains(cells[\"Title Only 2\"].value,\"::\"),value,cells[\"Title Only 2\"].value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Change ``Title 3`` values to the value in ``Record Number`` for the Aleph records where that value is either the complete title or the title without the subtitle",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
+            "facets": [],
+            "mode": "record-based"
         },
         "columnName": "Title 3",
-        "expression": "grel:if(isError(cell.cross(\"UXU60_Cleanup\",\"Title 3\")[0].cells[\"Record Number Copy\"].value),cell.cross(\"UXU60_Cleanup\",\"Title 3 1\")[0].cells[\"Record Number Copy\"].value,cell.cross(\"UXU60_Cleanup\",\"Title 3\")[0].cells[\"Record Number Copy\"].value)",
-        "onError": "set-to-blank",
-        "repeat": false,
-        "repeatCount": 10
-    }
+        "guessCellType": true,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": ":",
+        "regex": false,
+        "maxColumns": 2
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Title 3 2``",
+        "columnName": "Title 3 2"
+    },
     {
         "op": "core/text-transform",
-        "description": "If the value in ``Title 3`` isn't an Ebook Central ID mismatch, update blank cells in column ``Match`` to the value in ``Title 3``",
+        "description": "Trim leading and trailing whitespace from values in column ``Title 3 1``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title 3 1",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Record Number Copy`` by filling up and down value of column ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Record Number",
+        "expression": "grel:row.record.cells[\"Record Number\"].value[0]",
+        "onError": "set-to-blank",
+        "newColumnName": "Record Number Copy",
+        "columnInsertIndex": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change values in column ``Record Number Copy`` to the Ebook Central ID for the record if able to be matched",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number Copy",
+        "expression": "grel:cell.cross(\"Entitlements csv\",\"Match\")[0].cells[\"Document ID\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-split",
+        "description": "Create new columns by splitting `Record Number` at `::`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "guessCellType": false,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": "::",
+        "regex": false,
+        "maxColumns": 2
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Record Number 1``",
+        "columnName": "Record Number 1"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For rows with an Ebook Central ID in ``Record Number Copy`` but not ``Record Number``, copy the ID from the former column into ``Record Number 2``",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Match",
+                    "name": "Record Number Copy",
                     "expression": "isBlank(value)",
-                    "columnName": "Match",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Title 3",
-                    "expression": "isBlank(value)",
-                    "columnName": "Title 3",
+                    "columnName": "Record Number Copy",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
@@ -1163,26 +231,12 @@
                     ],
                     "selectBlank": false,
                     "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Match",
-        "expression": "grel:if(contains(cells[\"Title 3\"].value,\"::\"),value,cells[\"Title 3\"].value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Change values in column ``Title Only 3`` to the value in ``Record Number`` for the Aleph records matching that title",
-        "engineConfig": {
-            "facets": [
+                },
                 {
                     "type": "list",
-                    "name": "Match",
+                    "name": "Record Number 2",
                     "expression": "isBlank(value)",
-                    "columnName": "Match",
+                    "columnName": "Record Number 2",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
@@ -1198,32 +252,67 @@
                     "selectError": false
                 }
             ],
-            "mode": "row-based"
+            "mode": "record-based"
         },
-        "columnName": "Title Only 3",
-        "expression": "grel:cell.cross(\"UXU60_Cleanup\",\"Title 3\")[0].cells[\"Record Number Copy\"].value",
-        "onError": "set-to-blank",
+        "columnName": "Record Number 2",
+        "expression": "grel:cells[\"Record Number Copy\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Record Number 2``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill blank cells in ``Record Number 2`` with the number of the record and the row in the record separated by a hyphen",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:if(isNull(value),toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex+1),value)",
+        "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
     },
     {
         "op": "core/text-transform",
-        "description": "If the value in ``Title Only 3`` isn't an Ebook Central ID mismatch, update blank cells in column ``Match`` to the value in ``Title Only 3``",
+        "description": "Null values in column ``Record Number 2`` containing a hyphen",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:if(contains(value,\"-\"),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records without an Ebook Central ID in ``Record Number`` but with an Ebook Central ID in ``Record Number 2``, change the value of ``Keep HOL?`` to `TRUE: Only HOL for ID` followed by the Ebook Central ID",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Match",
-                    "expression": "isBlank(value)",
-                    "columnName": "Match",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": true,
-                                "l": "true"
+                                "v": false,
+                                "l": "false"
                             }
                         }
                     ],
@@ -1232,9 +321,9 @@
                 },
                 {
                     "type": "list",
-                    "name": "Title Only 3",
+                    "name": "Record Number 2",
                     "expression": "isBlank(value)",
-                    "columnName": "Title Only 3",
+                    "columnName": "Record Number 2",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
@@ -1250,21 +339,82 @@
                     "selectError": false
                 }
             ],
-            "mode": "row-based"
+            "mode": "record-based"
         },
-        "columnName": "Match",
-        "expression": "grel:if(contains(cells[\"Title Only 3\"].value,\"::\"),value,cells[\"Title Only 3\"].value)",
+        "columnName": "Keep HOL?",
+        "expression": "grel:\"TRUE: Only HOL for ID \"+cells[\"Record Number 2\"].value",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
-    }
+    },
     {
-        "op": "core/column-reorder",
-        "description": "Remove edited title text columns",
-        "columnNames": [
-            "Document ID",
-            "Match",
-            "Title"
-        ]
+        "op": "core/text-transform",
+        "description": "For records without an Ebook Central ID in ``Record Number`` but with an Ebook Central ID in ``Record Number 2``, change the value of ``Record Number`` to `Ebook Central::` followed by the Ebook Central ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:\"Ebook Central::\"+cells[\"Record Number 2\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Record Number 2``",
+        "columnName": "Record Number 2"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change the values in column ``Record Number Copy`` to match those in ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number Copy",
+        "expression": "grel:cells[\"Record Number\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     }
 ]
