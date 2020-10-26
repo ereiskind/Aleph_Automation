@@ -1,247 +1,431 @@
 [
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Title 1``",
-        "columnName": "Title 1"
-    }
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Title 1 1``",
-        "columnName": "Title 1 1"
-    }
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Title 2``",
-        "columnName": "Title 2"
-    }
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Title 2 1``",
-        "columnName": "Title 2 1"
-    }
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Title 3``",
-        "columnName": "Title 3"
-    }
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Title 3 1``",
-        "columnName": "Title 3 1"
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Change values in column ``Record Number Copy`` to the Ebook Central ID for the record if able to be matched",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Record Number Copy",
-        "expression": "grel:cell.cross(\"Entitlements csv\",\"Match\")[0].cells.ID.value",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/text-transform",
-        "description": "Change Ebook Central ID values in column ``Record Number Copy`` to number format",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Record Number Copy",
-        "expression": "value.toNumber()",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
+  {
+    "op": "core/column-removal",
+    "description": "Remove column ``Title 1``",
+    "columnName": "Title 1"
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column ``Title 1 1``",
+    "columnName": "Title 1 1"
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column ``Title 2``",
+    "columnName": "Title 2"
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column ``Title 2 1``",
+    "columnName": "Title 2 1"
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column ``Title 3``",
+    "columnName": "Title 3"
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column ``Title 3 1``",
+    "columnName": "Title 3 1"
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Change values in column ``Record Number Copy`` to the Ebook Central ID for the record if able to be matched",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
     },
-    {
-        "op": "core/row-removal",
-        "description": "Remove records containing a single HOL where the title isn't a perpetual access entitlement and the BIB's Ebook Central URL is labeled as for the SciTech collection",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Record Number Copy",
-                    "expression": "grel:isNumeric(value)",
-                    "columnName": "Record Number Copy",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Record Number",
-                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
-                    "columnName": "Record Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "1",
-                                "l": "1"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Ebook Central BIB URLs",
-                    "expression": "grel:value==\"SciTech Collection\"",
-                    "columnName": "Ebook Central BIB URLs",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
+    "columnName": "Record Number Copy",
+    "expression": "grel:cell.cross(\"Entitlements csv\",\"Match\")[0].cells[\"Document ID\"].value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/column-split",
+    "description": "Create new columns by splitting `Record Number` at `::`",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number",
+    "guessCellType": false,
+    "removeOriginalColumn": false,
+    "mode": "separator",
+    "separator": "::",
+    "regex": false,
+    "maxColumns": 2
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column ``Record Number 1``",
+    "columnName": "Record Number 1"
+  },
+  {
+    "op": "core/text-transform",
+    "description": "For rows with an Ebook Central ID in ``Record Number Copy`` but not ``Record Number``, copy the ID from the former column into ``Record Number 2``",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number Copy",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number Copy",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
         }
-    }
-    {
-        "op": "core/row-removal",
-        "description": "Remove records with a single non-suppressed FSUER HOL where the URL is for a non-Ebook Central platform",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Record Number Copy",
-                    "expression": "grel:isNumeric(value)",
-                    "columnName": "Record Number Copy",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Record Number",
-                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
-                    "columnName": "Record Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "1",
-                                "l": "1"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Suppressed",
-                    "expression": "isBlank(value)",
-                    "columnName": "Suppressed",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Ebook Central BIB URLs",
-                    "expression": "isBlank(value)",
-                    "columnName": "Ebook Central BIB URLs",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": true,
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "HOL Sublibrary",
-                    "expression": "value",
-                    "columnName": "HOL Sublibrary",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "FSUER",
-                                "l": "FSUER"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Other BIB URL Info",
-                    "expression": "isBlank(value)",
-                    "columnName": "Other BIB URL Info",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2",
+    "expression": "grel:cells[\"Record Number Copy\"].value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/blank-down",
+    "description": "Blank down cells in column ``Record Number 2``",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2"
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Fill blank cells in ``Record Number 2`` with the number of the record and the row in the record separated by a hyphen",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2",
+    "expression": "grel:if(isNull(value),toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex+1),value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Null values in column ``Record Number 2`` containing a hyphen",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2",
+    "expression": "grel:if(contains(value,\"-\"),null,value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/row-removal",
+    "description": "Remove records with a single non-suppressed FSUER HOL and a single URL for a non-Ebook Central platform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "1",
+                "l": "1"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Suppressed",
+          "expression": "isBlank(value)",
+          "columnName": "Suppressed",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Ebook Central BIB URLs",
+          "expression": "isBlank(value)",
+          "columnName": "Ebook Central BIB URLs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "HOL Sublibrary",
+          "expression": "value",
+          "columnName": "HOL Sublibrary",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "FSUER",
+                "l": "FSUER"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Other BIB URL Info",
+          "expression": "grel:find(value,/https?:\\/\\/[\\w.]*\\/[\\w|\\[|\\]|\\s]*/)[0]==value",
+          "columnName": "Other BIB URL Info",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
         }
+      ],
+      "mode": "record-based"
     }
+  },
+  {
+    "op": "core/text-transform",
+    "description": "For records containing a single HOL where the BIB's Ebook Central URL is labeled as for the SciTech collection, change ``Keep HOL?`` to `FALSE: SciTech Collection` with the Ebook Central ID in brackets at the end",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "1",
+                "l": "1"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Ebook Central BIB URLs",
+          "expression": "grel:value==\"SciTech Collection\"",
+          "columnName": "Ebook Central BIB URLs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Keep HOL?",
+    "expression": "grel:\"FALSE: SciTech Collection [\"+if(contains(cells[\"Record Number\"].value,\"::\"),\"ID \"+substring(cells[\"Record Number\"].value,indexOf(cells[\"Record Number\"].value,\"::\")+2),\"HOL \"+split(cells[\"Record Number\"].value,\" \")[1])+\"]\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "For records without an Ebook Central ID in ``Record Number`` but with an Ebook Central ID in ``Record Number 2`` where the ``Keep HOL?`` value starts with `FALSE`, null the ``Record Number 2`` value",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Keep HOL?",
+          "expression": "grel:startsWith(value,\"FALSE\")",
+          "columnName": "Keep HOL?",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "grel:startsWith(value,\"Ebook Central\")",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Record Number 2",
+    "expression": "null",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/column-addition",
+    "description": "For records without an Ebook Central ID in ``Record Number`` but with an Ebook Central ID in ``Record Number 2``, copy over the title matching the ID in the latter column",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "grel:startsWith(value,\"Ebook Central\")",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number 2",
+          "expression": "isBlank(value)",
+          "columnName": "Record Number 2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Record Number 2",
+    "expression": "grel:cell.cross(\"Entitlements csv\",\"Document ID\")[0].cells.Title.value",
+    "onError": "set-to-blank",
+    "newColumnName": "ID Title",
+    "columnInsertIndex": 13
+  }
 ]

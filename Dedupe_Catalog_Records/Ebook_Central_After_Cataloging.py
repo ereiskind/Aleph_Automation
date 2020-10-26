@@ -548,6 +548,7 @@ os.startfile('Identify_Perpetual_Access_Entitlements_pt3--Ebook_Central_Specific
 
 #Subsection: Determine Records that Need to be Unsuppressed
 messagebox.showinfo(title="Instructions", message="Switch back to the \"UXU60_Cleanup\" project.")
+messagebox.showwarning(title="Removal of False Positives", message="HOLs for non-Ebook Central holdings on BIBs where another school has an Ebook Central holding are removed here.")
 os.startfile('Determine_HOL_to_Unsuppress_pt1--Ebook_Central_Specific.json')
 # messagebox.showinfo(title="Instructions", message="Set custom text filter \"isNumeric(value)\" on \"Record Number Copy\" to false. Remove single-HOL records with TKRs for other platforms.")
 # """[
