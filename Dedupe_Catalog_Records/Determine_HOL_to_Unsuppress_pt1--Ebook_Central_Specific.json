@@ -427,5 +427,90 @@
     "onError": "set-to-blank",
     "newColumnName": "ID Title",
     "columnInsertIndex": 13
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Copy values in ``Other BIB URL Info`` for Ebook Central with embedded proxy info to ``Ebook Central BIB URLs``",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Other BIB URL Info",
+          "expression": "isBlank(value)",
+          "columnName": "Other BIB URL Info",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Ebook Central BIB URLs",
+          "expression": "isBlank(value)",
+          "columnName": "Ebook Central BIB URLs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Ebook Central BIB URLs",
+    "expression": "grel:if(length(find(cells[\"Other BIB URL Info\"].value,/https?:\\/\\/ebookcentral-proquest-com\\.proxy\\.lib\\.fsu\\.edu\\//))>0,cells[\"Other BIB URL Info\"].value,value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Remove values for Ebook Central with embedded proxy info from ``Other BIB URL Info``",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Other BIB URL Info",
+          "expression": "isBlank(value)",
+          "columnName": "Other BIB URL Info",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Other BIB URL Info",
+    "expression": "grel:if(length(find(cells[\"Other BIB URL Info\"].value,/https?:\\/\\/ebookcentral-proquest-com\\.proxy\\.lib\\.fsu\\.edu\\//))>0,null,value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
   }
 ]
