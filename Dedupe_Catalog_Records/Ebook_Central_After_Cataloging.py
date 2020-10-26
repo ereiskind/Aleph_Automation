@@ -533,10 +533,12 @@ messagebox.showinfo(title="Instructions", message="Create blanks filter on \"Kee
 
 
 #Section: Create Update Files For Records to Remain
-#Subsection: Identify Perpetual Access Entitlements
-os.startfile('Identify_Perpetual_Access_Entitlements_pt1--Ebook_Central_Specific.json')
+#Subsection: Identify Perpetual Access Entitlements via Proprietary Identifiers
 messagebox.showinfo(title="Instructions", message="Export a list of the Ebook Central perpetual access entitlements from LibCentral and combine it with a list of the non-FSU-owned perpetual access entitlements created via title match. Save as a CSV named \"Entitlements\" and upload to OpenRefine.")
 messagebox.showinfo(title="Instructions", message="Apply the following JSON in the \"Entitlements csv\" project.")
+os.startfile('Identify_Perpetual_Access_Entitlements_pt1--Ebook_Central_Specific.json')
+
+messagebox.showinfo(title="Instructions", message="Apply the following JSON in the \"UXU60_Cleanup\" project.")
 os.startfile('Identify_Perpetual_Access_Entitlements_pt2--Ebook_Central_Specific.json')
 
 # #Subsection: Determine Records that Need to be Unsuppressed
