@@ -543,10 +543,12 @@ messagebox.showwarning(title="No Handling of New ID Being Duplicate", message="T
 messagebox.showwarning(title="All Record Number Transfers in Single Row Records", message="All the records that gained a Ebook Central ID from \"Entitlements csv\" had a single row; there's no accounting for how to handle a situation where the newly determined ID isn't in the first row of the record. The \"Keep HOL?\" message for the only HOL for a record is also hard coded in.")
 os.startfile('Identify_Perpetual_Access_Entitlements_pt2--Ebook_Central_Specific.json')
 
-# #Subsection: Determine Records that Need to be Unsuppressed
-# messagebox.showinfo(title="Instructions", message="Switch back to the \"UXU60_Cleanup\" project.")
-# messagebox.showwarning(title="Non-Perpetual Access Titles with Multiple HOL", message="Steps to remove records with blank \"Record Number Copy\" values which have multiple rows because of multiple HOL attached to the same BIB not included as no such records existed in the data.")
-# os.startfile('Determine_HOL_to_Unsuppress_pt1--Ebook_Central_Specific.json')
+messagebox.showinfo(title="Instructions", message="Switch back to the \"Entitlements csv\" project.")
+os.startfile('Identify_Perpetual_Access_Entitlements_pt3--Ebook_Central_Specific.json')
+
+#Subsection: Determine Records that Need to be Unsuppressed
+messagebox.showinfo(title="Instructions", message="Switch back to the \"UXU60_Cleanup\" project.")
+os.startfile('Determine_HOL_to_Unsuppress_pt1--Ebook_Central_Specific.json')
 # messagebox.showinfo(title="Instructions", message="Set custom text filter \"isNumeric(value)\" on \"Record Number Copy\" to false. Remove single-HOL records with TKRs for other platforms.")
 # """[
 #   {
