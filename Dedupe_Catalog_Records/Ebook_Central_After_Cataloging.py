@@ -550,174 +550,319 @@ os.startfile('Identify_Perpetual_Access_Entitlements_pt3--Ebook_Central_Specific
 messagebox.showinfo(title="Instructions", message="Switch back to the \"UXU60_Cleanup\" project.")
 messagebox.showwarning(title="Removal of False Positives", message="HOLs for non-Ebook Central holdings on BIBs where another school has an Ebook Central holding are removed here.")
 os.startfile('Determine_HOL_to_Unsuppress_pt1--Ebook_Central_Specific.json')
-# messagebox.showinfo(title="Instructions", message="Set custom text filter \"isNumeric(value)\" on \"Record Number Copy\" to false. Remove single-HOL records with TKRs for other platforms.")
-# """[
-#   {
-#     "op": "core/row-removal",
-#     "engineConfig": {
-#       "facets": [
-#         {
-#           "type": "list",
-#           "name": "Record Number Copy",
-#           "expression": "grel:isNumeric(value)",
-#           "columnName": "Record Number Copy",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": false,
-#                 "l": "false"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "Ebook Central BIB URLs",
-#           "expression": "isBlank(value)",
-#           "columnName": "Ebook Central BIB URLs",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "Record Number",
-#           "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex>1",
-#           "columnName": "Record Number",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": false,
-#                 "l": "false"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "TKR 2",
-#           "expression": "isBlank(value)",
-#           "columnName": "TKR 2",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": true,
-#                 "l": "true"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         },
-#         {
-#           "type": "list",
-#           "name": "FSU Tickler",
-#           "expression": "value",
-#           "columnName": "FSU Tickler",
-#           "invert": false,
-#           "omitBlank": false,
-#           "omitError": false,
-#           "selection": [
-#             {
-#               "v": {
-#                 "v": "(FTaSU)FS-Oxford Reference Premium20151023",
-#                 "l": "(FTaSU)FS-Oxford Reference Premium20151023"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "(FTaSU)FS-Oxford Quick Reference20150108",
-#                 "l": "(FTaSU)FS-Oxford Quick Reference20150108"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "(FTaSU)FS-Oxford Quick Reference20140325",
-#                 "l": "(FTaSU)FS-Oxford Quick Reference20140325"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "(FTaSU)FS-Oxford Quick Reference20131021",
-#                 "l": "(FTaSU)FS-Oxford Quick Reference20131021"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "(FTaSU)FS-SageResearchMethods20150216",
-#                 "l": "(FTaSU)FS-SageResearchMethods20150216"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "(FTaSU)SpringerPalgrave20170314",
-#                 "l": "(FTaSU)SpringerPalgrave20170314"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "(FTaSU)CredoReference20161212",
-#                 "l": "(FTaSU)CredoReference20161212"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "(FTaSU)FS-GVRL20150413",
-#                 "l": "(FTaSU)FS-GVRL20150413"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "(FTaSU)DramaOnline20170104",
-#                 "l": "(FTaSU)DramaOnline20170104"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "(FTaSU)EBSCO20160923",
-#                 "l": "(FTaSU)EBSCO20160923"
-#               }
-#             },
-#             {
-#               "v": {
-#                 "v": "(FTaSU)EBSCO20160922",
-#                 "l": "(FTaSU)EBSCO20160922"
-#               }
-#             }
-#           ],
-#           "selectBlank": false,
-#           "selectError": false
-#         }
-#       ],
-#       "mode": "record-based"
-#     },
-#     "description": "Remove rows"
-#   }
-# ]"""
-# messagebox.showinfo(title="Instructions", message="Compare the titles with no value in \"Match\" in \"Entitlement csv\" and the titles with no value in \"Record Number Copy\" in \"UXU60_cleanup\" to see what manual matches can be found that way. For matches found that way, change the value of \"Record Number Copy\" to the Ebook Central ID as a number.")
+messagebox.showinfo(title="Instructions", message="For any records where \"ID Title\" is a mismatch for \"Title\", null the value of \"Record Number 2\".")
+messagebox.showinfo(title="Instructions", message="Use the links in \"Ebook Central BIB URLs\" to confirm the values in \"Record Number 2\". Null any values that are mismatches.")
+messagebox.showinfo(title="Instructions", message="Set a blanks filter on \"Ebook Central BIB URLs\" to true and a blanks filter on \"Other BIB URL Info\" to false. Remove the records that don't represent HOL that need to be updated, suppressed, or removed.") # Single JSON step--see below
+"""[
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Other BIB URL Info",
+          "expression": "isBlank(value)",
+          "columnName": "Other BIB URL Info",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Ebook Central BIB URLs",
+          "expression": "isBlank(value)",
+          "columnName": "Ebook Central BIB URLs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::4843765",
+                "l": "Ebook Central::4843765"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 077474858 without ID",
+                "l": "HOL 077474858 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 077477918 without ID",
+                "l": "HOL 077477918 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::1866947",
+                "l": "Ebook Central::1866947"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 077154360 without ID",
+                "l": "HOL 077154360 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 077474854 without ID",
+                "l": "HOL 077474854 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "Different sublibraries for BIB 020672657",
+                "l": "Different sublibraries for BIB 020672657"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::5855425",
+                "l": "Ebook Central::5855425"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 077152842 without ID",
+                "l": "HOL 077152842 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::3443044",
+                "l": "Ebook Central::3443044"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::5746709",
+                "l": "Ebook Central::5746709"
+              }
+            },
+            {
+              "v": {
+                "v": "Different sublibraries for BIB 020652580",
+                "l": "Different sublibraries for BIB 020652580"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 077477900 without ID",
+                "l": "HOL 077477900 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::5651879",
+                "l": "Ebook Central::5651879"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::4863266",
+                "l": "Ebook Central::4863266"
+              }
+            },
+            {
+              "v": {
+                "v": "Different sublibraries for BIB 020652214",
+                "l": "Different sublibraries for BIB 020652214"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::5495919",
+                "l": "Ebook Central::5495919"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 077093441 without ID",
+                "l": "HOL 077093441 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::5317541",
+                "l": "Ebook Central::5317541"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 078310079 without ID",
+                "l": "HOL 078310079 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 111455030 without ID",
+                "l": "HOL 111455030 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "HOL 096639842 without ID",
+                "l": "HOL 096639842 without ID"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::5208444",
+                "l": "Ebook Central::5208444"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::5742555",
+                "l": "Ebook Central::5742555"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::5884274",
+                "l": "Ebook Central::5884274"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "description": "Remove rows"
+  }
+]"""
+messagebox.showinfo(title="Instructions", message="Using that same filter setup, examine the records that have both Ebook Central and other URLs and confirm the appropriate message is in \"Keep HOL?\". If necessary, make updates.") # Single JSON step--see below
+"""[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Other BIB URL Info",
+          "expression": "isBlank(value)",
+          "columnName": "Other BIB URL Info",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Ebook Central BIB URLs",
+          "expression": "isBlank(value)",
+          "columnName": "Ebook Central BIB URLs",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Record Number",
+          "expression": "value",
+          "columnName": "Record Number",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ebook Central::635509",
+                "l": "Ebook Central::635509"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::3301384",
+                "l": "Ebook Central::3301384"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::3318823",
+                "l": "Ebook Central::3318823"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::864058",
+                "l": "Ebook Central::864058"
+              }
+            },
+            {
+              "v": {
+                "v": "Ebook Central::601941",
+                "l": "Ebook Central::601941"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Keep HOL?",
+    "expression": "grel:if(isNotNull(cells[\"Ebook Central BIB URLs\"].value),\"TRUE: FSUER HOL for \"+split(value,\" \")[-1],value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Keep HOL? using expression grel:if(isNotNull(cells[\"Ebook Central BIB URLs\"].value),\"TRUE: FSUER HOL for \"+split(value,\" \")[-1],value)"
+  }
+]"""
 # #Alert: Other matches to perpetual access entitlement Ebook Central IDs are being added here as well
 # """[
 #   {
