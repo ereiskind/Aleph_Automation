@@ -864,6 +864,7 @@ messagebox.showinfo(title="Instructions", message="Using that same filter setup,
   }
 ]"""
 
+messagebox.showwarning(title="Removal of Public Ebook Library URLs", message="After the public library URLs are removed, there's not a removal of any rows that amy be completely blank because there weren't any in the initial sample.")
 os.startfile('Determine_HOL_to_Unsuppress_pt2--EC_After_Cataloging.json')
 
 # #Alert: Other matches to perpetual access entitlement Ebook Central IDs are being added here as well

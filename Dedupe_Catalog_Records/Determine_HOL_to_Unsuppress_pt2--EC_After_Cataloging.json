@@ -1,0 +1,167 @@
+[
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Check ID URLs`` by copying column ``Ebook Central BIB URLs``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Ebook Central BIB URLs",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "Check ID URLs",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split cells in column ``Check ID URLs`` into new rows at pipe",
+        "columnName": "Check ID URLs",
+        "keyColumnName": "Record Number",
+        "mode": "separator",
+        "separator": "|",
+        "regex": false
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Null public Ebook Library URLs in column ``Check ID URLs``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Check ID URLs",
+        "expression": "grel:if(contains(value,\"public.eblib\"),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change ebrary URLs without equals to properly formatted ebrary URLs",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Check ID URLs",
+        "expression": "grel:if(isNull(match(value,/https?:\\/\\/site\\.ebrary\\.com\\/id\\/(\\d*)/)[0]),value,\"http://site.ebrary.com/lib/fsulibrary/Doc?id=\"+match(value,/https?:\\/\\/site\\.ebrary\\.com\\/id\\/(\\d*)/)[0])",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+]
