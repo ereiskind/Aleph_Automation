@@ -866,6 +866,7 @@ messagebox.showinfo(title="Instructions", message="Using that same filter setup,
 
 messagebox.showwarning(title="Removal of Public Ebook Library URLs", message="After the public library URLs are removed, there's not a removal of any rows that amy be completely blank because there weren't any in the initial sample.")
 os.startfile('Determine_HOL_to_Unsuppress_pt2--EC_After_Cataloging.json')
+messagebox.showinfo(title="Instructions", message="Set a blanks filter on \"Record Number 2\" to true and a custom filter with \"startsWith(value,\"Ebook Central\")\" on \"Record Number\" to false. Follow the links in \"Ebook Central BIB URLs\" for the visible titles to find their Ebook Central IDs. If the title is a perpetual access entitlement, change \"Record Number 2\" to the ID value, otherwise, change the value of \"Record Number 2\" to \"Not Accessible\".") # See Ebook_Central_Custom_Faceting_pt7.json
 
 # #Alert: Other matches to perpetual access entitlement Ebook Central IDs are being added here as well
 # """[

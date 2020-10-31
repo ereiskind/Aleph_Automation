@@ -1,0 +1,1450 @@
+[
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 078309713 without ID",
+                                "l": "HOL 078309713 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302595 without ID",
+                                "l": "HOL 078302595 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302582 without ID",
+                                "l": "HOL 078302582 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302588 without ID",
+                                "l": "HOL 078302588 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302592 without ID",
+                                "l": "HOL 078302592 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302555 without ID",
+                                "l": "HOL 078302555 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099570131 without ID",
+                                "l": "HOL 099570131 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309389 without ID",
+                                "l": "HOL 078309389 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302558 without ID",
+                                "l": "HOL 078302558 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310368 without ID",
+                                "l": "HOL 078310368 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310273 without ID",
+                                "l": "HOL 078310273 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310240 without ID",
+                                "l": "HOL 078310240 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310497 without ID",
+                                "l": "HOL 078310497 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466817 without ID",
+                                "l": "HOL 105466817 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466820 without ID",
+                                "l": "HOL 105466820 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310220 without ID",
+                                "l": "HOL 078310220 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310117 without ID",
+                                "l": "HOL 078310117 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302763 without ID",
+                                "l": "HOL 078302763 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309955 without ID",
+                                "l": "HOL 078309955 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466830 without ID",
+                                "l": "HOL 105466830 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302331 without ID",
+                                "l": "HOL 078302331 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099573832 without ID",
+                                "l": "HOL 099573832 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466836 without ID",
+                                "l": "HOL 105466836 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310256 without ID",
+                                "l": "HOL 078310256 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310116 without ID",
+                                "l": "HOL 078310116 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466827 without ID",
+                                "l": "HOL 105466827 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099570168 without ID",
+                                "l": "HOL 099570168 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309833 without ID",
+                                "l": "HOL 078309833 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302602 without ID",
+                                "l": "HOL 078302602 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099572976 without ID",
+                                "l": "HOL 099572976 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466826 without ID",
+                                "l": "HOL 105466826 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099572966 without ID",
+                                "l": "HOL 099572966 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310248 without ID",
+                                "l": "HOL 078310248 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466821 without ID",
+                                "l": "HOL 105466821 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302596 without ID",
+                                "l": "HOL 078302596 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310111 without ID",
+                                "l": "HOL 078310111 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310258 without ID",
+                                "l": "HOL 078310258 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302597 without ID",
+                                "l": "HOL 078302597 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099571491 without ID",
+                                "l": "HOL 099571491 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302593 without ID",
+                                "l": "HOL 078302593 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302587 without ID",
+                                "l": "HOL 078302587 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099570118 without ID",
+                                "l": "HOL 099570118 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099572716 without ID",
+                                "l": "HOL 099572716 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302577 without ID",
+                                "l": "HOL 078302577 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466831 without ID",
+                                "l": "HOL 105466831 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099567983 without ID",
+                                "l": "HOL 099567983 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302601 without ID",
+                                "l": "HOL 078302601 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099572987 without ID",
+                                "l": "HOL 099572987 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466824 without ID",
+                                "l": "HOL 105466824 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310190 without ID",
+                                "l": "HOL 078310190 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302757 without ID",
+                                "l": "HOL 078302757 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 077396280 without ID",
+                                "l": "HOL 077396280 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302327 without ID",
+                                "l": "HOL 078302327 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099572176 without ID",
+                                "l": "HOL 099572176 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302600 without ID",
+                                "l": "HOL 078302600 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466813 without ID",
+                                "l": "HOL 105466813 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099567774 without ID",
+                                "l": "HOL 099567774 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099569190 without ID",
+                                "l": "HOL 099569190 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310113 without ID",
+                                "l": "HOL 078310113 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310059 without ID",
+                                "l": "HOL 078310059 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466823 without ID",
+                                "l": "HOL 105466823 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302756 without ID",
+                                "l": "HOL 078302756 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099570882 without ID",
+                                "l": "HOL 099570882 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099570929 without ID",
+                                "l": "HOL 099570929 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302606 without ID",
+                                "l": "HOL 078302606 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310439 without ID",
+                                "l": "HOL 078310439 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466835 without ID",
+                                "l": "HOL 105466835 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310406 without ID",
+                                "l": "HOL 078310406 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099567425 without ID",
+                                "l": "HOL 099567425 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310112 without ID",
+                                "l": "HOL 078310112 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099570129 without ID",
+                                "l": "HOL 099570129 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466828 without ID",
+                                "l": "HOL 105466828 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466822 without ID",
+                                "l": "HOL 105466822 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099567438 without ID",
+                                "l": "HOL 099567438 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466832 without ID",
+                                "l": "HOL 105466832 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 077097633 without ID",
+                                "l": "HOL 077097633 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310231 without ID",
+                                "l": "HOL 078310231 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310115 without ID",
+                                "l": "HOL 078310115 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310043 without ID",
+                                "l": "HOL 078310043 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310108 without ID",
+                                "l": "HOL 078310108 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310264 without ID",
+                                "l": "HOL 078310264 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309834 without ID",
+                                "l": "HOL 078309834 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466815 without ID",
+                                "l": "HOL 105466815 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309605 without ID",
+                                "l": "HOL 078309605 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466825 without ID",
+                                "l": "HOL 105466825 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310244 without ID",
+                                "l": "HOL 078310244 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310460 without ID",
+                                "l": "HOL 078310460 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099569127 without ID",
+                                "l": "HOL 099569127 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302758 without ID",
+                                "l": "HOL 078302758 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302580 without ID",
+                                "l": "HOL 078302580 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302590 without ID",
+                                "l": "HOL 078302590 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099570618 without ID",
+                                "l": "HOL 099570618 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099569966 without ID",
+                                "l": "HOL 099569966 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099569584 without ID",
+                                "l": "HOL 099569584 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310366 without ID",
+                                "l": "HOL 078310366 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302579 without ID",
+                                "l": "HOL 078302579 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302591 without ID",
+                                "l": "HOL 078302591 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302589 without ID",
+                                "l": "HOL 078302589 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302603 without ID",
+                                "l": "HOL 078302603 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099568510 without ID",
+                                "l": "HOL 099568510 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302581 without ID",
+                                "l": "HOL 078302581 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309355 without ID",
+                                "l": "HOL 078309355 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099570126 without ID",
+                                "l": "HOL 099570126 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310109 without ID",
+                                "l": "HOL 078310109 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099569149 without ID",
+                                "l": "HOL 099569149 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310402 without ID",
+                                "l": "HOL 078310402 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310445 without ID",
+                                "l": "HOL 078310445 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078314136 without ID",
+                                "l": "HOL 078314136 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310212 without ID",
+                                "l": "HOL 078310212 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099573218 without ID",
+                                "l": "HOL 099573218 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302605 without ID",
+                                "l": "HOL 078302605 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099572405 without ID",
+                                "l": "HOL 099572405 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310225 without ID",
+                                "l": "HOL 078310225 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099573013 without ID",
+                                "l": "HOL 099573013 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309911 without ID",
+                                "l": "HOL 078309911 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310415 without ID",
+                                "l": "HOL 078310415 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 104661991 without ID",
+                                "l": "HOL 104661991 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099572320 without ID",
+                                "l": "HOL 099572320 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099567646 without ID",
+                                "l": "HOL 099567646 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310204 without ID",
+                                "l": "HOL 078310204 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310443 without ID",
+                                "l": "HOL 078310443 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310213 without ID",
+                                "l": "HOL 078310213 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310233 without ID",
+                                "l": "HOL 078310233 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 077395974 without ID",
+                                "l": "HOL 077395974 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310189 without ID",
+                                "l": "HOL 078310189 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302607 without ID",
+                                "l": "HOL 078302607 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310413 without ID",
+                                "l": "HOL 078310413 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 077331988 without ID",
+                                "l": "HOL 077331988 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 077072085 without ID",
+                                "l": "HOL 077072085 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309843 without ID",
+                                "l": "HOL 078309843 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 105466829 without ID",
+                                "l": "HOL 105466829 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 077075506 without ID",
+                                "l": "HOL 077075506 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 077178230 without ID",
+                                "l": "HOL 077178230 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 077388126 without ID",
+                                "l": "HOL 077388126 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302576 without ID",
+                                "l": "HOL 078302576 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302578 without ID",
+                                "l": "HOL 078302578 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"Not Accessible\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"Not Accessible\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 078268597 without ID",
+                                "l": "HOL 078268597 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"516520\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"516520\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 078268603 without ID",
+                                "l": "HOL 078268603 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"584952\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"584952\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 078375773 without ID",
+                                "l": "HOL 078375773 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"819923\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"819923\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 078385386 without ID",
+                                "l": "HOL 078385386 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"4956446\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"4956446\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 102542041 without ID",
+                                "l": "HOL 102542041 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"947871\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"947871\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 102665952 without ID",
+                                "l": "HOL 102665952 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"1390990\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"1390990\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 103261179 without ID",
+                                "l": "HOL 103261179 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"1649559\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"1649559\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 105793856 without ID",
+                                "l": "HOL 105793856 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"1888026\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"1888026\""
+    }
