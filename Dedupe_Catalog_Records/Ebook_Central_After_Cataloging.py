@@ -863,6 +863,9 @@ messagebox.showinfo(title="Instructions", message="Using that same filter setup,
     "description": "Text transform on cells in column Keep HOL? using expression grel:if(isNotNull(cells[\"Ebook Central BIB URLs\"].value),\"TRUE: FSUER HOL for \"+split(value,\" \")[-1],value)"
   }
 ]"""
+
+os.startfile('Determine_HOL_to_Unsuppress_pt2--EC_After_Cataloging.json')
+
 # #Alert: Other matches to perpetual access entitlement Ebook Central IDs are being added here as well
 # """[
 #   {
