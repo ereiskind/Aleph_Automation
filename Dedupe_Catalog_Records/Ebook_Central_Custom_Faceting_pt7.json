@@ -865,6 +865,144 @@
                                 "v": "HOL 078302578 without ID",
                                 "l": "HOL 078302578 without ID"
                             }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310266 without ID",
+                                "l": "HOL 078310266 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302594 without ID",
+                                "l": "HOL 078302594 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309343 without ID",
+                                "l": "HOL 078309343 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309347 without ID",
+                                "l": "HOL 078309347 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309580 without ID",
+                                "l": "HOL 078309580 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310110 without ID",
+                                "l": "HOL 078310110 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310207 without ID",
+                                "l": "HOL 078310207 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309668 without ID",
+                                "l": "HOL 078309668 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309903 without ID",
+                                "l": "HOL 078309903 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310107 without ID",
+                                "l": "HOL 078310107 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310250 without ID",
+                                "l": "HOL 078310250 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 103222942 without ID",
+                                "l": "HOL 103222942 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 103222944 without ID",
+                                "l": "HOL 103222944 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310249 without ID",
+                                "l": "HOL 078310249 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309390 without ID",
+                                "l": "HOL 078309390 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099573395 without ID",
+                                "l": "HOL 099573395 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310516 without ID",
+                                "l": "HOL 078310516 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310253 without ID",
+                                "l": "HOL 078310253 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078309392 without ID",
+                                "l": "HOL 078309392 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078310026 without ID",
+                                "l": "HOL 078310026 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099568376 without ID",
+                                "l": "HOL 099568376 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099569968 without ID",
+                                "l": "HOL 099569968 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 099567587 without ID",
+                                "l": "HOL 099567587 without ID"
+                            }
                         }
                     ],
                     "selectBlank": false,
@@ -1447,4 +1585,289 @@
         "repeat": false,
         "repeatCount": 10,
         "description": "Text transform on cells in column Record Number 2 using expression grel:\"1888026\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 100765914 without ID",
+                                "l": "HOL 100765914 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"1656765\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"1656765\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 101883578 without ID",
+                                "l": "HOL 101883578 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"1720955\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"1720955\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 103222910 without ID",
+                                "l": "HOL 103222910 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"4083303\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"4083303\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 103475904 without ID",
+                                "l": "HOL 103475904 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number 2",
+        "expression": "grel:\"1477513\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record Number 2 using expression grel:\"1477513\""
     }
+]
