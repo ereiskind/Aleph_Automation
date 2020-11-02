@@ -1,0 +1,177 @@
+[
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``URL manage-18`` with value `Remove other 856 field(s)` in the rows representing HOLs that have multiple URLs, one of which is for Ebook Central",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "grel:startsWith(value,\"TRUE\")",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "grel:isError(find(value,/https?:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/fsu\\/detail\\.action\\?docID=(\\d*)/)[0])",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "grel:contains(value,\"|\")",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Ebook Central BIB URLs",
+        "expression": "grel:\"Remove other 856 field(s)\"",
+        "onError": "set-to-blank",
+        "newColumnName": "URL manage-18",
+        "columnInsertIndex": 3
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For the HOL that don't have an Ebook Central URL, create that title's Ebook Central URL in ``URL manage-18``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "grel:startsWith(value,\"TRUE\")",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "grel:isError(find(value,/https?:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/fsu\\/detail\\.action\\?docID=(\\d*)/)[0])",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "URL manage-18",
+        "expression": "grel:\"https://ebookcentral.proquest.com/lib/fsu/detail.action?docID=\"+substring(row.record.cells[\"Record Number\"].value[0],indexOf(row.record.cells[\"Record Number\"].value[0],\"::\")+2)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add other information needed to create full manage-18 line to ``URL manage-18``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "grel:startsWith(value,\"TRUE\")",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "grel:isError(find(value,/https?:\\/\\/ebookcentral\\.proquest\\.com\\/lib\\/fsu\\/detail\\.action\\?docID=(\\d*)/)[0])",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "URL manage-18",
+        "expression": "grel:cells[\"BIB Number\"].value+\" 85640 L $$u\"+value+\"$$yFSU: Off-campus access limited to current FSU students & employees$$5FTaSU\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+]
