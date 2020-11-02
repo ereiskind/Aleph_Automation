@@ -500,6 +500,58 @@
         "columnName": "ID Title"
     },
     {
+        "op": "core/text-transform",
+        "description": "Confirm all HOL with `SciTech Collection` in ``Ebook Central BIB URLs`` have the appropriate ``Keep HOL?`` value",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "grel:startsWith(value,\"TRUE\")",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Ebook Central BIB URLs",
+                    "expression": "grel:contains(value,\"SciTech\")",
+                    "columnName": "Ebook Central BIB URLs",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:\"FALSE: SciTech Collection [ID \"+substring(cells[\"Record Number\"].value,indexOf(cells[\"Record Number\"].value,\"::\")+2)+\"]\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
         "op": "core/column-split",
         "description": "Create new columns by splitting column ``Keep HOL?`` at first colon in records for perpetual access ",
         "engineConfig": {
@@ -544,77 +596,6 @@
         "description": "Rename column ``Keep HOL? 1`` to ``Keep Status``",
         "oldColumnName": "Keep HOL? 1",
         "newColumnName": "Keep Status"
-    },
-    {
-        "op": "core/text-transform",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Record Number Copy",
-                    "expression": "isBlank(value)",
-                    "columnName": "Record Number Copy",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Suppressed",
-                    "expression": "value",
-                    "columnName": "Suppressed",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "TRUE",
-                                "l": "TRUE"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "Keep Status",
-                    "expression": "value",
-                    "columnName": "Keep Status",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "TRUE",
-                                "l": "TRUE"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "Suppressed",
-        "expression": "grel:\"Unsuppress this HOL\"",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10,
-        "description": "Text transform on cells in column Suppressed using expression grel:\"Unsuppress this HOL\""
     },
     {
         "op": "core/text-transform",
