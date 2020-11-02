@@ -1869,5 +1869,107 @@
         "repeat": false,
         "repeatCount": 10,
         "description": "Text transform on cells in column Record Number 2 using expression grel:\"1477513\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "grel:value==\"Not Accessible\"",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Has ACQ?",
+                    "expression": "value",
+                    "columnName": "Has ACQ?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "BIB Not Checked for ACQ",
+                                "l": "BIB Not Checked for ACQ"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "value",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "HOL 077388126 without ID",
+                                "l": "HOL 077388126 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 077075506 without ID",
+                                "l": "HOL 077075506 without ID"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "HOL 078302331 without ID",
+                                "l": "HOL 078302331 without ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Has ACQ?",
+        "expression": "grel:\"No ACQ for BIB\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Has ACQ? using expression grel:\"No ACQ for BIB\""
     }
 ]

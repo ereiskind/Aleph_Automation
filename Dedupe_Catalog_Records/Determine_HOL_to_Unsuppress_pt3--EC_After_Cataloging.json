@@ -1,0 +1,671 @@
+[
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows created by the splitting of ``Check ID URLs`` at pipes",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "isBlank(value)",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Check ID URLs``",
+        "columnName": "Check ID URLs"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records with no Ebook Central ID and `Not Accessible` in ``Record Number 2``, change ``Keep HOL?`` to `FALSE: FSUER HOL without ACQ for Title`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "grel:value==\"Not Accessible\"",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Has ACQ?",
+                    "expression": "value",
+                    "columnName": "Has ACQ?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "No ACQ for BIB",
+                                "l": "No ACQ for BIB"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:\"FALSE: FSUER HOL without ACQ for Title\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records without an Ebook Central ID in ``Record Number`` but with an Ebook Central ID in ``Record Number 2``, change the value of ``Keep HOL?`` to match that of ``Has ACQ?``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "grel:value==\"Not Accessible\"",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:cells[\"Has ACQ?\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records without an Ebook Central ID in ``Record Number`` but with an Ebook Central ID in ``Record Number 2``, change the value of ``Record Number`` to `Ebook Central::` followed by the Ebook Central ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:startsWith(value,\"Ebook Central\")",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number 2",
+                    "expression": "grel:value==\"Not Accessible\"",
+                    "columnName": "Record Number 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Record Number",
+        "expression": "grel:\"Ebook Central::\"+cells[\"Record Number 2\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``Record Number``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Record Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Record Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Record Number"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "In records with two HOL created through recent Ebook Central ID matching where none of the HOLs have an ACQ attached, for the HOL which is the only HOL for its BIB and includes an Ebook Central TKR with a load data from the 2010s or 2020, change the value of ``Keep HOL?`` to `FALSE: Probably Loaded for URL for` followed by the Ebook Central ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:contains(value,\":\")",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "2",
+                                "l": "2"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:contains(value,\"with ACQ\")",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSUER HOL",
+                    "expression": "value",
+                    "columnName": "FSUER HOL",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Only FSUER HOL",
+                                "l": "Only FSUER HOL"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:if(cells[\"BIB Number of HOLs\"].value==\"1\",if(isBlank(find(value,/\\(FTaSU\\)ProQuestEbookCentral20[1|2]/)[0]),\"FALSE: Probably Loaded for URL for ID \"+cells[\"Record Number 2\"].value,value),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records with two FSUER HOL from separate BIBs created through recent Ebook Central ID matching where none of the HOLs have an ACQ attached,where one HOL has been identified as having been loaded for the URL, change the values in ``Keep HOL?`` to `TRUE: Other FSUER HOL for <ID> Probably Loaded for URL` where `<ID>` is the Ebook Central ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:contains(value,\":\")",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:toString(row.record.toRowIndex-row.record.fromRowIndex)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "2",
+                                "l": "2"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:contains(value,\"with ACQ\")",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "FSUER HOL",
+                    "expression": "value",
+                    "columnName": "FSUER HOL",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "Only FSUER HOL",
+                                "l": "Only FSUER HOL"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:startsWith(value,\"FALSE: Probably Loaded for URL for ID\")",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:if(startsWith(value,\"FALSE: Probably Loaded for URL for ID\"),value,\"TRUE: Other FSUER HOL for \"+cells[\"Record Number 2\"].value+\" Probably Loaded for URL\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records with a single HOL where the Ebook Central ID was just identified, update the value of ``Keep HOL?`` to include the Ebook Central ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:contains(value,\":\")",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "expression": "grel:\"TRUE: Only HOL for ID \"+cells[\"Record Number 2\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Record Number 2``",
+        "columnName": "Record Number 2"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Record Number Copy``",
+        "columnName": "Record Number Copy"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``ID Title``",
+        "columnName": "ID Title"
+    },
+    {
+        "op": "core/column-split",
+        "description": "Create new columns by splitting column ``Keep HOL?`` at first colon in records for perpetual access ",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number Copy",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number Copy",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Keep HOL?",
+        "guessCellType": true,
+        "removeOriginalColumn": false,
+        "mode": "separator",
+        "separator": ":",
+        "regex": false,
+        "maxColumns": 2
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Keep HOL? 2``",
+        "columnName": "Keep HOL? 2"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Keep HOL? 1`` to ``Keep Status``",
+        "oldColumnName": "Keep HOL? 1",
+        "newColumnName": "Keep Status"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Record Number Copy",
+                    "expression": "isBlank(value)",
+                    "columnName": "Record Number Copy",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Suppressed",
+                    "expression": "value",
+                    "columnName": "Suppressed",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "TRUE",
+                                "l": "TRUE"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "value",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "TRUE",
+                                "l": "TRUE"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Suppressed",
+        "expression": "grel:\"Unsuppress this HOL\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Suppressed using expression grel:\"Unsuppress this HOL\""
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Suppressed",
+                    "expression": "value",
+                    "columnName": "Suppressed",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "TRUE",
+                                "l": "TRUE"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "value",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "TRUE",
+                                "l": "TRUE"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Keep Status",
+        "expression": "grel:value+\"-Unsuppress\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Keep Status using expression grel:value+\"-Unsuppress\""
+    }
+]
