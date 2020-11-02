@@ -1,0 +1,243 @@
+[
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``TKR manage-18`` by copying value from first TKR column",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "grel:startsWith(value,\"TRUE\")",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "FSU Tickler",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "TKR manage-18",
+        "columnInsertIndex": 4
+    },
+    {
+        "op": "core/text-transform",
+        "description": "If the next TKR column has content, add two hash marks and that content to ``TKR manage-18``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "grel:startsWith(value,\"TRUE\")",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "TKR manage-18",
+        "expression": "grel:if(isNull(cells[\"TKR 2\"].value),value,value+\"##\"+cells[\"TKR 2\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "If the next TKR column has content, add two hash marks and that content to ``TKR manage-18``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "grel:startsWith(value,\"TRUE\")",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "TKR manage-18",
+        "expression": "grel:if(isNull(cells[\"TKR 3\"].value),value,value+\"##\"+cells[\"TKR 3\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "If the next TKR column has content, add two hash marks and that content to ``TKR manage-18``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "grel:startsWith(value,\"TRUE\")",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "TKR manage-18",
+        "expression": "grel:if(isNull(cells[\"TKR 4\"].value),value,value+\"##\"+cells[\"TKR 4\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+
+
+
+
+
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+          "facets": [
+            {
+              "type": "list",
+              "name": "Keep Status",
+              "expression": "grel:startsWith(value,\"TRUE\")",
+              "columnName": "Keep Status",
+              "invert": false,
+              "omitBlank": false,
+              "omitError": false,
+              "selection": [
+                {
+                  "v": {
+                    "v": true,
+                    "l": "true"
+                  }
+                }
+              ],
+              "selectBlank": false,
+              "selectError": false
+            },
+            {
+              "type": "list",
+              "name": "TKR manage-18",
+              "expression": "grel:isError(find(value,/\\(FTaSU\\)ProQuestEbookCentral20[1|2]/)[0])",
+              "columnName": "TKR manage-18",
+              "invert": false,
+              "omitBlank": false,
+              "omitError": false,
+              "selection": [
+                {
+                  "v": {
+                    "v": true,
+                    "l": "true"
+                  }
+                }
+              ],
+              "selectBlank": false,
+              "selectError": false
+            }
+          ],
+          "mode": "row-based"
+        },
+        "columnName": "TKR manage-18",
+        "expression": "grel:\"Add an Ebook Central TKR\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column TKR manage-18 using expression grel:\"Add an Ebook Central TKR\""
+      },
+      {
+        "op": "core/text-transform",
+        "engineConfig": {
+          "facets": [
+            {
+              "type": "list",
+              "name": "Keep Status",
+              "expression": "grel:startsWith(value,\"TRUE\")",
+              "columnName": "Keep Status",
+              "invert": false,
+              "omitBlank": false,
+              "omitError": false,
+              "selection": [
+                {
+                  "v": {
+                    "v": true,
+                    "l": "true"
+                  }
+                }
+              ],
+              "selectBlank": false,
+              "selectError": false
+            },
+            {
+              "type": "list",
+              "name": "TKR manage-18",
+              "expression": "grel:value==\"Add an Ebook Central TKR\"",
+              "columnName": "TKR manage-18",
+              "invert": false,
+              "omitBlank": false,
+              "omitError": false,
+              "selection": [
+                {
+                  "v": {
+                    "v": false,
+                    "l": "false"
+                  }
+                }
+              ],
+              "selectBlank": false,
+              "selectError": false
+            }
+          ],
+          "mode": "row-based"
+        },
+        "columnName": "TKR manage-18",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column TKR manage-18 using expression null"
+      }
+    
