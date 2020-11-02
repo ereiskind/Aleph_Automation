@@ -876,8 +876,9 @@ os.startfile('Determine_HOL_to_Unsuppress_pt3--EC_After_Cataloging.json')
 messagebox.showwarning(title="Ebook Central URLs with Proxy", message="None of the Ebook Central URLs had the proxy header, so there's no step for calling those out.")
 os.startfile('Create_New_URLs--EC_After_Cataloging.json')
 
-# #Subsection: If TKR Needed, Supply It
-# #See TKR section of repo
+#Subsection: If TKR Needed, Supply It
+messagebox.showwarning(title="Hard Coded Number of TKR Columns", message="This hard codes that there are four TKR columns being combined; it needs to be redone as a loop.")
+os.startfile('Create_New_TKRs_pt1--EC_After_Cataloging.json')
 
 
 # #Section: Remove Unneeded Records
