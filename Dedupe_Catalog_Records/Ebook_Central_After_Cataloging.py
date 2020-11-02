@@ -872,10 +872,11 @@ messagebox.showinfo(title="Instructions", message="Set a blanks filter on \"Reco
 messagebox.showwarning(title="Handling \"Keep HOL?\" for Newly Consolidated Records", message="Not all of the steps for generating \"Keep HOL?\" values were replicated from Select_HOL_to_Keep--EC_After_Cataloging.json, just the ones for a BIB seemingly loaded for its URL and the pair to such a BIB.")
 os.startfile('Determine_HOL_to_Unsuppress_pt3--EC_After_Cataloging.json')
 
-# #Subsection: If New 856$u Needed, Supply It
-# #ToDo: Determine if value of "Ebook Central BIB URLs" for HOL where "Keep HOL?" starts "TRUE" matches Ebook Central regex
-# #ToDo: For HOL not matching above, create new column with Ebook Central URLs
-# #ToDo: Add to new column so full contents match line needed in file for manage-18
+#Subsection: If New 856$u Needed, Supply It
+os.startfile('Create_New_URLs--EC_After_Cataloging.json')
+#ToDo: Determine if value of "Ebook Central BIB URLs" for HOL where "Keep HOL?" starts "TRUE" matches Ebook Central regex
+#ToDo: For HOL not matching above, create new column with Ebook Central URLs
+#ToDo: Add to new column so full contents match line needed in file for manage-18
 
 # #Subsection: If TKR Needed, Supply It
 # #See TKR section of repo
