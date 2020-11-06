@@ -881,9 +881,6 @@ messagebox.showwarning(title="Hard Coded Number of TKR Columns", message="This h
 os.startfile('Create_New_TKRs_pt1--EC_After_Cataloging.json')
 
 
-# #Section: Remove Unneeded Records
-# #Subsection: If FSUER HOL is Only HOL, Delete HOL and BIB
-# #ToDo: Delete HOL with "Keep HOL?" starting with "FALSE: Probably Loaded for URL for"
-
-# #Subsection: If Other HOLs Attached to BIB, Suppress FSUER HOL
-# #ToDo: All remaining HOL with "Keep HOL?" values starting with "FALSE"
+#Section: Indicate Records to Remove
+# Previously had subsections for "Indicate HOLs where BIB and HOL Deletion is Possible" and "If Other HOLs Attached to BIB, Suppress FSUER HOL"--number of steps needed for each is so few, combining them made more sense
+os.startfile('Indicate_Removals--EC_After_Cataloging.json')
