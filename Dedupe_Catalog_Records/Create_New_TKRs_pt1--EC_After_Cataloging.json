@@ -131,55 +131,50 @@
         "repeat": false,
         "repeatCount": 10
     },
-
-
-
-
-
     {
         "op": "core/text-transform",
         "engineConfig": {
-          "facets": [
-            {
-              "type": "list",
-              "name": "Keep Status",
-              "expression": "grel:startsWith(value,\"TRUE\")",
-              "columnName": "Keep Status",
-              "invert": false,
-              "omitBlank": false,
-              "omitError": false,
-              "selection": [
+            "facets": [
                 {
-                  "v": {
-                    "v": true,
-                    "l": "true"
-                  }
-                }
-              ],
-              "selectBlank": false,
-              "selectError": false
-            },
-            {
-              "type": "list",
-              "name": "TKR manage-18",
-              "expression": "grel:isError(find(value,/\\(FTaSU\\)ProQuestEbookCentral20[1|2]/)[0])",
-              "columnName": "TKR manage-18",
-              "invert": false,
-              "omitBlank": false,
-              "omitError": false,
-              "selection": [
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "grel:startsWith(value,\"TRUE\")",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
                 {
-                  "v": {
-                    "v": true,
-                    "l": "true"
-                  }
+                    "type": "list",
+                    "name": "TKR manage-18",
+                    "expression": "grel:isError(find(value,/\\(FTaSU\\)ProQuestEbookCentral20[1|2]/)[0])",
+                    "columnName": "TKR manage-18",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
                 }
-              ],
-              "selectBlank": false,
-              "selectError": false
-            }
-          ],
-          "mode": "row-based"
+            ],
+            "mode": "row-based"
         },
         "columnName": "TKR manage-18",
         "expression": "grel:\"Add an Ebook Central TKR\"",
@@ -187,51 +182,51 @@
         "repeat": false,
         "repeatCount": 10,
         "description": "Text transform on cells in column TKR manage-18 using expression grel:\"Add an Ebook Central TKR\""
-      },
-      {
+    },
+    {
         "op": "core/text-transform",
         "engineConfig": {
-          "facets": [
-            {
-              "type": "list",
-              "name": "Keep Status",
-              "expression": "grel:startsWith(value,\"TRUE\")",
-              "columnName": "Keep Status",
-              "invert": false,
-              "omitBlank": false,
-              "omitError": false,
-              "selection": [
+            "facets": [
                 {
-                  "v": {
-                    "v": true,
-                    "l": "true"
-                  }
-                }
-              ],
-              "selectBlank": false,
-              "selectError": false
-            },
-            {
-              "type": "list",
-              "name": "TKR manage-18",
-              "expression": "grel:value==\"Add an Ebook Central TKR\"",
-              "columnName": "TKR manage-18",
-              "invert": false,
-              "omitBlank": false,
-              "omitError": false,
-              "selection": [
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "grel:startsWith(value,\"TRUE\")",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
                 {
-                  "v": {
-                    "v": false,
-                    "l": "false"
-                  }
+                    "type": "list",
+                    "name": "TKR manage-18",
+                    "expression": "grel:value==\"Add an Ebook Central TKR\"",
+                    "columnName": "TKR manage-18",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
                 }
-              ],
-              "selectBlank": false,
-              "selectError": false
-            }
-          ],
-          "mode": "row-based"
+            ],
+            "mode": "row-based"
         },
         "columnName": "TKR manage-18",
         "expression": "null",
@@ -239,5 +234,5 @@
         "repeat": false,
         "repeatCount": 10,
         "description": "Text transform on cells in column TKR manage-18 using expression null"
-      }
-    
+    }
+]
