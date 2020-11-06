@@ -33,6 +33,77 @@
         "columnInsertIndex": 3
     },
     {
+        "op": "core/text-transform",
+        "description": "For values in ``Removal Reason`` indicating the title isn't a perpetual access holding, change the value to `REMOVE: Not perpetual access title`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "value",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FALSE",
+                                "l": "FALSE"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:if(isError(replace(value,find(value,/ID \\d*/)[0],\"ID\")),value==\"FALSE: FSUER HOL without ACQ for Title\",replace(value,find(value,/ID \\d*/)[0],\"ID\"))",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": 1,
+                                "l": "1"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Removal Reason",
+        "expression": "grel:\"REMOVE: Not perpetual access title\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
         "op": "core/mass-edit",
         "description": "For values in ``Removal Reason`` indicating no ACQ for the HOL in a record with a HOL with an ACQ, change the value to `REMOVE: No ACQ, other BIB/HOL for ID has ACQ`",
         "engineConfig": {
@@ -59,7 +130,7 @@
                 {
                     "type": "list",
                     "name": "Keep HOL?",
-                    "expression": "grel:replace(value,find(value,/ID \\d*/)[0],\"ID\")",
+                    "expression": "grel:if(isError(replace(value,find(value,/ID \\d*/)[0],\"ID\")),value==\"FALSE: FSUER HOL without ACQ for Title\",replace(value,find(value,/ID \\d*/)[0],\"ID\"))",
                     "columnName": "Keep HOL?",
                     "invert": false,
                     "omitBlank": false,
@@ -137,7 +208,7 @@
                 {
                     "type": "list",
                     "name": "Keep HOL?",
-                    "expression": "grel:replace(value,find(value,/ID \\d*/)[0],\"ID\")",
+                    "expression": "grel:if(isError(replace(value,find(value,/ID \\d*/)[0],\"ID\")),value==\"FALSE: FSUER HOL without ACQ for Title\",replace(value,find(value,/ID \\d*/)[0],\"ID\"))",
                     "columnName": "Keep HOL?",
                     "invert": false,
                     "omitBlank": false,
@@ -215,7 +286,7 @@
                 {
                     "type": "list",
                     "name": "Keep HOL?",
-                    "expression": "grel:replace(value,find(value,/ID \\d*/)[0],\"ID\")",
+                    "expression": "grel:if(isError(replace(value,find(value,/ID \\d*/)[0],\"ID\")),value==\"FALSE: FSUER HOL without ACQ for Title\",replace(value,find(value,/ID \\d*/)[0],\"ID\"))",
                     "columnName": "Keep HOL?",
                     "invert": false,
                     "omitBlank": false,
@@ -310,7 +381,7 @@
                     "selectError": false
                 }
             ],
-            "mode": "row-based"
+            "mode": "record-based"
         },
         "columnName": "Removal Reason",
         "expression": "value",
