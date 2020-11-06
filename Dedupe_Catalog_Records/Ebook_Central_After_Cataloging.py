@@ -164,10 +164,10 @@ messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp 
 messagebox.showinfo(title="Instructions", message="Perform clustering on \"Temp Title 3\".") # See Ebook_Central_Custom_Faceting_pt3.json
 
 os.startfile('Organize_UXU01_Output_pt5--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Create a filter for blanks on \"Inexact Title Record Number\" and set it to true. If the titles in the record don't match, change the values in \"Inexact Title Record Number\" with \"toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)\".") # Few enough titles remained after the filter that they could be examined together, and none were matches.
+messagebox.showinfo(title="Instructions", message="Create a filter for blanks on \"Inexact Title Record Number\" and set it to true. If the titles in the record don't match, change the values in \"Inexact Title Record Number\" with `toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)`.") # Few enough titles remained after the filter that they could be examined together, and none were matches.
 
 os.startfile('Organize_UXU01_Output_pt6--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Create a filter for blanks on \"No Subtitle Record Number\" and set it to true. If the titles in the record don't match, change the values in \"No Subtitle Record Number\" with \"toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)\".") # Single JSON step--see below
+messagebox.showinfo(title="Instructions", message="Create a filter for blanks on \"No Subtitle Record Number\" and set it to true. If the titles in the record don't match, change the values in \"No Subtitle Record Number\" with `toString(row.record.index)+\"-\"+toString(row.index-row.record.fromRowIndex)`.") # Single JSON step--see below
 """[
       {
     "op": "core/text-transform",
@@ -368,7 +368,7 @@ os.startfile('Organize_UXU01_Output_pt8--Ebook_Central_Specific.json')
 # messagebox.showinfo(title="Instructions", message="Create text filter on \"ISBN Values 1\" and select each string of IDs individually. Determine which Ebook Central ID is the best match for that BIB, then change \"Record Number\" to \"Ebook Central::\" plus that ID.") -- The only value in "ISBN Values 1" was "No ID found"
 
 os.startfile('Organize_UXU01_Output_pt9--Ebook_Central_Specific.json')
-messagebox.showinfo(title="Instructions", message="Create custom filter on \"Record Number\" with the expression \"and(contains(value,\"|\"),contains(value,\"::\"))\". For the BIBs that are true, determine which Ebook Central ID to keep.") # Just two JSON steps--see below
+messagebox.showinfo(title="Instructions", message="Create custom filter on \"Record Number\" with the expression `and(contains(value,\"|\"),contains(value,\"::\"))`. For the BIBs that are true, determine which Ebook Central ID to keep.") # Just two JSON steps--see below
 """[
   {
     "op": "core/text-transform",
