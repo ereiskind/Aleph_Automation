@@ -883,4 +883,5 @@ os.startfile('Create_New_TKRs_pt1--EC_After_Cataloging.json')
 
 #Section: Indicate Records to Remove
 # Previously had subsections for "Indicate HOLs where BIB and HOL Deletion is Possible" and "If Other HOLs Attached to BIB, Suppress FSUER HOL"--number of steps needed for each is so few, combining them made more sense
-os.startfile('Indicate_Removals--EC_After_Cataloging.json')
+os.startfile('Indicate_Removals_pt1--EC_After_Cataloging.json')
+messagebox.showinfo(title="Instructions", message="Create text filters on \"Keep Status\" and \"Removal Reason\", a custom filter on \"Record Number\" using `row.record.toRowIndex-row.record.fromRowIndex`, and a custom filter on \"Keep HOL?\" using `replace(value,find(value,/ID \d*/)[0],\"ID\")`. Set the \"Keep Status\" filter to \"FALSE\".")

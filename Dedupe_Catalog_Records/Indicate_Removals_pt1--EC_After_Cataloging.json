@@ -1,0 +1,328 @@
+[
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Removal Reason`` with value from ``Keep HOL?`` sans Ebook Central ID",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "value",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FALSE",
+                                "l": "FALSE"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Keep HOL?",
+        "expression": "grel:if(lastIndexOf(value,\"for\")==-1,substring(value,0,lastIndexOf(value,\"[\")),substring(value,0,lastIndexOf(value,\"for\")))",
+        "onError": "set-to-blank",
+        "newColumnName": "Removal Reason",
+        "columnInsertIndex": 3
+    },
+    {
+        "op": "core/mass-edit",
+        "description": "For values in ``Removal Reason`` indicating no ACQ for the HOL in a record with a HOL with an ACQ, change the value to `REMOVE: No ACQ, other BIB/HOL for ID has ACQ`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "value",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FALSE",
+                                "l": "FALSE"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:replace(value,find(value,/ID \\d*/)[0],\"ID\")",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "TRUE: FSUER HOL with ACQ for ID",
+                                "l": "TRUE: FSUER HOL with ACQ for ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": 2,
+                                "l": "2"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Removal Reason",
+        "expression": "value",
+        "edits": [
+            {
+                "from": [
+                    "FALSE: FSUER HOL without ACQ "
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "REMOVE: No ACQ, other BIB/HOL for ID has ACQ"
+            }
+        ]
+    },
+    {
+        "op": "core/mass-edit",
+        "description": "For values in ``Removal Reason`` indicating no ACQ for the HOL in a record where neither HOL has an ACQ, change the value to `REMOVE: Other BIB/HOL determined as better fit`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "value",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FALSE",
+                                "l": "FALSE"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:replace(value,find(value,/ID \\d*/)[0],\"ID\")",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "TRUE: FSUER HOL for ID",
+                                "l": "TRUE: FSUER HOL for ID"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": 2,
+                                "l": "2"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Removal Reason",
+        "expression": "value",
+        "edits": [
+            {
+                "from": [
+                    "FALSE: FSUER HOL without ACQ "
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "REMOVE: Other BIB/HOL determined as better fit"
+            }
+        ]
+    },
+    {
+        "op": "core/mass-edit",
+        "description": "For values in ``Removal Reason`` identified as probably loaded for URL in a record where neither HOL has an ACQ, change the value to `REMOVE: Probably loaded for URL, other BIB/HOL determined as better fit`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "value",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FALSE",
+                                "l": "FALSE"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Keep HOL?",
+                    "expression": "grel:replace(value,find(value,/ID \\d*/)[0],\"ID\")",
+                    "columnName": "Keep HOL?",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "TRUE: Other FSUER HOL for ID Probably Loaded for URL",
+                                "l": "TRUE: Other FSUER HOL for ID Probably Loaded for URL"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": 2,
+                                "l": "2"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Removal Reason",
+        "expression": "value",
+        "edits": [
+            {
+                "from": [
+                    "FALSE: Probably Loaded for URL "
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "REMOVE: Probably loaded for URL, other BIB/HOL determined as better fit"
+            }
+        ]
+    },
+    {
+        "op": "core/mass-edit",
+        "description": "For values in ``Removal Reason`` in a single-HOL record referencing SciTech, change the value to `REMOVE: SciTech Collection`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Status",
+                    "expression": "value",
+                    "columnName": "Keep Status",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FALSE",
+                                "l": "FALSE"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Record Number",
+                    "expression": "grel:row.record.toRowIndex-row.record.fromRowIndex",
+                    "columnName": "Record Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": 1,
+                                "l": "1"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Removal Reason",
+        "expression": "value",
+        "edits": [
+            {
+                "from": [
+                    "FALSE: SciTech Collection "
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "REMOVE: SciTech Collection"
+            }
+        ]
+    }
+]
