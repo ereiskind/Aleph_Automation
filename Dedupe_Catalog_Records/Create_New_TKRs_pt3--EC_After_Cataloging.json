@@ -1,0 +1,68 @@
+[
+    {
+        "op": "core/text-transform",
+        "description": "For rows that need TKRs, change ``TKR manage-18`` to the HOL",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "TKR manage-18",
+                    "expression": "isBlank(value)",
+                    "columnName": "TKR manage-18",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "TKR manage-18",
+        "expression": "grel:cells[\"HOL Number\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change the HOLs in column ``TKR manage-18`` to the manage-18 statement from the ``HOL_Dates`` project",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "TKR manage-18",
+                    "expression": "isBlank(value)",
+                    "columnName": "TKR manage-18",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "TKR manage-18",
+        "expression": "grel:cell.cross(\"HOL_Dates\",\"HOL Number\")[0].cells[\"Date\"].value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+]
