@@ -887,6 +887,9 @@ messagebox.showinfo(title="Instructions", message="Load recently downloaded Alep
 messagebox.showinfo(title="Instructions", message="Run the following JSON on project \"HOL_Dates\".")
 os.startfile('Create_New_TKRs_pt2--EC_After_Cataloging.json')
 
+messagebox.showinfo(title="Instructions", message="Switch back to project \"UXU60_Cleanup\" for the following JSON.")
+os.startfile('Create_New_TKRs_pt3--EC_After_Cataloging.json')
+
 
 #Section: Indicate Records to Remove
 # Previously had subsections for "Indicate HOLs where BIB and HOL Deletion is Possible" and "If Other HOLs Attached to BIB, Suppress FSUER HOL"--number of steps needed for each is so few, combining them made more sense
