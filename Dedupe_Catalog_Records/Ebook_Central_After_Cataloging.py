@@ -875,6 +875,7 @@ os.startfile('Determine_HOL_to_Unsuppress_pt3--EC_After_Cataloging.json')
 #Subsection: If New 856$u Needed, Supply It
 messagebox.showwarning(title="Ebook Central URLs with Proxy", message="None of the Ebook Central URLs had the proxy header, so there's no step for calling those out.")
 os.startfile('Create_New_URLs--EC_After_Cataloging.json')
+messagebox.showinfo(title="Instructions", message="Change view to rows, filter for non-blanks in \"URL manage-18\", and download the project to generate the manage-18 file.")
 
 #Subsection: If TKR Needed, Supply It
 messagebox.showwarning(title="Hard Coded Number of TKR Columns", message="This hard codes that there are four TKR columns being combined; it needs to be redone as a loop.")
@@ -889,6 +890,7 @@ os.startfile('Create_New_TKRs_pt2--EC_After_Cataloging.json')
 
 messagebox.showinfo(title="Instructions", message="Switch back to project \"UXU60_Cleanup\" for the following JSON.")
 os.startfile('Create_New_TKRs_pt3--EC_After_Cataloging.json')
+messagebox.showinfo(title="Instructions", message="Change view to rows, filter for non-blanks in \"TKR manage-18\", and download the project to generate the manage-18 file.")
 
 
 #Section: Indicate Records to Remove
