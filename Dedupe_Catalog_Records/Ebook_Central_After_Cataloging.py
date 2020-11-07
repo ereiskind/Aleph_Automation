@@ -879,6 +879,10 @@ os.startfile('Create_New_URLs--EC_After_Cataloging.json')
 #Subsection: If TKR Needed, Supply It
 messagebox.showwarning(title="Hard Coded Number of TKR Columns", message="This hard codes that there are four TKR columns being combined; it needs to be redone as a loop.")
 os.startfile('Create_New_TKRs_pt1--EC_After_Cataloging.json')
+messagebox.showinfo(title="Instructions", message="Set a blanks filter on \"TKR manage-18\" to false and download the project. Remove all columns but \"HOL Number\" and paste `=(TEXT(A2,\"000000000\") & \"UXU60\")` into cell B2. Fill the formula down, move the results to copy as value to column A, then delete column B and row 1. Save the file as a .txt with a name of lowercase letter and numbers totaling less than 10 characters. Close the file, go to the file location, and remove the .txt extension from the file name.")
+messagebox.showinfo(title="Instructions", message="Go to https://susopac.falsc.org/cgi-bin/afv for the production server, log in with Aleph credentials, and upload the newly created file to \"alephe/scratch\".")
+messagebox.showinfo(title="Instructions", message="In Alpeh Production, go to Services > Retrieve Catalog Records > print-03. Put the name of the file in \"Input File\", type a file name with no capital letters or spaces ending with a .txt file extension in \"Output File\", enter \"CAT##\" and \"852##\" in the first \"Field + Indicator\" boxes, confirm that \"Format\" is set to Aleph Sequential, and finally change \"Library\" to \"UXU60\". When Batch Log says the job is complete, download the file.")
+messagebox.showinfo(title="Instructions", message="Load recently downloaded Aleph Sequential file into OpenRefine with column widths 10, 5, 3. Name the project \"HOL_Dates\".")
 
 
 #Section: Indicate Records to Remove
