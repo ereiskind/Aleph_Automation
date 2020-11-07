@@ -185,6 +185,7 @@
     },
     {
         "op": "core/text-transform",
+        "description": "Null the existing Ebook Central TKRs in column ``TKR manage-18``",
         "engineConfig": {
             "facets": [
                 {
@@ -232,7 +233,6 @@
         "expression": "null",
         "onError": "keep-original",
         "repeat": false,
-        "repeatCount": 10,
-        "description": "Text transform on cells in column TKR manage-18 using expression null"
+        "repeatCount": 10
     }
 ]
