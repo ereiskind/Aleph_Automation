@@ -9,8 +9,7 @@ import os
 messagebox.showinfo(title="Instructions", message="Copy the list of BIBs into an Excel spreadsheet, then use the formula \"=(TEXT([cell w/ SYS],\"000000000\") & \"UXU01\")\" to convert them to the proper format. Save the spreadsheet as a .txt file with a name starting \"fser\" containing no more than 10 characters with a \"b\" at or near the end. Remove the file extension from the newly created file.")
 
 #Subsection: Upload BIBs
-messagebox.showinfo(title="Instructions", message="Go to https://susopac.falsc.org/cgi-bin/afv for production, long in with Aleph credentials, and upload the newly created file to ???.")
-messagebox.showwarning(title="Problem with Upload", message="Unable to get upload accepted as valid file--further investigation needed.")
+messagebox.showinfo(title="Instructions", message="Go to https://susopac.falsc.org/cgi-bin/afv for production, log in with Aleph credentials, and upload the newly created file to alephe/scratch.")
 ## https://susopac.falsc.org/cgi-bin/afv for production
 ## https://susopac.test.falsc.org/cgi-bin/afv for test
 ## https://susopac.rept.falsc.org/cgi-bin/afv for report
