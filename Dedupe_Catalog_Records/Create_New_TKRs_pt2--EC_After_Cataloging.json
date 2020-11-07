@@ -1,0 +1,271 @@
+[
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 1`` to ``HOL Number``",
+        "oldColumnName": "Column 1",
+        "newColumnName": "HOL Number"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 4`` to ``Values``",
+        "oldColumnName": "Column 4",
+        "newColumnName": "Values"
+    },
+    {
+        "op": "core/column-reorder",
+        "description": "Remove columns other than ``HOL Number`` and ``Values``",
+        "columnNames": [
+            "HOL Number",
+            "Values"
+        ]
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Trim whitespace from cells in column ``HOL Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "HOL Number",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``HOL Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "HOL Number"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Number`` containing the record's HOL for records with a single row",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "HOL Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "baseColumnName": "HOL Number",
+        "expression": "grel:value",
+        "onError": "set-to-blank",
+        "newColumnName": "Number",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For records with multiple rows, make ``Number`` the record's HOL, a hyphen, and the row number",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "HOL Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Number",
+        "expression": "grel:row.record.cells[\"HOL Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-move",
+        "description": "Make ``Number`` first column",
+        "columnName": "Number",
+        "index": 0
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split values in column ``Values`` into new rows at each `$$`",
+        "columnName": "Values",
+        "keyColumnName": "HOL Number",
+        "mode": "separator",
+        "separator": "$$",
+        "regex": false
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Date`` with the value of the CAT$c subfield without the subfield identifier",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Values",
+        "expression": "grel:if(startsWith(value,\"c\"),substring(value,1),null)",
+        "onError": "set-to-blank",
+        "newColumnName": "Date",
+        "columnInsertIndex": 3
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down the value of ``Date``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Date",
+        "expression": "grel:row.record.cells[\"Date\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove all but the first row of each record",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-reorder",
+        "description": "Remove columns other than ``HOL Number`` and ``Date``",
+        "columnNames": [
+            "HOL Number",
+            "Date"
+        ]
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``HOL Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "HOL Number"
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``HOL Number`` then by ``Date``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "HOL Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                },
+                {
+                    "valueType": "string",
+                    "column": "Date",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``HOL Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "HOL Number"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove all but first row of record",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "HOL Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "HOL Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change value in column ``Date`` to include HOL and TKR base formatted for use in Manage-18 ",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Date",
+        "expression": "grel:cells[\"HOL Number\"].value+\" TKR   L $$a(FTaSU)ProQuestEbookCentral\"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+]
