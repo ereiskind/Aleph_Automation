@@ -1,0 +1,355 @@
+[
+    {
+        "op": "core/column-removal",
+        "columnName": "Column 3",
+        "description": "Remove column Column 3"
+    },
+    {
+        "op": "core/column-rename",
+        "oldColumnName": "Column 1",
+        "newColumnName": "BIB Number",
+        "description": "Rename column Column 1 to BIB Number"
+    },
+    {
+        "op": "core/column-rename",
+        "oldColumnName": "Column 2",
+        "newColumnName": "Fields",
+        "description": "Rename column Column 2 to Fields"
+    },
+    {
+        "op": "core/column-rename",
+        "oldColumnName": "Column 4",
+        "newColumnName": "Values",
+        "description": "Rename column Column 4 to Values"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column BIB Number using expression value.trim()"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows for 856 field for other institutions",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:contains(value,\"$$5FTaSU\")",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:contains(value,\"$$5\")",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Fields`` into field and indicators",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Fields",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "lengths",
+        "fieldLengths": [
+            3,
+            1,
+            1
+        ]
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Fields 1`` to ``Fields``",
+        "oldColumnName": "Fields 1",
+        "newColumnName": "Fields"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Fields 2`` to ``Indicator 1``",
+        "oldColumnName": "Fields 2",
+        "newColumnName": "Indicator 1"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Fields 3`` to ``Indicator 2``",
+        "oldColumnName": "Fields 3",
+        "newColumnName": "Indicator 2"
+    },
+
+
+
+
+
+
+
+
+    {
+        "op": "core/mass-edit",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Indicator 2",
+        "expression": "value",
+        "edits": [
+            {
+                "from": [
+                    " "
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": ""
+            }
+        ],
+        "description": "Mass edit cells in column Indicator 2"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:value+\"-\"+cells.Fields.value",
+        "onError": "set-to-blank",
+        "newColumnName": "Numbering",
+        "columnInsertIndex": 0,
+        "description": "Create column Numbering at index 0 based on column BIB Number using expression grel:value+\"-\"+cells.Fields.value"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Numbering",
+        "expression": "grel:facetCount(value,\"value\",\"Numbering\")",
+        "onError": "set-to-blank",
+        "newColumnName": "Keep Number",
+        "columnInsertIndex": 1,
+        "description": "Create column Keep Number at index 1 based on column Numbering using expression grel:facetCount(value,\"value\",\"Numbering\")"
+    },
+    {
+        "op": "core/blank-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Numbering",
+        "description": "Blank down cells in column Numbering"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Numbering",
+        "expression": "grel:toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "set-to-blank",
+        "newColumnName": "Number",
+        "columnInsertIndex": 1,
+        "description": "Create column Number at index 1 based on column Numbering using expression grel:toString(row.index-row.record.fromRowIndex+1)"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Keep Number",
+        "expression": "value.toString()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Keep Number using expression value.toString()"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Keep Number",
+                    "expression": "value",
+                    "columnName": "Keep Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "1",
+                                "l": "1"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:\"Field #\"+cells[\"Number\"].value+\" \"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Fields using expression grel:\"Field #\"+cells[\"Number\"].value+\" \"+value"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Numbering",
+        "description": "Remove column Numbering"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Number",
+        "description": "Remove column Number"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Keep Number",
+        "description": "Remove column Keep Number"
+    },
+    {
+        "op": "core/column-split",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Values",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "$$",
+        "regex": false,
+        "maxColumns": 0,
+        "description": "Split column Values by separator"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Values 1",
+        "description": "Remove column Values 1"
+    },
+    {
+        "op": "core/transpose-columns-into-rows",
+        "combinedColumnName": "Values",
+        "startColumnName": "Values 2",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": true,
+        "prependColumnName": false,
+        "separator": ":",
+        "keyColumnName": null,
+        "valueColumnName": null,
+        "description": "Transpose cells in columns starting with Values 2 into rows in one new column named Values"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:value+\"$\"+substring(cells[\"Values\"].value[0],0,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Fields using expression grel:value+\"$\"+substring(cells[\"Values\"].value[0],0,1)"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:substring(value,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Values using expression grel:substring(value,1)"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Fields",
+        "expression": "grel:substring(value,-5)",
+        "onError": "set-to-blank",
+        "newColumnName": "No Field Number",
+        "columnInsertIndex": 2,
+        "description": "Create column No Field Number at index 2 based on column Fields using expression grel:substring(value,-5)"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Fields",
+        "expression": "grel:substring(value,0,lastIndexOf(value,\" \"))",
+        "onError": "set-to-blank",
+        "newColumnName": "Record",
+        "columnInsertIndex": 2,
+        "description": "Create column Record at index 2 based on column Fields using expression grel:substring(value,0,lastIndexOf(value,\" \"))"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Record",
+        "expression": "grel:if(startsWith(value,\"Field\"),value+\" \"+cells[\"BIB Number\"].value,cells[\"BIB Number\"].value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Record using expression grel:if(startsWith(value,\"Field\"),value+\" \"+cells[\"BIB Number\"].value,cells[\"BIB Number\"].value)"
+    }
+]
