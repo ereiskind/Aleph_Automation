@@ -39,6 +39,7 @@ root_window.mainloop()
 ## https://susopac.test.falsc.org/cgi-bin/afv for test
 ## https://susopac.rept.falsc.org/cgi-bin/afv for report
 # Log in with Aleph credentials
+# Leave "alephe/scratch" radio button selected
 # For uploader, choose file created above
 
 #Section: Final Note
