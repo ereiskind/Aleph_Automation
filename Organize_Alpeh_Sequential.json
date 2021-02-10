@@ -42,12 +42,12 @@
         "description": "Rename column ``Column 2`` to ``Fields``",
         "oldColumnName": "Column 2",
         "newColumnName": "Fields"
-    }
+    },
     {
         "op": "core/column-rename",
         "description": "Rename column ``Column 4`` to ``Values``",
         "oldColumnName": "Column 4",
-        "newColumnName": "Values"        
+        "newColumnName": "Values"
     },
     {
         "op": "core/column-addition",
@@ -61,7 +61,7 @@
         "onError": "set-to-blank",
         "newColumnName": "Numbering",
         "columnInsertIndex": 0
-    }
+    },
     {
         "op": "core/column-addition",
         "description": "Create column ``Keep Number`` with the number of times the value in ``Numbering`` appears",
@@ -169,35 +169,18 @@
             "mode": "row-based"
         },
         "columnName": "SYS Number"
-    }
-    {
-        "description": "Organize MARC subfields",
-        "op": "core/column-split",
-        "description": "Split subfields in ``Values`` into their own columns",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Values",
-        "guessCellType": true,
-        "removeOriginalColumn": true,
-        "mode": "separator",
-        "separator": "$$",
-        "regex": false,
-        "maxColumns": 0
     },
     {
-        "op": "core/transpose-columns-into-rows",
-        "description": "Transpose values of columns created by split of ``Values`` into one new column ``Values``",
-        "startColumnName": "Values 1",
-        "columnCount": -1,
-        "ignoreBlankCells": true,
-        "fillDown": false,
-        "combinedColumnName": "Values",
-        "prependColumnName": false,
-        "separator": ":"
-    }
-  {
+        "description": "Organize MARC subfields",
+        "op": "core/multivalued-cell-split",
+        "description": "Split subfields in ``Values`` into their own rows",
+        "columnName": "Values",
+        "keyColumnName": "SYS Number",
+        "mode": "separator",
+        "separator": "$$",
+        "regex": false
+    },
+    {
         "op": "core/fill-down",
         "description": "Fill down cells in column ``Fields``",
         "engineConfig": {
@@ -205,8 +188,8 @@
             "mode": "record-based"
         },
         "columnName": "Fields"
-    }
-  {
+    },
+    {
         "op": "core/fill-down",
         "description": "Fill down cells in column ``SYS Number``",
         "engineConfig": {
@@ -267,7 +250,7 @@
             "mode": "row-based"
         },
         "columnName": "Removals"
-    }
+    },
     {
         "op": "core/row-removal",
         "description": "Remove MARC fields with `5` subfield values other than `FTaSU`",
@@ -295,7 +278,7 @@
             ],
             "mode": "record-based"
         }
-    }
+    },
     {
         "op": "core/row-removal",
         "description": "Remove 856 fields with no 856$5 subfield",
@@ -342,7 +325,7 @@
             ],
             "mode": "record-based"
         }
-    }
+    },
     {
         "op": "core/column-removal",
         "description": "Remove column ``Removals``",
@@ -394,7 +377,7 @@
             ],
             "mode": "record-based"
         }
-    }
+    },
     {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``SYS Number``",
@@ -431,7 +414,7 @@
             ],
             "mode": "record-based"
         }
-    }
+    },
     {
         "op": "core/column-split",
         "description": "Split column ``Fields`` at spaces",
@@ -446,7 +429,7 @@
         "separator": " ",
         "regex": false,
         "maxColumns": 0
-    }
+    },
     {
         "op": "core/column-addition",
         "description": "Create column ``Numbering`` combining the SYS number, original field number, and MARC tag number",
@@ -459,7 +442,7 @@
         "onError": "set-to-blank",
         "newColumnName": "Numbering",
         "columnInsertIndex": 0
-    }
+    },
     {
         "op": "core/text-transform",
         "description": "For rows with no original field numbers, add the SYS number and MARC tag number to ``Numbering``",
@@ -487,7 +470,7 @@
         "op": "core/column-removal",
         "description": "Remove column ``Fields 3``",
         "columnName": "Fields 3"
-    }
+    },
     {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``Numbering``",
@@ -549,7 +532,7 @@
         "onError": "set-to-blank",
         "newColumnName": "Keep Number",
         "columnInsertIndex": 1
-    }
+    },
     {
         "op": "core/blank-down",
         "description": "Blank down cells in column ``Renumbering``",
@@ -585,19 +568,19 @@
         "repeat": false,
         "repeatCount": 10
     },
-        {
-          "op": "core/text-transform",
-          "description": "Remove old field numbers from ``Fields``",
-          "engineConfig": {
+    {
+        "op": "core/text-transform",
+        "description": "Remove old field numbers from ``Fields``",
+        "engineConfig": {
             "facets": [],
             "mode": "record-based"
-          },
-          "columnName": "Fields",
-          "expression": "grel:if(contains(value,\" \"),trim(substring(value,lastIndexOf(value,\" \"))),value)",
-          "onError": "keep-original",
-          "repeat": false,
-          "repeatCount": 10
-        }
+        },
+        "columnName": "Fields",
+        "expression": "grel:if(contains(value,\" \"),trim(substring(value,lastIndexOf(value,\" \"))),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
     {
         "op": "core/text-transform",
         "description": "For fields repeated in a record, add row number to value of ``Fields``",
@@ -655,31 +638,14 @@
         "columnName": "Keep Number"
     },
     {
-        "op": "core/column-split",
-        "description": "Split subfields in ``Values`` into their own columns",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
+        "op": "core/multivalued-cell-split",
+        "description": "Split values of ``Values`` into their own rows at pipes",
         "columnName": "Values",
-        "guessCellType": true,
-        "removeOriginalColumn": true,
+        "keyColumnName": "SYS Number",
         "mode": "separator",
         "separator": "|",
-        "regex": false,
-        "maxColumns": 0
+        "regex": false
     },
-    {
-        "op": "core/transpose-columns-into-rows",
-        "description": "Transpose values of columns created by split of ``Values`` into one new column ``Values``",
-        "startColumnName": "Values 1",
-        "columnCount": -1,
-        "ignoreBlankCells": true,
-        "fillDown": false,
-        "combinedColumnName": "Values",
-        "prependColumnName": false,
-        "separator": ":"
-    }
     {
         "op": "core/fill-down",
         "description": "Fill down cells in column ``Fields``",
@@ -688,56 +654,7 @@
             "mode": "record-based"
         },
         "columnName": "Fields"
-    }
-    {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``SYS Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "SYS Number"
     },
-    {
-        "op": "core/row-removal",
-        "description": "Remove rows with null value in ``Values``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Values",
-                    "expression": "isBlank(value).toString()",
-                    "columnName": "Values",
-                    "invert": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "true",
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectNumber": false,
-                    "selectDateTime": false,
-                    "selectBoolean": false,
-                    "omitBlank": false,
-                    "selectBlank": false,
-                    "omitError": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        }
-    },
-    {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``SYS Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "SYS Number"
-    }
     {
         "op": "core/text-transform",
         "description": "Add subfield delimiter and code to value in ``Fields``",
@@ -763,7 +680,7 @@
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
-    }
+    },
     {
         "op": "core/column-addition",
         "description": "Create column ``No Field Number`` with the field and subfield code for the row’s value",
@@ -776,7 +693,7 @@
         "baseColumnName": "Fields",
         "expression": "grel:substring(value,-5)",
         "onError": "set-to-blank"
-    }
+    },
     {
         "op": "core/row-removal",
         "description": "Remove 856$y and 856$5 subfields as long as that row has no SYS",
@@ -823,4 +740,4 @@
             "mode": "row-based"
         }
     }
-]  
+]
