@@ -574,21 +574,52 @@
         "description": "Remove column ``Keep Number``",
         "columnName": "Keep Number"
     },
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
+    {
+        "op": "core/fill-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "SYS Number",
+        "description": "Fill down cells in column ``SYS Number``"
+    },
+    {
+        "op": "core/column-split",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "{|}",
+        "regex": false,
+        "maxColumns": 0,
+        "description": "Split column ``Values`` by at each `{|}`"
+    },
+    {
+        "op": "core/transpose-columns-into-rows",
+        "combinedColumnName": "Values",
+        "startColumnName": "Values 1",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": true,
+        "prependColumnName": false,
+        "separator": ":",
+        "keyColumnName": null,
+        "valueColumnName": null,
+        "description": "Pivot all columns created by splitting ``Values`` into one new column named ``Values``"
+    },
+    {
+        "op": "core/blank-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "SYS Number",
+        "description": "Blank down cells in column ``SYS Number``"
+    },
     {
         "op": "core/text-transform",
         "engineConfig": {
@@ -614,68 +645,6 @@
         "repeat": false,
         "repeatCount": 10,
         "description": "Remove the subfield delimiter from ``Values``"
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {
-        "op": "core/multivalued-cell-split",
-        "description": "Split values of ``Values`` into their own rows at pipes",
-        "columnName": "Values",
-        "keyColumnName": "SYS Number",
-        "mode": "separator",
-        "separator": "|",
-        "regex": false
-    },
-    {
-        "op": "core/fill-down",
-        "description": "Fill down cells in column ``Fields``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Fields"
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Add subfield delimiter and code to value in ``Fields``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Fields",
-        "expression": "grel:value+\"$\"+substring(cells[\"Values\"].value[0],0,1)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Remove subfield code from ``Values``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "Values",
-        "expression": "grel:substring(value,1)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
     },
     {
         "op": "core/column-addition",
@@ -691,49 +660,12 @@
         "onError": "set-to-blank"
     },
     {
-        "op": "core/row-removal",
-        "description": "Remove 856$y and 856$5 subfields as long as that row has no SYS",
+        "op": "core/fill-down",
         "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "No Field Number",
-                    "expression": "value",
-                    "columnName": "No Field Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "856$y",
-                                "l": "856$y"
-                            }
-                        },
-                        {
-                            "v": {
-                                "v": "856$5",
-                                "l": "856$5"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                },
-                {
-                    "type": "list",
-                    "name": "SYS Number",
-                    "expression": "value",
-                    "columnName": "SYS Number",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [],
-                    "selectBlank": true,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        }
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "SYS Number",
+        "description": "Fill down cells in column ``SYS Number``"
     }
 ]
