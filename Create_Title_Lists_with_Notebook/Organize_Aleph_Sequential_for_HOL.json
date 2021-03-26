@@ -1,0 +1,538 @@
+[
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Column 3``",
+        "columnName": "Column 3"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Column 1`` to ``HOL Number``",
+        "oldColumnName": "Column 1",
+        "newColumnName": "HOL Number"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Trim whitespace from cells in column ``HOL Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "HOL Number",
+        "expression": "value.trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove indicators and extra spaces from cells in column ``Column 2``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Column 2",
+        "expression": "grel:substring(value,0,3)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Total`` combining the values of ``HOL Number``, ``Column 2``, and ``Column 4`` with double pipes as seperators",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Column 2",
+        "expression": "join ([coalesce(cells['Column 2'].value,''),coalesce(cells['Column 4'].value,'')],'||')",
+        "onError": "keep-original",
+        "newColumnName": "Total",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Column 2",
+        "description": "Remove column ``Column 2``"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Column 4",
+        "description": "Remove column ``Column 4``"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Fields``",
+        "columnName": "Fields"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values``",
+        "columnName": "Values"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``HOL Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "HOL Number"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in ``Total`` in each record in the first row separated by triple pipes",
+        "columnName": "Total",
+        "keyColumnName": "HOL Number",
+        "separator": "|||"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``BIB Number`` with value of LKR$b subfield",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Total",
+        "expression": "grel:substring(find(value,/UXU01\\$\\$b\\d+\\|\\|\\|/)[0],8,-3)",
+        "onError": "set-to-blank",
+        "newColumnName": "BIB Number",
+        "columnInsertIndex": 0
+    },
+    {
+        "op": "core/row-reorder",
+        "description": "Reorder rows based on ``BIB Number``",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "BIB Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        }
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Number of HOL`` with a value of the number of HOL record lines the BIB has",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "BIB Number",
+        "expression": "grel:facetCount(value,\"value\",\"BIB Number\")",
+        "onError": "set-to-blank",
+        "newColumnName": "Number of HOL",
+        "columnInsertIndex": 1
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add number of HOL in curly braces to end of ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number",
+        "expression": "grel:value+\"{\"+cells[\"Number of HOL\"].value+\"}\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Number of HOL``",
+        "columnName": "Number of HOL"
+    },
+    {
+        "op": "core/multivalued-cell-split",
+        "description": "Split ``Total`` into new rows at triple pipes",
+        "columnName": "Total",
+        "keyColumnName": "BIB Number",
+        "mode": "separator",
+        "separator": "|||",
+        "regex": false
+    },
+    {
+        "op": "core/column-move",
+        "description": "Move column ``HOL Number`` to beginning",
+        "columnName": "HOL Number",
+        "index": 0
+    },
+    {
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Total`` at double pipes",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Total",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "||",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Total 1`` to ``Fields``",
+        "oldColumnName": "Total 1",
+        "newColumnName": "Fields"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``Total 2`` to ``Values``",
+        "oldColumnName": "Total 2",
+        "newColumnName": "Values"
+    },
+    {
+        "description": "Organize MARC subfields",
+        "op": "core/column-split",
+        "description": "Split subfields in ``Values`` into their own columns",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "guessCellType": true,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "$$",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/transpose-columns-into-rows",
+        "combinedColumnName": "Values",
+        "startColumnName": "Values 1",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": true,
+        "prependColumnName": false,
+        "separator": ":",
+        "keyColumnName": null,
+        "valueColumnName": null,
+        "description": "Pivot columns created by split of ``Values`` into one new column ``Values``"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows with null value in ``Values``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "isBlank(value).toString()",
+                    "columnName": "Values",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add subfield delimiter and code to value in ``Fields``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:value+\"$\"+substring(cells[\"Values\"].value[0],0,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove subfield code from ``Values``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:substring(value,1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/row-removal",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:if(cells.Fields.value==\"OWN$a\",contains(value,\"FS\"),null)",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "description": "Remove records representing HOL for institutions other than FSU"
+    },
+    {
+        "description": "Add sublibrary to records",
+        "op": "core/column-addition",
+        "description": "Create column ``HOL Sublibrary`` with value of ``Values`` in row where ``Fields`` is `852$b`",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Values",
+        "expression": "grel:if(cells.Fields.value==\"852$b\",value,null)",
+        "onError": "set-to-blank",
+        "newColumnName": "HOL Sublibrary",
+        "columnInsertIndex": 2
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down cells in column ``HOL Sublibrary``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "HOL Sublibrary",
+        "expression": "grel:row.record.cells[\"HOL Sublibrary\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Values",
+        "expression": "grel:if(row.record.cells[\"Fields\"].value.inArray(\"852$x\"),if(cells.Fields.value==\"852$x\",value,null),null)",
+        "onError": "set-to-blank",
+        "newColumnName": "Suppressed",
+        "columnInsertIndex": 3,
+        "description": "Create column ``Suppressed`` with the value of ``Values`` in the row where ``Fields`` is `852$x`"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Suppressed",
+        "expression": "grel:if(row.record.cells[\"Fields\"].value.inArray(\"STA$a\"),\"TRUE: \"+value,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Add `TRUE:` to the front of values in ``Suppressed`` in the records that have `STA$a` fields"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Suppressed",
+        "expression": "grel:row.record.cells[\"Suppressed\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Fill up and down cells in ``Suppressed``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "value",
+                    "columnName": "Fields",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "TKR$a",
+                                "l": "TKR$a"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:if(value==\"OWN$a\",\"TKR$a\",value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "In records representing HOL with no TKR, change `OWN$a` values in ``Fields`` to `TKR$a`"
+    },
+    {
+        "op": "core/fill-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "HOL Number",
+        "description": "Fill down cells in column HOL Number"
+    },
+    {
+        "op": "core/row-removal",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "value",
+                    "columnName": "Fields",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "TKR$a",
+                                "l": "TKR$a"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "description": "Remove rows with ``Fields`` values other than `TKR$a`"
+    },
+    {
+        "op": "core/blank-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "HOL Number",
+        "description": "Blank down cells in column ``HOL Number``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "value",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FS",
+                                "l": "FS"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Null values in column ``Fields`` for records without ticklers"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "value",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FS",
+                                "l": "FS"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Null values in column ``Values`` for records without ticklers"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:if(isNotNull(value),\"TKR \"+toString(row.index-row.record.fromRowIndex+1),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "For tickler rows, change ``Fields`` value to `TKR` and the number of the row in the record"
+    }
+]
