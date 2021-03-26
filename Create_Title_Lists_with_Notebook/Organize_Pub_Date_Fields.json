@@ -1,0 +1,91 @@
+[
+    {
+        "op": "core/transpose-columns-into-rows",
+        "combinedColumnName": "All 264$c",
+        "startColumnName": "264$c",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": false,
+        "prependColumnName": false,
+        "separator": ":",
+        "keyColumnName": null,
+        "valueColumnName": null,
+        "description": "Pivot all 264$c columns into one new column named ``All 264$c``"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Pub Date`` by filling up and down value from ``All 264$c``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "All 264$c",
+        "expression": "grel:row.record.cells[\"All 264$c\"].value[0]",
+        "onError": "set-to-blank",
+        "newColumnName": "Pub Date",
+        "columnInsertIndex": 6
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Pub Date``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Pub Date"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``All 264$c``",
+        "columnName": "All 264$c"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``All Others Blank`` with value indicating if every other cell in the row is blank",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "newColumnName": "All Others Blank",
+        "columnInsertIndex": 1,
+        "baseColumnName": "SYS Number",
+        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where value of ``All Others Blank`` is `true`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "All Others Blank",
+                    "expression": "value",
+                    "columnName": "All Others Blank",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``All Others Blank``",
+        "columnName": "All Others Blank"
+    }
+]

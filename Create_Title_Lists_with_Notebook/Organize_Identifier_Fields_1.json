@@ -1,0 +1,314 @@
+[
+    {
+        "op": "core/column-split",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "035$a",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": ")",
+        "regex": false,
+        "maxColumns": 2,
+        "description": "Split column ``035$a`` at closing parentheses"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "035$a 2",
+                    "expression": "isBlank(value)",
+                    "columnName": "035$a 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "035$a 1",
+        "expression": "grel:value.substring(1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "For rows split at closing parentheses, remove first character from cells in column ``035$a 1``"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Count`` to keep all values during the pivot",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Count",
+        "columnInsertIndex": 1,
+        "baseColumnName": "SYS Number",
+        "expression": "grel:row.record.cells[\"SYS Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
+        "onError": "set-to-blank"
+    }
+]
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Unofficial 001 ID Source`` containing the letters at the beginning of 035$a or 599$a values that didn't have parentheticals",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values 2 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values 2 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Values 2 1",
+        "expression": "grel:if(and(length(splitByCharType(toUppercase(value)))==2,isNotNull(match(splitByCharType(toUppercase(value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(value))[0],null)",
+        "onError": "set-to-blank",
+        "newColumnName": "Unofficial 001 ID Source",
+        "columnInsertIndex": 7
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``001 ID`` with numerical values from 035$a and 599$a values that didn't have parentheticals",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values 2 1",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values 2 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Values 2 1",
+        "expression": "grel:if(and(length(splitByCharType(toUppercase(value)))==2,isNotNull(match(splitByCharType(toUppercase(value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(value))[1],if(and(length(splitByCharType(toUppercase(value)))==1,isNotNull(match(splitByCharType(toUppercase(value))[0],/(\\d|\\-)*/))),value,null))",
+        "onError": "set-to-blank",
+        "newColumnName": "001 ID",
+        "columnInsertIndex": 8
+    }
+    {
+        "op": "core/column-split",
+        "description": "Split column ``Values 2 2`` at closing parentheses",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Values 2 2",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": ")",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add contents of parentheticals to ``001 ID Source``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "001 ID Source",
+        "expression": "grel:if(isNotNull(cells[\"Values 2 2 1\"].value),cells[\"Values 2 2 1\"].value,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add the letters at the beginning of 035$a or 599$a to column ``Unofficial 001 ID Source``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Unofficial 001 ID Source",
+        "expression": "grel:if(isNull(value),if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value)))==2,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[0],null),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Add numerical parts of 035$a and 599$a to ``001 ID``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "001 ID",
+        "expression": "grel:if(isNull(value),if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value)))==2,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[1],if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value)))==1,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[0],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[0],null)),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values 2 1``",
+        "columnName": "Values 2 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values 2 2 1``",
+        "columnName": "Values 2 2 1"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``Values 2 2 2``",
+        "columnName": "Values 2 2 2"
+    }
+    {
+        "op": "core/text-transform",
+        "description": "For rows with null value in ``001 ID Source`` and a unique value in ``Unofficial 001 ID Source``, append value of ``Unofficial 001 ID Source`` to values in column ``001 ID``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Unofficial 001 ID Source",
+                    "expression": "facetCount(value, 'value', 'Unofficial 001 ID Source') > 1",
+                    "columnName": "Unofficial 001 ID Source",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "001 ID Source",
+                    "expression": "isBlank(value)",
+                    "columnName": "001 ID Source",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "001 ID",
+        "expression": "grel:cells[\"Unofficial 001 ID Source\"].value+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For rows with null value in ``001 ID Source`` and a unique value in ``Unofficial 001 ID Source``, null value of ``Unofficial 001 ID Source``",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Unofficial 001 ID Source",
+                    "expression": "facetCount(value, 'value', 'Unofficial 001 ID Source') > 1",
+                    "columnName": "Unofficial 001 ID Source",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "001 ID Source",
+                    "expression": "isBlank(value)",
+                    "columnName": "001 ID Source",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Unofficial 001 ID Source",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+]

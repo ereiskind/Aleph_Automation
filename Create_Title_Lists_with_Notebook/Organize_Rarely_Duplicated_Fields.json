@@ -1,0 +1,176 @@
+[
+    {
+        "op": "core/text-transform",
+        "description": "Remove ISBD punctuation, trim whitespace, and remove encoding from values in column ``245$a``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "245$a",
+        "expression": "grel:if(isNull(value),value,if(isError(find(substring(value,-1),/(\\.|\\/|:)/)[0]),value.trim().reinterpret(\"utf-8\"),substring(value,0,-1).trim().reinterpret(\"utf-8\")))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Title`` by filling up and down value from ``245$a``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Title",
+        "columnInsertIndex": 1,
+        "baseColumnName": "245$a",
+        "expression": "grel:row.record.cells[\"245$a\"].value[0]",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Title``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Title"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``245$a``",
+        "columnName": "245$a"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove ISBD punctuation, trim whitespace, and remove encoding from values in column ``245$b``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "245$b",
+        "expression": "grel:if(isNull(value),value,if(isError(find(substring(value,-1),/(\\.|\\/|:)/)[0]),value.trim().reinterpret(\"utf-8\"),substring(value,0,-1).trim().reinterpret(\"utf-8\")))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Subtitle`` by filling up and down value from ``245$b``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Subtitle",
+        "columnInsertIndex": 2,
+        "baseColumnName": "245$b",
+        "expression": "grel:row.record.cells[\"245$b\"].value[0]",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Subtitle``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Subtitle"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``245$b``",
+        "columnName": "245$b"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Volume`` by filling up and down value from ``245$n``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Volume",
+        "columnInsertIndex": 3,
+        "baseColumnName": "245$n",
+        "expression": "grel:row.record.cells[\"245$n\"].value[0]",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Volume``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Volume"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``245$n``",
+        "columnName": "245$n"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Edition`` by filling up and down value from ``250$a``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "newColumnName": "Edition",
+        "columnInsertIndex": 3,
+        "baseColumnName": "250$a",
+        "expression": "grel:row.record.cells[\"250$a\"].value[0]",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Edition``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Edition"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``250$a``",
+        "columnName": "250$a"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove ISBD punctuation, trim whitespace, and remove encoding from values in column ``245$c``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "245$c",
+        "expression": "grel:if(isNull(value),value,if(isError(find(substring(value,-1),/(\\.|\\/|:)/)[0]),value.trim().reinterpret(\"utf-8\"),substring(value,0,-1).trim().reinterpret(\"utf-8\")))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``Author`` by filling up and down value from ``245$c``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "245$c",
+        "expression": "grel:row.record.cells[\"245$c\"].value[0]",
+        "onError": "set-to-blank",
+        "newColumnName": "Author",
+        "columnInsertIndex": 5
+    },
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``Author``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Author"
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``245$c``",
+        "columnName": "245$c"
+    }
+]

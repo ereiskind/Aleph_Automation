@@ -1,6 +1,5 @@
 [
     {
-        "description": "Load Alpeh Sequential text file with column widths 10,6,2",
         "op": "core/column-removal",
         "description": "Remove column ``Column 3``",
         "columnName": "Column 3"
@@ -658,6 +657,85 @@
         "baseColumnName": "Fields",
         "expression": "grel:substring(value,-5)",
         "onError": "set-to-blank"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "No Field Number",
+                    "expression": "value",
+                    "columnName": "No Field Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "260$c",
+                                "l": "260$c"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "260$b",
+                                "l": "260$b"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:value.replace(\"260\",\"264\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Change the `260` values that will be kept in column ``Fields`` into `264` values"
+    },
+    {
+        "op": "core/mass-edit",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "No Field Number",
+        "expression": "value",
+        "edits": [
+            {
+                "from": [
+                    "260$b"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "264$b"
+            }
+        ],
+        "description": "Change `260$b` in column ``No Field Number`` into `264$b`"
+    },
+    {
+        "op": "core/mass-edit",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "No Field Number",
+        "expression": "value",
+        "edits": [
+            {
+                "from": [
+                    "260$c"
+                ],
+                "fromBlank": false,
+                "fromError": false,
+                "to": "264$c"
+            }
+        ],
+        "description": "Change `260$c` in column ``No Field Number`` into `264$c`"
     },
     {
         "op": "core/fill-down",
