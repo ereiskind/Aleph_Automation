@@ -1,0 +1,118 @@
+[
+    {
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number"
+    },
+    {
+        "op": "core/blank-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "HOL Sublibrary",
+        "description": "Blank down cells in column ``HOL Sublibrary``"
+    },
+    {
+        "op": "core/blank-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Suppressed",
+        "description": "Blank down cells in column ``Suppressed``"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``All Others Blank`` with value indicating if every other cell in the row is blank",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "newColumnName": "All Others Blank",
+        "columnInsertIndex": 1,
+        "baseColumnName": "HOL Number",
+        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where value of ``All Others Blank`` is `true`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "All Others Blank",
+                    "expression": "value",
+                    "columnName": "All Others Blank",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``All Others Blank``",
+        "columnName": "All Others Blank"
+    },
+    {
+        "op": "core/column-split",
+        "description": "Split column ``BIB Number`` at opening curly braacket",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number",
+        "guessCellType": false,
+        "removeOriginalColumn": true,
+        "mode": "separator",
+        "separator": "{",
+        "regex": false,
+        "maxColumns": 0
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``BIB Number 1`` to ``BIB Number``",
+        "oldColumnName": "BIB Number 1",
+        "newColumnName": "BIB Number"
+    },
+    {
+        "op": "core/column-rename",
+        "description": "Rename column ``BIB Number 2`` to ``BIB Number of HOLs``",
+        "oldColumnName": "BIB Number 2",
+        "newColumnName": "BIB Number of HOLs"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Remove end curly bracket from values in ``BIB Number of HOLs``",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "BIB Number of HOLs",
+        "expression": "grel:substring(value,0,-1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    }
+]
