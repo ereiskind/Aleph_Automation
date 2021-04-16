@@ -1,18 +1,43 @@
 [
     {
+        "op": "core/transpose-columns-into-rows",
+        "combinedColumnName": "All 035$a",
+        "startColumnName": "035$a",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": false,
+        "prependColumnName": false,
+        "separator": ":",
+        "keyColumnName": null,
+        "valueColumnName": null,
+        "description": "Transpose cells in columns starting with 035$a into rows in one new column named All 035$a"
+    },
+    {
         "op": "core/column-split",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
-        "columnName": "035$a",
+        "columnName": "All 035$a",
         "guessCellType": false,
         "removeOriginalColumn": true,
         "mode": "separator",
         "separator": ")",
         "regex": false,
         "maxColumns": 2,
-        "description": "Split column ``035$a`` at closing parentheses"
+        "description": "Split column ``All 035$a`` at closing parentheses"
+    },
+    {
+        "op": "core/column-rename",
+        "oldColumnName": "All 035$a 1",
+        "newColumnName": "Fields",
+        "description": "Rename column ``All 035$a 1`` to ``Fields``"
+    },
+    {
+        "op": "core/column-rename",
+        "oldColumnName": "All 035$a 2",
+        "newColumnName": "Values",
+        "description": "Rename column ``All 035$a 2`` to ``Values``"
     },
     {
         "op": "core/text-transform",
@@ -20,9 +45,9 @@
             "facets": [
                 {
                     "type": "list",
-                    "name": "035$a 2",
+                    "name": "Values",
                     "expression": "isBlank(value)",
-                    "columnName": "035$a 2",
+                    "columnName": "Values",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
@@ -40,56 +65,273 @@
             ],
             "mode": "row-based"
         },
-        "columnName": "035$a 1",
+        "columnName": "Fields",
         "expression": "grel:value.substring(1)",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10,
-        "description": "For rows split at closing parentheses, remove first character from cells in column ``035$a 1``"
+        "description": "For rows split at closing parentheses, remove first character from cells in column ``Fields``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "grel:length(splitByCharType(value))",
+                    "columnName": "Fields",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": 2,
+                                "l": "2"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:\"*\"+splitByCharType(cells[\"Fields\"].value)[1]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "For 035$a values not split at parentheses that can be split by Unicode character types, add the second part of the value to ``Values`` with an asterisk in front"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Fields",
+                    "expression": "grel:length(splitByCharType(value))",
+                    "columnName": "Fields",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": 2,
+                                "l": "2"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "grel:value.startsWith(\"*\")",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:splitByCharType(value)[0]+\"*\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "For the 035$a values split above, replace the second part from ``Fields`` with an asterisk"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:if(startsWith(value,\"*\"),substring(value,1),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Remove asterisks at the beginning of ``Values`` values"
     },
     {
         "op": "core/column-addition",
-        "description": "Create column ``Count`` to keep all values during the pivot",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
-        "newColumnName": "Count",
+        "baseColumnName": "Values",
+        "expression": "grel:if(and(startsWith(value,\"ybp\"),length(splitByCharType(value))==2),splitByCharType(value)[1],value)",
+        "onError": "set-to-blank",
+        "newColumnName": "Dedupe",
         "columnInsertIndex": 1,
+        "description": "Create column ``Dedupe`` with value of ``Values`` or its numeric part if it has two parts when split by Unicode character type and begins with `ybp` "
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Dedupe",
+                    "expression": "facetCount(value, 'value', 'Dedupe') > 1",
+                    "columnName": "Dedupe",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Dedupe",
+        "expression": "grel:\"*\"+value",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Add asterisks in front of duplicate values in column ``Dedupe``"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "baseColumnName": "Fields",
+        "expression": "grel:if(endsWith(value,\"*\"),row.record.cells[\"SYS Number\"].value[0]+\"-\"+value.substring(0,-1).toUppercase()+\"-\"+toString(row.index-row.record.fromRowIndex+1),row.record.cells[\"SYS Number\"].value[0]+\"-\"+value.toUppercase()+\"-\"+toString(row.index-row.record.fromRowIndex+1))",
+        "onError": "set-to-blank",
+        "newColumnName": "Sort 035 Fields",
+        "columnInsertIndex": 1,
+        "description": "Create column ``Sort 035 Fields`` with the SYS number, the 035$a source without any asterisks, and the number of the row in the record separated by hyphens"
+    },
+    {
+        "op": "core/fill-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "SYS Number",
+        "description": "Fill down cells in column ``SYS Number``"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
         "baseColumnName": "SYS Number",
-        "expression": "grel:row.record.cells[\"SYS Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
-        "onError": "set-to-blank"
-    }
-]
-
-
-
-
-
-
-
-
-
-
-
+        "expression": "grel:row.record.index",
+        "onError": "set-to-blank",
+        "newColumnName": "Reorder",
+        "columnInsertIndex": 1,
+        "description": "Create column ``Reorder`` with number of row in project"
+    },
     {
-        "op": "core/column-addition",
-        "description": "Create column ``Unofficial 001 ID Source`` containing the letters at the beginning of 035$a or 599$a values that didn't have parentheticals",
+        "op": "core/row-reorder",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "Sort 035 Fields",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        },
+        "description": "Reorder rows based on ``Sort 035 fields``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Sort 035 Fields",
+        "expression": "grel:substring(value,0,lastIndexOf(value,\"-\"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Remove row number in record from ``Sort 035 Fields``"
+    },
+    {
+        "op": "core/column-move",
+        "columnName": "Sort 035 Fields",
+        "index": 0,
+        "description": "Move column ``Sort 035 Fields`` to beginning"
+    },
+    {
+        "op": "core/blank-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Sort 035 Fields",
+        "description": "Blank down cells in column ``Sort 035 Fields``"
+    },
+    {
+        "op": "core/text-transform",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Values 2 1",
+                    "name": "Sort 035 Fields",
                     "expression": "isBlank(value)",
-                    "columnName": "Values 2 1",
+                    "columnName": "Sort 035 Fields",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": true,
+                                "l": "true"
                             }
                         }
                     ],
@@ -97,134 +339,32 @@
                     "selectError": false
                 }
             ],
-            "mode": "row-based"
+            "mode": "record-based"
         },
-        "baseColumnName": "Values 2 1",
-        "expression": "grel:if(and(length(splitByCharType(toUppercase(value)))==2,isNotNull(match(splitByCharType(toUppercase(value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(value))[0],null)",
-        "onError": "set-to-blank",
-        "newColumnName": "Unofficial 001 ID Source",
-        "columnInsertIndex": 7
+        "columnName": "Fields",
+        "expression": "grel:if(length(row.record.cells[\"Dedupe\"].value)-(length(row.record.cells[\"Dedupe\"].value.join(\"\"))-length(row.record.cells[\"Dedupe\"].value.join(\"\").replace(\"*\",\"\")))==1,if(startsWith(cells.Dedupe.value,\"*\"),null,value),value+\" #\"+toString(row.index-row.record.fromRowIndex+1))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "For those groups of 035$a fields with the same source in a single record, if just one of the values is unique, null the values in ``Fields`` for all the other rows; otherwise, add the number of the row in the record to the value in ``Fields``"
     },
     {
-        "op": "core/column-addition",
-        "description": "Create column ``001 ID`` with numerical values from 035$a and 599$a values that didn't have parentheticals",
+        "op": "core/text-transform",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Values 2 1",
-                    "expression": "isBlank(value)",
-                    "columnName": "Values 2 1",
+                    "name": "Dedupe",
+                    "expression": "grel:value.startsWith(\"*\")",
+                    "columnName": "Dedupe",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "baseColumnName": "Values 2 1",
-        "expression": "grel:if(and(length(splitByCharType(toUppercase(value)))==2,isNotNull(match(splitByCharType(toUppercase(value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(value))[1],if(and(length(splitByCharType(toUppercase(value)))==1,isNotNull(match(splitByCharType(toUppercase(value))[0],/(\\d|\\-)*/))),value,null))",
-        "onError": "set-to-blank",
-        "newColumnName": "001 ID",
-        "columnInsertIndex": 8
-    }
-    {
-        "op": "core/column-split",
-        "description": "Split column ``Values 2 2`` at closing parentheses",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Values 2 2",
-        "guessCellType": false,
-        "removeOriginalColumn": true,
-        "mode": "separator",
-        "separator": ")",
-        "regex": false,
-        "maxColumns": 0
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Add contents of parentheticals to ``001 ID Source``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "001 ID Source",
-        "expression": "grel:if(isNotNull(cells[\"Values 2 2 1\"].value),cells[\"Values 2 2 1\"].value,value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Add the letters at the beginning of 035$a or 599$a to column ``Unofficial 001 ID Source``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "Unofficial 001 ID Source",
-        "expression": "grel:if(isNull(value),if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value)))==2,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[0],null),value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Add numerical parts of 035$a and 599$a to ``001 ID``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "columnName": "001 ID",
-        "expression": "grel:if(isNull(value),if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value)))==2,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[1],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[1],if(and(length(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value)))==1,isNotNull(match(splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[0],/(\\d|\\-)*/))),splitByCharType(toUppercase(cells[\"Values 2 2 2\"].value))[0],null)),value)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    }
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Values 2 1``",
-        "columnName": "Values 2 1"
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Values 2 2 1``",
-        "columnName": "Values 2 2 1"
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Values 2 2 2``",
-        "columnName": "Values 2 2 2"
-    }
-    {
-        "op": "core/text-transform",
-        "description": "For rows with null value in ``001 ID Source`` and a unique value in ``Unofficial 001 ID Source``, append value of ``Unofficial 001 ID Source`` to values in column ``001 ID``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Unofficial 001 ID Source",
-                    "expression": "facetCount(value, 'value', 'Unofficial 001 ID Source') > 1",
-                    "columnName": "Unofficial 001 ID Source",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": true,
+                                "l": "true"
                             }
                         }
                     ],
@@ -233,17 +373,17 @@
                 },
                 {
                     "type": "list",
-                    "name": "001 ID Source",
+                    "name": "Sort 035 Fields",
                     "expression": "isBlank(value)",
-                    "columnName": "001 ID Source",
-                    "invert": false,
+                    "columnName": "Sort 035 Fields",
+                    "invert": true,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": true,
+                                "l": "true"
                             }
                         }
                     ],
@@ -251,51 +391,124 @@
                     "selectError": false
                 }
             ],
-            "mode": "row-based"
+            "mode": "record-based"
         },
-        "columnName": "001 ID",
-        "expression": "grel:cells[\"Unofficial 001 ID Source\"].value+value",
+        "columnName": "Dedupe",
+        "expression": "grel:replace(value,\"*\",\"^\")",
         "onError": "keep-original",
         "repeat": false,
-        "repeatCount": 10
+        "repeatCount": 10,
+        "description": "For duplicate 035$a values from a field with an unique source for its record, replace the asterisk with a carat"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Sort 035 Fields",
+        "description": "Remove column ``Sort 035 Fields``"
+    },
+    {
+        "op": "core/row-reorder",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "number",
+                    "column": "Reorder",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false
+                }
+            ]
+        },
+        "description": "Reorder rows based on ``Reorder``"
+    },
+    {
+        "op": "core/blank-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "SYS Number",
+        "description": "Blank down cells in column ``SYS Number``"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Reorder",
+        "description": "Remove column ``Reorder``"
     },
     {
         "op": "core/text-transform",
-        "description": "For rows with null value in ``001 ID Source`` and a unique value in ``Unofficial 001 ID Source``, null value of ``Unofficial 001 ID Source``",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "Unofficial 001 ID Source",
-                    "expression": "facetCount(value, 'value', 'Unofficial 001 ID Source') > 1",
-                    "columnName": "Unofficial 001 ID Source",
+                    "name": "Dedupe",
+                    "expression": "grel:value.startsWith(\"*\")",
+                    "columnName": "Dedupe",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": true
+                },
+                {
+                    "type": "list",
+                    "name": "Dedupe",
+                    "expression": "grel:startsWith(value,\"^\")",
+                    "columnName": "Dedupe",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": true,
+                                "l": "true"
                             }
                         }
                     ],
                     "selectBlank": false,
                     "selectError": false
-                },
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:if(and(startsWith(cells.Dedupe.value,\"^\"),endsWith(value,\"*\")),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "For the records where no values in ``Dedupe`` start with asterisks but some do start with carats, null the value in column ``Fields`` for the row where it ends with an asterisk (was created through character splitting) and ``Dedupe`` has a carat"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Dedupe",
+        "description": "Remove column ``Dedupe``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
                 {
                     "type": "list",
-                    "name": "001 ID Source",
+                    "name": "Values",
                     "expression": "isBlank(value)",
-                    "columnName": "001 ID Source",
+                    "columnName": "Values",
                     "invert": false,
                     "omitBlank": false,
                     "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": false,
-                                "l": "false"
+                                "v": true,
+                                "l": "true"
                             }
                         }
                     ],
@@ -305,10 +518,57 @@
             ],
             "mode": "row-based"
         },
-        "columnName": "Unofficial 001 ID Source",
-        "expression": "null",
+        "columnName": "Fields",
+        "expression": "grel:\"no label|\"+value",
         "onError": "keep-original",
         "repeat": false,
-        "repeatCount": 10
+        "repeatCount": 10,
+        "description": "For 035$a values with no label, add `no label|` in front of them in ``Fields``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "Values",
+                    "expression": "isBlank(value)",
+                    "columnName": "Values",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "columnName": "Values",
+        "expression": "grel:cells[\"Fields\"].value.partition(\"|\")[2]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Add the 035$a values without labels to ``Values``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:if(contains(value,\"|\"),value.partition(\"|\")[0],value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Remove the pipe and value from the 035$a values without labels in ``Fields``"
     }
 ]
