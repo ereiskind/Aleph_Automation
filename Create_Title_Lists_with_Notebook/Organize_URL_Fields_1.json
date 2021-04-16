@@ -28,17 +28,294 @@
         "description": "Split column ``All 856$u`` at the first pipe"
     },
     {
+        "op": "core/row-removal",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "All 856$u 1",
+                    "expression": "grel:or(contains(value,\"856$z\"),contains(value,\"856$3\"))",
+                    "columnName": "All 856$u 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "SYS Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "SYS Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "All 856$u 2",
+                    "expression": "grel:contains(value,\"FSU:off-campus access limited to current FSU students & employees\")",
+                    "columnName": "All 856$u 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "description": "Remove rows with just URL note fields containing link text"
+    },
+    {
+        "op": "core/row-removal",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "All 856$u 1",
+                    "expression": "grel:or(contains(value,\"856$z\"),contains(value,\"856$3\"))",
+                    "columnName": "All 856$u 1",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "SYS Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "SYS Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "All 856$u 2",
+                    "expression": "grel:contains(value,\"User Access\")",
+                    "columnName": "All 856$u 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        },
+        "description": "Remove rows with just URL note fields containing user access information"
+    },
+    {
+        "op": "core/fill-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "SYS Number",
+        "description": "Fill down cells in column ``SYS Number``"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "SYS Number",
+        "expression": "grel:row.record.index",
+        "onError": "set-to-blank",
+        "newColumnName": "Reorder",
+        "columnInsertIndex": 1,
+        "description": "Create column ``Reorder`` with number of row in project"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "All 856$u 1",
+        "expression": "grel:if(isNull(value),cells[\"SYS Number\"].value+\"-null\",if(contains(value,\" \"),cells[\"SYS Number\"].value+\"-\"+value.split(\" \")[1]+\"-\"+value.split(\" \")[2],cells[\"SYS Number\"].value+\"-#1-\"+value))",
+        "onError": "set-to-blank",
+        "newColumnName": "Sort URL Fields",
+        "columnInsertIndex": 1,
+        "description": "Create column ``Sort URL Fields`` with the SYS number, the field number, and the MARC field and subfield tag separated by hyphens or the SYS number and `-null` if there's no 856 field for the record"
+    },
+    {
+        "op": "core/row-reorder",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "t",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                },
+                {
+                    "valueType": "string",
+                    "column": "Sort URL Fields",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        },
+        "description": "Reorder rows based on ``Sort URL Fields``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Sort URL Fields",
+        "expression": "grel:substring(value,0,lastIndexOf(value,\"-\"))",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Remove the MARC tag info from column ``Sort URL Fields``"
+    },
+    {
+        "op": "core/column-move",
+        "columnName": "Sort URL Fields",
+        "index": 0,
+        "description": "Move column ``Sort URL Fields`` to beginning"
+    },
+    {
+        "op": "core/blank-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "Sort URL Fields",
+        "description": "Blank down cells in column ``Sort URL Fields``"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "All 856$u 1",
+        "expression": "grel:if(contains(value,\"856$3\"),cells[\"All 856$u 2\"].value,null)",
+        "onError": "set-to-blank",
+        "newColumnName": "856$3",
+        "columnInsertIndex": 3,
+        "description": "Create column ``856$3`` with the values from column ``All 856$u 2`` for the rows with 856$3 subfields"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "856$3",
+        "expression": "grel:row.record.cells[\"856$3\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "fill up and down values in column ``856$3``"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "All 856$u 1",
+        "expression": "grel:if(contains(value,\"856$z\"),cells[\"All 856$u 2\"].value,null)",
+        "onError": "set-to-blank",
+        "newColumnName": "856$z",
+        "columnInsertIndex": 4,
+        "description": "Create column ``856$z`` with the values from column ``All 856$u 2`` for the rows with 856$z subfields"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "856$z",
+        "expression": "grel:row.record.cells[\"856$z\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "fill up and down values in column ``856$z``"
+    },
+    {
         "op": "core/text-transform",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
         "columnName": "All 856$u 1",
-        "expression": "grel:if(isNull(cells[\"856$3\"].value),value,cells[\"856$3\"].value)",
+        "expression": "grel:if(contains(value,\"856$u\"),if(and(isNotNull(cells[\"856$3\"].value),isNotNull(cells[\"856$z\"].value)),cells[\"856$3\"].value+\"|\"+cells[\"856$z\"].value,if(and(isNull(cells[\"856$3\"].value),isNull(cells[\"856$z\"].value)),value,if(isNull(cells[\"856$3\"].value),cells[\"856$z\"].value,cells[\"856$3\"].value))),null)",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10,
-        "description": "If a 856$3 [or 856$z] value is available, use that to replace the value in column ``All 856$u 1``"
+        "description": "Change the values in column ``All 856$u 1`` to null if the row doesn't already have an 856$u value, to either the ``856$3`` or ``856$z`` value if the record only has one of those values, and to the ``856$3`` value, a pipe, and the ``856$z`` value if the record has both of those values"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Sort URL Fields",
+        "description": "Remove column ``Sort URL Fields``"
     },
     {
         "op": "core/column-removal",
@@ -46,16 +323,41 @@
         "description": "Remove column ``856$3``"
     },
     {
-        "op": "core/column-addition",
-        "description": "Create column ``Count`` to keep all values during the pivot",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+        "op": "core/column-removal",
+        "columnName": "856$z",
+        "description": "Remove column ``856$z``"
+    },
+    {
+        "op": "core/row-reorder",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "number",
+                    "column": "Reorder",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false
+                }
+            ]
         },
-        "newColumnName": "Count",
-        "columnInsertIndex": 1,
-        "baseColumnName": "SYS Number",
-        "expression": "grel:row.record.cells[\"SYS Number\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
-        "onError": "set-to-blank"
+        "description": "Reorder rows based on ``Reorder``"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Reorder",
+        "description": "Remove column ``Reorder``"
+    },
+    {
+        "op": "core/column-rename",
+        "oldColumnName": "All 856$u 1",
+        "newColumnName": "Fields",
+        "description": "Rename column ``All 856$u 1`` to ``Fields``"
+    },
+    {
+        "op": "core/column-rename",
+        "oldColumnName": "All 856$u 2",
+        "newColumnName": "Values",
+        "description": "Rename column ``All 856$u 2`` to ``Values``"
     }
 ]
