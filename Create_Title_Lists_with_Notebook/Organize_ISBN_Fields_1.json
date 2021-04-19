@@ -1,256 +1,113 @@
 [
     {
-        "op": "core/multivalued-cell-join",
-        "description": "Join all values in column ``020$a`` for a record in its first cell divided by pipes",
-        "columnName": "020$a",
-        "keyColumnName": "SYS Number",
-        "separator": "|"
-    },
-    {
-        "op": "core/multivalued-cell-join",
-        "description": "Join all values in column ``020$z`` for a record in its first cell divided by pipes",
-        "columnName": "020$z",
-        "keyColumnName": "SYS Number",
-        "separator": "|"
-    },
-    {
-        "op": "core/multivalued-cell-join",
-        "description": "Join all values in column ``776$z`` for a record in its first cell divided by pipes",
-        "columnName": "776$z",
-        "keyColumnName": "SYS Number",
-        "separator": "|"
-    },
-    {
-        "op": "core/multivalued-cell-join",
-        "description": "Join all values in column ``020$q`` for a record in its first cell divided by pipes",
-        "columnName": "020$q",
-        "keyColumnName": "SYS Number",
-        "separator": "|"
-    },
-    {
-        "op": "core/multivalued-cell-join",
-        "description": "Join all values in column ``776$i`` for a record in its first cell divided by pipes",
-        "columnName": "776$i",
-        "keyColumnName": "SYS Number",
-        "separator": "|"
+        "op": "core/transpose-columns-into-rows",
+        "startColumnName": "020$a",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": false,
+        "separator": null,
+        "keyColumnName": "Fields",
+        "valueColumnName": "Values",
+        "description": "Pivot all ISBN columns so the former headers are in column ``Fields`` and the contents are in the column ``Values``"
+      },
+      {
+        "op": "core/fill-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "SYS Number",
+        "description": "Fill down cells in column ``SYS Number``"
     },
     {
         "op": "core/column-addition",
-        "description": "Create column ``All Others Blank`` with value indicating if every other cell in the row is blank",
         "engineConfig": {
             "facets": [],
-            "mode": "row-based"
+            "mode": "record-based"
         },
-        "newColumnName": "All Others Blank",
-        "columnInsertIndex": 1,
         "baseColumnName": "SYS Number",
-        "expression": "grel:toString(filter(row.columnNames,cn,isNonBlank(cells[cn].value)).length()==0)",
-        "onError": "set-to-blank"
+        "expression": "grel:row.record.index",
+        "onError": "set-to-blank",
+        "newColumnName": "Reorder",
+        "columnInsertIndex": 1,
+        "description": "Create column ``Reorder`` with number of row in project"
     },
     {
-        "op": "core/row-removal",
-        "description": "Remove rows where value of ``All Others Blank`` is `true`",
+        "op": "core/column-addition",
         "engineConfig": {
-            "facets": [
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Fields",
+        "expression": "grel:row.record.cells[\"SYS Number\"].value[0]+\"-\"+if(contains(value,\" \"),value.split(\" \")[2].substring(0,indexOf(value.split(\" \")[2],\"$\"))+\"-\"+value.split(\" \")[1].substring(1),value.substring(0,indexOf(value,\"$\"))+\"-0\")",
+        "onError": "set-to-blank",
+        "newColumnName": "Sort ISBN Fields",
+        "columnInsertIndex": 0,
+        "description": "Create column ``Sort ISBN Fields`` with the SYS number, the MARC field number, and the number of that field tag"
+    },
+    {
+        "op": "core/row-reorder",
+        "mode": "row-based",
+        "sorting": {
+            "criteria": [
                 {
-                    "type": "list",
-                    "name": "All Others Blank",
-                    "expression": "value",
-                    "columnName": "All Others Blank",
-                    "invert": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "true",
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectNumber": false,
-                    "selectDateTime": false,
-                    "selectBoolean": false,
-                    "omitBlank": false,
-                    "selectBlank": false,
-                    "omitError": false,
-                    "selectError": false
+                    "valueType": "string",
+                    "column": "Sort ISBN Fields",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
                 }
-            ],
+            ]
+        },
+        "description": "Reorder rows based on ``Sort ISBN Fields``"
+    },
+    {
+        "op": "core/blank-down",
+        "engineConfig": {
+            "facets": [],
             "mode": "row-based"
-        }
+        },
+        "columnName": "Sort ISBN Fields",
+        "description": "Blank down cells in column ``Sort ISBN Fields``"
     },
     {
-        "op": "core/column-removal",
-        "description": "Remove column ``All Others Blank``",
-        "columnName": "All Others Blank"
-    },
-    {
-        "description": "Split repeated subfields",
-        "op": "core/column-addition",
-        "description": "Create column ``020$a Split`` at start of table with value indicating if 020$a values in row will be split",
+        "op": "core/text-transform",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
-        "baseColumnName": "020$a",
-        "expression": "grel:if(isNull(value),\"N/A\",toString(contains(value,\"|\")))",
-        "onError": "set-to-blank",
-        "newColumnName": "020$a Split",
-        "columnInsertIndex": 0
-    },
-    {
-        "op": "core/multivalued-cell-split",
-        "description": "Split values containing pipes in column ``020$a`` at pipes into new rows within the same record",
-        "columnName": "020$a",
-        "keyColumnName": "SYS Number",
-        "mode": "separator",
-        "separator": "|",
-        "regex": false
-    },
-    {
-        "op": "core/fill-down",
-        "description": "For ``020$a Split`` records with value `true`, fill down cells in column ``020$q``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Split",
-                    "expression": "value",
-                    "columnName": "Split",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "true",
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "020$q"
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``020$a Split``",
-        "columnName": "020$a Split"
+        "columnName": "Fields",
+        "expression": "grel:substring(value,-5)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Remove field numbers from values in column ``Fields``"
     },
     {
         "op": "core/column-addition",
-        "description": "Create column ``020$z Split`` at start of table with value indicating if 020$z values in row will be split",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
-        "baseColumnName": "020$z",
-        "expression": "grel:if(isNull(value),\"N/A\",toString(contains(value,\"|\")))",
+        "baseColumnName": "Sort ISBN Fields",
+        "expression": "grel:row.record.cells[\"Sort ISBN Fields\"].value[0]+\"-\"+toString(row.index-row.record.fromRowIndex+1)",
         "onError": "set-to-blank",
-        "newColumnName": "020$z Split",
-        "columnInsertIndex": 0
+        "newColumnName": "Count",
+        "columnInsertIndex": 1,
+        "description": "Create column ``Count`` to keep all values during the pivot"
     },
     {
-        "op": "core/multivalued-cell-split",
-        "description": "Split values containing pipes in column ``020$z`` at pipes into new rows within the same record",
-        "columnName": "020$z",
-        "keyColumnName": "SYS Number",
-        "mode": "separator",
-        "separator": "|",
-        "regex": false
-    },
-    {
-        "op": "core/fill-down",
-        "description": "For ``020$z Split`` records with value `true`, fill down cells in column ``020$q``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Split",
-                    "expression": "value",
-                    "columnName": "Split",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "true",
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "020$q"
+        "op": "core/key-value-columnize",
+        "description": "Pivot data so values in ``Fields`` are columns with values from ``Values``",
+        "keyColumnName": "Fields",
+        "valueColumnName": "Values",
+        "noteColumnName": ""
     },
     {
         "op": "core/column-removal",
-        "description": "Remove column ``020$z Split``",
-        "columnName": "020$z Split"
-    },
-    {
-        "op": "core/column-addition",
-        "description": "Create column ``776$z Split`` at start of table with value indicating if 776$z values in row will be split",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "776$z",
-        "expression": "grel:if(isNull(value),\"N/A\",toString(contains(value,\"|\")))",
-        "onError": "set-to-blank",
-        "newColumnName": "776$z Split",
-        "columnInsertIndex": 0
-    },
-    {
-        "op": "core/multivalued-cell-split",
-        "description": "Split values containing pipes in column ``776$z`` at pipes into new rows within the same record",
-        "columnName": "776$z",
-        "keyColumnName": "SYS Number",
-        "mode": "separator",
-        "separator": "|",
-        "regex": false
-    },
-    {
-        "op": "core/fill-down",
-        "description": "For ``776$z Split`` records with value `true`, fill down cells in column ``776$i``",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "Split",
-                    "expression": "value",
-                    "columnName": "Split",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "true",
-                                "l": "true"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "record-based"
-        },
-        "columnName": "776$i"
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``776$z Split``",
-        "columnName": "776$z Split"
+        "description": "Remove column ``Count``",
+        "columnName": "Count"
     },
     {
         "op": "core/text-transform",
@@ -318,47 +175,177 @@
         "repeatCount": 10
     },
     {
-        "description": "Append type information to each ISBN",
+        "op": "core/row-removal",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "776$i",
+                    "expression": "isBlank(value)",
+                    "columnName": "776$i",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "776$z",
+                    "expression": "isBlank(value)",
+                    "columnName": "776$z",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Title",
+                    "expression": "isBlank(value)",
+                    "columnName": "Title",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "description": "Remove records without bibliographic info with 776$i data but no ISBN from a 776$z"
+    },
+    {
         "op": "core/text-transform",
-        "description": "Add pipe between ISBN and descriptor in 020$a and add 020$q value in row after pipe",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "020$q",
+                    "expression": "grel:row.record.cells[\"020$q\"].value.length()>1",
+                    "columnName": "020$q",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "020$q",
+        "expression": "grel:row.record.cells[\"020$q\"].value.join(\"][\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "For records with multiple 020$q values, combine all of the values with `][` between them"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "776$i",
+                    "expression": "grel:row.record.cells[\"776$i\"].value.length()>1",
+                    "columnName": "776$i",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "776$i",
+        "expression": "grel:row.record.cells[\"776$i\"].value.join(\"][\")",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "For records with multiple 776$i values, combine all of the values with `][` between them"
+    },
+    {
+        "op": "core/text-transform",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
         "columnName": "020$a",
-        "expression": "grel:if(isNotNull(value),if(and(indexOf(value,\" \")==-1, indexOf(value,\"(\")==-1),if(isNotNull(cells[\"020$q\"].value),value+\"|\"+cells[\"020$q\"].value,value+\"|020$a\"),if(isNotNull(cells[\"020$q\"].value),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\"))))+\"; \"+cells[\"020$q\"].value,if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\")))+\"; \"+cells[\"020$q\"].value,substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \")))+\"; \"+cells[\"020$q\"].value)),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\")))),if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\"))),substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \"))))))),null)",
+        "expression": "grel:if(isNotNull(value),if(or(value.contains(\" \"),value.contains(\"(\")),if(and(value.contains(\" \"),value.contains(\"(\")),value.substring(0,min(value.indexOf(\" \"),value.indexOf(\"(\")))+\"|\"+value.substring(min(value.indexOf(\" \"),value.indexOf(\"(\"))).trim(),if(value.contains(\" \"),value.split(\" \")[0]+\"|\"+value.substring(value.indexOf(\" \")).trim(),value.split(\"(\")[0]+\"|\"+value.substring(value.indexOf(\"(\")).trim()))+if(isError(row.record.cells[\"020$q\"].value[0]),\"\",\"][\"+row.record.cells[\"020$q\"].value[0]),if(isError(row.record.cells[\"020$q\"].value[0]),value.trim()+\"|eISBN\",value.trim()+\"|\"+row.record.cells[\"020$q\"].value[0])),null)",
         "onError": "keep-original",
         "repeat": false,
-        "repeatCount": 10
+        "repeatCount": 10,
+        "description": "Add pipe between ISBN and descriptor in ``020$a``, and if ``020$q`` has a value in the record, add that after the pipe as well; if there's no descriptor at all, put `eISBN` after the pipe"
     },
     {
         "op": "core/text-transform",
-        "description": "Add pipe between ISBN and descriptor in 020$z and add 020$q value in row after pipe",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
         "columnName": "020$z",
-        "expression": "grel:if(isNotNull(value),if(and(indexOf(value,\" \")==-1, indexOf(value,\"(\")==-1),if(isNotNull(cells[\"020$q\"].value),value+\"|\"+cells[\"020$q\"].value,value+\"|020$z\"),if(isNotNull(cells[\"020$q\"].value),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\"))))+\"; \"+cells[\"020$q\"].value,if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\")))+\"; \"+cells[\"020$q\"].value,substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \")))+\"; \"+cells[\"020$q\"].value)),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\")))),if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\"))),substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \"))))))),null)",
+        "expression": "grel:if(isNotNull(value),if(or(value.contains(\" \"),value.contains(\"(\")),if(and(value.contains(\" \"),value.contains(\"(\")),value.substring(0,min(value.indexOf(\" \"),value.indexOf(\"(\")))+\"|\"+value.substring(min(value.indexOf(\" \"),value.indexOf(\"(\"))).trim(),if(value.contains(\" \"),value.split(\" \")[0]+\"|\"+value.substring(value.indexOf(\" \")).trim(),value.split(\"(\")[0]+\"|\"+value.substring(value.indexOf(\"(\")).trim()))+if(isError(row.record.cells[\"020$q\"].value[0]),\"\",\"][\"+row.record.cells[\"020$q\"].value[0]),if(isError(row.record.cells[\"020$q\"].value[0]),value.trim()+\"|ISBN\",value.trim()+\"|\"+row.record.cells[\"020$q\"].value[0])),null)",
         "onError": "keep-original",
         "repeat": false,
-        "repeatCount": 10
+        "repeatCount": 10,
+        "description": "Add pipe between ISBN and descriptor in ``020$z``, and if ``020$q`` has a value in the record, add that after the pipe as well; if there's no descriptor at all, put `ISBN` after the pipe"
     },
     {
         "op": "core/text-transform",
-        "description": "Add pipe between ISBN and descriptor in 776$z and add 776$i value in row after pipe",
         "engineConfig": {
             "facets": [],
             "mode": "record-based"
         },
         "columnName": "776$z",
-        "expression": "grel:if(isNotNull(value),if(and(indexOf(value,\" \")==-1, indexOf(value,\"(\")==-1),if(isNotNull(cells[\"776$i\"].value),value+\"|\"+cells[\"776$i\"].value,value+\"|776$z\"),if(isNotNull(cells[\"776$i\"].value),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\"))))+\"; \"+cells[\"776$i\"].value,if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\")))+\"; \"+cells[\"776$i\"].value,substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \")))+\"; \"+cells[\"776$i\"].value)),if(and(indexOf(value,\" \")!=-1, indexOf(value,\"(\")!=-1),substring(value,0,min(indexOf(value,\" \"), indexOf(value,\"(\")))+\"|\"+trim(substring(value,min(indexOf(value,\" \"), indexOf(value,\"(\")))),if(indexOf(value,\" \")==-1,substring(value,0,indexOf(value,\"(\"))+\"|\"+trim(substring(value,indexOf(value,\"(\"))),substring(value,0,indexOf(value,\" \"))+\"|\"+trim(substring(value,indexOf(value,\" \"))))))),null)",
+        "expression": "grel:if(isNotNull(value),if(or(value.contains(\" \"),value.contains(\"(\")),if(and(value.contains(\" \"),value.contains(\"(\")),value.substring(0,min(value.indexOf(\" \"),value.indexOf(\"(\")))+\"|\"+value.substring(min(value.indexOf(\" \"),value.indexOf(\"(\"))).trim(),if(value.contains(\" \"),value.split(\" \")[0]+\"|\"+value.substring(value.indexOf(\" \")).trim(),value.split(\"(\")[0]+\"|\"+value.substring(value.indexOf(\"(\")).trim()))+if(isError(row.record.cells[\"776$i\"].value[0]),\"\",\"][\"+row.record.cells[\"776$i\"].value[0]),if(isError(row.record.cells[\"776$i\"].value[0]),value.trim()+\"|ISBN\",value.trim()+\"|\"+row.record.cells[\"776$i\"].value[0])),null)",
         "onError": "keep-original",
         "repeat": false,
-        "repeatCount": 10
+        "repeatCount": 10,
+        "description": "Add pipe between ISBN and descriptor in ``776$z``, and if ``776$i`` has a value in the record, add that after the pipe as well; if there's no descriptor at all, put `ISBN` after the pipe"
     },
     {
-        "description": "Organize ISBN type information",
         "op": "core/column-removal",
         "description": "Remove column ``020$q``",
         "columnName": "020$q"
@@ -369,53 +356,70 @@
         "columnName": "776$i"
     },
     {
-        "op": "core/column-addition",
-        "description": "Create column ``All Others Blank`` with value indicating if every other cell in the row is blank",
-        "engineConfig": {
-            "facets": [],
-            "mode": "row-based"
-        },
-        "newColumnName": "All Others Blank",
-        "columnInsertIndex": 1,
-        "baseColumnName": "SYS Number",
-        "expression": "grel:toString(filter(row.columnNames,cn,isNonBlank(cells[cn].value)).length()==0)",
-        "onError": "set-to-blank"
-    },
-    {
         "op": "core/row-removal",
-        "description": "Remove rows where value of ``All Others Blank`` is `true`",
         "engineConfig": {
             "facets": [
                 {
                     "type": "list",
-                    "name": "All Others Blank",
-                    "expression": "value",
-                    "columnName": "All Others Blank",
+                    "name": "SYS Number",
+                    "expression": "grel:row.columnNames.length()-filter(row.columnNames,cn,isBlank(cells[cn].value)).length()",
+                    "columnName": "SYS Number",
                     "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
                     "selection": [
                         {
                             "v": {
-                                "v": "true",
-                                "l": "true"
+                                "v": 2,
+                                "l": "2"
                             }
                         }
                     ],
-                    "selectNumber": false,
-                    "selectDateTime": false,
-                    "selectBoolean": false,
-                    "omitBlank": false,
                     "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "SYS Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "SYS Number",
+                    "invert": false,
+                    "omitBlank": false,
                     "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                },
+                {
+                    "type": "list",
+                    "name": "Reorder",
+                    "expression": "isBlank(value)",
+                    "columnName": "Reorder",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": false,
+                                "l": "false"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
                     "selectError": false
                 }
             ],
             "mode": "row-based"
-        }
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``All Others Blank``",
-        "columnName": "All Others Blank"
+        },
+        "description": "Remove rows with values only in ``SYS Number`` and ``Reorder``"
     },
     {
         "op": "core/column-addition",
@@ -484,39 +488,6 @@
         "baseColumnName": "ISBN Value",
         "expression": "grel:toString(length(value))",
         "onError": "set-to-blank"
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Remove final character from values in column ``ISBN Value`` with 14 characters",
-        "engineConfig": {
-            "facets": [
-                {
-                    "type": "list",
-                    "name": "ISBN Length",
-                    "expression": "value",
-                    "columnName": "ISBN Length",
-                    "invert": false,
-                    "omitBlank": false,
-                    "omitError": false,
-                    "selection": [
-                        {
-                            "v": {
-                                "v": "14",
-                                "l": "14"
-                            }
-                        }
-                    ],
-                    "selectBlank": false,
-                    "selectError": false
-                }
-            ],
-            "mode": "row-based"
-        },
-        "columnName": "ISBN Value",
-        "expression": "grel:substring(value,0,-1)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
     },
     {
         "op": "core/text-transform",
