@@ -1,30 +1,47 @@
 [
     {
-        "op": "core/blank-down",
-        "description": "Blank down cells in column ``BIB Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "BIB Number"
+        "op": "core/column-removal",
+        "description": "Remove column ``Count``",
+        "columnName": "Count"
     },
     {
-        "op": "core/blank-down",
+        "op": "core/text-transform",
+        "description": "Blank down cells in column ``Suppressed``",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "HOL Sublibrary",
-        "description": "Blank down cells in column ``HOL Sublibrary``"
-    },
-    {
-        "op": "core/blank-down",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "mode": "record-based",
+            "facets": []
         },
         "columnName": "Suppressed",
-        "description": "Blank down cells in column ``Suppressed``"
+        "expression": "grel:if(row.index-row.record.fromRowIndex==0,value,null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Blank down cells in column ``HOL Sublibrary``",
+        "engineConfig": {
+            "mode": "record-based",
+            "facets": []
+        },
+        "columnName": "HOL Sublibrary",
+        "expression": "grel:if(row.index-row.record.fromRowIndex==0,value,null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Blank down cells in column ``BIB Number``",
+        "engineConfig": {
+            "mode": "record-based",
+            "facets": []
+        },
+        "columnName": "BIB Number",
+        "expression": "grel:if(row.index-row.record.fromRowIndex==0,value,null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
     },
     {
         "op": "core/column-addition",
@@ -35,7 +52,7 @@
         },
         "newColumnName": "All Others Blank",
         "columnInsertIndex": 1,
-        "baseColumnName": "HOL Number",
+        "baseColumnName": "SYS Number",
         "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
         "onError": "set-to-blank"
     },
@@ -76,43 +93,16 @@
         "columnName": "All Others Blank"
     },
     {
-        "op": "core/column-split",
-        "description": "Split column ``BIB Number`` at opening curly braacket",
+        "op": "core/column-addition",
+        "description": "Create column ``BIB Number of HOLs`` with the number of times the value in ``BIB Number`` repeats",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "mode": "record-based",
+            "facets": []
         },
-        "columnName": "BIB Number",
-        "guessCellType": false,
-        "removeOriginalColumn": true,
-        "mode": "separator",
-        "separator": "{",
-        "regex": false,
-        "maxColumns": 0
-    },
-    {
-        "op": "core/column-rename",
-        "description": "Rename column ``BIB Number 1`` to ``BIB Number``",
-        "oldColumnName": "BIB Number 1",
-        "newColumnName": "BIB Number"
-    },
-    {
-        "op": "core/column-rename",
-        "description": "Rename column ``BIB Number 2`` to ``BIB Number of HOLs``",
-        "oldColumnName": "BIB Number 2",
-        "newColumnName": "BIB Number of HOLs"
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Remove end curly bracket from values in ``BIB Number of HOLs``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "BIB Number of HOLs",
-        "expression": "grel:substring(value,0,-1)",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
+        "newColumnName": "BIB Number of HOLs",
+        "columnInsertIndex": 2,
+        "baseColumnName": "BIB Number",
+        "expression": "grel:facetCount(value,\"value\",\"BIB Number\")",
+        "onError": "set-to-blank"
     }
 ]

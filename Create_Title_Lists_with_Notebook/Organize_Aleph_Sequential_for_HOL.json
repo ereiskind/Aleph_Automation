@@ -69,13 +69,6 @@
         "columnName": "SYS Number"
     },
     {
-        "op": "core/multivalued-cell-join",
-        "description": "Combine all values in ``Total`` in each record in the first row separated by triple pipes",
-        "columnName": "Total",
-        "keyColumnName": "SYS Number",
-        "separator": "|||"
-    },
-    {
         "op": "core/column-addition",
         "description": "Create column ``BIB Number`` with value of LKR$b subfield",
         "engineConfig": {
@@ -83,10 +76,43 @@
             "facets": []
         },
         "newColumnName": "BIB Number",
-        "columnInsertIndex": 0,
+        "columnInsertIndex": 1,
         "baseColumnName": "Total",
-        "expression": "grel:value.match(/.*(\\$\\$b\\d+\\|\\|\\|).*/)[0].substring(3,-3)",
+        "expression": "grel:value.match(/LKR\\|\\|\\$\\$aHOL\\$\\$lUXU01\\$\\$b(\\d*).*/)[0]",
         "onError": "set-to-blank"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Fill up and down value of ``BIB Number``",
+        "engineConfig": {
+            "mode": "record-based",
+            "facets": []
+        },
+        "columnName": "BIB Number",
+        "expression": "grel:row.record.cells[\"BIB Number\"].value[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Blank down on ``BIB Number``",
+        "engineConfig": {
+            "mode": "record-based",
+            "facets": []
+        },
+        "columnName": "BIB Number",
+        "expression": "grel:if(row.index-row.record.fromRowIndex==0,value,null)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "description": "Combine all values in ``Total`` in each record in the first row separated by triple pipes",
+        "columnName": "Total",
+        "keyColumnName": "SYS Number",
+        "separator": "|||"
     },
     {
         "op": "core/row-reorder",
@@ -106,37 +132,6 @@
         }
     },
     {
-        "op": "core/column-addition",
-        "description": "Create column ``Number of HOL`` with a value of the number of HOL record lines the BIB has",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "baseColumnName": "BIB Number",
-        "expression": "grel:facetCount(value,\"value\",\"BIB Number\")",
-        "onError": "set-to-blank",
-        "newColumnName": "Number of HOL",
-        "columnInsertIndex": 1
-    },
-    {
-        "op": "core/text-transform",
-        "description": "Add number of HOL in curly braces to end of ``BIB Number``",
-        "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
-        },
-        "columnName": "BIB Number",
-        "expression": "grel:value+\"{\"+cells[\"Number of HOL\"].value+\"}\"",
-        "onError": "keep-original",
-        "repeat": false,
-        "repeatCount": 10
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Number of HOL``",
-        "columnName": "Number of HOL"
-    },
-    {
         "op": "core/multivalued-cell-split",
         "description": "Split ``Total`` into new rows at triple pipes",
         "columnName": "Total",
@@ -144,12 +139,6 @@
         "mode": "separator",
         "separator": "|||",
         "regex": false
-    },
-    {
-        "op": "core/column-move",
-        "description": "Move column ``SYS Number`` to beginning",
-        "columnName": "SYS Number",
-        "index": 0
     },
     {
         "op": "core/fill-down",
