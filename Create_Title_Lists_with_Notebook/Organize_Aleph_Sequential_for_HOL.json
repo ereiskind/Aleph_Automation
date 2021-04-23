@@ -6,18 +6,18 @@
     },
     {
         "op": "core/column-rename",
-        "description": "Rename column ``Column 1`` to ``HOL Number``",
+        "description": "Rename column ``Column 1`` to ``SYS Number``",
         "oldColumnName": "Column 1",
-        "newColumnName": "HOL Number"
+        "newColumnName": "SYS Number"
     },
     {
         "op": "core/text-transform",
-        "description": "Trim whitespace from cells in column ``HOL Number``",
+        "description": "Trim whitespace from cells in column ``SYS Number``",
         "engineConfig": {
             "facets": [],
             "mode": "row-based"
         },
-        "columnName": "HOL Number",
+        "columnName": "SYS Number",
         "expression": "value.trim()",
         "onError": "keep-original",
         "repeat": false,
@@ -38,16 +38,16 @@
     },
     {
         "op": "core/column-addition",
-        "description": "Create column ``Total`` combining the values of ``HOL Number``, ``Column 2``, and ``Column 4`` with double pipes as seperators",
+        "description": "Create column ``Total`` combining the values of ``SYS Number``, ``Column 2``, and ``Column 4`` with double pipes as seperators",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "mode": "row-based",
+            "facets": []
         },
-        "baseColumnName": "Column 2",
-        "expression": "join ([coalesce(cells['Column 2'].value,''),coalesce(cells['Column 4'].value,'')],'||')",
-        "onError": "keep-original",
         "newColumnName": "Total",
-        "columnInsertIndex": 1
+        "columnInsertIndex": 2,
+        "baseColumnName": "Column 2",
+        "expression": "grel:value+\"||\"+cells[\"Column 4\"].value",
+        "onError": "set-to-blank"
     },
     {
         "op": "core/column-removal",
@@ -60,43 +60,33 @@
         "description": "Remove column ``Column 4``"
     },
     {
-        "op": "core/column-removal",
-        "description": "Remove column ``Fields``",
-        "columnName": "Fields"
-    },
-    {
-        "op": "core/column-removal",
-        "description": "Remove column ``Values``",
-        "columnName": "Values"
-    },
-    {
         "op": "core/blank-down",
-        "description": "Blank down cells in column ``HOL Number``",
+        "description": "Blank down cells in column ``SYS Number``",
         "engineConfig": {
             "facets": [],
             "mode": "row-based"
         },
-        "columnName": "HOL Number"
+        "columnName": "SYS Number"
     },
     {
         "op": "core/multivalued-cell-join",
         "description": "Combine all values in ``Total`` in each record in the first row separated by triple pipes",
         "columnName": "Total",
-        "keyColumnName": "HOL Number",
+        "keyColumnName": "SYS Number",
         "separator": "|||"
     },
     {
         "op": "core/column-addition",
         "description": "Create column ``BIB Number`` with value of LKR$b subfield",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "mode": "record-based",
+            "facets": []
         },
-        "baseColumnName": "Total",
-        "expression": "grel:substring(find(value,/UXU01\\$\\$b\\d+\\|\\|\\|/)[0],8,-3)",
-        "onError": "set-to-blank",
         "newColumnName": "BIB Number",
-        "columnInsertIndex": 0
+        "columnInsertIndex": 0,
+        "baseColumnName": "Total",
+        "expression": "grel:value.match(/.*(\\$\\$b\\d+\\|\\|\\|).*/)[0].substring(3,-3)",
+        "onError": "set-to-blank"
     },
     {
         "op": "core/row-reorder",
@@ -157,8 +147,8 @@
     },
     {
         "op": "core/column-move",
-        "description": "Move column ``HOL Number`` to beginning",
-        "columnName": "HOL Number",
+        "description": "Move column ``SYS Number`` to beginning",
+        "columnName": "SYS Number",
         "index": 0
     },
     {
@@ -198,7 +188,15 @@
         "newColumnName": "Values"
     },
     {
-        "description": "Organize MARC subfields",
+        "op": "core/fill-down",
+        "description": "Fill down cells in column ``SYS Number``",
+        "engineConfig": {
+            "mode": "record-based",
+            "facets": []
+        },
+        "columnName": "SYS Number"
+    },
+    {
         "op": "core/column-split",
         "description": "Split subfields in ``Values`` into their own columns",
         "engineConfig": {
@@ -258,27 +256,131 @@
         }
     },
     {
-        "op": "core/text-transform",
-        "description": "Add subfield delimiter and code to value in ``Fields``",
+        "op": "core/blank-down",
+        "description": "Blank down cells in column ``SYS Number``",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "mode": "record-based",
+            "facets": []
+        },
+        "columnName": "SYS Number"
+    },
+    {
+        "op": "core/text-transform",
+        "description": "For rows with subfield codes, add subfield delimiter and code to value in ``Fields``",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": [
+                {
+                    "omitError": false,
+                    "expression": "value",
+                    "selectBlank": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "FMT",
+                                "l": "FMT"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "004",
+                                "l": "004"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "008",
+                                "l": "008"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "LDR",
+                                "l": "LDR"
+                            }
+                        }
+                    ],
+                    "selectError": false,
+                    "invert": true,
+                    "name": "Fields",
+                    "omitBlank": false,
+                    "type": "list",
+                    "columnName": "Fields"
+                }
+            ]
         },
         "columnName": "Fields",
-        "expression": "grel:value+\"$\"+substring(cells[\"Values\"].value[0],0,1)",
+        "expression": "grel:value+\"$\"+cells.Values.value.substring(0,1)",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
     },
     {
         "op": "core/text-transform",
-        "description": "Remove subfield code from ``Values``",
+        "description": "For rows with subfield codes, remove subfield code from ``Values``",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "mode": "row-based",
+            "facets": [
+                {
+                    "omitError": false,
+                    "expression": "value",
+                    "selectBlank": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "LDR",
+                                "l": "LDR"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "FMT",
+                                "l": "FMT"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "004",
+                                "l": "004"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "008",
+                                "l": "008"
+                            }
+                        },
+                        {
+                            "v": {
+                                "v": "TKR$(",
+                                "l": "TKR$("
+                            }
+                        }
+                    ],
+                    "selectError": false,
+                    "invert": true,
+                    "name": "Fields",
+                    "omitBlank": false,
+                    "type": "list",
+                    "columnName": "Fields"
+                }
+            ]
         },
         "columnName": "Values",
-        "expression": "grel:substring(value,1)",
+        "expression": "grel:value.substring(1)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10
+    },
+    {
+        "op": "core/text-transform",
+        "description": "Change value of ``Fields`` for ticklers without a subfield code to `TKR$a`",
+        "engineConfig": {
+            "mode": "row-based",
+            "facets": []
+        },
+        "columnName": "Fields",
+        "expression": "grel:if(value.contains(\"TKR$\"),if(value==\"TKR$b\",value,\"TKR$a\"),value)",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10
@@ -312,7 +414,6 @@
         "description": "Remove records representing HOL for institutions other than FSU"
     },
     {
-        "description": "Add sublibrary to records",
         "op": "core/column-addition",
         "description": "Create column ``HOL Sublibrary`` with value of ``Values`` in row where ``Fields`` is `852$b`",
         "engineConfig": {
@@ -341,28 +442,28 @@
     {
         "op": "core/column-addition",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "mode": "record-based",
+            "facets": []
         },
-        "baseColumnName": "Values",
-        "expression": "grel:if(row.record.cells[\"Fields\"].value.inArray(\"852$x\"),if(cells.Fields.value==\"852$x\",value,null),null)",
-        "onError": "set-to-blank",
         "newColumnName": "Suppressed",
         "columnInsertIndex": 3,
+        "baseColumnName": "Values",
+        "expression": "grel:if(cells.Fields.value==\"852$x\",value,null)",
+        "onError": "set-to-blank",
         "description": "Create column ``Suppressed`` with the value of ``Values`` in the row where ``Fields`` is `852$x`"
     },
     {
         "op": "core/text-transform",
         "engineConfig": {
-            "facets": [],
-            "mode": "record-based"
+            "mode": "record-based",
+            "facets": []
         },
         "columnName": "Suppressed",
-        "expression": "grel:if(row.record.cells[\"Fields\"].value.inArray(\"STA$a\"),\"TRUE: \"+value,value)",
+        "expression": "grel:if(row.record.cells[\"Fields\"].value.join(\"|\").contains(\"STA$a\"),if(isNull(row.record.cells[\"Suppressed\"].value),\"TRUE\",if(isNull(value),null,\"TRUE: \"+value)),value)",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10,
-        "description": "Add `TRUE:` to the front of values in ``Suppressed`` in the records that have `STA$a` fields"
+        "description": "Add `TRUE` to ``Suppressed`` in the records that have values `STA$a` fields by either putting it in front of the values from the 852$x rows or by filling the record up and down with it"
     },
     {
         "op": "core/text-transform",
@@ -416,8 +517,8 @@
             "facets": [],
             "mode": "record-based"
         },
-        "columnName": "HOL Number",
-        "description": "Fill down cells in column HOL Number"
+        "columnName": "SYS Number",
+        "description": "Fill down cells in column SYS Number"
     },
     {
         "op": "core/row-removal",
@@ -453,8 +554,8 @@
             "facets": [],
             "mode": "row-based"
         },
-        "columnName": "HOL Number",
-        "description": "Blank down cells in column ``HOL Number``"
+        "columnName": "SYS Number",
+        "description": "Blank down cells in column ``SYS Number``"
     },
     {
         "op": "core/text-transform",
