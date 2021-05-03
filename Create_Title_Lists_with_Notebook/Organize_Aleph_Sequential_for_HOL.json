@@ -246,12 +246,12 @@
     },
     {
         "op": "core/blank-down",
-        "description": "Blank down cells in column ``SYS Number``",
         "engineConfig": {
-            "mode": "record-based",
-            "facets": []
+          "facets": [],
+          "mode": "row-based"
         },
-        "columnName": "SYS Number"
+        "columnName": "SYS Number",
+        "description": "Blank down cells in column ``SYS Number``"
     },
     {
         "op": "core/text-transform",
@@ -507,7 +507,7 @@
             "mode": "record-based"
         },
         "columnName": "SYS Number",
-        "description": "Fill down cells in column SYS Number"
+        "description": "Fill down cells in column ``SYS Number``"
     },
     {
         "op": "core/row-removal",
