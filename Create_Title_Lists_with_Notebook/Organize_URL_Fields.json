@@ -201,14 +201,6 @@
             "criteria": [
                 {
                     "valueType": "string",
-                    "column": "t",
-                    "blankPosition": 2,
-                    "errorPosition": 1,
-                    "reverse": false,
-                    "caseSensitive": false
-                },
-                {
-                    "valueType": "string",
                     "column": "Sort URL Fields",
                     "blankPosition": 2,
                     "errorPosition": 1,
