@@ -13,6 +13,101 @@
         "description": "Pivot all 264$c columns into one new column named ``All 264$c``"
     },
     {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "All 264$c",
+        "expression": "grel:value.find(/[12]\\d{3}/)[0]",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Change values in column ``All 264$c`` to just the year"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "SYS Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "SYS Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "All 264$c",
+        "expression": "grel:if(filter(row.record.cells[\"All 264$c\"].value,valueArray,valueArray==row.record.cells[\"All 264$c\"].value[row.index-row.record.fromRowIndex]).length()==(row.record.toRowIndex-row.record.fromRowIndex),if(row.index-row.record.fromRowIndex==0,value,null),value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "For records with multiple rows, if all the rows have the same value in ``All 264$c``, null the values in all but the first row"
+    },
+    {
+        "op": "core/column-addition",
+        "description": "Create column ``All Others Blank`` with value indicating if every other cell in the row is blank",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "newColumnName": "All Others Blank",
+        "columnInsertIndex": 1,
+        "baseColumnName": "SYS Number",
+        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+        "onError": "set-to-blank"
+    },
+    {
+        "op": "core/row-removal",
+        "description": "Remove rows where value of ``All Others Blank`` is `true`",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "All Others Blank",
+                    "expression": "value",
+                    "columnName": "All Others Blank",
+                    "invert": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "true",
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectNumber": false,
+                    "selectDateTime": false,
+                    "selectBoolean": false,
+                    "omitBlank": false,
+                    "selectBlank": false,
+                    "omitError": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "row-based"
+        }
+    },
+    {
+        "op": "core/column-removal",
+        "description": "Remove column ``All Others Blank``",
+        "columnName": "All Others Blank"
+    },
+    {
         "op": "core/column-addition",
         "description": "Create column ``Pub Date`` by filling up and down value from ``All 264$c``",
         "engineConfig": {
