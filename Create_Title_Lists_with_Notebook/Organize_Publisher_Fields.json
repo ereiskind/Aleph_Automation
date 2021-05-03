@@ -13,6 +13,26 @@
         "description": "Pivot all 264$b columns into one new column named ``All 264$b``"
     },
     {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "All 264$b",
+        "expression": "grel:value.replace(value.find(/(,|;|:)\\s?$/)[0],\"\").trim()",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Remove ISBD punctuation from end of values in column ``All 264$b``"
+    },
+    {
+        "op": "core/multivalued-cell-join",
+        "columnName": "All 264$b",
+        "keyColumnName": "SYS Number",
+        "separator": "]|[",
+        "description": "Join multi-valued cells in column All 264$b"
+    },
+    {
         "op": "core/column-addition",
         "description": "Create column ``Publisher`` by filling up and down value from ``All 264$b``",
         "engineConfig": {
