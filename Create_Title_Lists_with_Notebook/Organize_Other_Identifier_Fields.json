@@ -1,0 +1,273 @@
+[
+    {
+        "op": "core/transpose-columns-into-rows",
+        "startColumnName": "024$a",
+        "columnCount": -1,
+        "ignoreBlankCells": true,
+        "fillDown": false,
+        "separator": null,
+        "keyColumnName": "Fields",
+        "valueColumnName": "Values",
+        "description": "Pivot all 024 columns so the former headers are in column ``Fields`` and the contents are in the column ``Values``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "SYS Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "SYS Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Null cells in column ``Fields`` for records where the 024 has no label"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "SYS Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "SYS Number",
+                    "invert": true,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Values",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Null cells in column ``Values`` for records where the 024 has no label"
+    },
+    {
+        "op": "core/fill-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "SYS Number",
+        "description": "Fill down cells in column ``SYS Number``"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "SYS Number",
+        "expression": "grel:row.record.index",
+        "onError": "set-to-blank",
+        "newColumnName": "Reorder",
+        "columnInsertIndex": 1,
+        "description": "Create column ``Reorder`` with number of row in project"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Fields",
+        "expression": "grel:if(isNull(value),null,if(value.contains(\" \"),value.split(\" \")[1].substring(1).toNumber(),1))",
+        "onError": "set-to-blank",
+        "newColumnName": "ID Field Number",
+        "columnInsertIndex": 2,
+        "description": "Create column ``ID Field Number`` with the field number of the row's 024 subfield value"
+    },
+    {
+        "op": "core/column-addition",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "baseColumnName": "Fields",
+        "expression": "grel:if(value.contains(\" \"),value.split(\" \")[2],value)",
+        "onError": "set-to-blank",
+        "newColumnName": "ID Field",
+        "columnInsertIndex": 3,
+        "description": "Create column ``ID Field`` with the row's 024 subfield value"
+    },
+    {
+        "op": "core/row-reorder",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "string",
+                    "column": "SYS Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                },
+                {
+                    "valueType": "number",
+                    "column": "ID Field Number",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false
+                },
+                {
+                    "valueType": "string",
+                    "column": "ID Field",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false,
+                    "caseSensitive": false
+                }
+            ]
+        },
+        "description": "Reorder rows by SYS number, 024 field number, the 024 subfield"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "ID Field",
+        "description": "Remove column ID Field"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "ID Field Number",
+        "expression": "grel:if(isNotNull(value),cells[\"SYS Number\"].value+\"-\"+value,cells.Reorder.value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Change value in column ``ID Field Number`` to include the row's SYS number or fill it with the row's value from ``Reorder``"
+    },
+    {
+        "op": "core/column-move",
+        "columnName": "ID Field Number",
+        "index": 0,
+        "description": "Move column ``ID Field Number`` to beginning"
+    },
+    {
+        "op": "core/blank-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "ID Field Number",
+        "description": "Blank down cells in column ``ID Field Number``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "ID Field Number",
+                    "expression": "isBlank(value)",
+                    "columnName": "ID Field Number",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:if(value.endsWith(\"024$a\"),row.record.cells[\"Values\"].value[0],value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "For records with an 024 label and value, in the row with the value, change the cell in column ``Fields`` to the label"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "ID Field Number",
+        "description": "Remove column ``ID Field Number``"
+    },
+    {
+        "op": "core/row-reorder",
+        "mode": "record-based",
+        "sorting": {
+            "criteria": [
+                {
+                    "valueType": "number",
+                    "column": "Reorder",
+                    "blankPosition": 2,
+                    "errorPosition": 1,
+                    "reverse": false
+                }
+            ]
+        },
+        "description": "Reorder rows based on ``Reorder``"
+    },
+    {
+        "op": "core/blank-down",
+        "engineConfig": {
+            "facets": [],
+            "mode": "row-based"
+        },
+        "columnName": "SYS Number",
+        "description": "Blank down cells in column ``SYS Number``"
+    },
+    {
+        "op": "core/column-removal",
+        "columnName": "Reorder",
+        "description": "Remove column ``Reorder``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [],
+            "mode": "record-based"
+        },
+        "columnName": "Fields",
+        "expression": "grel:if(or(value.endsWith(\"024$2\"),value.endsWith(\"024$a\")),null,value)",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Text transform on cells in column Fields using expression grel:if(or(value.endsWith(\"024$2\"),value.endsWith(\"024$a\")),null,value)"
+    }
+]
