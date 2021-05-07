@@ -15,7 +15,7 @@
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10,
-        "description": "Change ``Sort ISBN Fields`` to have ISBN type and length after SYS "
+        "description": "Change ``Sort ISBN Fields`` to have ISBN type and length after SYS for rows with ISBNs"
     },
     {
         "op": "core/column-addition",

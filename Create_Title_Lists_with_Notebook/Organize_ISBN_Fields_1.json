@@ -9,8 +9,8 @@
         "keyColumnName": "Fields",
         "valueColumnName": "Values",
         "description": "Pivot all ISBN columns so the former headers are in column ``Fields`` and the contents are in the column ``Values``"
-      },
-      {
+    },
+    {
         "op": "core/fill-down",
         "engineConfig": {
             "facets": [],
@@ -39,11 +39,11 @@
             "mode": "record-based"
         },
         "baseColumnName": "Fields",
-        "expression": "grel:row.record.cells[\"SYS Number\"].value[0]+\"-\"+if(contains(value,\" \"),value.split(\" \")[2].substring(0,indexOf(value.split(\" \")[2],\"$\"))+\"-\"+value.split(\" \")[1].substring(1),value.substring(0,indexOf(value,\"$\"))+\"-0\")",
+        "expression": "grel:row.record.cells[\"SYS Number\"].value[0]+\"-\"+if(value.contains(\"$\"),if(value.contains(\" \"),value.split(\" \")[2].substring(0,indexOf(value.split(\" \")[2],\"$\"))+\"-\"+value.split(\" \")[1].substring(1),value.substring(0,indexOf(value,\"$\"))+\"-0\"),\"z\"+row.record.index)",
         "onError": "set-to-blank",
         "newColumnName": "Sort ISBN Fields",
         "columnInsertIndex": 0,
-        "description": "Create column ``Sort ISBN Fields`` with the SYS number, the MARC field number, and the number of that field tag"
+        "description": "Create column ``Sort ISBN Fields`` with the SYS number, the MARC field number, and the number of that field tag for the rows with ISBNs and the SYS number and the original order record number starting with `z` for rows without an ISBN"
     },
     {
         "op": "core/row-reorder",
