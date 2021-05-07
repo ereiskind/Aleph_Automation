@@ -519,11 +519,11 @@
             "mode": "row-based"
         },
         "columnName": "Fields",
-        "expression": "grel:\"no label|\"+value",
+        "expression": "grel:\"no_label|\"+value",
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10,
-        "description": "For 035$a values with no label, add `no label|` in front of them in ``Fields``"
+        "description": "For 035$a values with no label, add `no_label|` in front of them in ``Fields``"
     },
     {
         "op": "core/text-transform",
