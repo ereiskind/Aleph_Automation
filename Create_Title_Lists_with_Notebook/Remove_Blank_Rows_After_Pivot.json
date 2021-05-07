@@ -14,7 +14,7 @@
         "newColumnName": "All Others Blank",
         "columnInsertIndex": 1,
         "baseColumnName": "SYS Number",
-        "expression": "grel:toString(filter(row.columnNames,cn,isBlank(cells[cn].value)).length()==row.columnNames.split(\",\").length())",
+        "expression": "grel:toString(filter(row.columnNames,cn,isNonBlank(cells[cn].value)).length()==0)",
         "onError": "set-to-blank"
     },
     {
