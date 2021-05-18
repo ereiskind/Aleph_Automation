@@ -13,6 +13,39 @@
         "description": "Pivot all 856$u columns into one new column named ``All 856$u`` with the original column name in front separated by a pipe"
     },
     {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "All 856$u",
+                    "expression": "isBlank(value)",
+                    "columnName": "All 856$u",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": true,
+                                "l": "true"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "All 856$u",
+        "expression": "grel:\"856$u|[null]\"",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "For records that have no URLs, add `856$u|[null]` to column ``All 856$u``"
+    },
+    {
         "op": "core/column-split",
         "engineConfig": {
             "facets": [],
@@ -188,11 +221,11 @@
             "mode": "record-based"
         },
         "baseColumnName": "All 856$u 1",
-        "expression": "grel:if(isNull(value),cells[\"SYS Number\"].value+\"-null\",if(contains(value,\" \"),cells[\"SYS Number\"].value+\"-\"+value.split(\" \")[1]+\"-\"+value.split(\" \")[2],cells[\"SYS Number\"].value+\"-#1-\"+value))",
+        "expression": "grel:if(contains(value,\" \"),cells[\"SYS Number\"].value+\"-\"+value.split(\" \")[1]+\"-\"+value.split(\" \")[2],cells[\"SYS Number\"].value+\"-#1-\"+value)",
         "onError": "set-to-blank",
         "newColumnName": "Sort URL Fields",
         "columnInsertIndex": 1,
-        "description": "Create column ``Sort URL Fields`` with the SYS number, the field number, and the MARC field and subfield tag separated by hyphens or the SYS number and `-null` if there's no 856 field for the record"
+        "description": "Create column ``Sort URL Fields`` with the SYS number, the field number, and the MARC field and subfield tag separated by hyphens"
     },
     {
         "op": "core/row-reorder",
@@ -263,7 +296,7 @@
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10,
-        "description": "fill up and down values in column ``856$3``"
+        "description": "Fill up and down values in column ``856$3``"
     },
     {
         "op": "core/column-addition",
@@ -302,7 +335,7 @@
         "onError": "keep-original",
         "repeat": false,
         "repeatCount": 10,
-        "description": "Change the values in column ``All 856$u 1`` to null if the row doesn't already have an 856$u value, to either the ``856$3`` or ``856$z`` value if the record only has one of those values, and to the ``856$3`` value, a pipe, and the ``856$z`` value if the record has both of those values"
+        "description": "If the value in column ``All 856$u 1`` is `856$u`, change it to either the ``856$3`` or ``856$z`` value if the record only has one of those values or to the ``856$3`` value, a pipe, and the ``856$z`` value if the record has both of those values; if the column has any other value, null the value"
     },
     {
         "op": "core/column-removal",
@@ -339,6 +372,39 @@
         "op": "core/column-removal",
         "columnName": "Reorder",
         "description": "Remove column ``Reorder``"
+    },
+    {
+        "op": "core/text-transform",
+        "engineConfig": {
+            "facets": [
+                {
+                    "type": "list",
+                    "name": "All 856$u 2",
+                    "expression": "value",
+                    "columnName": "All 856$u 2",
+                    "invert": false,
+                    "omitBlank": false,
+                    "omitError": false,
+                    "selection": [
+                        {
+                            "v": {
+                                "v": "[null]",
+                                "l": "[null]"
+                            }
+                        }
+                    ],
+                    "selectBlank": false,
+                    "selectError": false
+                }
+            ],
+            "mode": "record-based"
+        },
+        "columnName": "All 856$u 2",
+        "expression": "null",
+        "onError": "keep-original",
+        "repeat": false,
+        "repeatCount": 10,
+        "description": "Null `[null]` values in column ``All 856$u 2``"
     },
     {
         "op": "core/column-rename",
